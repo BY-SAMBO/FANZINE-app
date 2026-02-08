@@ -17,6 +17,7 @@ export interface Product {
 
   // Precios
   precio_venta: number;
+  precio_sugerido: number | null; // precio nueva carta
   precio_delivery: number | null; // auto: venta * 1.35
   precio_costo_receta: number | null;
   precio_costo_real: number | null;
@@ -65,6 +66,7 @@ export interface ProductFormData {
   slug: string;
   categoria_id: string;
   precio_venta: number;
+  precio_sugerido?: number | null;
   precio_delivery?: number | null;
   precio_costo_receta?: number | null;
   precio_costo_real?: number | null;

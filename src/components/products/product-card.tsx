@@ -53,9 +53,16 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             </div>
 
-            <p className="text-sm font-semibold">
-              {formatPrice(product.precio_venta)}
-            </p>
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <span className="text-sm font-semibold">
+                {formatPrice(product.precio_venta)}
+              </span>
+              {product.precio_sugerido != null && product.precio_sugerido !== product.precio_venta && (
+                <span className="text-xs font-medium text-blue-600">
+                  → {formatPrice(product.precio_sugerido)}
+                </span>
+              )}
+            </div>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-1 pt-1">

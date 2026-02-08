@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useDeferredValue } from "react";
 import { useProducts } from "@/lib/hooks/use-products";
 import { ProductGrid } from "@/components/products/product-grid";
 import { ProductSearch } from "@/components/products/product-search";
@@ -9,22 +9,20 @@ import { Badge } from "@/components/ui/badge";
 
 export default function ProductosPage() {
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
   const [categoryId, setCategoryId] = useState<string | undefined>();
 
-  const { data: products, isLoading, isError } = useProducts({
-    categoria_id: categoryId,
-  });
+  const filters = useMemo(
+    () => ({
+      ...(categoryId ? { categoria_id: categoryId } : {}),
+      ...(deferredSearch ? { search: deferredSearch } : {}),
+    }),
+    [categoryId, deferredSearch]
+  );
 
-  const filtered = useMemo(() => {
-    if (!products) return [];
-    if (!search) return products;
-    const q = search.toLowerCase();
-    return products.filter(
-      (p) =>
-        p.nombre.toLowerCase().includes(q) ||
-        p.id.toLowerCase().includes(q)
-    );
-  }, [products, search]);
+  const { data: products, isLoading, isFetching, isError } = useProducts(
+    Object.keys(filters).length > 0 ? filters : undefined
+  );
 
   return (
     <div className="space-y-6">
@@ -58,7 +56,9 @@ export default function ProductosPage() {
           ))}
         </div>
       ) : (
-        <ProductGrid products={filtered} />
+        <div className={isFetching ? "opacity-60 transition-opacity" : ""}>
+          <ProductGrid products={products ?? []} />
+        </div>
       )}
     </div>
   );

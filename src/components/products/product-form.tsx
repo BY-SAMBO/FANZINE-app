@@ -36,6 +36,7 @@ export function ProductForm({ product }: ProductFormProps) {
     nombre: product.nombre,
     categoria_id: product.categoria_id,
     precio_venta: product.precio_venta,
+    precio_sugerido: product.precio_sugerido,
     precio_delivery: product.precio_delivery,
     activo: product.activo,
     visible_menu: product.visible_menu,
@@ -62,6 +63,7 @@ export function ProductForm({ product }: ProductFormProps) {
         id: product.id,
         updates: {
           ...form,
+          precio_sugerido: form.precio_sugerido || null,
           precio_delivery: form.precio_delivery || null,
           descripcion_corta: form.descripcion_corta || null,
           descripcion_delivery: form.descripcion_delivery || null,
@@ -128,9 +130,12 @@ export function ProductForm({ product }: ProductFormProps) {
           <CardTitle className="text-base">Precios</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label>Precio venta</Label>
+              <Label>
+                Precio actual (Fudo){" "}
+                <span className="text-xs text-muted-foreground">API</span>
+              </Label>
               <Input
                 type="number"
                 value={form.precio_venta}
@@ -138,6 +143,25 @@ export function ProductForm({ product }: ProductFormProps) {
                   updateField("precio_venta", Number(e.target.value))
                 }
                 required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>
+                Precio sugerido{" "}
+                <span className="text-xs text-muted-foreground">
+                  nueva carta
+                </span>
+              </Label>
+              <Input
+                type="number"
+                value={form.precio_sugerido ?? ""}
+                onChange={(e) =>
+                  updateField(
+                    "precio_sugerido",
+                    e.target.value ? Number(e.target.value) : null
+                  )
+                }
+                placeholder="Sin definir"
               />
             </div>
             <div className="space-y-2">
