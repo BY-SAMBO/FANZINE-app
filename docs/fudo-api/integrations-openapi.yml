@@ -1,0 +1,488 @@
+openapi: 3.0.0
+info:
+  version: v1
+  title: FUDO - Integrations API
+  description: |
+    ## Introduction
+
+    Fudo has an API that allows you to enter orders into the
+    system from external applications, both for home delivery and local
+    pickup. In addition, this API also allows you to get the menu.
+    The actions allowed through this API are:
+    - Create orders
+    - Get products
+    - Get product categories
+
+    Fudo also has a more extensive API not limited only to this type of action.
+    Consult soporte@fu.do to get access to this API.
+
+    ## Webhook notifications
+    In order to configure webhook notifications, you will first need to create
+    an external application (refer to the **Authentication** section for a guide
+    on how to do this).
+
+    In the Fudo web application, follow the steps:
+    1. Go to **Administration** -> **External Applications**
+    2. Select the external application for which you want to configure the webhooks
+    3. On the side bar, click on the **edit** icon
+
+    At this point, you will have access to a dropdown menu with the following
+    events:
+    - `ORDER-REJECTED`: That notifies when an order is rejected in the web
+    application.
+    - `ORDER-CONFIRMED`: That notifies when an order is confirmed in the web
+    application.
+    - `ORDER-READY-TO-DELIVER`: That notifies when an order is ready and awaiting
+    delivery.
+    - `ORDER-DELIVERY-SENT`: That notifies when an order delivery has started.
+    - `ORDER-CLOSED`: That notifies when an order is concluded.
+
+    After you select an event, click on the '+' icon, and an input field to
+    enter the notification URL will appear. Here you will need to type the
+    URL where you want to receive the webhook notifications, for example:
+    `https://example.com/confirm-order`.
+
+    You can set up multiple notification URLs for each event.
+    Lastly, you can stop receiving notifications in an specific URL or event
+    by clicking the 'x' icon next to the corresponding URL/event.
+
+    It is important to note that notifications will only be received for orders
+    that are injected through this API. See [Orders](#post-/orders).
+servers:
+- url: https://integrations.staging.fu.do/fudo
+  description: Staging
+- url: https://integrations.fu.do/fudo
+  description: Production
+tags:
+- name: Authentication
+  description: |
+      In order to use the API, you must first obtain a token. This token is
+      obtained by performing authentication by sending a clientId and a
+      clientSecret.
+      This data is first obtained by registering a new external application
+      within Fudo, in the Administration -> External Applications section.
+
+      It is important to keep in mind that the token expires after 24 hours,
+      therefore a new one must be obtained after this period of time.
+      A solution to this is to remember the token generation time and before it
+      expires get a new one using the same credentials (clientId/clientSecret)
+      obtained when creating the external application.
+      These credentials do not expire.
+
+      ## Create a new external application
+      In the Fudo web application, go to Administration ->
+      External Applications and create a new application.
+      It is advisable to choose a name that is representative of the application
+      that will be connecting as the name of the application, since this name
+      will be shown as the origin in the orders received through this API.
+
+      The associated user to choose will be the user that will be shown as
+      the creator of the orders that are entered via the API.
+      It is advisable to create a user specifically for this purpose,
+      called for example "Integrations", who is not an administrator.
+
+      Once the application is created, it will be assigned a clientId and a
+      clientSecret.
+- name: Products
+- name: Product categories
+- name: Orders
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Fudo-External-App-Authorization
+      description: The value must follow this format `Bearer <token>`
+paths:
+  /auth:
+    post:
+      tags:
+      - Authentication
+      summary: Get token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - clientId
+              - clientSecret
+              properties:
+                clientId:
+                  type: string
+                  format: byte
+                  example: ABcdEf
+                  description: You can get this ID in web-app, when you create a external
+                    application.
+                clientSecret:
+                  type: string
+                  format: byte
+                  example: 1234ASDF1234ASDF1234
+                  description: You can get this secret in web-app, when you create
+                    a external application.
+      responses:
+        '201':
+          description: The returned token
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - token
+                properties:
+                  token:
+                    type: string
+                    example: token-value
+                    description: "The returned token must be included in the headers
+                      with the next format: <br>\n`Fudo-External-App-Authorization:
+                      Bearer <token value>`\n"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - errors
+                properties:
+                  errors:
+                    type: string
+                    example: Unauthorized
+  /products:
+    get:
+      tags:
+      - Products
+      summary: Get a list of products
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        active:
+                          type: boolean
+                          example: true
+                        description:
+                          type: string
+                          example:
+                        id:
+                          type: number
+                          example: 1
+                        name:
+                          type: string
+                          maxLength: 255
+                          minLength: 1
+                          example: Still Water 500cm3
+                        price:
+                          type: number
+                          example: 250.5
+                        productCategoryId:
+                          type: number
+                          example: 1
+                        productGroups:
+                          items:
+                            description: references the modifiers configurable from
+                              the Fudo panel.
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 3
+                              maxQuantity:
+                                type: number
+                                format: double
+                                example: 2.0
+                              minQuantity:
+                                type: number
+                                format: double
+                                example: 1.0
+                              productGroupProducts:
+                                description: references associated product to the
+                                  modifier.
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    maxQuantity:
+                                      type: number
+                                      format: double
+                                      example: 2.0
+                                    price:
+                                      type: number
+                                      format: double
+                                      example: 100.0
+                                    productId:
+                                      type: integer
+                                      example: 10
+                        image:
+                          type: string
+                          format: uri
+                          example: https://example.com/image.png
+                        enableOnlineMenu:
+                          type: boolean
+                          nullable: true
+                        enableQrMenu:
+                          type: boolean
+                          example: true
+  /product-categories:
+    get:
+      tags:
+      - Product categories
+      summary: Get a list of product categories
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: A list of product categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productCategories:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Bebidas
+                        productCategoryId:
+                          type: integer
+                          nullable: true
+                        enableOnlineMenu:
+                          type: boolean
+                          nullable: true
+                        enableQrMenu:
+                          type: boolean
+                          example: true
+                          nullable: true
+  /orders:
+    post:
+      tags:
+      - Orders
+      summary: Create a new order
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                order:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    comment:
+                      type: string
+                      minLength: 0
+                      maxLength: 254
+                    customer:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        email:
+                          type: string
+                          format: email
+                        phone:
+                          type: string
+                          minLength: 1
+                          maxLength: 90
+                        name:
+                          type: string
+                          minLength: 1
+                          maxLength: 90
+                      required:
+                      - name
+                    discounts:
+                      type: array
+                      items:
+                        anyOf:
+                        - type: object
+                          additionalProperties: false
+                          required:
+                          - amount
+                          properties:
+                            amount:
+                              type: number
+                              format: double
+                              minimum: 0.0
+                        - type: object
+                          additionalProperties: false
+                          required:
+                          - percentage
+                          properties:
+                            percentage:
+                              type: number
+                              minimum: 1
+                              maximum: 100
+                              example: 10
+                    externalId:
+                      type: string
+                    items:
+                      type: array
+                      minItems: 1
+                      items:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - quantity
+                        - product
+                        - price
+                        properties:
+                          comment:
+                            type: string
+                            minLength: 0
+                            maxLength: 254
+                          quantity:
+                            type: number
+                          price:
+                            type: number
+                            format: double
+                          product:
+                            type: object
+                            required:
+                            - id
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                          subitems:
+                            type: array
+                            items:
+                              type: object
+                              required:
+                              - productId
+                              - productGroupId
+                              - quantity
+                              - price
+                              properties:
+                                productId:
+                                  type: integer
+                                  example: 1
+                                productGroupId:
+                                  type: integer
+                                  example: 1
+                                quantity:
+                                  type: number
+                                price:
+                                  type: number
+                                  format: double
+                    payment:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - total
+                      properties:
+                        paymentMethod:
+                          type: object
+                          required:
+                          - id
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                        total:
+                          type: number
+                          format: double
+                          minimum: 0.0
+                    shippingCost:
+                      type: number
+                      format: double
+                      minimum: 0.0
+                    type:
+                      type: string
+                      enum:
+                      - delivery
+                      - pickup
+                    typeOptions:
+                      type: object
+                      additionalProperties: false
+                      properties:
+                        expectedTime:
+                          type: string
+                          format: date-time
+                        address:
+                          type: string
+                  required:
+                  - items
+                  - type
+                  - typeOptions
+      responses:
+        '201':
+          description: The created order
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - order
+                properties:
+                  order:
+                    type: object
+                    required:
+                    - id
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                      - dataPointer
+                      - details
+                      properties:
+                        dataPointer:
+                          type: string
+                          example: /orders/items/{itemId}/product/{productId}
+                        details:
+                          type: object
+                          example:
+                            someErrorKey: someErrorValue
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      order:
+                        type: object
+                        properties:
+                          order:
+                            type: array
+                            minItems: 1
+                            items:
+                              type: string
+                              example: Some error
