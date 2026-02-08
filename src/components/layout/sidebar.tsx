@@ -12,11 +12,8 @@ import {
   CheckSquare,
   Settings,
   LogOut,
-  Film,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 
 const navigation = [
   {
@@ -65,15 +62,26 @@ export function Sidebar() {
     (item) => user && item.roles.includes(user.rol)
   );
 
-  return (
-    <div className="flex h-full w-64 flex-col border-r bg-card">
-      {/* Logo */}
-      <div className="flex h-16 items-center gap-2 px-6">
-        <Film className="h-6 w-6 text-primary" />
-        <span className="text-lg font-bold">FANZINE</span>
-      </div>
+  const userName = user?.nombre || "Usuario";
+  const initials = userName
+    .split(" ")
+    .map((w: string) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
-      <Separator />
+  return (
+    <div className="flex h-full w-64 flex-col bg-black text-white">
+      {/* Logo */}
+      <div className="flex items-center gap-3 p-6 border-b-[3px] border-white/20">
+        <div className="w-10 h-10 bg-[#DC2626] border-[3px] border-white flex items-center justify-center">
+          <span className="text-white font-bold text-lg">F</span>
+        </div>
+        <div>
+          <h1 className="text-xl font-bold tracking-tight">FANZINE</h1>
+          <p className="text-xs text-white/50 uppercase tracking-widest">Admin Panel</p>
+        </div>
+      </div>
 
       {/* Navigation */}
       <ScrollArea className="flex-1 px-3 py-4">
@@ -88,13 +96,13 @@ export function Sidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  "flex items-center gap-3 text-sm transition-all",
                   isActive
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? "px-4 py-3 bg-[#DC2626] text-white font-bold border-[3px] border-white"
+                    : "px-4 py-3 text-white/70 hover:text-white hover:bg-white/10 font-medium"
                 )}
               >
-                <item.icon className="h-4 w-4" />
+                <item.icon className="h-5 w-5" />
                 {item.name}
               </Link>
             );
@@ -102,25 +110,26 @@ export function Sidebar() {
         </nav>
       </ScrollArea>
 
-      <Separator />
-
       {/* User */}
-      <div className="p-4">
-        <div className="mb-2 text-sm">
-          <p className="font-medium">{user?.nombre || "Usuario"}</p>
-          <p className="text-muted-foreground text-xs capitalize">
-            {user?.rol || "—"}
-          </p>
+      <div className="p-4 border-t border-white/10">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-8 h-8 bg-[#FDE047] border-2 border-white flex items-center justify-center">
+            <span className="text-black font-bold text-sm">{initials}</span>
+          </div>
+          <div>
+            <p className="font-bold text-sm text-white">{userName}</p>
+            <p className="text-xs text-white/40 uppercase">
+              {user?.rol || "—"}
+            </p>
+          </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-full justify-start"
+        <button
           onClick={signOut}
+          className="flex items-center gap-2 w-full px-3 py-2 text-white/60 hover:text-white hover:bg-white/10 font-medium text-sm transition-all"
         >
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="h-4 w-4" />
           Cerrar sesion
-        </Button>
+        </button>
       </div>
     </div>
   );

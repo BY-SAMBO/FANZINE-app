@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FANZINE - Taco de Birria (v2)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#DC2626',
+            chick: '#FDE047',
+            sky: '#7DD3FC',
+            dark: '#111111',
+            muted: '#6B7280',
+            line: '#E5E5E5',
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-data { font-family: 'JetBrains Mono', monospace; }
+    .dot-sep { border-bottom: 1px dashed #D4D4D4; }
+    .field-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #6B7280; font-family: 'JetBrains Mono', monospace; }
+    .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; font-family: 'JetBrains Mono', monospace; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); border-left: 2px solid #DC2626; }
+    .origin-tag { font-size: 9px; font-family: 'JetBrains Mono', monospace; padding: 1px 5px; border: 1px solid; line-height: 1.4; }
+    .toggle-track { width: 32px; height: 18px; border-radius: 9px; background: #D4D4D4; position: relative; cursor: pointer; transition: background 0.2s; }
+    .toggle-track.on { background: #DC2626; }
+    .toggle-knob { width: 14px; height: 14px; border-radius: 50%; background: white; position: absolute; top: 2px; left: 2px; transition: left 0.2s; }
+    .toggle-track.on .toggle-knob { left: 16px; }
+    /* Retro table */
+    .retro-table { border-collapse: collapse; width: 100%; }
+    .retro-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6B7280;
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 2px solid #111;
+      font-weight: 500;
+    }
+    .retro-table td {
+      padding: 10px 12px;
+      border-bottom: 1px dashed #D4D4D4;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+    .retro-table tr:last-child td { border-bottom: 2px solid #111; }
+    .retro-table tr:hover td { background: #FAFAFA; }
+  </style>
+</head>
+<body class="bg-white text-dark antialiased">
+
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-56 bg-dark text-white flex flex-col flex-shrink-0">
+      <div class="px-5 py-5 border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 bg-brand rounded-sm flex items-center justify-center">
+            <span class="text-white text-xs font-bold font-data">F</span>
+          </div>
+          <div>
+            <div class="text-sm font-semibold tracking-wide">FANZINE</div>
+            <div class="text-[10px] text-white/40 font-data tracking-widest">ADMIN PANEL</div>
+          </div>
+        </div>
+      </div>
+      <nav class="flex-1 py-4 text-sm">
+        <div class="px-4 mb-2 text-[10px] text-white/30 font-data tracking-widest uppercase">Menu</div>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Dashboard</span>
+        </a>
+        <a href="productos-lista.html" class="sidebar-link active flex items-center gap-3 px-5 py-2 text-white transition-colors">
+          <i data-lucide="package" class="w-4 h-4"></i><span>Productos</span>
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="grid-3x3" class="w-4 h-4"></i><span>Categorias</span>
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="truck" class="w-4 h-4"></i><span>Delivery</span>
+        </a>
+        <div class="px-4 mt-6 mb-2 text-[10px] text-white/30 font-data tracking-widest uppercase">Sistema</div>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i><span>Sync Fudo</span>
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="settings" class="w-4 h-4"></i><span>Config</span>
+        </a>
+      </nav>
+      <div class="px-5 py-4 border-t border-white/10">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+            <span class="text-[10px] font-data">JG</span>
+          </div>
+          <div class="text-xs text-white/50">Jose Garcia</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto pb-20">
+
+      <!-- Header -->
+      <header class="sticky top-0 bg-white/95 backdrop-blur-sm z-10 border-b border-line">
+        <div class="px-8 py-4">
+          <div class="flex items-center gap-3 mb-2">
+            <a href="productos-lista.html" class="text-muted hover:text-dark transition-colors">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+            <span class="text-[10px] font-data text-muted">Productos</span>
+            <span class="text-[10px] text-muted">/</span>
+            <span class="text-[10px] font-data text-muted">TA001</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🌮</div>
+              <div>
+                <h1 class="text-lg font-semibold">Taco de Birria</h1>
+                <div class="flex items-center gap-2 mt-0.5">
+                  <span class="font-data text-[11px] text-muted">TA001</span>
+                  <span class="text-[10px] text-muted">&middot;</span>
+                  <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Tacos</span>
+                  <span class="text-[10px] text-muted">&middot;</span>
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                  <span class="text-[10px] font-data text-green-700">synced</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="producto-detalle.html" class="text-xs text-muted border border-line px-3 py-1.5 hover:border-dark hover:text-dark transition-colors flex items-center gap-1.5">
+                <i data-lucide="columns-2" class="w-3 h-3"></i>
+                Vista Bloques
+              </a>
+              <button class="text-xs text-muted border border-line px-3 py-1.5 hover:border-dark hover:text-dark transition-colors flex items-center gap-1.5">
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+                Ver en Fudo
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="px-8 py-6 max-w-3xl">
+
+        <!-- PRECIOS Section - TABLE VERSION -->
+        <section class="mb-8">
+          <div class="flex items-center gap-2 mb-4">
+            <h2 class="section-title text-dark">Precios</h2>
+            <div class="flex-1 border-t border-dashed border-line"></div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="retro-table">
+              <thead>
+                <tr>
+                  <th style="width:30%">Concepto</th>
+                  <th style="width:25%">Valor</th>
+                  <th style="width:20%">Origen</th>
+                  <th style="width:25%">Diferencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Fudo -->
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-sky inline-block"></span>
+                      <span class="text-sm font-sans">Precio Fudo</span>
+                    </div>
+                  </td>
+                  <td class="font-semibold">$14,000</td>
+                  <td>
+                    <span class="origin-tag border-sky text-sky">API</span>
+                    <span class="text-[10px] text-muted ml-1.5 font-sans">POS</span>
+                  </td>
+                  <td class="text-muted text-xs">base</td>
+                </tr>
+                <!-- Sugerido -->
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-brand inline-block"></span>
+                      <span class="text-sm font-sans">Precio Sugerido</span>
+                    </div>
+                  </td>
+                  <td class="font-semibold text-brand">$16,000</td>
+                  <td>
+                    <span class="origin-tag border-brand text-brand">INT</span>
+                    <span class="text-[10px] text-muted ml-1.5 font-sans">editable</span>
+                  </td>
+                  <td>
+                    <span class="text-green-600 text-xs">+$2,000</span>
+                    <span class="text-muted text-[10px] ml-1">(+14.3%)</span>
+                  </td>
+                </tr>
+                <!-- Delivery -->
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full bg-chick inline-block"></span>
+                      <span class="text-sm font-sans">Precio Delivery</span>
+                    </div>
+                  </td>
+                  <td class="font-semibold">$21,600</td>
+                  <td>
+                    <span class="origin-tag border-chick text-amber-600">AUTO</span>
+                    <span class="text-[10px] text-muted ml-1.5 font-sans">x1.35</span>
+                  </td>
+                  <td>
+                    <span class="text-green-600 text-xs">+$7,600</span>
+                    <span class="text-muted text-[10px] ml-1">(+54.3%)</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table footer legend -->
+          <div class="flex items-center gap-5 mt-4 pt-3 text-[10px] text-muted border-t border-dashed border-line">
+            <div class="flex items-center gap-1.5">
+              <span class="origin-tag border-sky text-sky">API</span>
+              <span>Fudo POS &middot; solo lectura</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="origin-tag border-brand text-brand">INT</span>
+              <span>Interno &middot; nueva carta</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="origin-tag border-chick text-amber-600">AUTO</span>
+              <span>Auto &middot; sugerido x 1.35</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- INFO BASICA Section -->
+        <section class="mb-8">
+          <div class="flex items-center gap-2 mb-4">
+            <h2 class="section-title text-dark">Info Basica</h2>
+            <div class="flex-1 border-t border-dashed border-line"></div>
+          </div>
+
+          <div class="space-y-0">
+            <div class="flex items-center py-3 dot-sep">
+              <div class="w-36 field-label">ID Interno</div>
+              <div class="font-data text-sm">fanzine_prod_001</div>
+            </div>
+            <div class="flex items-center py-3 dot-sep">
+              <div class="w-36 field-label">Codigo</div>
+              <div class="font-data text-sm">TA001</div>
+            </div>
+            <div class="flex items-center py-3 dot-sep">
+              <div class="w-36 field-label">Nombre</div>
+              <div class="text-sm">
+                <input type="text" value="Taco de Birria" class="w-full border-b border-transparent hover:border-line focus:border-dark focus:outline-none py-0.5 transition-colors">
+              </div>
+            </div>
+            <div class="flex items-center py-3 dot-sep">
+              <div class="w-36 field-label">Categoria</div>
+              <div class="text-sm">
+                <select class="border-b border-transparent hover:border-line focus:border-dark focus:outline-none py-0.5 bg-transparent cursor-pointer">
+                  <option selected>Tacos</option>
+                  <option>Nachos</option>
+                  <option>Perros</option>
+                  <option>Crispetas</option>
+                  <option>Helados</option>
+                  <option>Milkshakes</option>
+                  <option>Tex-Mex</option>
+                  <option>Postres</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex items-center py-3 dot-sep">
+              <div class="w-36 field-label">Fudo ID</div>
+              <div class="font-data text-sm text-muted">ext_fudo_28374</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DESCRIPCIONES Section -->
+        <section class="mb-8">
+          <div class="flex items-center gap-2 mb-4">
+            <h2 class="section-title text-dark">Descripciones</h2>
+            <div class="flex-1 border-t border-dashed border-line"></div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="field-label block mb-1.5">Descripcion corta</label>
+              <input type="text" value="Taco de birria de res con consomme para dip" class="w-full text-sm border border-line px-3 py-2 focus:border-dark focus:outline-none transition-colors">
+            </div>
+            <div>
+              <label class="field-label block mb-1.5">Descripcion delivery</label>
+              <input type="text" value="Delicioso taco de birria de res, jugoso y con consomme caliente para dip. Ideal para compartir." class="w-full text-sm border border-line px-3 py-2 focus:border-dark focus:outline-none transition-colors">
+            </div>
+            <div>
+              <label class="field-label block mb-1.5">Descripcion larga</label>
+              <textarea rows="3" class="w-full text-sm border border-line px-3 py-2 focus:border-dark focus:outline-none transition-colors resize-none">Nuestro taco de birria de res es cocinado lento por 8 horas con especias mexicanas tradicionales. Servido en tortilla de maiz artesanal con cebolla, cilantro y un generoso consomme de birria para sumergir. Un clasico de la cocina jalisciense.</textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- ESTADO Section -->
+        <section class="mb-8">
+          <div class="flex items-center gap-2 mb-4">
+            <h2 class="section-title text-dark">Estado</h2>
+            <div class="flex-1 border-t border-dashed border-line"></div>
+          </div>
+
+          <div class="space-y-0">
+            <div class="flex items-center justify-between py-3 dot-sep">
+              <div>
+                <div class="text-sm">Activo en menu</div>
+                <div class="text-[10px] text-muted mt-0.5">Visible en el menu del restaurante</div>
+              </div>
+              <div class="toggle-track on" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between py-3 dot-sep">
+              <div>
+                <div class="text-sm">Disponible delivery</div>
+                <div class="text-[10px] text-muted mt-0.5">Disponible para pedidos a domicilio</div>
+              </div>
+              <div class="toggle-track on" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between py-3 dot-sep">
+              <div>
+                <div class="text-sm">Destacado</div>
+                <div class="text-[10px] text-muted mt-0.5">Mostrar como producto destacado</div>
+              </div>
+              <div class="toggle-track" onclick="this.classList.toggle('on')">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SYNC FUDO Section -->
+        <section class="mb-8">
+          <div class="flex items-center gap-2 mb-4">
+            <h2 class="section-title text-dark">Sync Fudo</h2>
+            <div class="flex-1 border-t border-dashed border-line"></div>
+          </div>
+
+          <div class="border border-line p-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                <span class="text-sm font-medium">Sincronizado</span>
+              </div>
+              <button class="text-xs text-muted border border-line px-3 py-1.5 hover:border-dark hover:text-dark transition-colors flex items-center gap-1.5">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                Re-sync
+              </button>
+            </div>
+            <div class="space-y-0">
+              <div class="flex items-center py-2 text-[11px] dot-sep">
+                <span class="w-28 font-data text-muted">Ultimo sync</span>
+                <span class="font-data">2026-02-08 10:23:41</span>
+              </div>
+              <div class="flex items-center py-2 text-[11px] dot-sep">
+                <span class="w-28 font-data text-muted">Fudo ID</span>
+                <span class="font-data">ext_fudo_28374</span>
+              </div>
+              <div class="flex items-center py-2 text-[11px]">
+                <span class="w-28 font-data text-muted">Campos sync</span>
+                <span class="font-data">name, price, category, stock</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Sticky Save Bar -->
+      <div class="fixed bottom-0 left-56 right-0 bg-white border-t border-line z-20">
+        <div class="px-8 py-3 flex items-center justify-between max-w-3xl">
+          <div class="text-[10px] font-data text-muted">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 mr-1"></span>
+            2 campos modificados
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="text-xs text-muted border border-line px-4 py-1.5 hover:border-dark hover:text-dark transition-colors">
+              Descartar
+            </button>
+            <button class="text-xs text-white bg-brand px-4 py-1.5 hover:bg-red-700 transition-colors flex items-center gap-1.5">
+              <i data-lucide="save" class="w-3 h-3"></i>
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

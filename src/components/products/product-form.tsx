@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -14,14 +12,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { useCategories, useUpdateProduct } from "@/lib/hooks/use-products";
 import { formatPrice } from "@/lib/utils/pricing";
 import { DELIVERY_MARKUP } from "@/lib/config/constants";
 import type { Product } from "@/types/product";
 import { toast } from "sonner";
-import { Save } from "lucide-react";
+import { Save, DollarSign, Info, FileText, ToggleRight } from "lucide-react";
 
 interface ProductFormProps {
   product: Product;
@@ -83,18 +79,31 @@ export function ProductForm({ product }: ProductFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Basic Info */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Informacion basica</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className="border-[3px] border-black shadow-[4px_4px_0_#000] bg-white p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-8 h-8 bg-[#FDE047] border-2 border-black flex items-center justify-center">
+            <Info className="h-4 w-4" />
+          </div>
+          <h3 className="text-2xl font-bold uppercase tracking-tight">
+            Info Basica
+          </h3>
+        </div>
+        <div className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label>ID</Label>
-              <Input value={product.id} disabled />
+            <div>
+              <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
+                ID
+              </label>
+              <input
+                value={product.id}
+                disabled
+                className="w-full border-2 border-black bg-black/5 px-4 py-3 font-mono text-sm font-bold text-black/60"
+              />
             </div>
-            <div className="space-y-2">
-              <Label>Nombre</Label>
+            <div>
+              <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
+                Nombre
+              </label>
               <Input
                 value={form.nombre}
                 onChange={(e) => updateField("nombre", e.target.value)}
@@ -103,8 +112,10 @@ export function ProductForm({ product }: ProductFormProps) {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label>Categoria</Label>
+          <div>
+            <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
+              Categoria
+            </label>
             <Select
               value={form.categoria_id}
               onValueChange={(v) => updateField("categoria_id", v)}
@@ -121,21 +132,26 @@ export function ProductForm({ product }: ProductFormProps) {
               </SelectContent>
             </Select>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Pricing */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Precios</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className="border-[3px] border-black shadow-[4px_4px_0_#000] bg-white p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-8 h-8 bg-[#DC2626] border-2 border-black flex items-center justify-center">
+            <DollarSign className="h-4 w-4 text-white" />
+          </div>
+          <h3 className="text-2xl font-bold uppercase tracking-tight">
+            Precios
+          </h3>
+        </div>
+        <div className="space-y-4">
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <Label>
+            <div>
+              <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
                 Precio actual (Fudo){" "}
-                <span className="text-xs text-muted-foreground">API</span>
-              </Label>
+                <span className="text-[10px] text-black/30">API</span>
+              </label>
               <Input
                 type="number"
                 value={form.precio_venta}
@@ -145,13 +161,11 @@ export function ProductForm({ product }: ProductFormProps) {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <Label>
+            <div>
+              <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
                 Precio sugerido{" "}
-                <span className="text-xs text-muted-foreground">
-                  nueva carta
-                </span>
-              </Label>
+                <span className="text-[10px] text-black/30">nueva carta</span>
+              </label>
               <Input
                 type="number"
                 value={form.precio_sugerido ?? ""}
@@ -164,13 +178,13 @@ export function ProductForm({ product }: ProductFormProps) {
                 placeholder="Sin definir"
               />
             </div>
-            <div className="space-y-2">
-              <Label>
+            <div>
+              <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
                 Precio delivery{" "}
-                <span className="text-xs text-muted-foreground">
+                <span className="text-[10px] text-black/30">
                   (auto: {formatPrice(autoDeliveryPrice)})
                 </span>
-              </Label>
+              </label>
               <Input
                 type="number"
                 value={form.precio_delivery ?? ""}
@@ -184,17 +198,24 @@ export function ProductForm({ product }: ProductFormProps) {
               />
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Descriptions */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Descripciones</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>Descripcion corta</Label>
+      <div className="border-[3px] border-black shadow-[4px_4px_0_#000] bg-white p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-8 h-8 bg-[#7DD3FC] border-2 border-black flex items-center justify-center">
+            <FileText className="h-4 w-4" />
+          </div>
+          <h3 className="text-2xl font-bold uppercase tracking-tight">
+            Descripciones
+          </h3>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
+              Descripcion corta
+            </label>
             <Textarea
               value={form.descripcion_corta}
               onChange={(e) =>
@@ -203,8 +224,10 @@ export function ProductForm({ product }: ProductFormProps) {
               rows={2}
             />
           </div>
-          <div className="space-y-2">
-            <Label>Descripcion delivery</Label>
+          <div>
+            <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
+              Descripcion delivery
+            </label>
             <Textarea
               value={form.descripcion_delivery}
               onChange={(e) =>
@@ -213,8 +236,10 @@ export function ProductForm({ product }: ProductFormProps) {
               rows={2}
             />
           </div>
-          <div className="space-y-2">
-            <Label>Descripcion larga</Label>
+          <div>
+            <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
+              Descripcion larga
+            </label>
             <Textarea
               value={form.descripcion_larga}
               onChange={(e) =>
@@ -223,57 +248,68 @@ export function ProductForm({ product }: ProductFormProps) {
               rows={4}
             />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Status toggles */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Estado</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              { key: "activo" as const, label: "Activo" },
-              { key: "visible_menu" as const, label: "Visible en menu" },
-              { key: "disponible_local" as const, label: "Disponible local" },
-              {
-                key: "disponible_delivery" as const,
-                label: "Disponible delivery",
-              },
-              { key: "favorito" as const, label: "Favorito" },
-            ].map((toggle) => (
-              <div key={toggle.key} className="flex items-center gap-2">
-                <Checkbox
-                  id={toggle.key}
-                  checked={form[toggle.key]}
-                  onCheckedChange={(checked) =>
-                    updateField(toggle.key, checked as boolean)
-                  }
-                />
-                <Label htmlFor={toggle.key} className="text-sm">
-                  {toggle.label}
-                </Label>
-              </div>
-            ))}
+      <div className="border-[3px] border-black shadow-[4px_4px_0_#000] bg-white p-6">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-8 h-8 bg-[#22c55e] border-2 border-black flex items-center justify-center">
+            <ToggleRight className="h-4 w-4 text-white" />
           </div>
-        </CardContent>
-      </Card>
+          <h3 className="text-2xl font-bold uppercase tracking-tight">
+            Estado
+          </h3>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            { key: "activo" as const, label: "Activo" },
+            { key: "visible_menu" as const, label: "Visible en menu" },
+            { key: "disponible_local" as const, label: "Disponible local" },
+            {
+              key: "disponible_delivery" as const,
+              label: "Disponible delivery",
+            },
+            { key: "favorito" as const, label: "Favorito" },
+          ].map((toggle) => (
+            <div
+              key={toggle.key}
+              className="border-2 border-black p-4 flex items-center justify-between"
+            >
+              <label
+                htmlFor={toggle.key}
+                className="text-sm font-bold uppercase tracking-wide"
+              >
+                {toggle.label}
+              </label>
+              <Checkbox
+                id={toggle.key}
+                checked={form[toggle.key]}
+                onCheckedChange={(checked) =>
+                  updateField(toggle.key, checked as boolean)
+                }
+              />
+            </div>
+          ))}
+        </div>
+      </div>
 
-      <Separator />
-
-      <div className="flex justify-end gap-2">
-        <Button
+      <div className="flex justify-end gap-3">
+        <button
           type="button"
-          variant="outline"
+          className="border-2 border-black shadow-[3px_3px_0_#000] hover:shadow-[2px_2px_0_#000] hover:translate-x-[1px] hover:translate-y-[1px] bg-white px-6 py-3 font-bold text-sm transition-all"
           onClick={() => router.back()}
         >
           Cancelar
-        </Button>
-        <Button type="submit" disabled={updateProduct.isPending}>
-          <Save className="mr-2 h-4 w-4" />
+        </button>
+        <button
+          type="submit"
+          disabled={updateProduct.isPending}
+          className="border-[3px] border-black shadow-[4px_4px_0_#000] hover:shadow-[2px_2px_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] bg-[#DC2626] text-white px-8 py-3 font-bold text-sm flex items-center gap-2 transition-all disabled:opacity-50"
+        >
+          <Save className="h-4 w-4" />
           {updateProduct.isPending ? "Guardando..." : "Guardar"}
-        </Button>
+        </button>
       </div>
     </form>
   );

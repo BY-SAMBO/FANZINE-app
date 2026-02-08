@@ -3,14 +3,14 @@
 import { useAuth } from "@/lib/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Film } from "lucide-react";
+import { Menu } from "lucide-react";
 import { MobileNav } from "./mobile-nav";
 
 export function Header() {
   const { user } = useAuth();
 
   return (
-    <header className="flex h-16 items-center gap-4 border-b bg-card px-4 lg:px-6">
+    <header className="flex h-16 items-center gap-4 border-b-[3px] border-black bg-white px-4 lg:px-6">
       {/* Mobile menu */}
       <Sheet>
         <SheetTrigger asChild>
@@ -25,18 +25,20 @@ export function Header() {
 
       {/* Mobile logo */}
       <div className="flex items-center gap-2 lg:hidden">
-        <Film className="h-5 w-5 text-primary" />
-        <span className="font-bold">FANZINE</span>
+        <div className="w-8 h-8 bg-[#DC2626] border-2 border-black flex items-center justify-center">
+          <span className="text-white font-bold text-sm">F</span>
+        </div>
+        <span className="font-bold tracking-tight">FANZINE</span>
       </div>
 
       <div className="flex-1" />
 
       {/* User info (desktop) */}
       <div className="hidden items-center gap-2 text-sm lg:flex">
-        <span className="text-muted-foreground">
+        <span className="font-medium text-black">
           {user?.nombre}
         </span>
-        <span className="rounded bg-primary/10 px-2 py-0.5 text-xs font-medium capitalize text-primary">
+        <span className="bg-[#FDE047] border-2 border-black px-2 py-0.5 text-xs font-bold uppercase text-black">
           {user?.rol}
         </span>
       </div>

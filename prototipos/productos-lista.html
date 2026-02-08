@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FANZINE - Productos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>tailwind.config={theme:{extend:{colors:{sidebar:'#0f172a',fudo:'#6366f1'}}}}</script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body{font-family:'Inter',sans-serif}
+    .cat-pill.active{background:#6366f1;color:white;border-color:#6366f1}
+  </style>
+</head>
+<body class="h-full bg-gray-100">
+<div class="flex h-full min-h-screen">
+  <!-- Sidebar -->
+  <aside class="hidden lg:flex lg:flex-col w-64 bg-sidebar text-white fixed h-full z-30">
+    <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
+      <div class="w-8 h-8 bg-fudo rounded-lg flex items-center justify-center"><span class="font-bold text-sm">F</span></div>
+      <div><h1 class="font-bold">FANZINE</h1><p class="text-[11px] text-gray-400">Cine &amp; Tex-Mex</p></div>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>Dashboard</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white text-sm font-medium"><i data-lucide="package" class="w-4 h-4"></i>Productos</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="truck" class="w-4 h-4"></i>Delivery</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="refresh-cw" class="w-4 h-4"></i>Sync</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="check-square" class="w-4 h-4"></i>Checklist</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="settings" class="w-4 h-4"></i>Config</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 lg:ml-64 overflow-auto">
+    <div class="px-4 sm:px-6 lg:px-8 py-6 max-w-7xl">
+
+      <!-- Header -->
+      <div class="flex items-center gap-3 mb-6">
+        <h1 class="text-2xl font-bold">Productos</h1>
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">75</span>
+      </div>
+
+      <!-- Search -->
+      <div class="relative mb-4">
+        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+        <input type="text" placeholder="Buscar productos..." class="w-full pl-10 pr-4 py-2.5 border rounded-lg text-sm focus:ring-2 focus:ring-fudo outline-none bg-white">
+      </div>
+
+      <!-- Category pills -->
+      <div class="flex gap-2 overflow-x-auto pb-4 mb-6">
+        <button class="cat-pill active shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border transition-colors">Todos</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Tacos</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Nachos</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Perros</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Chicanitas</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Crispetas</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Helados</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Milkshakes</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Bebidas</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Tex-Mex</button>
+        <button class="cat-pill shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border border-gray-200 text-gray-600 hover:border-fudo hover:text-fudo transition-colors">Postres</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+
+        <!-- Product 1 -->
+        <a href="producto-detalle.html" class="group">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center relative">
+              <span class="text-4xl">🌮</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700">synced</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Taco de Birria</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">TA001</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-gray-400 w-14">Fudo:</span>
+                  <span class="text-sm font-semibold text-gray-800">$14,000</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-blue-400 w-14">Sugerido:</span>
+                  <span class="text-sm font-semibold text-blue-600">$16,000</span>
+                  <span class="text-[10px] font-bold text-emerald-600">+14%</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-emerald-400 w-14">Delivery:</span>
+                  <span class="text-sm font-medium text-emerald-600">$21,600</span>
+                </div>
+              </div>
+              <div class="flex gap-1 mt-2">
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-200">Tacos</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 2 -->
+        <a href="producto-detalle-v2.html" class="group">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-yellow-100 to-amber-100 flex items-center justify-center relative">
+              <span class="text-4xl">🧀</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700">synced</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Nachos Cheddar</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">NA001</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5"><span class="text-xs text-gray-400 w-14">Fudo:</span><span class="text-sm font-semibold text-gray-800">$18,000</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-blue-400 w-14">Sugerido:</span><span class="text-sm font-semibold text-blue-600">$22,000</span><span class="text-[10px] font-bold text-emerald-600">+22%</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-emerald-400 w-14">Delivery:</span><span class="text-sm font-medium text-emerald-600">$29,700</span></div>
+              </div>
+              <div class="flex gap-1 mt-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-orange-50 text-orange-700 border border-orange-200">Nachos</span></div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Product 3 -->
+        <div class="group cursor-pointer">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-red-100 to-pink-100 flex items-center justify-center relative">
+              <span class="text-4xl">🌭</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700">synced</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Perro con Toppings</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">PE001</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5"><span class="text-xs text-gray-400 w-14">Fudo:</span><span class="text-sm font-semibold text-gray-800">$12,000</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-blue-400 w-14">Sugerido:</span><span class="text-sm font-semibold text-blue-600">$14,000</span><span class="text-[10px] font-bold text-emerald-600">+17%</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-emerald-400 w-14">Delivery:</span><span class="text-sm font-medium text-emerald-600">$18,900</span></div>
+              </div>
+              <div class="flex gap-1 mt-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-50 text-red-700 border border-red-200">Perros</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 - sin precio sugerido -->
+        <div class="group cursor-pointer">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-purple-100 to-violet-100 flex items-center justify-center relative">
+              <span class="text-4xl">🍿</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700">synced</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Crispetas Caramelo Med</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">CR002</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5"><span class="text-xs text-gray-400 w-14">Fudo:</span><span class="text-sm font-semibold text-gray-800">$10,000</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-blue-400 w-14">Sugerido:</span><span class="text-sm text-gray-300 italic">Sin definir</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-emerald-400 w-14">Delivery:</span><span class="text-sm font-medium text-emerald-600">$13,500</span></div>
+              </div>
+              <div class="flex gap-1 mt-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-purple-50 text-purple-700 border border-purple-200">Crispetas</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="group cursor-pointer">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center relative">
+              <span class="text-4xl">🍦</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700">synced</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Cono Vainilla</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">HE001</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5"><span class="text-xs text-gray-400 w-14">Fudo:</span><span class="text-sm font-semibold text-gray-800">$6,000</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-blue-400 w-14">Sugerido:</span><span class="text-sm font-semibold text-blue-600">$7,000</span><span class="text-[10px] font-bold text-emerald-600">+17%</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-emerald-400 w-14">Delivery:</span><span class="text-sm font-medium text-emerald-600">$9,500</span></div>
+              </div>
+              <div class="flex gap-1 mt-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-pink-50 text-pink-700 border border-pink-200">Helados</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="group cursor-pointer">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-lime-100 to-green-100 flex items-center justify-center relative">
+              <span class="text-4xl">🥤</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700">synced</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Milkshake Chocolate</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">MK002</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5"><span class="text-xs text-gray-400 w-14">Fudo:</span><span class="text-sm font-semibold text-gray-800">$15,000</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-blue-400 w-14">Sugerido:</span><span class="text-sm font-semibold text-blue-600">$18,000</span><span class="text-[10px] font-bold text-emerald-600">+20%</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-emerald-400 w-14">Delivery:</span><span class="text-sm font-medium text-emerald-600">$24,300</span></div>
+              </div>
+              <div class="flex gap-1 mt-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-lime-50 text-lime-700 border border-lime-200">Milkshakes</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 7 -->
+        <div class="group cursor-pointer">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center relative">
+              <span class="text-4xl">🍗</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-yellow-100 text-yellow-700">pending</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Alitas BBQ</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">TX001</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5"><span class="text-xs text-gray-400 w-14">Fudo:</span><span class="text-sm font-semibold text-gray-800">$20,000</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-blue-400 w-14">Sugerido:</span><span class="text-sm font-semibold text-blue-600">$24,000</span><span class="text-[10px] font-bold text-emerald-600">+20%</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-emerald-400 w-14">Delivery:</span><span class="text-sm font-medium text-emerald-600">$32,400</span></div>
+              </div>
+              <div class="flex gap-1 mt-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-red-50 text-red-700 border border-red-200">Tex-Mex</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 8 -->
+        <div class="group cursor-pointer">
+          <div class="bg-white rounded-xl border hover:shadow-md transition-shadow overflow-hidden">
+            <div class="aspect-square bg-gradient-to-br from-rose-100 to-pink-100 flex items-center justify-center relative">
+              <span class="text-4xl">🍰</span>
+              <span class="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-700">synced</span>
+            </div>
+            <div class="p-3">
+              <div class="flex items-start justify-between gap-1">
+                <h3 class="text-sm font-medium line-clamp-1 group-hover:text-fudo transition-colors">Tres Leches</h3>
+                <span class="text-[10px] text-gray-400 shrink-0 font-mono">PO001</span>
+              </div>
+              <div class="mt-1.5 space-y-0.5">
+                <div class="flex items-center gap-1.5"><span class="text-xs text-gray-400 w-14">Fudo:</span><span class="text-sm font-semibold text-gray-800">$10,000</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-blue-400 w-14">Sugerido:</span><span class="text-sm font-semibold text-blue-600">$12,000</span><span class="text-[10px] font-bold text-emerald-600">+20%</span></div>
+                <div class="flex items-center gap-1.5"><span class="text-xs text-emerald-400 w-14">Delivery:</span><span class="text-sm font-medium text-emerald-600">$16,200</span></div>
+              </div>
+              <div class="flex gap-1 mt-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-rose-50 text-rose-700 border border-rose-200">Postres</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  lucide.createIcons();
+  document.querySelectorAll('.cat-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FANZINE - Producto V2 (Tabla)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>tailwind.config={theme:{extend:{colors:{sidebar:'#0f172a',fudo:'#6366f1'}}}}</script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body{font-family:'Inter',sans-serif}
+  </style>
+</head>
+<body class="h-full bg-gray-100">
+<div class="flex h-full min-h-screen">
+  <!-- Sidebar (same) -->
+  <aside class="hidden lg:flex lg:flex-col w-64 bg-sidebar text-white fixed h-full z-30">
+    <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
+      <div class="w-8 h-8 bg-fudo rounded-lg flex items-center justify-center"><span class="font-bold text-sm">F</span></div>
+      <div><h1 class="font-bold">FANZINE</h1><p class="text-[11px] text-gray-400">Cine &amp; Tex-Mex</p></div>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>Dashboard</a>
+      <a href="productos-lista.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white text-sm font-medium"><i data-lucide="package" class="w-4 h-4"></i>Productos</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="truck" class="w-4 h-4"></i>Delivery</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="refresh-cw" class="w-4 h-4"></i>Sync</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="check-square" class="w-4 h-4"></i>Checklist</a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-white/5 text-sm"><i data-lucide="settings" class="w-4 h-4"></i>Config</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 lg:ml-64 overflow-auto">
+    <!-- Header -->
+    <header class="bg-white border-b sticky top-0 z-20">
+      <div class="px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <button class="p-2 rounded-lg hover:bg-gray-100"><i data-lucide="arrow-left" class="w-5 h-5 text-gray-600"></i></button>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h1 class="text-xl font-bold">Nachos Cheddar</h1>
+              <span class="px-2 py-0.5 rounded text-xs font-mono font-semibold bg-gray-100 text-gray-600 border">NA001</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 border border-orange-200">Nachos</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <button class="inline-flex items-center gap-2 px-3.5 py-2 bg-white border text-gray-700 rounded-lg text-sm hover:bg-gray-50"><i data-lucide="image" class="w-4 h-4"></i>Media</button>
+          <button class="inline-flex items-center gap-2 px-3.5 py-2 bg-white border text-gray-700 rounded-lg text-sm hover:bg-gray-50"><i data-lucide="truck" class="w-4 h-4"></i>Delivery</button>
+          <button class="inline-flex items-center gap-2 px-3.5 py-2 bg-fudo text-white rounded-lg text-sm hover:bg-fudo/90"><i data-lucide="refresh-cw" class="w-4 h-4"></i>Sync Fudo</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="px-4 sm:px-6 lg:px-8 py-6 max-w-5xl space-y-8">
+
+      <!-- PRECIOS - V2: Tabla horizontal -->
+      <section>
+        <h2 class="flex items-center gap-2 text-lg font-semibold mb-4"><i data-lucide="dollar-sign" class="w-5 h-5 text-gray-400"></i>Precios</h2>
+        <div class="bg-white rounded-xl border overflow-hidden">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-50 text-left">
+                <th class="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Concepto</th>
+                <th class="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Valor</th>
+                <th class="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Origen</th>
+                <th class="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Diferencia</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <tr class="bg-white">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-8 bg-gray-400 rounded-full"></div>
+                    <div><p class="text-sm font-medium text-gray-900">Precio Actual</p><p class="text-xs text-gray-400">Precio vigente en el POS</p></div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="text-xl font-bold text-gray-800 tabular-nums">$18,000</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-gray-100 text-gray-600 border"><i data-lucide="cloud" class="w-3 h-3"></i>API Fudo</span></td>
+                <td class="px-5 py-4"><span class="text-xs text-gray-400">base</span></td>
+              </tr>
+              <tr class="bg-blue-50/30">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-8 bg-blue-500 rounded-full"></div>
+                    <div><p class="text-sm font-medium text-blue-900">Precio Sugerido</p><p class="text-xs text-blue-400">Para la nueva carta</p></div>
+                  </div>
+                </td>
+                <td class="px-5 py-4">
+                  <input type="number" value="22000" class="text-xl font-bold text-blue-700 tabular-nums bg-transparent border-b-2 border-blue-300 focus:border-blue-500 outline-none w-36">
+                </td>
+                <td class="px-5 py-4"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-600 border border-blue-200"><i data-lucide="pencil" class="w-3 h-3"></i>Interno</span></td>
+                <td class="px-5 py-4"><span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-700">+22%</span></td>
+              </tr>
+              <tr class="bg-emerald-50/30">
+                <td class="px-5 py-4">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-8 bg-emerald-500 rounded-full"></div>
+                    <div><p class="text-sm font-medium text-emerald-900">Precio Delivery</p><p class="text-xs text-emerald-400">sugerido x 1.35</p></div>
+                  </div>
+                </td>
+                <td class="px-5 py-4"><span class="text-xl font-bold text-emerald-700 tabular-nums">$29,700</span></td>
+                <td class="px-5 py-4"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-600 border border-emerald-200"><i data-lucide="calculator" class="w-3 h-3"></i>Auto</span></td>
+                <td class="px-5 py-4"><span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-700">+65%</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="px-5 py-3 bg-gray-50 border-t flex gap-6 text-[11px] text-gray-400 flex-wrap">
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-400"></span>API Fudo (solo lectura)</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span>Interno (editable)</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>Auto-calculado</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- INFO BASICA -->
+      <section>
+        <div class="bg-white rounded-xl border overflow-hidden">
+          <div class="px-5 py-4 border-b flex items-center gap-2"><i data-lucide="info" class="w-4 h-4 text-gray-400"></i><h3 class="font-semibold text-sm">Info Basica</h3></div>
+          <div class="p-5 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div><label class="block text-sm font-medium text-gray-700 mb-1.5">ID</label><input value="NA001" disabled class="w-full px-3 py-2 bg-gray-50 border rounded-lg text-sm text-gray-500 font-mono"></div>
+              <div><label class="block text-sm font-medium text-gray-700 mb-1.5">Nombre</label><input value="Nachos Cheddar" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-fudo outline-none"></div>
+            </div>
+            <div><label class="block text-sm font-medium text-gray-700 mb-1.5">Categoria</label>
+              <select class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-fudo outline-none"><option>Tacos</option><option selected>Nachos</option><option>Perros</option><option>Chicanitas</option><option>Crispetas</option><option>Helados</option><option>Milkshakes</option><option>Bebidas</option><option>Tex-Mex</option><option>Postres</option></select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DESCRIPCIONES -->
+      <section>
+        <div class="bg-white rounded-xl border overflow-hidden">
+          <div class="px-5 py-4 border-b flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-gray-400"></i><h3 class="font-semibold text-sm">Descripciones</h3></div>
+          <div class="p-5 space-y-4">
+            <div><label class="block text-sm font-medium text-gray-700 mb-1.5">Descripcion corta</label><input value="Nachos crujientes con queso cheddar fundido y jalape&ntilde;os" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-fudo outline-none"></div>
+            <div><label class="block text-sm font-medium text-gray-700 mb-1.5">Descripcion delivery</label><textarea rows="2" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-fudo outline-none resize-none">Nachos crujientes con queso cheddar fundido, jalape&ntilde;os frescos, crema agria y pico de gallo. Perfectos para compartir.</textarea></div>
+            <div><label class="block text-sm font-medium text-gray-700 mb-1.5">Descripcion larga</label><textarea rows="3" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-fudo outline-none resize-none">Porcion generosa de nachos de maiz artesanales cubiertos con queso cheddar fundido al horno. Acompa&ntilde;ados de jalape&ntilde;os frescos, crema agria, pico de gallo casero y guacamole. Ideales como entrada o para compartir con la mesa.</textarea></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Save bar -->
+      <div class="sticky bottom-0 bg-white border-t -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        <p class="text-sm text-gray-500"><span class="inline-block w-2 h-2 rounded-full bg-amber-400 mr-1.5"></span>Cambios sin guardar</p>
+        <div class="flex gap-2">
+          <button class="px-4 py-2 text-sm text-gray-600">Descartar</button>
+          <button class="px-5 py-2 bg-fudo text-white rounded-lg text-sm font-medium hover:bg-fudo/90">Guardar</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FANZINE - Productos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#DC2626',
+            chick: '#FDE047',
+            sky: '#7DD3FC',
+            dark: '#111111',
+            muted: '#6B7280',
+            line: '#E5E5E5',
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-data { font-family: 'JetBrains Mono', monospace; }
+    .dot-sep { border-bottom: 1px dashed #D4D4D4; }
+    .card-hover:hover { border-color: #DC2626; }
+    .card-hover:hover .card-name { text-decoration: underline; text-decoration-color: #DC2626; }
+    .tab-active { border-bottom: 2px solid #DC2626; color: #DC2626; }
+    .tab-item:hover { color: #DC2626; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); }
+    .sidebar-link.active { background: rgba(255,255,255,0.12); border-left: 2px solid #DC2626; }
+  </style>
+</head>
+<body class="bg-white text-dark antialiased">
+
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-56 bg-dark text-white flex flex-col flex-shrink-0">
+      <!-- Logo -->
+      <div class="px-5 py-5 border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 bg-brand rounded-sm flex items-center justify-center">
+            <span class="text-white text-xs font-bold font-data">F</span>
+          </div>
+          <div>
+            <div class="text-sm font-semibold tracking-wide">FANZINE</div>
+            <div class="text-[10px] text-white/40 font-data tracking-widest">ADMIN PANEL</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <nav class="flex-1 py-4 text-sm">
+        <div class="px-4 mb-2 text-[10px] text-white/30 font-data tracking-widest uppercase">Menu</div>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="sidebar-link active flex items-center gap-3 px-5 py-2 text-white transition-colors">
+          <i data-lucide="package" class="w-4 h-4"></i>
+          <span>Productos</span>
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="grid-3x3" class="w-4 h-4"></i>
+          <span>Categorias</span>
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="truck" class="w-4 h-4"></i>
+          <span>Delivery</span>
+        </a>
+
+        <div class="px-4 mt-6 mb-2 text-[10px] text-white/30 font-data tracking-widest uppercase">Sistema</div>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          <span>Sync Fudo</span>
+        </a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-2 text-white/60 transition-colors">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Config</span>
+        </a>
+      </nav>
+
+      <!-- Footer -->
+      <div class="px-5 py-4 border-t border-white/10">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+            <span class="text-[10px] font-data">JG</span>
+          </div>
+          <div class="text-xs text-white/50">Jose Garcia</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto">
+
+      <!-- Top bar -->
+      <header class="sticky top-0 bg-white/95 backdrop-blur-sm z-10 border-b border-line">
+        <div class="px-8 py-4 flex items-center justify-between">
+          <div>
+            <h1 class="text-lg font-semibold">Productos</h1>
+            <p class="text-xs text-muted font-data mt-0.5">75 registros &middot; 49 enriquecidos &middot; 27 con foto</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] font-data text-muted bg-gray-100 px-2 py-1 rounded">Last sync: 08 Feb 2026, 10:23</span>
+            <button class="flex items-center gap-1.5 text-xs font-medium text-brand border border-brand px-3 py-1.5 hover:bg-brand hover:text-white transition-colors">
+              <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+              Sync
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="px-8 py-6">
+
+        <!-- Search + Filter -->
+        <div class="flex items-center justify-between mb-6">
+          <!-- Search -->
+          <div class="relative w-72">
+            <i data-lucide="search" class="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2"></i>
+            <input type="text" placeholder="Buscar por nombre o codigo..." class="w-full pl-9 pr-3 py-2 text-sm border border-line focus:border-dark focus:outline-none font-data placeholder:font-sans placeholder:text-muted">
+          </div>
+          <!-- View toggle -->
+          <div class="flex items-center gap-1 border border-line">
+            <button class="p-1.5 bg-dark text-white">
+              <i data-lucide="grid-2x2" class="w-4 h-4"></i>
+            </button>
+            <button class="p-1.5 text-muted hover:text-dark">
+              <i data-lucide="list" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category tabs -->
+        <div class="flex items-center gap-1 border-b border-line mb-6 overflow-x-auto">
+          <button class="tab-item tab-active px-3 py-2 text-xs font-medium whitespace-nowrap transition-colors">Todos (75)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Tacos (12)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Nachos (8)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Perros (6)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Crispetas (5)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Helados (7)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Milkshakes (4)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Tex-Mex (10)</button>
+          <button class="tab-item px-3 py-2 text-xs text-muted whitespace-nowrap transition-colors">Postres (6)</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+
+          <!-- Card 1: Taco de Birria -->
+          <a href="producto-detalle.html" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🌮</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <span class="text-[10px] font-data text-green-700">synced</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Taco de Birria</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">TA001</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Tacos</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$14,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs">$16,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$21,600</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 2: Nachos Cheddar -->
+          <a href="#" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🧀</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <span class="text-[10px] font-data text-green-700">synced</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Nachos Cheddar</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">NA001</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Nachos</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$18,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs">$22,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$29,700</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 3: Perro con Toppings -->
+          <a href="#" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🌭</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <span class="text-[10px] font-data text-green-700">synced</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Perro con Toppings</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">PE001</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Perros</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$12,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs">$14,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$18,900</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 4: Crispetas Caramelo Med (Sin definir) -->
+          <a href="#" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🍿</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <span class="text-[10px] font-data text-green-700">synced</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Crispetas Caramelo Med</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">CR002</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Crispetas</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$10,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs text-muted/60">---</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$13,500</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 5: Cono Vainilla -->
+          <a href="#" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🍦</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <span class="text-[10px] font-data text-green-700">synced</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Cono Vainilla</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">HE001</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Helados</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$6,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs">$7,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$9,500</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 6: Milkshake Chocolate -->
+          <a href="#" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🥤</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <span class="text-[10px] font-data text-green-700">synced</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Milkshake Chocolate</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">MK002</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Milkshakes</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$15,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs">$18,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$24,300</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 7: Alitas BBQ (pending) -->
+          <a href="#" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🍗</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <span class="text-[10px] font-data text-amber-700">pending</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Alitas BBQ</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">TX001</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Tex-Mex</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$20,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs">$24,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$32,400</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 8: Tres Leches -->
+          <a href="#" class="card-hover block border border-line p-4 transition-colors cursor-pointer group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gray-100 rounded flex items-center justify-center text-lg">🍰</div>
+              <div class="flex items-center gap-1.5">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                <span class="text-[10px] font-data text-green-700">synced</span>
+              </div>
+            </div>
+            <div class="card-name text-sm font-medium mb-0.5">Tres Leches</div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-data text-[10px] text-muted">PO001</span>
+              <span class="text-[10px] text-muted">&middot;</span>
+              <span class="text-[10px] text-brand/80 bg-brand/5 px-1.5 py-0.5">Postres</span>
+            </div>
+            <div class="dot-sep"></div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Fudo</div>
+                <div class="font-data text-xs">$10,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Sugerido</div>
+                <div class="font-data text-xs">$12,000</div>
+              </div>
+              <div>
+                <div class="text-[9px] text-muted mb-0.5">Delivery</div>
+                <div class="font-data text-xs">$16,200</div>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- Footer info -->
+        <div class="mt-8 pt-4 border-t border-line flex items-center justify-between text-[10px] text-muted font-data">
+          <span>Mostrando 8 de 75 productos</span>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span> synced</span>
+            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block"></span> pending</span>
+            <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-red-500 inline-block"></span> error</span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

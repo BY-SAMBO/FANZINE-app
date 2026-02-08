@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FANZINE - Taco de Birria</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .font-pixel { font-family: 'Press Start 2P', monospace; }
+    .font-vt { font-family: 'VT323', monospace; }
+
+    .pixel-shadow { box-shadow: 3px 3px 0px #000; }
+    .pixel-shadow-sm { box-shadow: 2px 2px 0px #000; }
+    .pixel-shadow-red { box-shadow: 3px 3px 0px #991B1B; }
+    .pixel-shadow-blue { box-shadow: 3px 3px 0px #1E40AF; }
+    .pixel-shadow-green { box-shadow: 3px 3px 0px #166534; }
+    .pixel-shadow-inset { box-shadow: inset 2px 2px 0px rgba(0,0,0,0.2); }
+
+    .pixel-frame {
+      border: 2px solid #000;
+      position: relative;
+    }
+    .pixel-frame::before {
+      content: '';
+      position: absolute;
+      top: -4px; left: -4px; right: -4px; bottom: -4px;
+      border: 2px solid #000;
+      pointer-events: none;
+    }
+
+    .pixel-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: none !important;
+    }
+
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { background: #E5E7EB; border: 2px solid #000; }
+    ::-webkit-scrollbar-thumb { background: #DC2626; border: 2px solid #000; }
+
+    .nav-link-active {
+      background: #DC2626;
+      color: #FDE047;
+    }
+
+    /* Health bar animation */
+    @keyframes fillBar {
+      from { width: 0; }
+    }
+    .bar-fill { animation: fillBar 0.8s ease-out; }
+
+    /* Stat card glow on hover */
+    .stat-card:hover {
+      outline: 2px solid #FDE047;
+      outline-offset: 2px;
+    }
+
+    /* Toggle pixel checkbox */
+    .pixel-toggle {
+      appearance: none;
+      width: 40px;
+      height: 20px;
+      background: #E5E7EB;
+      border: 2px solid #000;
+      position: relative;
+      cursor: pointer;
+    }
+    .pixel-toggle::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #000;
+      top: 1px;
+      left: 1px;
+      transition: left 0.15s;
+    }
+    .pixel-toggle:checked {
+      background: #22C55E;
+    }
+    .pixel-toggle:checked::after {
+      left: 21px;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { red: '#DC2626', yellow: '#FDE047', sky: '#7DD3FC' },
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-white text-black min-h-screen">
+  <div class="flex min-h-screen">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="w-60 bg-black text-white flex-shrink-0 flex flex-col border-r-4 border-brand-red">
+      <div class="p-4 border-b-2 border-gray-700">
+        <div class="border-2 border-brand-red p-3 text-center pixel-shadow-red">
+          <h1 class="font-pixel text-brand-red text-sm leading-relaxed">FANZINE</h1>
+          <p class="font-vt text-gray-400 text-xs mt-1 tracking-widest">ADMIN PANEL v1.0</p>
+        </div>
+        <p class="font-vt text-brand-yellow text-center text-sm mt-2">Cine &amp; Tex-Mex</p>
+      </div>
+      <nav class="flex-1 p-3 space-y-1">
+        <a href="#" class="flex items-center gap-3 px-3 py-2 border-2 border-gray-700 font-vt text-lg hover:border-brand-red transition-colors">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+        </a>
+        <a href="productos-lista.html" class="flex items-center gap-3 px-3 py-2 border-2 border-brand-red nav-link-active font-vt text-lg">
+          <i data-lucide="package" class="w-4 h-4"></i> Productos
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 border-2 border-gray-700 font-vt text-lg hover:border-brand-red transition-colors">
+          <i data-lucide="grid-3x3" class="w-4 h-4"></i> Categorias
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 border-2 border-gray-700 font-vt text-lg hover:border-brand-red transition-colors">
+          <i data-lucide="truck" class="w-4 h-4"></i> Delivery
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 border-2 border-gray-700 font-vt text-lg hover:border-brand-red transition-colors">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i> Sync Fudo
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 border-2 border-gray-700 font-vt text-lg hover:border-brand-red transition-colors">
+          <i data-lucide="settings" class="w-4 h-4"></i> Config
+        </a>
+      </nav>
+      <div class="p-3 border-t-2 border-gray-700">
+        <div class="flex items-center gap-2 px-3 py-2">
+          <div class="w-8 h-8 border-2 border-brand-yellow bg-gray-800 flex items-center justify-center font-pixel text-brand-yellow text-xs">JG</div>
+          <div>
+            <p class="font-vt text-sm text-white">Jose Garcia</p>
+            <p class="font-vt text-xs text-gray-500">Admin</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <main class="flex-1 bg-gray-50 pb-24">
+
+      <!-- ===== HEADER BAR ===== -->
+      <div class="bg-black text-white border-b-4 border-brand-red">
+        <div class="flex items-center justify-between px-6 py-3">
+          <div class="flex items-center gap-4">
+            <a href="productos-lista.html" class="pixel-btn border-2 border-gray-600 hover:border-brand-yellow px-3 py-1 font-vt text-lg flex items-center gap-2">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> VOLVER
+            </a>
+            <div class="border-l-2 border-gray-600 pl-4">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">🌮</span>
+                <div>
+                  <h2 class="font-pixel text-sm text-brand-yellow">Taco de Birria</h2>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="font-vt text-base border border-gray-600 px-2 text-gray-300">TA001</span>
+                    <span class="font-vt text-base border border-brand-red px-2 text-brand-red">Tacos</span>
+                    <span class="font-vt text-base border border-green-500 px-2 text-green-400">SYNCED</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="pixel-btn font-vt text-lg border-2 border-gray-600 hover:border-white px-3 py-1 flex items-center gap-2">
+              <i data-lucide="external-link" class="w-4 h-4"></i> VER EN FUDO
+            </button>
+            <button class="pixel-btn font-vt text-lg border-2 border-brand-red bg-brand-red px-3 py-1 flex items-center gap-2 hover:bg-red-700">
+              <i data-lucide="trash-2" class="w-4 h-4"></i> ELIMINAR
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 space-y-6 max-w-5xl">
+
+        <!-- ===== PRECIOS - STAT CARDS ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 bg-brand-red border-2 border-black flex items-center justify-center">
+              <i data-lucide="dollar-sign" class="w-4 h-4 text-white"></i>
+            </div>
+            <h3 class="font-pixel text-xs">PRECIOS</h3>
+            <div class="flex-1 border-t-2 border-dashed border-gray-300 ml-2"></div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Stat: Fudo Price (locked) -->
+            <div class="stat-card border-2 border-black bg-gray-100 pixel-shadow transition-all">
+              <div class="flex items-center justify-between px-3 py-1.5 bg-gray-700 text-white border-b-2 border-black">
+                <span class="font-vt text-sm flex items-center gap-1">
+                  <i data-lucide="lock" class="w-3 h-3"></i> PRECIO FUDO
+                </span>
+                <span class="font-vt text-xs text-gray-400">API</span>
+              </div>
+              <div class="p-4 text-center">
+                <p class="font-pixel text-2xl text-gray-600">$14,000</p>
+                <p class="font-vt text-lg text-gray-400 mt-1">Precio base de Fudo POS</p>
+                <div class="mt-3 flex items-center justify-center gap-1">
+                  <i data-lucide="cloud" class="w-4 h-4 text-gray-400"></i>
+                  <span class="font-vt text-sm text-gray-400">Solo lectura</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stat: Sugerido (editable, primary) -->
+            <div class="stat-card border-2 border-blue-600 bg-blue-50 pixel-shadow-blue transition-all">
+              <div class="flex items-center justify-between px-3 py-1.5 bg-blue-600 text-white border-b-2 border-black">
+                <span class="font-vt text-sm flex items-center gap-1">
+                  <i data-lucide="pencil" class="w-3 h-3"></i> SUGERIDO
+                </span>
+                <span class="font-vt text-xs text-blue-200">EDITABLE</span>
+              </div>
+              <div class="p-4 text-center">
+                <p class="font-pixel text-2xl text-blue-700">$16,000</p>
+                <div class="mt-1 flex items-center justify-center gap-2">
+                  <span class="font-vt text-lg text-green-600 border border-green-400 bg-green-50 px-2">+14%</span>
+                  <span class="font-vt text-sm text-gray-400">vs Fudo</span>
+                </div>
+                <div class="mt-3 flex items-center justify-center gap-1">
+                  <i data-lucide="edit-3" class="w-4 h-4 text-blue-500"></i>
+                  <span class="font-vt text-sm text-blue-500">Click para editar</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stat: Delivery (auto-calc) -->
+            <div class="stat-card border-2 border-green-600 bg-green-50 pixel-shadow-green transition-all">
+              <div class="flex items-center justify-between px-3 py-1.5 bg-green-600 text-white border-b-2 border-black">
+                <span class="font-vt text-sm flex items-center gap-1">
+                  <i data-lucide="truck" class="w-3 h-3"></i> DELIVERY
+                </span>
+                <span class="font-vt text-xs text-green-200">AUTO</span>
+              </div>
+              <div class="p-4 text-center">
+                <p class="font-pixel text-2xl text-green-700">$21,600</p>
+                <div class="mt-1 flex items-center justify-center gap-2">
+                  <span class="font-vt text-lg text-amber-600 border border-amber-400 bg-amber-50 px-2">+35%</span>
+                  <span class="font-vt text-sm text-gray-400">vs Sugerido</span>
+                </div>
+                <div class="mt-3 flex items-center justify-center gap-1">
+                  <i data-lucide="calculator" class="w-4 h-4 text-green-500"></i>
+                  <span class="font-vt text-sm text-green-500">Calculado auto</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comparison Bar (Health/Mana bars) -->
+          <div class="mt-4 border-2 border-black bg-white p-4 pixel-shadow">
+            <p class="font-pixel text-[10px] mb-3 text-gray-500">COMPARACION DE PRECIOS</p>
+
+            <!-- Fudo bar -->
+            <div class="mb-3">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-vt text-base text-gray-500 flex items-center gap-1">
+                  <i data-lucide="lock" class="w-3 h-3"></i> Fudo
+                </span>
+                <span class="font-vt text-base">$14,000</span>
+              </div>
+              <div class="h-5 border-2 border-black bg-gray-200 relative">
+                <div class="bar-fill h-full bg-gray-500" style="width: 65%"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="font-vt text-xs text-white drop-shadow-[1px_1px_0px_black]">BASE</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sugerido bar -->
+            <div class="mb-3">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-vt text-base text-blue-600 flex items-center gap-1">
+                  <i data-lucide="pencil" class="w-3 h-3"></i> Sugerido
+                </span>
+                <span class="font-vt text-base text-blue-600">$16,000 (+14%)</span>
+              </div>
+              <div class="h-5 border-2 border-black bg-blue-100 relative">
+                <div class="bar-fill h-full bg-blue-500" style="width: 74%"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="font-vt text-xs text-white drop-shadow-[1px_1px_0px_black]">SUGERIDO</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delivery bar -->
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-vt text-base text-green-600 flex items-center gap-1">
+                  <i data-lucide="truck" class="w-3 h-3"></i> Delivery
+                </span>
+                <span class="font-vt text-base text-green-600">$21,600 (+54%)</span>
+              </div>
+              <div class="h-5 border-2 border-black bg-green-100 relative">
+                <div class="bar-fill h-full bg-green-500" style="width: 100%"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="font-vt text-xs text-white drop-shadow-[1px_1px_0px_black]">DELIVERY</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="mt-4 flex flex-wrap gap-4 border-t-2 border-dashed border-gray-200 pt-3">
+              <div class="flex items-center gap-2">
+                <div class="w-4 h-4 bg-gray-500 border border-black"></div>
+                <span class="font-vt text-sm text-gray-500"><i data-lucide="cloud" class="w-3 h-3 inline"></i> Fudo POS (API)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-4 h-4 bg-blue-500 border border-black"></div>
+                <span class="font-vt text-sm text-blue-600"><i data-lucide="edit-3" class="w-3 h-3 inline"></i> Sugerido (Manual)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-4 h-4 bg-green-500 border border-black"></div>
+                <span class="font-vt text-sm text-green-600"><i data-lucide="calculator" class="w-3 h-3 inline"></i> Delivery (Auto-calc)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== INFO BASICA ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 bg-brand-sky border-2 border-black flex items-center justify-center">
+              <i data-lucide="info" class="w-4 h-4 text-black"></i>
+            </div>
+            <h3 class="font-pixel text-xs">INFO BASICA</h3>
+            <div class="flex-1 border-t-2 border-dashed border-gray-300 ml-2"></div>
+          </div>
+
+          <div class="border-2 border-black bg-white pixel-shadow">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+              <!-- Field: ID -->
+              <div class="p-4 border-b-2 border-r-0 md:border-r-2 border-black">
+                <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                  <i data-lucide="hash" class="w-3 h-3"></i> ID INTERNO
+                </label>
+                <div class="font-vt text-xl border-2 border-gray-300 bg-gray-50 px-3 py-2 text-gray-600">
+                  fanzine-prod-001
+                </div>
+              </div>
+              <!-- Field: Codigo -->
+              <div class="p-4 border-b-2 border-black">
+                <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                  <i data-lucide="tag" class="w-3 h-3"></i> CODIGO
+                </label>
+                <div class="font-vt text-xl border-2 border-gray-300 bg-gray-50 px-3 py-2 text-gray-600">
+                  TA001
+                </div>
+              </div>
+              <!-- Field: Nombre -->
+              <div class="p-4 border-b-2 border-r-0 md:border-r-2 border-black">
+                <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                  <i data-lucide="type" class="w-3 h-3"></i> NOMBRE
+                </label>
+                <input type="text" value="Taco de Birria" class="font-vt text-xl border-2 border-black bg-white px-3 py-2 w-full outline-none focus:border-blue-500">
+              </div>
+              <!-- Field: Categoria -->
+              <div class="p-4 border-b-2 border-black">
+                <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                  <i data-lucide="folder" class="w-3 h-3"></i> CATEGORIA
+                </label>
+                <select class="font-vt text-xl border-2 border-black bg-white px-3 py-2 w-full outline-none focus:border-blue-500 cursor-pointer">
+                  <option selected>Tacos</option>
+                  <option>Nachos</option>
+                  <option>Perros</option>
+                  <option>Crispetas</option>
+                  <option>Helados</option>
+                  <option>Milkshakes</option>
+                  <option>Tex-Mex</option>
+                  <option>Postres</option>
+                </select>
+              </div>
+              <!-- Field: Fudo ID -->
+              <div class="p-4 border-r-0 md:border-r-2 border-black">
+                <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                  <i data-lucide="link" class="w-3 h-3"></i> FUDO ID
+                </label>
+                <div class="font-vt text-xl border-2 border-gray-300 bg-gray-50 px-3 py-2 text-gray-600 flex items-center gap-2">
+                  <i data-lucide="lock" class="w-3 h-3 text-gray-400"></i> fudo-ext-ta001
+                </div>
+              </div>
+              <!-- Field: Slug -->
+              <div class="p-4">
+                <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                  <i data-lucide="link-2" class="w-3 h-3"></i> SLUG
+                </label>
+                <input type="text" value="taco-de-birria" class="font-vt text-xl border-2 border-black bg-white px-3 py-2 w-full outline-none focus:border-blue-500">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== DESCRIPCIONES ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 bg-brand-yellow border-2 border-black flex items-center justify-center">
+              <i data-lucide="align-left" class="w-4 h-4 text-black"></i>
+            </div>
+            <h3 class="font-pixel text-xs">DESCRIPCIONES</h3>
+            <div class="flex-1 border-t-2 border-dashed border-gray-300 ml-2"></div>
+          </div>
+
+          <div class="border-2 border-black bg-white pixel-shadow space-y-0">
+            <!-- Desc Corta -->
+            <div class="p-4 border-b-2 border-black">
+              <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                <i data-lucide="minus" class="w-3 h-3"></i> DESCRIPCION CORTA
+              </label>
+              <textarea rows="2" class="font-vt text-lg border-2 border-black bg-white px-3 py-2 w-full outline-none focus:border-blue-500 resize-none">Taco artesanal relleno de birria de res, servido con consome para dipping.</textarea>
+              <p class="font-vt text-xs text-gray-400 mt-1 text-right">82/150 caracteres</p>
+            </div>
+            <!-- Desc Delivery -->
+            <div class="p-4 border-b-2 border-black">
+              <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                <i data-lucide="truck" class="w-3 h-3"></i> DESCRIPCION DELIVERY
+              </label>
+              <textarea rows="2" class="font-vt text-lg border-2 border-black bg-white px-3 py-2 w-full outline-none focus:border-blue-500 resize-none">Taco de birria de res con queso derretido. Incluye consome aparte. Empaque sellado para mantener temperatura.</textarea>
+              <p class="font-vt text-xs text-gray-400 mt-1 text-right">112/200 caracteres</p>
+            </div>
+            <!-- Desc Larga -->
+            <div class="p-4">
+              <label class="font-vt text-sm text-gray-500 block mb-1 flex items-center gap-1">
+                <i data-lucide="file-text" class="w-3 h-3"></i> DESCRIPCION LARGA
+              </label>
+              <textarea rows="4" class="font-vt text-lg border-2 border-black bg-white px-3 py-2 w-full outline-none focus:border-blue-500 resize-none">Nuestro taco de birria artesanal es una experiencia culinaria unica. Preparado con carne de res marinada durante 12 horas en una mezcla de chiles guajillo, ancho y especias, luego cocida a fuego lento. Servido en tortilla de maiz dorada con queso Oaxaca derretido y acompanado de consome caliente para dipping. Un clasico de la cocina mexicana reinventado en Cine & Tex-Mex.</textarea>
+              <p class="font-vt text-xs text-gray-400 mt-1 text-right">387/500 caracteres</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== ESTADO ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 bg-green-500 border-2 border-black flex items-center justify-center">
+              <i data-lucide="toggle-left" class="w-4 h-4 text-white"></i>
+            </div>
+            <h3 class="font-pixel text-xs">ESTADO</h3>
+            <div class="flex-1 border-t-2 border-dashed border-gray-300 ml-2"></div>
+          </div>
+
+          <div class="border-2 border-black bg-white pixel-shadow">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+              <!-- Activo -->
+              <div class="p-4 border-b-2 md:border-b-0 md:border-r-2 border-black">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <label class="font-vt text-sm text-gray-500 flex items-center gap-1">
+                      <i data-lucide="power" class="w-3 h-3"></i> ACTIVO
+                    </label>
+                    <p class="font-vt text-base text-gray-400">Visible en el menu</p>
+                  </div>
+                  <input type="checkbox" class="pixel-toggle" checked>
+                </div>
+              </div>
+              <!-- Destacado -->
+              <div class="p-4 border-b-2 md:border-b-0 md:border-r-2 border-black">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <label class="font-vt text-sm text-gray-500 flex items-center gap-1">
+                      <i data-lucide="star" class="w-3 h-3"></i> DESTACADO
+                    </label>
+                    <p class="font-vt text-base text-gray-400">Aparece en home</p>
+                  </div>
+                  <input type="checkbox" class="pixel-toggle" checked>
+                </div>
+              </div>
+              <!-- Delivery habilitado -->
+              <div class="p-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <label class="font-vt text-sm text-gray-500 flex items-center gap-1">
+                      <i data-lucide="truck" class="w-3 h-3"></i> DELIVERY
+                    </label>
+                    <p class="font-vt text-base text-gray-400">Disponible domicilio</p>
+                  </div>
+                  <input type="checkbox" class="pixel-toggle" checked>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== SYNC FUDO ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 bg-black border-2 border-black flex items-center justify-center">
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-white"></i>
+            </div>
+            <h3 class="font-pixel text-xs">SYNC FUDO</h3>
+            <div class="flex-1 border-t-2 border-dashed border-gray-300 ml-2"></div>
+          </div>
+
+          <div class="border-2 border-black bg-white pixel-shadow">
+            <div class="p-4 flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 border-2 border-green-500 bg-green-50 flex items-center justify-center">
+                  <i data-lucide="check-circle" class="w-6 h-6 text-green-500"></i>
+                </div>
+                <div>
+                  <p class="font-vt text-lg text-green-600">SINCRONIZADO</p>
+                  <p class="font-vt text-base text-gray-400">Ultima sync: hace 2 horas // 2026-02-08 14:30</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="pixel-btn font-vt text-lg border-2 border-black bg-white hover:bg-gray-100 px-4 py-2 pixel-shadow-sm flex items-center gap-2">
+                  <i data-lucide="refresh-cw" class="w-4 h-4"></i> PUSH A FUDO
+                </button>
+              </div>
+            </div>
+            <!-- Sync details -->
+            <div class="border-t-2 border-dashed border-gray-300 px-4 py-3 flex flex-wrap gap-4">
+              <span class="font-vt text-sm text-gray-500">
+                <i data-lucide="upload" class="w-3 h-3 inline"></i> Campos sync: nombre, precio, descripcion
+              </span>
+              <span class="font-vt text-sm text-gray-500">
+                <i data-lucide="alert-circle" class="w-3 h-3 inline"></i> Foto: no sync via API (read-only)
+              </span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ===== SAVE BAR (sticky bottom) ===== -->
+      <div class="fixed bottom-0 left-60 right-0 bg-black border-t-4 border-brand-yellow px-6 py-3 flex items-center justify-between z-50">
+        <div class="flex items-center gap-3">
+          <span class="font-vt text-lg text-brand-yellow flex items-center gap-1">
+            <i data-lucide="alert-circle" class="w-4 h-4"></i> CAMBIOS SIN GUARDAR
+          </span>
+          <span class="font-vt text-sm text-gray-500">2 campos modificados</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="pixel-btn font-vt text-lg border-2 border-gray-600 text-gray-300 hover:border-white hover:text-white px-4 py-2">
+            DESCARTAR
+          </button>
+          <button class="pixel-btn font-vt text-lg border-2 border-brand-yellow bg-brand-yellow text-black px-6 py-2 pixel-shadow-sm flex items-center gap-2 hover:bg-yellow-300">
+            <i data-lucide="save" class="w-4 h-4"></i> GUARDAR
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

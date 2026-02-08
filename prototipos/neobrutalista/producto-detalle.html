@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FANZINE - Taco de Birria</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { brutal: ['Space Grotesk', 'sans-serif'] },
+          colors: {
+            brand: { red: '#DC2626', yellow: '#FDE047', sky: '#7DD3FC' },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    * { font-family: 'Space Grotesk', sans-serif; }
+    .brutal-shadow { box-shadow: 4px 4px 0 #000; }
+    .brutal-shadow-sm { box-shadow: 3px 3px 0 #000; }
+    .brutal-shadow-hover:hover { box-shadow: 2px 2px 0 #000; transform: translate(2px, 2px); }
+    .brutal-border { border: 3px solid #000; }
+    .brutal-border-2 { border: 2px solid #000; }
+    .brutal-shadow-red { box-shadow: 4px 4px 0 #DC2626; }
+    .brutal-shadow-yellow { box-shadow: 4px 4px 0 #FDE047; }
+    .brutal-shadow-blue { box-shadow: 4px 4px 0 #7DD3FC; }
+  </style>
+</head>
+<body class="bg-white text-black min-h-screen flex">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-black text-white min-h-screen flex-shrink-0 flex flex-col">
+    <div class="p-6 border-b-3 border-white/20">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-brand-red brutal-border flex items-center justify-center">
+          <span class="text-white font-bold text-lg">F</span>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">FANZINE</h1>
+          <p class="text-xs text-white/50 uppercase tracking-widest">Admin Panel</p>
+        </div>
+      </div>
+    </div>
+    <nav class="flex-1 p-4 space-y-1">
+      <a href="productos-lista.html" class="flex items-center gap-3 px-4 py-3 bg-brand-red text-white font-bold brutal-border text-sm brutal-shadow-hover transition-all">
+        <i data-lucide="package" class="w-5 h-5"></i>
+        Productos
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/70 hover:text-white hover:bg-white/10 font-medium text-sm transition-all">
+        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        Categorias
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/70 hover:text-white hover:bg-white/10 font-medium text-sm transition-all">
+        <i data-lucide="truck" class="w-5 h-5"></i>
+        Delivery
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/70 hover:text-white hover:bg-white/10 font-medium text-sm transition-all">
+        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+        Sync Fudo
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/70 hover:text-white hover:bg-white/10 font-medium text-sm transition-all">
+        <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+        Reportes
+      </a>
+    </nav>
+    <div class="p-4 border-t border-white/10">
+      <div class="flex items-center gap-3 px-2">
+        <div class="w-8 h-8 bg-brand-yellow brutal-border-2 flex items-center justify-center">
+          <span class="text-black font-bold text-sm">JG</span>
+        </div>
+        <div>
+          <p class="text-sm font-bold">Jose Garcia</p>
+          <p class="text-xs text-white/40">Admin</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 pb-24">
+    <!-- Header -->
+    <div class="bg-white border-b-3 border-black p-6">
+      <div class="flex items-center gap-4 mb-4">
+        <a href="productos-lista.html" class="brutal-border-2 brutal-shadow-sm brutal-shadow-hover bg-white w-10 h-10 flex items-center justify-center transition-all">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </a>
+        <div class="flex-1">
+          <div class="flex items-center gap-3 flex-wrap">
+            <h2 class="text-3xl font-bold tracking-tight">Taco de Birria</h2>
+            <span class="bg-brand-yellow brutal-border-2 px-3 py-1 text-xs font-bold uppercase">Tacos</span>
+            <span class="bg-green-400 brutal-border-2 px-3 py-1 text-xs font-bold uppercase flex items-center gap-1">
+              <i data-lucide="check-circle" class="w-3 h-3"></i> Sincronizado
+            </span>
+          </div>
+          <p class="text-sm text-black/40 font-mono font-bold mt-1">TA001</p>
+        </div>
+        <button class="brutal-border brutal-shadow brutal-shadow-hover bg-white px-5 py-3 font-bold text-sm flex items-center gap-2 transition-all">
+          <i data-lucide="trash-2" class="w-4 h-4 text-brand-red"></i>
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+    <div class="p-8 space-y-8">
+
+      <!-- PRECIOS Section -->
+      <section>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-8 h-8 bg-brand-red brutal-border-2 flex items-center justify-center">
+            <i data-lucide="dollar-sign" class="w-4 h-4 text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold uppercase tracking-tight">Precios</h3>
+        </div>
+
+        <!-- 3 Price Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+          <!-- Fudo Price -->
+          <div class="brutal-border brutal-shadow bg-white p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold uppercase text-black/40 tracking-wider">Precio Fudo (POS)</span>
+              <span class="bg-black/10 brutal-border-2 px-2 py-0.5 text-[10px] font-bold uppercase flex items-center gap-1">
+                <i data-lucide="lock" class="w-3 h-3"></i> Solo lectura
+              </span>
+            </div>
+            <p class="text-4xl font-bold font-mono tracking-tight">$14,000</p>
+            <p class="text-xs text-black/40 mt-2 font-medium">Viene del POS Fudo &middot; No editable</p>
+          </div>
+
+          <!-- Sugerido Price -->
+          <div class="brutal-border brutal-shadow-red bg-brand-red/5 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold uppercase text-brand-red tracking-wider">Precio Sugerido</span>
+              <span class="bg-brand-red text-white brutal-border-2 px-2 py-0.5 text-[10px] font-bold uppercase flex items-center gap-1">
+                <i data-lucide="pencil" class="w-3 h-3"></i> Editable
+              </span>
+            </div>
+            <div class="flex items-end gap-2">
+              <p class="text-4xl font-bold font-mono tracking-tight text-brand-red">$16,000</p>
+              <span class="text-sm font-bold text-brand-red/60 mb-1">+14%</span>
+            </div>
+            <p class="text-xs text-black/40 mt-2 font-medium">Nueva carta &middot; Precio para local</p>
+          </div>
+
+          <!-- Delivery Price -->
+          <div class="brutal-border brutal-shadow-blue bg-brand-sky/10 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold uppercase text-blue-600 tracking-wider">Precio Delivery</span>
+              <span class="bg-brand-sky brutal-border-2 px-2 py-0.5 text-[10px] font-bold uppercase flex items-center gap-1">
+                <i data-lucide="calculator" class="w-3 h-3"></i> Auto
+              </span>
+            </div>
+            <p class="text-4xl font-bold font-mono tracking-tight text-blue-600">$21,600</p>
+            <p class="text-xs text-black/40 mt-2 font-medium">Sugerido x 1.35 &middot; Auto-calculado</p>
+          </div>
+        </div>
+
+        <!-- Comparison Bar -->
+        <div class="brutal-border brutal-shadow bg-white p-5">
+          <p class="text-xs font-bold uppercase text-black/40 tracking-wider mb-4">Comparacion de precios</p>
+          <div class="space-y-3">
+            <!-- Fudo bar -->
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-bold w-20 text-right">Fudo</span>
+              <div class="flex-1 h-8 bg-black/5 brutal-border-2 relative overflow-hidden">
+                <div class="h-full bg-black/20" style="width: 65%"></div>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold font-mono">$14,000</span>
+              </div>
+            </div>
+            <!-- Sugerido bar -->
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-bold w-20 text-right text-brand-red">Sugerido</span>
+              <div class="flex-1 h-8 bg-brand-red/5 brutal-border-2 border-brand-red relative overflow-hidden">
+                <div class="h-full bg-brand-red/20" style="width: 74%"></div>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold font-mono text-brand-red">$16,000</span>
+              </div>
+            </div>
+            <!-- Delivery bar -->
+            <div class="flex items-center gap-4">
+              <span class="text-xs font-bold w-20 text-right text-blue-600">Delivery</span>
+              <div class="flex-1 h-8 bg-brand-sky/10 brutal-border-2 border-blue-400 relative overflow-hidden">
+                <div class="h-full bg-brand-sky/30" style="width: 100%"></div>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold font-mono text-blue-600">$21,600</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="flex flex-wrap gap-6 mt-5 pt-4 border-t-2 border-black/10">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 bg-black/20 brutal-border-2"></div>
+              <span class="text-xs font-bold text-black/50">API Fudo (POS)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 bg-brand-red/30 border-2 border-brand-red"></div>
+              <span class="text-xs font-bold text-black/50">Interno (editable)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 bg-brand-sky/40 border-2 border-blue-400"></div>
+              <span class="text-xs font-bold text-black/50">Auto (sugerido x 1.35)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- INFO BASICA Section -->
+      <section>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-8 h-8 bg-brand-yellow brutal-border-2 flex items-center justify-center">
+            <i data-lucide="info" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-2xl font-bold uppercase tracking-tight">Info Basica</h3>
+        </div>
+
+        <div class="brutal-border brutal-shadow bg-white p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">Fudo ID</label>
+              <div class="brutal-border-2 bg-black/5 px-4 py-3 font-mono text-sm font-bold text-black/60">
+                fudo-prod-001
+              </div>
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">Codigo Interno</label>
+              <div class="brutal-border-2 bg-black/5 px-4 py-3 font-mono text-sm font-bold text-black/60">
+                TA001
+              </div>
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">Nombre</label>
+              <input type="text" value="Taco de Birria"
+                class="w-full brutal-border-2 px-4 py-3 text-sm font-bold focus:outline-none focus:border-brand-red transition-colors">
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">Categoria</label>
+              <select class="w-full brutal-border-2 px-4 py-3 text-sm font-bold bg-white focus:outline-none focus:border-brand-red cursor-pointer">
+                <option selected>Tacos</option>
+                <option>Nachos</option>
+                <option>Perros</option>
+                <option>Crispetas</option>
+                <option>Helados</option>
+                <option>Milkshakes</option>
+                <option>Tex-Mex</option>
+                <option>Postres</option>
+                <option>Bebidas</option>
+                <option>Combos</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DESCRIPCIONES Section -->
+      <section>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-8 h-8 bg-brand-sky brutal-border-2 flex items-center justify-center">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-2xl font-bold uppercase tracking-tight">Descripciones</h3>
+        </div>
+
+        <div class="brutal-border brutal-shadow bg-white p-6 space-y-5">
+          <div>
+            <label class="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">Descripcion Corta</label>
+            <input type="text" value="Taco artesanal con birria de res estilo Jalisco"
+              class="w-full brutal-border-2 px-4 py-3 text-sm font-bold focus:outline-none focus:border-brand-red transition-colors">
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">Descripcion Delivery</label>
+            <textarea rows="2"
+              class="w-full brutal-border-2 px-4 py-3 text-sm font-bold focus:outline-none focus:border-brand-red transition-colors resize-none">Taco de birria de res con queso gratinado, cebolla y cilantro. Incluye consome para dipping.</textarea>
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">Descripcion Larga</label>
+            <textarea rows="4"
+              class="w-full brutal-border-2 px-4 py-3 text-sm font-bold focus:outline-none focus:border-brand-red transition-colors resize-none">Nuestro taco estrella: tortilla de maiz dorada con birria de res cocinada lentamente por 8 horas con chiles guajillo y ancho. Relleno de queso Oaxaca gratinado, cebolla blanca y cilantro fresco. Servido con consome de birria para dipping. Una experiencia de sabor autentico de Jalisco en cada bocado.</textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESTADO Section -->
+      <section>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-8 h-8 bg-green-400 brutal-border-2 flex items-center justify-center">
+            <i data-lucide="toggle-right" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-2xl font-bold uppercase tracking-tight">Estado</h3>
+        </div>
+
+        <div class="brutal-border brutal-shadow bg-white p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Toggle: Activo -->
+            <div class="brutal-border-2 p-4 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-sm">Activo</p>
+                <p class="text-xs text-black/40">Producto habilitado en el sistema</p>
+              </div>
+              <button class="w-14 h-8 bg-green-400 brutal-border-2 relative cursor-pointer" onclick="this.classList.toggle('bg-green-400'); this.classList.toggle('bg-black/10'); this.querySelector('div').classList.toggle('translate-x-6')">
+                <div class="w-6 h-6 bg-white brutal-border-2 absolute top-0.5 left-0.5 transition-transform translate-x-6"></div>
+              </button>
+            </div>
+            <!-- Toggle: Visible -->
+            <div class="brutal-border-2 p-4 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-sm">Visible</p>
+                <p class="text-xs text-black/40">Aparece en la carta</p>
+              </div>
+              <button class="w-14 h-8 bg-green-400 brutal-border-2 relative cursor-pointer" onclick="this.classList.toggle('bg-green-400'); this.classList.toggle('bg-black/10'); this.querySelector('div').classList.toggle('translate-x-6')">
+                <div class="w-6 h-6 bg-white brutal-border-2 absolute top-0.5 left-0.5 transition-transform translate-x-6"></div>
+              </button>
+            </div>
+            <!-- Toggle: Disponible Local -->
+            <div class="brutal-border-2 p-4 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-sm">Disponible Local</p>
+                <p class="text-xs text-black/40">Venta en restaurante</p>
+              </div>
+              <button class="w-14 h-8 bg-green-400 brutal-border-2 relative cursor-pointer" onclick="this.classList.toggle('bg-green-400'); this.classList.toggle('bg-black/10'); this.querySelector('div').classList.toggle('translate-x-6')">
+                <div class="w-6 h-6 bg-white brutal-border-2 absolute top-0.5 left-0.5 transition-transform translate-x-6"></div>
+              </button>
+            </div>
+            <!-- Toggle: Delivery -->
+            <div class="brutal-border-2 p-4 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-sm">Delivery</p>
+                <p class="text-xs text-black/40">Disponible para domicilio</p>
+              </div>
+              <button class="w-14 h-8 bg-green-400 brutal-border-2 relative cursor-pointer" onclick="this.classList.toggle('bg-green-400'); this.classList.toggle('bg-black/10'); this.querySelector('div').classList.toggle('translate-x-6')">
+                <div class="w-6 h-6 bg-white brutal-border-2 absolute top-0.5 left-0.5 transition-transform translate-x-6"></div>
+              </button>
+            </div>
+            <!-- Toggle: Favorito -->
+            <div class="brutal-border-2 p-4 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-sm">Favorito</p>
+                <p class="text-xs text-black/40">Destacado en la carta</p>
+              </div>
+              <button class="w-14 h-8 bg-brand-yellow brutal-border-2 relative cursor-pointer" onclick="this.classList.toggle('bg-brand-yellow'); this.classList.toggle('bg-black/10'); this.querySelector('div').classList.toggle('translate-x-6')">
+                <div class="w-6 h-6 bg-white brutal-border-2 absolute top-0.5 left-0.5 transition-transform translate-x-6"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SYNC FUDO Section -->
+      <section>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-8 h-8 bg-black brutal-border-2 flex items-center justify-center">
+            <i data-lucide="refresh-cw" class="w-4 h-4 text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold uppercase tracking-tight">Sync Fudo</h3>
+        </div>
+
+        <div class="brutal-border brutal-shadow bg-white p-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-400 brutal-border-2 flex items-center justify-center">
+                <i data-lucide="check" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="font-bold text-lg">Sincronizado</p>
+                <p class="text-sm text-black/40">Ultima sync: 8 Feb 2026, 14:32 &middot; Fudo ID: fudo-prod-001</p>
+              </div>
+            </div>
+            <button class="brutal-border brutal-shadow brutal-shadow-hover bg-white px-5 py-3 font-bold text-sm flex items-center gap-2 transition-all">
+              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+              Re-sync
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Sticky Save Bar -->
+    <div class="fixed bottom-0 left-64 right-0 bg-white border-t-3 border-black p-4 flex items-center justify-between z-50">
+      <div class="flex items-center gap-3">
+        <div class="w-3 h-3 bg-brand-yellow brutal-border-2 animate-pulse"></div>
+        <span class="text-sm font-bold text-black/50">Cambios sin guardar</span>
+      </div>
+      <div class="flex gap-3">
+        <button class="brutal-border-2 brutal-shadow-sm brutal-shadow-hover bg-white px-6 py-3 font-bold text-sm transition-all">
+          Descartar
+        </button>
+        <button class="brutal-border brutal-shadow brutal-shadow-hover bg-brand-red text-white px-8 py-3 font-bold text-sm flex items-center gap-2 transition-all">
+          <i data-lucide="save" class="w-4 h-4"></i>
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
