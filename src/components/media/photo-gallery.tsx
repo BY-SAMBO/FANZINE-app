@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -63,11 +64,13 @@ export function PhotoGallery({
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {allPhotos.map((url) => (
               <div key={url} className="group relative">
-                <div className="aspect-square overflow-hidden rounded-lg border">
-                  <img
+                <div className="relative aspect-square overflow-hidden rounded-lg border">
+                  <Image
                     src={url}
                     alt="Producto"
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover"
                   />
                 </div>
                 {url === mainPhoto && (

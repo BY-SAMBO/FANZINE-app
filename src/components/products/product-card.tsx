@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils/pricing";
@@ -25,12 +26,14 @@ export function ProductCard({ product }: ProductCardProps) {
       <Card className="group cursor-pointer transition-shadow hover:shadow-md">
         <CardContent className="p-4">
           {/* Image */}
-          <div className="mb-3 aspect-square overflow-hidden rounded-lg bg-muted">
+          <div className="relative mb-3 aspect-square overflow-hidden rounded-lg bg-muted">
             {product.foto_principal ? (
-              <img
+              <Image
                 src={product.foto_principal}
                 alt={product.nombre}
-                className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="object-cover transition-transform group-hover:scale-105"
               />
             ) : (
               <div className="flex h-full items-center justify-center">
