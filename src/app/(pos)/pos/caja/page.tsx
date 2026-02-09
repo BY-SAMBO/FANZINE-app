@@ -3,19 +3,23 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { usePosProducts, useProductModifiers, useSyncModifiers } from "@/lib/hooks/use-pos";
 import { usePosStore } from "@/lib/stores/pos-store";
-import { RefreshCw, MonitorUp } from "lucide-react";
+import { Search } from "lucide-react";
 import { usePosChannel } from "@/lib/hooks/use-pos-channel";
 import { useCategories } from "@/lib/hooks/use-products";
-import { CategoryBar } from "@/components/pos/caja/category-bar";
+import { CategorySidebar } from "@/components/pos/caja/category-sidebar";
 import { ProductGrid } from "@/components/pos/caja/product-grid";
 import { OrderPanel } from "@/components/pos/caja/order-panel";
 import { ToppingPanel } from "@/components/pos/caja/topping-panel";
 import { PaymentDialog } from "@/components/pos/caja/payment-dialog";
+import { HistoryPanel } from "@/components/pos/caja/history-panel";
+import { CrispetasBoard } from "@/components/pos/caja/crispetas-board";
 import type { PosProduct, PosEvent } from "@/types/pos";
 
 export default function CajaPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [paymentOpen, setPaymentOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [pendingModifierProduct, setPendingModifierProduct] = useState<string | null>(null);
 
   const { data: products, isLoading: productsLoading, refetch: refetchProducts } = usePosProducts();
@@ -69,12 +73,36 @@ export default function CajaPage() {
     });
   }, [order.items, order.total, send]);
 
-  // Filter products by category
+  // Product counts by category
+  const productCounts = useMemo(() => {
+    if (!products) return {};
+    return products.reduce((acc, p) => {
+      const catId = p.categoria_id || "uncategorized";
+      acc[catId] = (acc[catId] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+  }, [products]);
+
+  // Filter products by category + search
   const filteredProducts = useMemo(() => {
     if (!products) return [];
-    if (!selectedCategory) return products;
-    return products.filter((p) => p.categoria_id === selectedCategory);
-  }, [products, selectedCategory]);
+    let result = products;
+    if (selectedCategory) {
+      result = result.filter((p) => p.categoria_id === selectedCategory);
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter((p) => p.nombre.toLowerCase().includes(q));
+    }
+    return result;
+  }, [products, selectedCategory, searchQuery]);
+
+  // Detect crispetas category
+  const crispetasCategoryId = useMemo(() => {
+    return categories?.find((c) => c.nombre.toLowerCase() === "crispetas")?.id ?? null;
+  }, [categories]);
+
+  const isCrispetasView = selectedCategory === crispetasCategoryId && crispetasCategoryId !== null;
 
   const handleProductSelect = useCallback(
     (product: PosProduct) => {
@@ -101,61 +129,74 @@ export default function CajaPage() {
     [addItem]
   );
 
+  const handleSync = useCallback(async () => {
+    window.open("/pos/cliente", "_blank");
+    await syncModifiers.mutateAsync();
+    refetchProducts();
+  }, [syncModifiers, refetchProducts]);
+
   if (productsLoading) {
     return (
-      <div className="flex h-full items-center justify-center bg-[#1a1117] text-white/50">
+      <div className="flex h-full items-center justify-center bg-[#f7f5f2] text-gray-400">
         Cargando productos...
       </div>
     );
   }
 
   return (
-    <div className="flex h-full bg-[#1a1117]">
-      {/* Left: Products */}
-      <div className="flex flex-1 flex-col gap-3 p-4 overflow-hidden">
-        {/* Header: category bar + sync */}
-        <div className="flex items-center gap-2">
-          <div className="flex-1 overflow-hidden">
-            <CategoryBar
-              categories={categories || []}
-              selected={selectedCategory}
-              onSelect={setSelectedCategory}
+    <div className="flex h-full bg-[#f7f5f2] text-gray-900">
+      {/* LEFT: Category Sidebar */}
+      <CategorySidebar
+        categories={categories || []}
+        selected={selectedCategory}
+        onSelect={setSelectedCategory}
+        productCounts={productCounts}
+        totalCount={products?.length || 0}
+        onSync={handleSync}
+        isSyncing={syncModifiers.isPending}
+      />
+
+      {/* CENTER: Main content */}
+      <main className="flex-1 flex flex-col overflow-hidden">
+        {/* Search bar */}
+        <div className="px-4 pt-4 pb-2">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Buscar producto..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-medium focus:outline-none focus:border-red-600/50 focus:ring-1 focus:ring-red-600/20"
             />
           </div>
-          <button
-            onClick={async () => {
-              window.open("/pos/cliente", "_blank");
-              await syncModifiers.mutateAsync();
-              refetchProducts();
-            }}
-            disabled={syncModifiers.isPending}
-            className="shrink-0 flex items-center gap-1.5 px-3 py-2 border-2 border-[#DC2626] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#DC2626] disabled:opacity-30 transition-all"
-            title="Abrir pantalla cliente y sincronizar modifiers"
-          >
-            {syncModifiers.isPending ? (
-              <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <MonitorUp className="w-3.5 h-3.5" />
-            )}
-            {syncModifiers.isPending ? "Sync..." : "Iniciar POS"}
-          </button>
         </div>
 
-        {/* Product grid */}
-        <div className="flex-1 overflow-y-auto">
-          <ProductGrid
-            products={filteredProducts}
-            onSelect={handleProductSelect}
-          />
+        {/* Product grid or special board */}
+        <div className="flex-1 overflow-y-auto p-4 pt-2 scrollbar-hide">
+          {isCrispetasView ? (
+            <CrispetasBoard
+              products={filteredProducts}
+              onSelect={handleProductSelect}
+            />
+          ) : (
+            <ProductGrid
+              products={filteredProducts}
+              onSelect={handleProductSelect}
+            />
+          )}
         </div>
 
         {/* Topping panel (slides up when active) */}
         {toppingSelection && <ToppingPanel onSend={send} />}
-      </div>
+      </main>
 
-      {/* Right: Order panel */}
+      {/* RIGHT: Order panel */}
       <div className="w-80 shrink-0">
-        <OrderPanel onPay={() => setPaymentOpen(true)} />
+        <OrderPanel
+          onPay={() => setPaymentOpen(true)}
+          onHistoryOpen={() => setHistoryOpen(true)}
+        />
       </div>
 
       {/* Payment dialog */}
@@ -163,6 +204,12 @@ export default function CajaPage() {
         open={paymentOpen}
         onClose={() => setPaymentOpen(false)}
         onSend={send}
+      />
+
+      {/* History panel */}
+      <HistoryPanel
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
       />
     </div>
   );

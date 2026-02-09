@@ -65,3 +65,21 @@ export function useSyncModifiers() {
     },
   });
 }
+
+export function useOrderHistory() {
+  return useQuery({
+    queryKey: ["pos-order-history"],
+    queryFn: async () => {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("pos_sales_log")
+        .select("*")
+        .order("closed_at", { ascending: false })
+        .limit(50);
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 30_000, // 30s — refresh on re-open
+  });
+}

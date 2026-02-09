@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Providers } from "@/components/layout/providers";
 import { AuthProvider } from "@/components/layout/auth-provider";
-import { Playfair_Display, DM_Sans, DM_Mono } from "next/font/google";
+import { Playfair_Display, DM_Sans, DM_Mono, JetBrains_Mono } from "next/font/google";
 import type { UserProfile } from "@/types/auth";
 
 const playfair = Playfair_Display({
@@ -13,7 +13,7 @@ const playfair = Playfair_Display({
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-dm-sans",
 });
 
@@ -21,6 +21,12 @@ const dmMono = DM_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-dm-mono",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-jetbrains-mono",
 });
 
 export default async function PosLayout({
@@ -51,7 +57,7 @@ export default async function PosLayout({
     <Providers>
       <AuthProvider profile={profile as UserProfile}>
         <div
-          className={`h-screen w-screen overflow-hidden ${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}
+          className={`h-screen w-screen overflow-hidden ${playfair.variable} ${dmSans.variable} ${dmMono.variable} ${jetbrainsMono.variable}`}
         >
           {children}
         </div>

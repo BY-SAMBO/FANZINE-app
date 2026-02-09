@@ -35,13 +35,16 @@
       </div>
     </div>
 
-    <!-- Section selector (Admin vs POS) -->
+    <!-- Section selector -->
     <div class="flex gap-1.5" id="sectionTabs">
       <button onclick="setSection('admin')" data-section="admin" class="section-btn px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-purple">
         Admin
       </button>
-      <button onclick="setSection('pos')" data-section="pos" class="section-btn active px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-purple">
+      <button onclick="setSection('pos')" data-section="pos" class="section-btn px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-purple">
         POS Cliente
+      </button>
+      <button onclick="setSection('caja')" data-section="caja" class="section-btn active px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-purple">
+        POS Caja
       </button>
     </div>
 
@@ -67,12 +70,12 @@
 
     <!-- Single view -->
     <div id="singleView" class="flex-1 relative">
-      <iframe id="mainFrame" src="pos-diner-marquee/cliente.html"></iframe>
+      <iframe id="mainFrame" src="pos-caja-sidebar/caja.html"></iframe>
       <!-- Info overlay -->
       <div class="absolute bottom-4 left-4 bg-gray-900/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10 text-xs flex items-center gap-3">
-        <span id="currentLabel" class="font-semibold text-brand">Diner Marquee</span>
+        <span id="currentLabel" class="font-semibold text-brand">Sidebar Categories</span>
         <span class="text-gray-500">|</span>
-        <span id="currentPage" class="text-gray-300">Cliente</span>
+        <span id="currentPage" class="text-gray-300">Caja</span>
         <span class="text-gray-500">|</span>
         <span class="text-gray-500">Flechas <kbd class="px-1 py-0.5 bg-white/10 rounded text-[10px] font-mono">&larr;</kbd> <kbd class="px-1 py-0.5 bg-white/10 rounded text-[10px] font-mono">&rarr;</kbd> para cambiar estilo</span>
       </div>
@@ -113,11 +116,22 @@
       pageLabels: { 'cliente': 'Cliente' },
       getUrl: (style, page) => `${style}/${page}.html`,
     },
+    caja: {
+      styles: ['pos-caja-sidebar', 'pos-caja-compact', 'pos-caja-theater'],
+      pages: ['caja'],
+      styleLabels: {
+        'pos-caja-sidebar': 'Sidebar Categories',
+        'pos-caja-compact': 'Compact Rows',
+        'pos-caja-theater': 'Theater Diner',
+      },
+      pageLabels: { 'caja': 'Caja' },
+      getUrl: (style, page) => `${style}/${page}.html`,
+    },
   };
 
-  let currentSection = 'pos';
-  let currentStyle = 'pos-diner-marquee';
-  let currentPage = 'cliente';
+  let currentSection = 'caja';
+  let currentStyle = 'pos-caja-sidebar';
+  let currentPage = 'caja';
   let isCompareMode = false;
 
   function setSection(section) {

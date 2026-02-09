@@ -152,9 +152,18 @@
   --pos-red: #dc2626;
   --pos-red-l: #fca5a5;
   --pos-red-dim: rgba(220,38,38,.06);
+  --pos-cream: #f7f5f2;
+  --pos-sand: #eae6e0;
   --pos-dark: #1a1117;
   --pos-dark2: #2d2430;
   --pos-muted: rgba(26,17,23,.4);
   --pos-muted2: rgba(26,17,23,.07);
   --pos-border: rgba(26,17,23,.08);
 }
+
+/* POS sidebar-categories utilities */
+.mono { font-family: var(--font-jetbrains-mono), monospace; font-weight: 700; }
+.product-card { transition: all 0.15s ease; }
+.product-card:active { transform: scale(0.95); }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

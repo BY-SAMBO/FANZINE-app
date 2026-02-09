@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS Caja — Sidebar Categories</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#f7f5f2',
+            sand: '#eae6e0',
+            red: '#DC2626',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'DM Sans', sans-serif; }
+    .mono { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .product-card { transition: all 0.15s ease; }
+    .product-card:active { transform: scale(0.95); }
+    .cat-item.active { background: #DC2626; color: white; }
+    .cat-item.active .cat-count { background: rgba(255,255,255,0.25); color: white; }
+
+    /* History slide-over panel */
+    .history-backdrop { transition: opacity 0.3s ease; }
+    .history-backdrop.open { opacity: 1; pointer-events: auto; }
+    .history-panel { transition: transform 0.3s ease; }
+    .history-backdrop.open .history-panel { transform: translateX(0); }
+    .order-detail { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
+    .order-detail.expanded { max-height: 600px; }
+    .order-row .chevron { transition: transform 0.2s ease; }
+    .order-row.active .chevron { transform: rotate(180deg); }
+  </style>
+</head>
+<body class="h-screen bg-cream text-gray-900 overflow-hidden flex">
+
+  <!-- LEFT: Vertical Category Sidebar -->
+  <aside class="w-48 shrink-0 bg-white border-r border-gray-200 flex flex-col">
+    <!-- Logo -->
+    <div class="px-4 py-4 border-b border-gray-200">
+      <p class="text-[10px] mono text-red uppercase tracking-[0.2em]">POS</p>
+      <p class="text-lg font-extrabold tracking-tight text-gray-900">FANZINE</p>
+    </div>
+
+    <!-- Categories -->
+    <nav class="flex-1 overflow-y-auto scrollbar-hide py-2">
+      <button class="cat-item active w-full text-left px-4 py-3 flex items-center justify-between gap-2 transition-all hover:bg-gray-50 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Todos</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full">75</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Hamburguesas</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">12</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Burritos</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">8</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Nachos</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">6</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Hot Dogs</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">5</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Bebidas</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">15</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Postres</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">4</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Extras</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">10</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Cocteles</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">9</span>
+      </button>
+      <button class="cat-item w-full text-left px-4 py-3 flex items-center justify-between gap-2 text-gray-500 transition-all hover:bg-gray-50 hover:text-gray-900 rounded-r-lg mr-2">
+        <span class="text-sm font-extrabold truncate">Toppings</span>
+        <span class="cat-count mono text-[10px] bg-gray-100 px-1.5 py-0.5 rounded-full text-gray-400">6</span>
+      </button>
+    </nav>
+
+    <!-- Sync button -->
+    <div class="p-3 border-t border-gray-200">
+      <button class="w-full py-2.5 border-2 border-red text-red text-xs font-extrabold uppercase tracking-wider hover:bg-red hover:text-white transition-all rounded-lg flex items-center justify-center gap-2">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Iniciar POS
+      </button>
+    </div>
+  </aside>
+
+  <!-- CENTER: Product Grid -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- Search bar -->
+    <div class="px-4 pt-4 pb-2">
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" placeholder="Buscar producto..." class="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-medium focus:outline-none focus:border-red/50 focus:ring-1 focus:ring-red/20">
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="flex-1 overflow-y-auto p-4 pt-2 scrollbar-hide">
+      <div class="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left relative">
+          <span class="absolute top-2 right-2 text-[9px] mono font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">+Mod</span>
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Hamburguesa Clasica</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$28,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left relative">
+          <span class="absolute top-2 right-2 text-[9px] mono font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">+Mod</span>
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Hamburguesa BBQ</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$32,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Nachos con Guacamole</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$24,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left relative">
+          <span class="absolute top-2 right-2 text-[9px] mono font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">+Mod</span>
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Burrito de Pollo</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$26,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Hot Dog Americano</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$18,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Quesadilla Mixta</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$22,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left relative">
+          <span class="absolute top-2 right-2 text-[9px] mono font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">+Mod</span>
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Hamburguesa Doble</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$36,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Coca-Cola</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$6,500</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Limonada Natural</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$8,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Burrito Tex-Mex</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$29,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Cerveza Artesanal</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$12,000</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Papas con Queso</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$14,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left relative">
+          <span class="absolute top-2 right-2 text-[9px] mono font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">+Mod</span>
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Burrito Vegetariano</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$25,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Milkshake Oreo</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$16,900</span>
+        </button>
+
+        <button class="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red/40 hover:shadow-md min-h-[110px] text-left">
+          <span class="text-base font-extrabold text-gray-900 leading-tight">Tacos x3</span>
+          <span class="mt-auto mono text-red font-bold text-xl">$22,900</span>
+        </button>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- RIGHT: Order Panel -->
+  <aside class="w-80 shrink-0 bg-white border-l border-gray-200 flex flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-3 py-3 border-b border-gray-200">
+      <div class="w-8"></div>
+      <span class="mono text-[11px] font-bold uppercase tracking-[0.2em] text-red">Para llevar</span>
+      <button id="historyToggle" title="Historial de ordenes" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red hover:bg-gray-50 transition-all">
+        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a9 9 0 11-3.27-6.93"/><path stroke-linecap="round" stroke-linejoin="round" d="M20.49 3v4h-4"/></svg>
+      </button>
+    </div>
+
+    <!-- Items -->
+    <div class="flex-1 overflow-y-auto px-3 py-2 space-y-1">
+      <div class="flex items-center gap-2 py-2.5 border-b border-gray-100">
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-extrabold text-gray-900 truncate">Hamburguesa Clasica</p>
+          <p class="text-xs font-medium text-gray-400 truncate">Queso Cheddar, Jalapenos</p>
+        </div>
+        <div class="flex items-center gap-1">
+          <button class="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold">-</button>
+          <span class="mono text-sm font-extrabold text-gray-900 w-5 text-center">2</span>
+          <button class="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold">+</button>
+        </div>
+        <span class="mono text-sm font-bold text-gray-800 w-20 text-right">$57,800</span>
+        <button class="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-red transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 py-2.5 border-b border-gray-100">
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-extrabold text-gray-900 truncate">Nachos con Guacamole</p>
+        </div>
+        <div class="flex items-center gap-1">
+          <button class="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold">-</button>
+          <span class="mono text-sm font-extrabold text-gray-900 w-5 text-center">1</span>
+          <button class="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold">+</button>
+        </div>
+        <span class="mono text-sm font-bold text-gray-800 w-20 text-right">$24,900</span>
+        <button class="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-red transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2 py-2.5 border-b border-gray-100">
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-extrabold text-gray-900 truncate">Coca-Cola</p>
+        </div>
+        <div class="flex items-center gap-1">
+          <button class="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold">-</button>
+          <span class="mono text-sm font-extrabold text-gray-900 w-5 text-center">2</span>
+          <button class="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold">+</button>
+        </div>
+        <span class="mono text-sm font-bold text-gray-800 w-20 text-right">$13,000</span>
+        <button class="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-red transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t border-gray-200 p-4 space-y-3">
+      <div class="flex justify-between text-gray-400 text-xs">
+        <span>5 items</span>
+        <span class="mono">3 productos</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-xl font-extrabold text-gray-900">Total</span>
+        <span class="mono text-3xl font-extrabold text-gray-900">$95,700</span>
+      </div>
+
+      <div class="flex gap-2">
+        <button class="flex-1 py-3.5 border-2 border-gray-200 text-gray-500 text-sm font-extrabold uppercase tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all rounded-lg">
+          Limpiar
+        </button>
+        <button class="flex-[2] py-3.5 bg-red border-2 border-red text-white text-sm font-extrabold uppercase tracking-wider hover:bg-red-700 hover:border-red-700 transition-all rounded-lg">
+          Cobrar
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- HISTORY SLIDE-OVER -->
+  <div id="historyBackdrop" class="history-backdrop fixed inset-0 z-50 bg-black/30 opacity-0 pointer-events-none">
+    <div class="history-panel absolute top-0 right-0 h-full w-[420px] max-w-full bg-cream shadow-2xl translate-x-full flex flex-col">
+
+      <!-- Panel Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200 bg-white">
+        <div>
+          <p class="text-lg font-extrabold text-gray-900 tracking-tight">Historial de Ordenes</p>
+          <p class="text-xs text-gray-400 font-medium mt-0.5">Ultimas ventas registradas</p>
+        </div>
+        <button id="historyClose" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Orders List -->
+      <div class="flex-1 overflow-y-auto scrollbar-hide p-4 space-y-2" id="historyList"></div>
+
+      <!-- Panel Footer -->
+      <div class="border-t border-gray-200 bg-white px-5 py-3">
+        <p class="text-[11px] text-gray-400 font-medium text-center mono">Solo lectura — datos de ejemplo</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Sample order data
+    const sampleOrders = [
+      {
+        id: 'ORD-0047',
+        date: '2026-02-09 14:32',
+        total: 95700,
+        method: 'Efectivo',
+        items: [
+          { name: 'Hamburguesa Clasica', qty: 2, price: 28900, mods: ['Queso Cheddar', 'Jalapenos'] },
+          { name: 'Nachos con Guacamole', qty: 1, price: 24900, mods: [] },
+          { name: 'Coca-Cola', qty: 2, price: 6500, mods: [] },
+        ]
+      },
+      {
+        id: 'ORD-0046',
+        date: '2026-02-09 13:15',
+        total: 62800,
+        method: 'Nequi',
+        items: [
+          { name: 'Burrito de Pollo', qty: 1, price: 26900, mods: ['Extra Guacamole'] },
+          { name: 'Hamburguesa BBQ', qty: 1, price: 32900, mods: ['Doble Queso'] },
+          { name: 'Limonada Natural', qty: 1, price: 8900, mods: [] },
+        ]
+      },
+      {
+        id: 'ORD-0045',
+        date: '2026-02-09 12:48',
+        total: 44800,
+        method: 'Tarjeta',
+        items: [
+          { name: 'Hot Dog Americano', qty: 2, price: 18900, mods: [] },
+          { name: 'Coca-Cola', qty: 1, price: 6500, mods: [] },
+        ]
+      },
+      {
+        id: 'ORD-0044',
+        date: '2026-02-09 12:05',
+        total: 118600,
+        method: 'Efectivo',
+        items: [
+          { name: 'Hamburguesa Doble', qty: 2, price: 36900, mods: ['Bacon', 'Queso Cheddar'] },
+          { name: 'Burrito Tex-Mex', qty: 1, price: 29900, mods: ['Extra Picante'] },
+          { name: 'Cerveza Artesanal', qty: 1, price: 12000, mods: [] },
+          { name: 'Papas con Queso', qty: 1, price: 14900, mods: [] },
+        ]
+      },
+      {
+        id: 'ORD-0043',
+        date: '2026-02-09 11:30',
+        total: 55700,
+        method: 'Daviplata',
+        items: [
+          { name: 'Quesadilla Mixta', qty: 1, price: 22900, mods: [] },
+          { name: 'Burrito Vegetariano', qty: 1, price: 25900, mods: ['Sin Crema'] },
+          { name: 'Coca-Cola', qty: 1, price: 6500, mods: [] },
+        ]
+      },
+      {
+        id: 'ORD-0042',
+        date: '2026-02-09 10:52',
+        total: 73700,
+        method: 'Tarjeta',
+        items: [
+          { name: 'Hamburguesa Clasica', qty: 1, price: 28900, mods: ['Queso Cheddar'] },
+          { name: 'Tacos x3', qty: 1, price: 22900, mods: [] },
+          { name: 'Milkshake Oreo', qty: 1, price: 16900, mods: [] },
+          { name: 'Limonada Natural', qty: 1, price: 8900, mods: [] },
+        ]
+      },
+      {
+        id: 'ORD-0041',
+        date: '2026-02-08 20:45',
+        total: 41800,
+        method: 'Nequi',
+        items: [
+          { name: 'Nachos con Guacamole', qty: 1, price: 24900, mods: [] },
+          { name: 'Milkshake Oreo', qty: 1, price: 16900, mods: [] },
+        ]
+      },
+      {
+        id: 'ORD-0040',
+        date: '2026-02-08 19:22',
+        total: 89700,
+        method: 'Efectivo',
+        items: [
+          { name: 'Hamburguesa BBQ', qty: 1, price: 32900, mods: ['Doble Queso', 'Bacon'] },
+          { name: 'Burrito de Pollo', qty: 1, price: 26900, mods: [] },
+          { name: 'Cerveza Artesanal', qty: 2, price: 12000, mods: [] },
+        ]
+      },
+    ];
+
+    function formatPrice(n) {
+      return '$' + n.toLocaleString('es-CO');
+    }
+
+    function formatDate(str) {
+      const d = new Date(str);
+      const day = d.getDate().toString().padStart(2, '0');
+      const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      const mon = months[d.getMonth()];
+      const h = d.getHours().toString().padStart(2, '0');
+      const m = d.getMinutes().toString().padStart(2, '0');
+      return `${day} ${mon} ${h}:${m}`;
+    }
+
+    function methodBadge(method) {
+      const colors = {
+        'Efectivo': 'bg-green-50 text-green-700',
+        'Tarjeta': 'bg-blue-50 text-blue-700',
+        'Nequi': 'bg-purple-50 text-purple-700',
+        'Daviplata': 'bg-orange-50 text-orange-700',
+      };
+      const cls = colors[method] || 'bg-gray-100 text-gray-600';
+      return `<span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${cls}">${method}</span>`;
+    }
+
+    function renderOrders() {
+      const list = document.getElementById('historyList');
+      list.innerHTML = sampleOrders.map((order, idx) => `
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="order-row cursor-pointer flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors" data-idx="${idx}">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="mono text-xs font-bold text-gray-900">${order.id}</span>
+                ${methodBadge(order.method)}
+              </div>
+              <p class="text-[11px] text-gray-400 font-medium mt-0.5">${formatDate(order.date)} — ${order.items.length} productos</p>
+            </div>
+            <span class="mono text-sm font-bold text-gray-900 shrink-0">${formatPrice(order.total)}</span>
+            <svg class="chevron w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div class="order-detail" data-detail="${idx}">
+            <div class="px-4 pb-3 pt-1 border-t border-gray-100 space-y-2">
+              ${order.items.map(item => `
+                <div class="flex items-start justify-between gap-2">
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2">
+                      <span class="mono text-xs font-bold text-gray-500">${item.qty}x</span>
+                      <span class="text-sm font-bold text-gray-800 truncate">${item.name}</span>
+                    </div>
+                    ${item.mods.length ? `<p class="text-[11px] text-gray-400 font-medium ml-6 mt-0.5">${item.mods.join(', ')}</p>` : ''}
+                  </div>
+                  <span class="mono text-xs font-bold text-gray-500 shrink-0">${formatPrice(item.qty * item.price)}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Toggle panel open/close
+    const backdrop = document.getElementById('historyBackdrop');
+    const toggleBtn = document.getElementById('historyToggle');
+    const closeBtn = document.getElementById('historyClose');
+
+    function openHistory() {
+      renderOrders();
+      backdrop.classList.add('open');
+    }
+
+    function closeHistory() {
+      backdrop.classList.remove('open');
+    }
+
+    toggleBtn.addEventListener('click', openHistory);
+    closeBtn.addEventListener('click', closeHistory);
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeHistory();
+    });
+
+    // Expand/collapse orders
+    document.getElementById('historyList').addEventListener('click', (e) => {
+      const row = e.target.closest('.order-row');
+      if (!row) return;
+      const idx = row.dataset.idx;
+      const detail = document.querySelector(`[data-detail="${idx}"]`);
+      const isExpanded = detail.classList.contains('expanded');
+
+      // Close all
+      document.querySelectorAll('.order-detail.expanded').forEach(d => d.classList.remove('expanded'));
+      document.querySelectorAll('.order-row.active').forEach(r => r.classList.remove('active'));
+
+      // Toggle clicked
+      if (!isExpanded) {
+        detail.classList.add('expanded');
+        row.classList.add('active');
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && backdrop.classList.contains('open')) closeHistory();
+    });
+  </script>
+
+</body>
+</html>

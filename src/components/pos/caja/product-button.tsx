@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import type { PosProduct } from "@/types/pos";
 
 interface ProductButtonProps {
@@ -13,25 +12,19 @@ export function ProductButton({ product, onSelect }: ProductButtonProps) {
     <button
       type="button"
       onClick={() => onSelect(product)}
-      className={cn(
-        "flex flex-col items-start justify-between gap-1 rounded-lg border-2 border-white/10 bg-white/5 p-3 text-left transition-all",
-        "hover:border-white/30 hover:bg-white/10 active:scale-95",
-        "min-h-[90px]"
-      )}
+      className="product-card flex flex-col items-start p-4 rounded-xl border border-gray-200 bg-white hover:border-red-600/40 hover:shadow-md min-h-[110px] text-left relative"
     >
-      <span className="text-sm font-bold text-white leading-tight line-clamp-2">
+      {product.has_modifiers && (
+        <span className="absolute top-2 right-2 text-[9px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded">
+          +Mod
+        </span>
+      )}
+      <span className="text-base font-extrabold text-gray-900 leading-tight line-clamp-2">
         {product.nombre}
       </span>
-      <div className="flex w-full items-center justify-between">
-        <span className="text-white/70 text-sm font-medium">
-          ${(product.precio_venta ?? 0).toLocaleString()}
-        </span>
-        {product.has_modifiers && (
-          <span className="text-[10px] font-bold uppercase tracking-wider bg-[#FDE047] text-black px-1.5 py-0.5 rounded">
-            Mod
-          </span>
-        )}
-      </div>
+      <span className="mt-auto text-red-600 font-extrabold text-xl">
+        ${(product.precio_venta ?? 0).toLocaleString()}
+      </span>
     </button>
   );
 }

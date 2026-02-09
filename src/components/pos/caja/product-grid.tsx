@@ -11,14 +11,14 @@ interface ProductGridProps {
 export function ProductGrid({ products, onSelect }: ProductGridProps) {
   if (products.length === 0) {
     return (
-      <div className="flex items-center justify-center h-40 text-white/40 text-sm">
+      <div className="flex items-center justify-center h-40 text-gray-400 text-sm">
         No hay productos en esta categoria
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+    <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
       {products.map((product) => (
         <ProductButton
           key={product.id}

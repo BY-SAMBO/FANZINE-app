@@ -48,33 +48,33 @@ export function PaymentDialog({ open, onClose, onSend }: PaymentDialogProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-      <div className="w-full max-w-sm border-2 border-white bg-[#1a1117] p-6 space-y-6">
-        <h2 className="text-xl font-bold text-white uppercase tracking-wider text-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+      <div className="w-full max-w-sm border border-gray-200 bg-white rounded-xl shadow-2xl p-6 space-y-6">
+        <h2 className="text-xl font-bold text-gray-900 uppercase tracking-wider text-center">
           Cobrar
         </h2>
 
         {/* Total */}
         <div className="text-center">
-          <p className="text-white/50 text-sm">Total</p>
-          <p className="text-4xl font-bold text-white">
+          <p className="text-gray-400 text-sm">Total</p>
+          <p className="text-4xl font-extrabold text-gray-900 tabular-nums">
             ${(order.total ?? 0).toLocaleString()}
           </p>
         </div>
 
         {/* Payment method */}
         <div className="space-y-2">
-          <p className="text-white/50 text-xs uppercase tracking-wider">Metodo de pago</p>
+          <p className="text-gray-400 text-xs uppercase tracking-wider">Metodo de pago</p>
           <div className="flex gap-2">
             {PAYMENT_METHODS.map((pm) => (
               <button
                 key={pm.value}
                 onClick={() => setMethod(pm.value)}
                 className={cn(
-                  "flex-1 py-3 text-sm font-bold uppercase tracking-wider border-2 transition-all",
+                  "flex-1 py-3 text-sm font-bold uppercase tracking-wider border-2 transition-all rounded-lg",
                   method === pm.value
-                    ? "bg-[#DC2626] text-white border-white"
-                    : "text-white/50 border-white/10 hover:border-white/30"
+                    ? "bg-red-600 text-white border-red-600"
+                    : "text-gray-500 border-gray-200 hover:border-gray-400"
                 )}
               >
                 {pm.label}
@@ -85,7 +85,7 @@ export function PaymentDialog({ open, onClose, onSend }: PaymentDialogProps) {
 
         {/* Error */}
         {submitOrder.isError && (
-          <p className="text-red-400 text-sm text-center">
+          <p className="text-red-600 text-sm text-center">
             {submitOrder.error?.message || "Error al procesar pago"}
           </p>
         )}
@@ -95,14 +95,14 @@ export function PaymentDialog({ open, onClose, onSend }: PaymentDialogProps) {
           <button
             onClick={onClose}
             disabled={submitOrder.isPending}
-            className="flex-1 py-3 border-2 border-white/20 text-white/60 text-sm font-bold uppercase tracking-wider hover:border-white/40 hover:text-white disabled:opacity-30 transition-all"
+            className="flex-1 py-3 border-2 border-gray-200 text-gray-500 text-sm font-bold uppercase tracking-wider hover:border-gray-400 hover:text-gray-900 disabled:opacity-30 transition-all rounded-lg"
           >
             Cancelar
           </button>
           <button
             onClick={handleSubmit}
             disabled={submitOrder.isPending}
-            className="flex-[2] py-3 bg-[#DC2626] border-2 border-white text-white text-sm font-bold uppercase tracking-wider hover:bg-red-700 disabled:opacity-50 transition-all"
+            className="flex-[2] py-3 bg-red-600 border-2 border-red-600 text-white text-sm font-bold uppercase tracking-wider hover:bg-red-700 hover:border-red-700 disabled:opacity-50 transition-all rounded-lg"
           >
             {submitOrder.isPending ? "Procesando..." : "Confirmar"}
           </button>
