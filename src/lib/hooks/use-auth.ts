@@ -15,15 +15,19 @@ export function useAuth() {
         data: { user: authUser },
       } = await supabase.auth.getUser();
 
-      if (authUser) {
-        const { data: profile } = await supabase
-          .from("user_profiles")
-          .select("*")
-          .eq("id", authUser.id)
-          .single();
-
-        setUser(profile as UserProfile | null);
+      if (!authUser) {
+        setIsLoading(false);
+        window.location.href = "/login";
+        return;
       }
+
+      const { data: profile } = await supabase
+        .from("user_profiles")
+        .select("*")
+        .eq("id", authUser.id)
+        .single();
+
+      setUser(profile as UserProfile | null);
       setIsLoading(false);
     }
 
@@ -42,6 +46,8 @@ export function useAuth() {
         setUser(profile as UserProfile | null);
       } else {
         setUser(null);
+        window.location.href = "/login";
+        return;
       }
       setIsLoading(false);
     });
