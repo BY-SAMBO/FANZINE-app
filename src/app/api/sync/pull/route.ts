@@ -35,9 +35,13 @@ export async function POST() {
     if (catError) throw catError;
 
     const categoryMap = new Map<string, string>();
+    let toppingsCategoryId: string | undefined;
     for (const cat of categories!) {
       if (cat.fudo_category_id) {
         categoryMap.set(String(cat.fudo_category_id), cat.id);
+      }
+      if (cat.slug === "toppings") {
+        toppingsCategoryId = cat.id;
       }
     }
 
@@ -57,17 +61,14 @@ export async function POST() {
       const attrs = fp.attributes;
       const code = attrs.code;
 
-      // Skip toppings (code starts with TOP)
-      if (code && code.startsWith("TOP")) {
-        results.skipped++;
-        continue;
-      }
-
-      // Resolve category
+      // Resolve category — toppings (TOP*) go to our Toppings category
+      const isTopping = code && code.startsWith("TOP");
       const fudoCatId = fp.relationships?.productCategory?.data?.id;
-      const categoriaId = fudoCatId
-        ? categoryMap.get(String(fudoCatId))
-        : undefined;
+      const categoriaId = isTopping
+        ? toppingsCategoryId
+        : fudoCatId
+          ? categoryMap.get(String(fudoCatId))
+          : undefined;
 
       if (!categoriaId) {
         results.errors.push({
@@ -79,9 +80,9 @@ export async function POST() {
         continue;
       }
 
-      // Skip non-sellAlone products (modifiers/toppings without TOP prefix)
+      // Skip non-sellAlone products UNLESS they are toppings
       const sellAlone = (attrs as Record<string, unknown>).sellAlone;
-      if (sellAlone === false) {
+      if (sellAlone === false && !isTopping) {
         results.skipped++;
         continue;
       }
