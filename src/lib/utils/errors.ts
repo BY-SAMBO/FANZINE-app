@@ -35,6 +35,18 @@ export class ForbiddenError extends AppError {
 }
 
 export function handleApiError(error: unknown): Response {
+  if (error instanceof FudoApiError) {
+    console.error("Fudo API error:", error.message, "body:", error.fudoResponse);
+    return Response.json(
+      {
+        error: error.message,
+        code: error.code,
+        fudo_response: error.fudoResponse,
+      },
+      { status: error.status }
+    );
+  }
+
   if (error instanceof AppError) {
     return Response.json(
       { error: error.message, code: error.code },

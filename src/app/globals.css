@@ -139,3 +139,22 @@
 .brutal-shadow-blue { box-shadow: 4px 4px 0 #7DD3FC; }
 .brutal-border { border: 3px solid #000; }
 .brutal-border-2 { border: 2px solid #000; }
+
+/* POS Diner Marquee — chase animations */
+@keyframes chase-a { 0%,100% { opacity: 1 } 50% { opacity: .15 } }
+@keyframes chase-b { 0%,100% { opacity: .15 } 50% { opacity: 1 } }
+
+/* POS color tokens */
+:root {
+  --pos-bg: #ffffff;
+  --pos-surface: #f7f5f2;
+  --pos-surface2: #efece8;
+  --pos-red: #dc2626;
+  --pos-red-l: #fca5a5;
+  --pos-red-dim: rgba(220,38,38,.06);
+  --pos-dark: #1a1117;
+  --pos-dark2: #2d2430;
+  --pos-muted: rgba(26,17,23,.4);
+  --pos-muted2: rgba(26,17,23,.07);
+  --pos-border: rgba(26,17,23,.08);
+}

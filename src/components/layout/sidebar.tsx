@@ -12,6 +12,7 @@ import {
   CheckSquare,
   Settings,
   LogOut,
+  Monitor,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -51,6 +52,12 @@ const navigation = [
     href: "/configuracion",
     icon: Settings,
     roles: ["administrador"],
+  },
+  {
+    name: "POS",
+    href: "/pos/caja",
+    icon: Monitor,
+    roles: ["administrador", "cajero"],
   },
 ];
 

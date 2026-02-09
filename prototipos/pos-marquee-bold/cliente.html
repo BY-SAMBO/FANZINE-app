@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS Cliente — Marquee Bold</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#07060a;
+      --surface:#0f0e14;
+      --surface2:#16141e;
+      --gold:#d4a853;
+      --gold-l:#f5d78e;
+      --red:#ef4444;
+      --red-bg:rgba(239,68,68,.08);
+      --white:#f0ece4;
+      --muted:rgba(240,236,228,.3);
+      --muted2:rgba(240,236,228,.07);
+    }
+    body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--white);height:100vh;overflow:hidden}
+    body::before{
+      content:'';position:fixed;inset:0;
+      background:radial-gradient(ellipse 60% 50% at 50% 45%,transparent 40%,rgba(0,0,0,.6));
+      pointer-events:none;z-index:0;
+    }
+
+    .screen{display:none;height:100vh;flex-direction:column;position:relative;z-index:1}
+    .screen.active{display:flex}
+
+    @keyframes chase{0%,100%{opacity:1}50%{opacity:.12}}
+    .dots{display:flex;gap:16px;justify-content:center}
+    .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 4px var(--gold);animation:chase 1.4s ease-in-out infinite}
+    .dot:nth-child(even){animation-delay:.7s}
+
+    /* ===================== WAITING ===================== */
+    .waiting{align-items:center;justify-content:center;gap:44px;padding:48px}
+    .logo-box{
+      text-align:center;padding:32px 56px;
+      border:1.5px solid rgba(212,168,83,.2);border-radius:14px;
+      background:var(--surface);
+    }
+    .logo-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:6px;color:var(--gold);text-transform:uppercase}
+    .logo-name{font-family:'Playfair Display',serif;font-size:62px;font-weight:900;margin-top:6px;letter-spacing:6px}
+    .logo-sub{font-size:13px;color:var(--muted);letter-spacing:8px;margin-top:2px;text-transform:uppercase}
+    .logo-sep{width:72px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:16px auto 0}
+
+    .order-card{
+      width:100%;max-width:460px;background:var(--surface);
+      border:1px solid var(--muted2);border-radius:12px;padding:24px 28px;
+    }
+    .order-h{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:18px;text-align:center}
+    .o-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--muted2)}
+    .o-row:last-of-type{border:none}
+    .o-name{font-weight:600;font-size:15px}
+    .o-mods{font-size:12px;color:var(--muted);margin-top:3px}
+    .o-price{font-family:'Space Mono',monospace;font-weight:700;font-size:14px;color:var(--gold)}
+    .o-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:16px;border-top:1.5px solid rgba(212,168,83,.18)}
+    .o-tl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
+    .o-tv{font-family:'Playfair Display',serif;font-size:30px;font-weight:900}
+
+    /* ===================== TOPPINGS ===================== */
+    .t-screen{padding:0}
+    .t-head{
+      padding:18px 32px;display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--muted2);flex-shrink:0;
+    }
+    .t-left{display:flex;align-items:center;gap:14px}
+    .t-tag{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:3px;text-transform:uppercase}
+    .t-product{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+    .t-right{display:flex;align-items:center;gap:12px}
+    .t-bar{width:100px;height:4px;border-radius:2px;background:var(--muted2);overflow:hidden}
+    .t-bar-fill{height:100%;border-radius:2px;background:var(--gold);transition:width .3s}
+    .t-pill{
+      font-family:'Space Mono',monospace;font-size:12px;font-weight:700;
+      padding:5px 14px;border-radius:8px;
+      border:1.5px solid var(--muted2);background:var(--surface);
+    }
+    .t-pill.full{border-color:var(--red);color:var(--red)}
+
+    .t-body{flex:1;overflow-y:auto;padding:24px 32px}
+    .t-group-label{
+      font-family:'Space Mono',monospace;font-size:10px;letter-spacing:4px;
+      color:var(--gold);text-transform:uppercase;margin-bottom:18px;
+    }
+
+    /* === HORIZONTAL ROWS — name is the hero === */
+    .t-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+    .chip{
+      background:var(--surface);border:1.5px solid var(--muted2);border-radius:12px;
+      padding:14px 18px;cursor:pointer;transition:all .15s;
+      display:flex;align-items:center;gap:14px;
+      min-height:68px;
+    }
+    .chip:hover:not(.off){border-color:rgba(212,168,83,.25);background:var(--surface2)}
+    .chip.on{
+      border-color:var(--gold);
+      background:rgba(212,168,83,.07);
+      box-shadow:0 0 16px rgba(212,168,83,.04);
+    }
+    .chip.off{opacity:.14;cursor:not-allowed}
+
+    .chip-img{
+      width:44px;height:44px;border-radius:50%;flex-shrink:0;
+      background:var(--surface2);border:1.5px dashed var(--muted2);
+      display:flex;align-items:center;justify-content:center;font-size:22px;
+    }
+    .chip.on .chip-img{border-color:var(--gold);border-style:solid;background:rgba(212,168,83,.06)}
+
+    .chip-text{flex:1;min-width:0}
+
+    /* BIG name — hero element */
+    .chip-name{
+      font-size:18px;font-weight:700;line-height:1.15;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .chip.on .chip-name{color:var(--gold-l)}
+
+    .chip-price{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:1px}
+    .chip.on .chip-price{color:var(--gold)}
+
+    /* Active indicator */
+    .chip-check{
+      width:22px;height:22px;border-radius:50%;flex-shrink:0;
+      border:1.5px solid var(--muted2);
+      display:flex;align-items:center;justify-content:center;
+      transition:all .15s;
+    }
+    .chip.on .chip-check{border-color:var(--gold);background:var(--gold)}
+    .chip.on .chip-check::after{content:'';width:8px;height:5px;border-left:2px solid var(--bg);border-bottom:2px solid var(--bg);transform:rotate(-45deg) translateY(-1px)}
+
+    .t-foot{padding:14px 32px;text-align:center;border-top:1px solid var(--muted2);flex-shrink:0}
+    .t-foot span{font-size:12px;color:var(--muted)}
+
+    /* ===================== THANKS ===================== */
+    .thanks{align-items:center;justify-content:center;text-align:center;gap:14px}
+    .thanks h1{font-family:'Playfair Display',serif;font-size:78px;font-weight:900;color:var(--gold-l)}
+    .thanks p{font-size:18px;color:var(--muted)}
+    .thanks-sep{width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px auto 0}
+    .thanks-foot{font-family:'Space Mono',monospace;font-size:9px;color:rgba(255,255,255,.08);letter-spacing:6px;margin-top:40px;text-transform:uppercase}
+
+    /* nav */
+    .nav{
+      position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:200;
+      display:flex;gap:2px;background:rgba(7,6,10,.92);backdrop-filter:blur(12px);
+      padding:3px;border-radius:9px;border:1px solid rgba(212,168,83,.15);
+    }
+    .nav button{
+      font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;
+      padding:5px 16px;border:none;border-radius:7px;cursor:pointer;
+      background:transparent;color:var(--muted);transition:all .15s;text-transform:uppercase;
+    }
+    .nav button.a{background:var(--gold);color:var(--bg)}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <button class="a" onclick="go('waiting',this)">Esperando</button>
+    <button onclick="go('toppings',this)">Toppings</button>
+    <button onclick="go('thanks',this)">Gracias</button>
+  </nav>
+
+  <!-- ========== WAITING ========== -->
+  <div id="waiting" class="screen waiting active">
+    <div class="logo-box">
+      <div class="dots" style="margin-bottom:18px">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="logo-tag">En cartelera</div>
+      <div class="logo-name">FANZINE</div>
+      <div class="logo-sub">Cine & Tex-Mex</div>
+      <div class="logo-sep"></div>
+      <div class="dots" style="margin-top:18px">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="order-h">Tu Orden</div>
+      <div class="o-row"><div><div class="o-name">Perro con Toppings</div><div class="o-mods">+ Cebolla Crispy, + Guacamole</div></div><div class="o-price">$18,900</div></div>
+      <div class="o-row"><div><div class="o-name">2x Nachos Cheddar</div></div><div class="o-price">$25,800</div></div>
+      <div class="o-total"><span class="o-tl">Total</span><span class="o-tv">$44,700</span></div>
+    </div>
+  </div>
+
+  <!-- ========== TOPPINGS ========== -->
+  <div id="toppings" class="screen t-screen">
+    <div class="t-head">
+      <div class="t-left">
+        <div><div class="t-tag">Personaliza tu</div><div class="t-product">Perro con Toppings</div></div>
+      </div>
+      <div class="t-right">
+        <div class="t-bar"><div class="t-bar-fill" style="width:75%"></div></div>
+        <div class="t-pill full">3 / 4</div>
+      </div>
+    </div>
+
+    <div class="t-body">
+      <div class="t-group-label">Toppings</div>
+      <div class="t-grid">
+        <div class="chip on" onclick="this.classList.toggle('on')">
+          <div class="chip-img">&#127798;</div>
+          <div class="chip-text"><div class="chip-name">Jalape&ntilde;o</div><div class="chip-price">+$2,000</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip on" onclick="this.classList.toggle('on')">
+          <div class="chip-img">&#129361;</div>
+          <div class="chip-text"><div class="chip-name">Guacamole</div><div class="chip-price">+$3,500</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip on" onclick="this.classList.toggle('on')">
+          <div class="chip-img">&#129472;</div>
+          <div class="chip-text"><div class="chip-name">Cebolla Crispy</div><div class="chip-price">+$1,500</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip" onclick="this.classList.toggle('on')">
+          <div class="chip-img">&#127790;</div>
+          <div class="chip-text"><div class="chip-name">Tocineta</div><div class="chip-price">+$3,000</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip" onclick="this.classList.toggle('on')">
+          <div class="chip-img">&#129472;</div>
+          <div class="chip-text"><div class="chip-name">Cebolla Encurtida</div><div class="chip-price">+$1,500</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip off">
+          <div class="chip-img">&#127798;</div>
+          <div class="chip-text"><div class="chip-name">Pi&ntilde;a Dulce</div><div class="chip-price">+$2,000</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip off">
+          <div class="chip-img">&#129472;</div>
+          <div class="chip-text"><div class="chip-name">Queso Cheddar</div><div class="chip-price">+$2,500</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip off">
+          <div class="chip-img">&#127813;</div>
+          <div class="chip-text"><div class="chip-name">Tomate</div><div class="chip-price">+$1,000</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip off">
+          <div class="chip-img">&#129388;</div>
+          <div class="chip-text"><div class="chip-name">Sour Cream</div><div class="chip-price">+$2,000</div></div>
+          <div class="chip-check"></div>
+        </div>
+        <div class="chip off">
+          <div class="chip-img">&#129746;</div>
+          <div class="chip-text"><div class="chip-name">Chimichurri</div><div class="chip-price">+$1,500</div></div>
+          <div class="chip-check"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-foot"><span>Toca para seleccionar tus toppings</span></div>
+  </div>
+
+  <!-- ========== THANKS ========== -->
+  <div id="thanks" class="screen thanks">
+    <div class="dots" style="margin-bottom:16px">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <h1>&iexcl;Gracias!</h1>
+    <p>Disfruta tu comida</p>
+    <div class="thanks-sep"></div>
+    <div class="thanks-foot">Fanzine &middot; Cine & Tex-Mex</div>
+  </div>
+
+  <script>
+    function go(id,btn){
+      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('a'));
+      btn.classList.add('a');
+    }
+  </script>
+</body>
+</html>

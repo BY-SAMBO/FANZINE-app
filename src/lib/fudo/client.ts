@@ -51,7 +51,7 @@ async function authenticate(): Promise<string> {
 /**
  * Make an authenticated request to Fudo API
  */
-async function fudoFetch<T>(
+export async function fudoFetch<T>(
   path: string,
   options: RequestInit = {},
   retryCount = 0

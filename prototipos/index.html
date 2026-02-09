@@ -8,7 +8,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     tailwind.config = {
-      theme: { extend: { colors: { brand: '#DC2626', chick: '#FDE047', sky: '#7DD3FC' } } }
+      theme: { extend: { colors: { brand: '#DC2626', chick: '#FDE047', sky: '#7DD3FC', purple: '#A855F7' } } }
     }
   </script>
   <style>
@@ -16,6 +16,7 @@
     body { font-family: 'Inter', sans-serif; }
     .style-btn.active { background: #DC2626; color: white; border-color: #DC2626; }
     .page-btn.active { background: #111; color: white; border-color: #111; }
+    .section-btn.active { background: #A855F7; color: white; border-color: #A855F7; }
     iframe { border: none; width: 100%; height: 100%; }
     .thumb { transition: all 0.2s; }
     .thumb:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
@@ -34,34 +35,21 @@
       </div>
     </div>
 
-    <!-- Style selector -->
-    <div class="flex gap-1.5" id="styleTabs">
-      <button onclick="setStyle('neobrutalista')" data-style="neobrutalista" class="style-btn active px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-brand">
-        Neobrutalista
+    <!-- Section selector (Admin vs POS) -->
+    <div class="flex gap-1.5" id="sectionTabs">
+      <button onclick="setSection('admin')" data-section="admin" class="section-btn px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-purple">
+        Admin
       </button>
-      <button onclick="setStyle('retro-minimal')" data-style="retro-minimal" class="style-btn px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-brand">
-        Retro Minimal
-      </button>
-      <button onclick="setStyle('pixel-outline')" data-style="pixel-outline" class="style-btn px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-brand">
-        Pixel Outline
+      <button onclick="setSection('pos')" data-section="pos" class="section-btn active px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-purple">
+        POS Cliente
       </button>
     </div>
 
+    <!-- Style selector -->
+    <div class="flex gap-1.5" id="styleTabs"></div>
+
     <!-- Page selector -->
-    <div class="flex gap-1.5" id="pageTabs">
-      <button onclick="setPage('productos-lista')" data-page="productos-lista" class="page-btn active px-3 py-1.5 rounded-lg text-xs font-medium border border-white/10 transition-all hover:border-white/40">
-        <span class="hidden sm:inline">Lista Productos</span>
-        <span class="sm:hidden">Lista</span>
-      </button>
-      <button onclick="setPage('producto-detalle')" data-page="producto-detalle" class="page-btn px-3 py-1.5 rounded-lg text-xs font-medium border border-white/10 transition-all hover:border-white/40">
-        <span class="hidden sm:inline">Detalle Cards</span>
-        <span class="sm:hidden">Cards</span>
-      </button>
-      <button onclick="setPage('producto-detalle-v2')" data-page="producto-detalle-v2" class="page-btn px-3 py-1.5 rounded-lg text-xs font-medium border border-white/10 transition-all hover:border-white/40">
-        <span class="hidden sm:inline">Detalle Tabla</span>
-        <span class="sm:hidden">Tabla</span>
-      </button>
-    </div>
+    <div class="flex gap-1.5" id="pageTabs"></div>
 
     <!-- Actions -->
     <div class="flex items-center gap-2">
@@ -79,42 +67,20 @@
 
     <!-- Single view -->
     <div id="singleView" class="flex-1 relative">
-      <iframe id="mainFrame" src="neobrutalista/productos-lista.html"></iframe>
+      <iframe id="mainFrame" src="pos-diner-marquee/cliente.html"></iframe>
       <!-- Info overlay -->
       <div class="absolute bottom-4 left-4 bg-gray-900/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10 text-xs flex items-center gap-3">
-        <span id="currentLabel" class="font-semibold text-brand">Neobrutalista</span>
+        <span id="currentLabel" class="font-semibold text-brand">Diner Marquee</span>
         <span class="text-gray-500">|</span>
-        <span id="currentPage" class="text-gray-300">Lista Productos</span>
+        <span id="currentPage" class="text-gray-300">Cliente</span>
         <span class="text-gray-500">|</span>
-        <span class="text-gray-500">Flechas <kbd class="px-1 py-0.5 bg-white/10 rounded text-[10px] font-mono">←</kbd> <kbd class="px-1 py-0.5 bg-white/10 rounded text-[10px] font-mono">→</kbd> para cambiar estilo</span>
+        <span class="text-gray-500">Flechas <kbd class="px-1 py-0.5 bg-white/10 rounded text-[10px] font-mono">&larr;</kbd> <kbd class="px-1 py-0.5 bg-white/10 rounded text-[10px] font-mono">&rarr;</kbd> para cambiar estilo</span>
       </div>
     </div>
 
-    <!-- Compare view (3 side by side) -->
+    <!-- Compare view (side by side) -->
     <div id="compareView" class="flex-1 hidden">
-      <div class="flex h-full gap-px bg-gray-800">
-        <div class="flex-1 flex flex-col">
-          <div class="bg-gray-900 px-3 py-1.5 flex items-center gap-2 border-b border-white/10 shrink-0">
-            <span class="w-2 h-2 rounded-full bg-brand"></span>
-            <span class="text-xs font-semibold">Neobrutalista</span>
-          </div>
-          <iframe id="compareFrame1" src="" class="flex-1"></iframe>
-        </div>
-        <div class="flex-1 flex flex-col">
-          <div class="bg-gray-900 px-3 py-1.5 flex items-center gap-2 border-b border-white/10 shrink-0">
-            <span class="w-2 h-2 rounded-full bg-chick"></span>
-            <span class="text-xs font-semibold">Retro Minimal</span>
-          </div>
-          <iframe id="compareFrame2" src="" class="flex-1"></iframe>
-        </div>
-        <div class="flex-1 flex flex-col">
-          <div class="bg-gray-900 px-3 py-1.5 flex items-center gap-2 border-b border-white/10 shrink-0">
-            <span class="w-2 h-2 rounded-full bg-sky"></span>
-            <span class="text-xs font-semibold">Pixel Outline</span>
-          </div>
-          <iframe id="compareFrame3" src="" class="flex-1"></iframe>
-        </div>
-      </div>
+      <div class="flex h-full gap-px bg-gray-800 flex-wrap" id="compareGrid"></div>
     </div>
 
   </div>
@@ -122,49 +88,110 @@
 <script>
   lucide.createIcons();
 
-  let currentStyle = 'neobrutalista';
-  let currentPage = 'productos-lista';
+  // Config for each section
+  const sections = {
+    admin: {
+      styles: ['neobrutalista', 'retro-minimal', 'pixel-outline'],
+      pages: ['productos-lista', 'producto-detalle', 'producto-detalle-v2'],
+      styleLabels: { 'neobrutalista': 'Neobrutalista', 'retro-minimal': 'Retro Minimal', 'pixel-outline': 'Pixel Outline' },
+      pageLabels: { 'productos-lista': 'Lista Productos', 'producto-detalle': 'Detalle Cards', 'producto-detalle-v2': 'Detalle Tabla' },
+      getUrl: (style, page) => `${style}/${page}.html`,
+    },
+    pos: {
+      styles: ['pos-diner-marquee', 'pos-diner-classic', 'pos-marquee-clean', 'pos-marquee-bold', 'pos-minimal-pop', 'pos-fiesta', 'pos-cinema-marquee', 'pos-cinema-vhs'],
+      pages: ['cliente'],
+      styleLabels: {
+        'pos-diner-marquee': 'Diner Marquee',
+        'pos-diner-classic': 'Diner Classic',
+        'pos-marquee-clean': 'Marquee Clean',
+        'pos-marquee-bold': 'Marquee Bold',
+        'pos-minimal-pop': 'Minimal Pop',
+        'pos-fiesta': 'Fiesta',
+        'pos-cinema-marquee': 'Cinema Marquee',
+        'pos-cinema-vhs': 'Cinema VHS',
+      },
+      pageLabels: { 'cliente': 'Cliente' },
+      getUrl: (style, page) => `${style}/${page}.html`,
+    },
+  };
+
+  let currentSection = 'pos';
+  let currentStyle = 'pos-diner-marquee';
+  let currentPage = 'cliente';
   let isCompareMode = false;
 
-  const styles = ['neobrutalista', 'retro-minimal', 'pixel-outline'];
-  const pages = ['productos-lista', 'producto-detalle', 'producto-detalle-v2'];
-  const styleLabels = { 'neobrutalista': 'Neobrutalista', 'retro-minimal': 'Retro Minimal', 'pixel-outline': 'Pixel Outline' };
-  const pageLabels = { 'productos-lista': 'Lista Productos', 'producto-detalle': 'Detalle Cards', 'producto-detalle-v2': 'Detalle Tabla' };
+  function setSection(section) {
+    currentSection = section;
+    const cfg = sections[section];
+    currentStyle = cfg.styles[0];
+    currentPage = cfg.pages[0];
+    renderTabs();
+    updateFrame();
+  }
 
-  function getUrl(style, page) {
-    return `${style}/${page}.html`;
+  function renderTabs() {
+    const cfg = sections[currentSection];
+
+    // Section tabs
+    document.querySelectorAll('.section-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.section === currentSection);
+    });
+
+    // Style tabs
+    const styleTabs = document.getElementById('styleTabs');
+    styleTabs.innerHTML = cfg.styles.map(s =>
+      `<button onclick="setStyle('${s}')" data-style="${s}" class="style-btn ${s === currentStyle ? 'active' : ''} px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 transition-all hover:border-brand">${cfg.styleLabels[s]}</button>`
+    ).join('');
+
+    // Page tabs (hide if only one page)
+    const pageTabs = document.getElementById('pageTabs');
+    if (cfg.pages.length <= 1) {
+      pageTabs.innerHTML = '';
+    } else {
+      pageTabs.innerHTML = cfg.pages.map(p =>
+        `<button onclick="setPage('${p}')" data-page="${p}" class="page-btn ${p === currentPage ? 'active' : ''} px-3 py-1.5 rounded-lg text-xs font-medium border border-white/10 transition-all hover:border-white/40">${cfg.pageLabels[p]}</button>`
+      ).join('');
+    }
+
+    // Compare labels
+    cfg.styles.forEach((s, i) => {
+      const el = document.getElementById('compareLabel' + (i + 1));
+      if (el) el.textContent = cfg.styleLabels[s];
+    });
+
+    // Info overlay
+    document.getElementById('currentLabel').textContent = cfg.styleLabels[currentStyle];
+    document.getElementById('currentPage').textContent = cfg.pageLabels[currentPage];
   }
 
   function setStyle(style) {
     currentStyle = style;
-    updateTabs();
+    renderTabs();
     updateFrame();
   }
 
   function setPage(page) {
     currentPage = page;
-    updateTabs();
+    renderTabs();
     updateFrame();
   }
 
-  function updateTabs() {
-    document.querySelectorAll('.style-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.style === currentStyle);
-    });
-    document.querySelectorAll('.page-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.page === currentPage);
-    });
-    document.getElementById('currentLabel').textContent = styleLabels[currentStyle];
-    document.getElementById('currentPage').textContent = pageLabels[currentPage];
-  }
-
   function updateFrame() {
+    const cfg = sections[currentSection];
     if (isCompareMode) {
-      document.getElementById('compareFrame1').src = getUrl('neobrutalista', currentPage);
-      document.getElementById('compareFrame2').src = getUrl('retro-minimal', currentPage);
-      document.getElementById('compareFrame3').src = getUrl('pixel-outline', currentPage);
+      const grid = document.getElementById('compareGrid');
+      const colors = ['bg-brand','bg-chick','bg-sky','bg-purple'];
+      grid.innerHTML = cfg.styles.map((s, i) =>
+        `<div class="flex-1 flex flex-col" style="min-width:25%">
+          <div class="bg-gray-900 px-3 py-1.5 flex items-center gap-2 border-b border-white/10 shrink-0">
+            <span class="w-2 h-2 rounded-full ${colors[i]||'bg-brand'}"></span>
+            <span class="text-xs font-semibold">${cfg.styleLabels[s]}</span>
+          </div>
+          <iframe src="${cfg.getUrl(s, currentPage)}" class="flex-1" style="border:none;width:100%;height:100%"></iframe>
+        </div>`
+      ).join('');
     } else {
-      document.getElementById('mainFrame').src = getUrl(currentStyle, currentPage);
+      document.getElementById('mainFrame').src = cfg.getUrl(currentStyle, currentPage);
     }
   }
 
@@ -172,44 +199,54 @@
     isCompareMode = !isCompareMode;
     document.getElementById('singleView').classList.toggle('hidden', isCompareMode);
     document.getElementById('compareView').classList.toggle('hidden', !isCompareMode);
-    // Update icon
     const iconEl = document.getElementById('viewIcon');
     iconEl.setAttribute('data-lucide', isCompareMode ? 'maximize-2' : 'columns-2');
     lucide.createIcons();
-    // Hide/show style tabs in compare mode
     document.getElementById('styleTabs').style.opacity = isCompareMode ? '0.3' : '1';
     document.getElementById('styleTabs').style.pointerEvents = isCompareMode ? 'none' : 'auto';
     updateFrame();
   }
 
   function openInNewTab() {
-    window.open(getUrl(currentStyle, currentPage), '_blank');
+    const cfg = sections[currentSection];
+    window.open(cfg.getUrl(currentStyle, currentPage), '_blank');
   }
 
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
+    const cfg = sections[currentSection];
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       e.preventDefault();
-      const idx = styles.indexOf(currentStyle);
+      const idx = cfg.styles.indexOf(currentStyle);
       if (e.key === 'ArrowRight') {
-        setStyle(styles[(idx + 1) % styles.length]);
+        setStyle(cfg.styles[(idx + 1) % cfg.styles.length]);
       } else {
-        setStyle(styles[(idx - 1 + styles.length) % styles.length]);
+        setStyle(cfg.styles[(idx - 1 + cfg.styles.length) % cfg.styles.length]);
       }
     }
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
       e.preventDefault();
-      const idx = pages.indexOf(currentPage);
+      const idx = cfg.pages.indexOf(currentPage);
       if (e.key === 'ArrowDown') {
-        setPage(pages[(idx + 1) % pages.length]);
+        setPage(cfg.pages[(idx + 1) % cfg.pages.length]);
       } else {
-        setPage(pages[(idx - 1 + pages.length) % pages.length]);
+        setPage(cfg.pages[(idx - 1 + cfg.pages.length) % cfg.pages.length]);
       }
     }
     if (e.key === 'c' || e.key === 'C') {
       toggleView();
     }
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const secs = Object.keys(sections);
+      const idx = secs.indexOf(currentSection);
+      setSection(secs[(idx + 1) % secs.length]);
+    }
   });
+
+  // Init
+  renderTabs();
+  updateFrame();
 </script>
 </body>
 </html>

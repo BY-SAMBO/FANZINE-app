@@ -16,6 +16,15 @@ export const FUDO_CONFIG = {
   endpoints: {
     products: "/products",
     productCategories: "/product-categories",
+    sales: "/sales",
+    items: "/items",
+    subitems: "/subitems",
+    payments: "/payments",
+    productModifiers: "/product-modifiers",
+    modifiers: "/modifiers",
+    modifierGroups: "/modifier-groups",
+    paymentMethods: "/payment-methods",
+    cashRegisters: "/cash-registers",
   },
 
   // Retry config
