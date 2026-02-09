@@ -11,21 +11,38 @@ export function useAuth() {
 
   useEffect(() => {
     async function getUser() {
+      console.log("[AUTH] getUser: starting...");
+
       const {
         data: { user: authUser },
+        error: authError,
       } = await supabase.auth.getUser();
 
+      console.log(
+        `[AUTH] getUser result: ${authUser ? `OK (id=${authUser.id}, email=${authUser.email})` : "NO USER"} | error: ${authError?.message || "none"}`
+      );
+
       if (!authUser) {
+        console.log("[AUTH] No auth user → redirect /login");
         setIsLoading(false);
         window.location.href = "/login";
         return;
       }
 
-      const { data: profile } = await supabase
+      const { data: session } = await supabase.auth.getSession();
+      console.log(
+        `[AUTH] session: ${session.session ? `expires_at=${session.session.expires_at}, access_token=${session.session.access_token?.slice(0, 20)}...` : "NO SESSION"}`
+      );
+
+      const { data: profile, error: profileError } = await supabase
         .from("user_profiles")
         .select("*")
         .eq("id", authUser.id)
         .single();
+
+      console.log(
+        `[AUTH] profile query: ${profile ? `OK (nombre=${profile.nombre}, rol=${profile.rol})` : "NO PROFILE"} | error: ${profileError?.message || "none"}`
+      );
 
       setUser(profile as UserProfile | null);
       setIsLoading(false);
@@ -35,7 +52,11 @@ export function useAuth() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log(
+        `[AUTH] onAuthStateChange: event=${event} | user=${session?.user?.email || "none"} | expires_at=${session?.expires_at || "none"}`
+      );
+
       if (session?.user) {
         const { data: profile } = await supabase
           .from("user_profiles")
@@ -45,6 +66,7 @@ export function useAuth() {
 
         setUser(profile as UserProfile | null);
       } else {
+        console.log("[AUTH] Session lost → redirect /login");
         setUser(null);
         window.location.href = "/login";
         return;
@@ -56,6 +78,7 @@ export function useAuth() {
   }, [supabase]);
 
   const signOut = async () => {
+    console.log("[AUTH] signOut called");
     await supabase.auth.signOut();
     setUser(null);
     window.location.href = "/login";

@@ -12,9 +12,15 @@ export default async function DashboardLayout({
   const supabase = await createClient();
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
 
+  console.log(
+    `[LAYOUT] getUser: ${user ? `OK (id=${user.id}, email=${user.email})` : "NO USER"} | error: ${error?.message || "none"}`
+  );
+
   if (!user) {
+    console.log(`[LAYOUT] REDIRECT → /login`);
     redirect("/login");
   }
 
