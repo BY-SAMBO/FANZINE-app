@@ -10,52 +10,43 @@ export function useAuth() {
   const supabase = createClient();
 
   useEffect(() => {
-    async function getUser() {
-      console.log("[AUTH] getUser: starting...");
-
+    async function loadUser() {
+      // Use getSession (local, no network call) instead of getUser (network call that can hang)
+      // Server-side middleware + layout already validate the token
       const {
-        data: { user: authUser },
-        error: authError,
-      } = await supabase.auth.getUser();
+        data: { session },
+      } = await supabase.auth.getSession();
 
       console.log(
-        `[AUTH] getUser result: ${authUser ? `OK (id=${authUser.id}, email=${authUser.email})` : "NO USER"} | error: ${authError?.message || "none"}`
+        `[AUTH] getSession: ${session ? `OK (email=${session.user.email}, expires_at=${session.expires_at})` : "NO SESSION"}`
       );
 
-      if (!authUser) {
-        console.log("[AUTH] No auth user → redirect /login");
+      if (!session?.user) {
         setIsLoading(false);
         window.location.href = "/login";
         return;
       }
 
-      const { data: session } = await supabase.auth.getSession();
-      console.log(
-        `[AUTH] session: ${session.session ? `expires_at=${session.session.expires_at}, access_token=${session.session.access_token?.slice(0, 20)}...` : "NO SESSION"}`
-      );
-
       const { data: profile, error: profileError } = await supabase
         .from("user_profiles")
         .select("*")
-        .eq("id", authUser.id)
+        .eq("id", session.user.id)
         .single();
 
       console.log(
-        `[AUTH] profile query: ${profile ? `OK (nombre=${profile.nombre}, rol=${profile.rol})` : "NO PROFILE"} | error: ${profileError?.message || "none"}`
+        `[AUTH] profile: ${profile ? `OK (${profile.nombre}, ${profile.rol})` : "NONE"} | error: ${profileError?.message || "none"}`
       );
 
       setUser(profile as UserProfile | null);
       setIsLoading(false);
     }
 
-    getUser();
+    loadUser();
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log(
-        `[AUTH] onAuthStateChange: event=${event} | user=${session?.user?.email || "none"} | expires_at=${session?.expires_at || "none"}`
-      );
+      console.log(`[AUTH] authChange: ${event} | ${session?.user?.email || "none"}`);
 
       if (session?.user) {
         const { data: profile } = await supabase
@@ -66,7 +57,6 @@ export function useAuth() {
 
         setUser(profile as UserProfile | null);
       } else {
-        console.log("[AUTH] Session lost → redirect /login");
         setUser(null);
         window.location.href = "/login";
         return;
@@ -78,7 +68,6 @@ export function useAuth() {
   }, [supabase]);
 
   const signOut = async () => {
-    console.log("[AUTH] signOut called");
     await supabase.auth.signOut();
     setUser(null);
     window.location.href = "/login";
