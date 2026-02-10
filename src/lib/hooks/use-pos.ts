@@ -20,6 +20,7 @@ export function useProductModifiers(productFudoId: string | null) {
     queryKey: ["pos-modifiers", productFudoId],
     queryFn: () => getProductModifiers(productFudoId!),
     enabled: !!productFudoId,
+    staleTime: 5 * 60 * 1000, // 5 min — modifiers rarely change mid-shift
   });
 }
 

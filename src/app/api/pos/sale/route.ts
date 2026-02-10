@@ -35,8 +35,6 @@ async function getPaymentMethodId(method: PaymentMethod): Promise<string> {
     const methods = await getAllFudoPaymentMethods();
     paymentMethodCache = new Map();
 
-    const targetCodes = FUDO_CODE_MAP[method] || [];
-
     // Build cache: map each of our methods to the correct Fudo ID
     for (const [ourMethod, codes] of Object.entries(FUDO_CODE_MAP)) {
       for (const m of methods) {
@@ -100,49 +98,71 @@ export async function POST(request: Request) {
     const sale = await createFudoSale(body.sale_type);
     console.log("[POS Sale] Sale created:", sale.id);
 
-    // 2. Add items + subitems
-    for (const item of body.items) {
-      step = `add_item:${item.fudo_product_id}`;
-      console.log("[POS Sale] Step 2: Adding item", {
-        fudo_product_id: item.fudo_product_id,
-        quantity: item.quantity,
-        sale_id: sale.id,
-      });
-      const fudoItem = await addFudoItem(
-        sale.id,
-        item.fudo_product_id,
-        item.quantity
-      );
+    // 2. Add items + subitems (parallel) and resolve payment method concurrently
+    step = "add_items_and_resolve_payment";
+    const warnings: string[] = [];
 
-      // Add modifiers as subitems
-      for (const mod of item.modifiers) {
-        if (!mod.topping_product_fudo_id || !mod.modifier_group_fudo_id) {
+    console.log("[POS Sale] Step 2: Adding items in parallel + resolving payment method", {
+      item_count: body.items.length,
+      sale_id: sale.id,
+    });
+
+    const [paymentMethodId] = await Promise.all([
+      getPaymentMethodId(body.payment_method),
+      // Process all items in parallel
+      Promise.all(body.items.map(async (item) => {
+        console.log("[POS Sale] Step 2: Adding item", {
+          fudo_product_id: item.fudo_product_id,
+          quantity: item.quantity,
+          sale_id: sale.id,
+        });
+        const fudoItem = await addFudoItem(
+          sale.id,
+          item.fudo_product_id,
+          item.quantity
+        );
+
+        // Add subitems for this item in parallel
+        const validMods = item.modifiers.filter(
+          (mod) => mod.topping_product_fudo_id && mod.modifier_group_fudo_id
+        );
+        const skippedMods = item.modifiers.filter(
+          (mod) => !mod.topping_product_fudo_id || !mod.modifier_group_fudo_id
+        );
+        for (const mod of skippedMods) {
           console.warn("[POS Sale] Skipping subitem with missing IDs:", mod.name);
-          continue;
         }
-        step = `add_subitem:${mod.topping_product_fudo_id}`;
-        try {
-          console.log("[POS Sale] Step 2b: Adding subitem", {
-            item_id: fudoItem.id,
-            topping_product_id: mod.topping_product_fudo_id,
-            group_id: mod.modifier_group_fudo_id,
-            quantity: mod.quantity,
-          });
-          await addFudoSubitem(
-            fudoItem.id,
-            mod.topping_product_fudo_id,
-            mod.modifier_group_fudo_id,
-            mod.quantity
+
+        if (validMods.length > 0) {
+          const subitemResults = await Promise.allSettled(
+            validMods.map((mod) => {
+              console.log("[POS Sale] Step 2b: Adding subitem", {
+                item_id: fudoItem.id,
+                topping_product_id: mod.topping_product_fudo_id,
+                group_id: mod.modifier_group_fudo_id,
+                quantity: mod.quantity,
+              });
+              return addFudoSubitem(
+                fudoItem.id,
+                mod.topping_product_fudo_id,
+                mod.modifier_group_fudo_id,
+                mod.quantity
+              );
+            })
           );
-        } catch (subErr) {
-          console.error("[POS Sale] Subitem failed (continuing):", mod.name, subErr);
+
+          subitemResults.forEach((result, i) => {
+            if (result.status === "rejected") {
+              warnings.push(`Subitem "${validMods[i].name}" falló`);
+              console.error("[POS Sale] Subitem failed:", validMods[i].name, result.reason);
+            }
+          });
         }
-      }
-    }
+      })),
+    ]);
 
     // 3. Add payment
     step = "add_payment";
-    const paymentMethodId = await getPaymentMethodId(body.payment_method);
     console.log("[POS Sale] Step 3: Adding payment", {
       sale_id: sale.id,
       payment_method_id: paymentMethodId,
@@ -155,29 +175,30 @@ export async function POST(request: Request) {
     console.log("[POS Sale] Step 4: Closing sale", sale.id);
     await closeFudoSale(sale.id);
 
-    // 5. Log locally
-    step = "log_sale";
+    // 5. Log locally (fire-and-forget — don't block response)
     console.log("[POS Sale] Step 5: Logging sale", sale.id);
-    const { error: logError } = await supabase.from("pos_sales_log").insert({
-      fudo_sale_id: sale.id,
-      sale_type: body.sale_type,
-      items: body.items,
-      total: body.total,
-      payment_method: body.payment_method,
-      cashier_id: user.id,
-      cashier_name: profile.nombre,
-      closed_at: new Date().toISOString(),
-    });
-
-    if (logError) {
-      console.error("Error logging sale:", logError);
-    }
+    supabase
+      .from("pos_sales_log")
+      .insert({
+        fudo_sale_id: sale.id,
+        sale_type: body.sale_type,
+        items: body.items,
+        total: body.total,
+        payment_method: body.payment_method,
+        cashier_id: user.id,
+        cashier_name: profile.nombre,
+        closed_at: new Date().toISOString(),
+      })
+      .then(({ error: logError }) => {
+        if (logError) console.error("Error logging sale:", logError);
+      });
 
     console.log("[POS Sale] Complete!", { fudo_sale_id: sale.id });
 
     return NextResponse.json({
       success: true,
       fudo_sale_id: sale.id,
+      warnings: warnings.length > 0 ? warnings : undefined,
     });
   } catch (error) {
     console.error(`[POS Sale] Failed at step: ${step}`, error);

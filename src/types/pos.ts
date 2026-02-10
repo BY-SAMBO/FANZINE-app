@@ -104,4 +104,5 @@ export interface PosProduct {
   fudo_id: string;
   categoria_id: string;
   has_modifiers: boolean;
+  favorito: boolean;
 }

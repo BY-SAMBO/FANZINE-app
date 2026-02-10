@@ -18,7 +18,7 @@ export function ProductGrid({ products, onSelect }: ProductGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
       {products.map((product) => (
         <ProductButton
           key={product.id}

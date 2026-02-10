@@ -50,49 +50,24 @@ export function ToppingChip({
     );
   }
 
-  // Light variant — Diner Marquee style
+  // Light variant — compact for POS caja
   return (
     <button
       type="button"
       onClick={() => !disabled && onToggle(!active)}
       disabled={disabled}
       className={cn(
-        "flex min-h-[140px] flex-col items-center justify-center gap-2.5 rounded-[14px] border-[1.5px] px-3 py-5 transition-all",
+        "flex items-center gap-2 rounded-lg border-2 px-3 py-2 transition-all active:scale-95",
         active
-          ? "border-[var(--pos-red)] bg-[var(--pos-red-dim)] shadow-[0_2px_16px_rgba(220,38,38,.08)]"
+          ? "border-red-600 bg-red-50 text-red-700"
           : disabled
-            ? "cursor-not-allowed opacity-[.18]"
-            : "border-[var(--pos-border)] bg-white hover:border-[rgba(26,17,23,.18)] hover:bg-[var(--pos-surface)] hover:shadow-[0_2px_12px_rgba(0,0,0,.04)]"
+            ? "cursor-not-allowed border-gray-100 bg-gray-50 text-gray-300"
+            : "border-gray-200 bg-white text-gray-900 hover:border-gray-400"
       )}
     >
-      {/* Image placeholder */}
-      <div
-        className={cn(
-          "flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full text-[26px]",
-          active
-            ? "border-[1.5px] border-solid border-[var(--pos-red)] bg-[rgba(220,38,38,.04)]"
-            : "border-[1.5px] border-dashed border-[var(--pos-border)] bg-[var(--pos-surface)]"
-        )}
-      >
-        🌶️
-      </div>
-
-      <span
-        className={cn(
-          "text-center text-base font-bold leading-tight",
-          active ? "text-[var(--pos-red)]" : "text-[var(--pos-dark)]"
-        )}
-      >
-        {name}
-      </span>
-
+      <span className="text-sm font-extrabold leading-tight">{name}</span>
       {price > 0 && (
-        <span
-          className={cn(
-            "font-[family-name:var(--font-dm-mono)] text-[11px]",
-            active ? "text-[var(--pos-red)]" : "text-[var(--pos-muted)]"
-          )}
-        >
+        <span className={cn("text-xs font-bold tabular-nums", active ? "text-red-500" : "text-gray-400")}>
           +${(price ?? 0).toLocaleString()}
         </span>
       )}

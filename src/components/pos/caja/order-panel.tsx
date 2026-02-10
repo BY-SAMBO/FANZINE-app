@@ -3,15 +3,19 @@
 import { usePosStore } from "@/lib/stores/pos-store";
 import { Clock } from "lucide-react";
 import { OrderItemRow } from "./order-item-row";
+import { MiniHistory } from "./mini-history";
 
 interface OrderPanelProps {
   onPay: () => void;
   onHistoryOpen?: () => void;
+  highlightSaleId?: string | null;
 }
 
-export function OrderPanel({ onPay, onHistoryOpen }: OrderPanelProps) {
-  const { order, removeItem, updateItemQuantity, clearOrder } =
-    usePosStore();
+export function OrderPanel({ onPay, onHistoryOpen, highlightSaleId }: OrderPanelProps) {
+  const order = usePosStore((s) => s.order);
+  const removeItem = usePosStore((s) => s.removeItem);
+  const updateItemQuantity = usePosStore((s) => s.updateItemQuantity);
+  const clearOrder = usePosStore((s) => s.clearOrder);
 
   const totalItems = order.items.reduce((s, i) => s + i.quantity, 0);
 
@@ -79,6 +83,11 @@ export function OrderPanel({ onPay, onHistoryOpen }: OrderPanelProps) {
             Cobrar
           </button>
         </div>
+      </div>
+
+      {/* Mini History */}
+      <div className="border-t border-gray-100 max-h-[150px] overflow-hidden">
+        <MiniHistory highlightId={highlightSaleId} onOpenFull={onHistoryOpen} />
       </div>
     </div>
   );

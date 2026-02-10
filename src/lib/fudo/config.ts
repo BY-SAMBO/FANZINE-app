@@ -27,6 +27,10 @@ export const FUDO_CONFIG = {
     cashRegisters: "/cash-registers",
   },
 
+  // Timeout config
+  timeoutMs: 15_000,
+  authTimeoutMs: 10_000,
+
   // Retry config
   maxRetries: 2,
   retryDelayMs: 1000,

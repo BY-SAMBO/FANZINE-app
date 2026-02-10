@@ -24,28 +24,50 @@ async function authenticate(): Promise<string> {
     return cachedToken;
   }
 
-  const response = await fetch(FUDO_CONFIG.authUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      apiKey: FUDO_CONFIG.apiKey,
-      apiSecret: FUDO_CONFIG.apiSecret,
-    }),
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(
+    () => controller.abort(),
+    FUDO_CONFIG.authTimeoutMs
+  );
 
-  if (!response.ok) {
-    throw new FudoApiError(
-      `Fudo auth failed: ${response.status}`,
-      response.status
-    );
+  try {
+    const response = await fetch(FUDO_CONFIG.authUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        apiKey: FUDO_CONFIG.apiKey,
+        apiSecret: FUDO_CONFIG.apiSecret,
+      }),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new FudoApiError(
+        `Fudo auth failed: ${response.status}`,
+        response.status
+      );
+    }
+
+    const data: FudoAuthResponse = await response.json();
+    cachedToken = data.token;
+    // exp is a Unix timestamp string, refresh 5min before expiry
+    tokenExpiresAt = parseInt(data.exp, 10) * 1000 - FUDO_CONFIG.tokenMarginMs;
+
+    return cachedToken;
+  } catch (error) {
+    if (
+      error instanceof DOMException &&
+      error.name === "AbortError"
+    ) {
+      throw new FudoApiError(
+        `Fudo auth timeout (${FUDO_CONFIG.authTimeoutMs}ms)`,
+        408
+      );
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  const data: FudoAuthResponse = await response.json();
-  cachedToken = data.token;
-  // exp is a Unix timestamp string, refresh 5min before expiry
-  tokenExpiresAt = parseInt(data.exp, 10) * 1000 - FUDO_CONFIG.tokenMarginMs;
-
-  return cachedToken;
 }
 
 /**
@@ -58,19 +80,60 @@ export async function fudoFetch<T>(
 ): Promise<T> {
   const token = await authenticate();
 
-  const response = await fetch(`${FUDO_CONFIG.apiUrl}${path}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(
+    () => controller.abort(),
+    FUDO_CONFIG.timeoutMs
+  );
+
+  let response: Response;
+
+  try {
+    response = await fetch(`${FUDO_CONFIG.apiUrl}${path}`, {
+      ...options,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (
+      error instanceof DOMException &&
+      error.name === "AbortError"
+    ) {
+      // Retry once on timeout
+      if (retryCount < FUDO_CONFIG.maxRetries) {
+        console.warn(
+          `[Fudo] Timeout on ${path}, retrying (attempt ${retryCount + 1}/${FUDO_CONFIG.maxRetries})`
+        );
+        return fudoFetch<T>(path, options, retryCount + 1);
+      }
+      throw new FudoApiError(
+        `Fudo API timeout (${FUDO_CONFIG.timeoutMs}ms) on ${path}`,
+        408
+      );
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   // Retry on 401 (token expired)
   if (response.status === 401 && retryCount < FUDO_CONFIG.maxRetries) {
     cachedToken = null;
     tokenExpiresAt = 0;
+    return fudoFetch<T>(path, options, retryCount + 1);
+  }
+
+  // Retry on server errors (5xx)
+  if (response.status >= 500 && retryCount < FUDO_CONFIG.maxRetries) {
+    const delay = FUDO_CONFIG.retryDelayMs * (retryCount + 1);
+    console.warn(
+      `[Fudo] ${response.status} on ${path}, retrying in ${delay}ms (attempt ${retryCount + 1}/${FUDO_CONFIG.maxRetries})`
+    );
+    await new Promise((r) => setTimeout(r, delay));
     return fudoFetch<T>(path, options, retryCount + 1);
   }
 

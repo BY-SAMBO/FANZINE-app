@@ -51,30 +51,32 @@ export function CrispetasBoard({ products, onSelect }: CrispetasBoardProps) {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       {FLAVORS.map((flavor) => (
-        <div key={flavor.key} className="space-y-2">
+        <div key={flavor.key}>
           {/* Flavor label */}
-          <p className={cn("text-sm font-extrabold uppercase tracking-wider", flavor.accent)}>
+          <p className={cn("text-xs font-extrabold uppercase tracking-wider mb-2", flavor.accent)}>
             {flavor.label}
           </p>
 
-          {/* Size buttons row */}
-          <div className="flex gap-3">
+          {/* Size buttons — fixed 3-column grid */}
+          <div className="grid grid-cols-3 gap-2">
             {SIZES.map((size) => {
               const product = grid.get(`${flavor.key}-${size.key}`);
-              if (!product) return null;
+              if (!product) return <div key={size.key} />;
               return (
                 <button
                   key={size.key}
                   onClick={() => onSelect(product)}
                   className={cn(
-                    "flex-1 flex items-center justify-between px-5 py-4 rounded-xl border-2 transition-all active:scale-95",
+                    "flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all active:scale-95",
                     flavor.bg, flavor.border, flavor.hoverBorder
                   )}
                 >
-                  <span className="text-sm font-extrabold text-gray-900">{size.label}</span>
-                  <span className="text-xl font-extrabold text-gray-900 tabular-nums">
+                  <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                    {size.label}
+                  </span>
+                  <span className="text-lg font-extrabold text-gray-900 tabular-nums">
                     ${(product.precio_venta ?? 0).toLocaleString()}
                   </span>
                 </button>
@@ -86,17 +88,19 @@ export function CrispetasBoard({ products, onSelect }: CrispetasBoardProps) {
 
       {/* Others (Minipancakes, etc.) */}
       {others.length > 0 && (
-        <div className="space-y-2">
-          <p className="text-sm font-extrabold text-gray-400 uppercase tracking-wider">Otros</p>
-          <div className="flex gap-3">
+        <div>
+          <p className="text-xs font-extrabold text-gray-400 uppercase tracking-wider mb-2">Otros</p>
+          <div className="grid grid-cols-3 gap-2">
             {others.map((p) => (
               <button
                 key={p.id}
                 onClick={() => onSelect(p)}
-                className="flex-1 flex items-center justify-between px-5 py-4 rounded-xl border-2 border-gray-200 bg-white hover:border-gray-400 transition-all active:scale-95"
+                className="flex flex-col items-center justify-center py-3 rounded-xl border-2 border-gray-200 bg-white hover:border-gray-400 transition-all active:scale-95"
               >
-                <span className="text-sm font-extrabold text-gray-900">{p.nombre}</span>
-                <span className="text-xl font-extrabold text-gray-900 tabular-nums">
+                <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                  {p.nombre}
+                </span>
+                <span className="text-lg font-extrabold text-gray-900 tabular-nums">
                   ${(p.precio_venta ?? 0).toLocaleString()}
                 </span>
               </button>

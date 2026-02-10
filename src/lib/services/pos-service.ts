@@ -12,7 +12,7 @@ export async function getPosProducts(): Promise<PosProduct[]> {
   const supabase = getClient();
   const { data, error } = await supabase
     .from("products")
-    .select("id, nombre, precio_venta, fudo_id, categoria_id")
+    .select("id, nombre, precio_venta, fudo_id, categoria_id, favorito")
     .eq("activo", true)
     .not("fudo_id", "is", null)
     .order("categoria_id")
@@ -39,6 +39,7 @@ export async function getPosProducts(): Promise<PosProduct[]> {
     fudo_id: p.fudo_id!,
     categoria_id: p.categoria_id,
     has_modifiers: productsWithMods.has(p.fudo_id!),
+    favorito: p.favorito ?? false,
   }));
 }
 

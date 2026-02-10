@@ -11,6 +11,7 @@ interface PaymentDialogProps {
   open: boolean;
   onClose: () => void;
   onSend: (event: PosEvent) => void;
+  onSaleSuccess?: (fudoSaleId: string) => void;
 }
 
 const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
@@ -21,9 +22,11 @@ const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
   { value: "llaves", label: "Llaves" },
 ];
 
-export function PaymentDialog({ open, onClose, onSend }: PaymentDialogProps) {
+export function PaymentDialog({ open, onClose, onSend, onSaleSuccess }: PaymentDialogProps) {
   const [method, setMethod] = useState<PaymentMethod>("cash");
-  const { order, clearOrder, setStatus } = usePosStore();
+  const order = usePosStore((s) => s.order);
+  const clearOrder = usePosStore((s) => s.clearOrder);
+  const setStatus = usePosStore((s) => s.setStatus);
   const submitOrder = useSubmitOrder();
 
   if (!open) return null;
@@ -31,7 +34,7 @@ export function PaymentDialog({ open, onClose, onSend }: PaymentDialogProps) {
   const handleSubmit = async () => {
     try {
       setStatus("paying");
-      await submitOrder.mutateAsync({
+      const result = await submitOrder.mutateAsync({
         items: order.items,
         sale_type: order.sale_type,
         payment_method: method,
@@ -42,6 +45,9 @@ export function PaymentDialog({ open, onClose, onSend }: PaymentDialogProps) {
       onSend({ type: "clear" });
       clearOrder();
       onClose();
+      if (result?.fudo_sale_id) {
+        onSaleSuccess?.(result.fudo_sale_id);
+      }
     } catch {
       setStatus("error");
     }

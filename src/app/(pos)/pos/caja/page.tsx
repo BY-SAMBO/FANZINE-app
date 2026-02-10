@@ -1,32 +1,40 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
-import { usePosProducts, useProductModifiers, useSyncModifiers } from "@/lib/hooks/use-pos";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { usePosProducts, useProductModifiers, useSyncModifiers, useOrderHistory } from "@/lib/hooks/use-pos";
 import { usePosStore } from "@/lib/stores/pos-store";
 import { Search } from "lucide-react";
 import { usePosChannel } from "@/lib/hooks/use-pos-channel";
 import { useCategories } from "@/lib/hooks/use-products";
-import { CategorySidebar } from "@/components/pos/caja/category-sidebar";
+import { CategorySidebar, FAVORITES_ID } from "@/components/pos/caja/category-sidebar";
 import { ProductGrid } from "@/components/pos/caja/product-grid";
 import { OrderPanel } from "@/components/pos/caja/order-panel";
 import { ToppingPanel } from "@/components/pos/caja/topping-panel";
 import { PaymentDialog } from "@/components/pos/caja/payment-dialog";
 import { HistoryPanel } from "@/components/pos/caja/history-panel";
 import { CrispetasBoard } from "@/components/pos/caja/crispetas-board";
+import { BebidasBoard } from "@/components/pos/caja/bebidas-board";
 import type { PosProduct, PosEvent } from "@/types/pos";
 
 export default function CajaPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(FAVORITES_ID);
   const [searchQuery, setSearchQuery] = useState("");
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [pendingModifierProduct, setPendingModifierProduct] = useState<string | null>(null);
+  const [highlightSaleId, setHighlightSaleId] = useState<string | null>(null);
+  const highlightTimer = useRef<ReturnType<typeof setTimeout>>(null);
 
   const { data: products, isLoading: productsLoading, refetch: refetchProducts } = usePosProducts();
+  const { refetch: refetchHistory } = useOrderHistory();
   const syncModifiers = useSyncModifiers();
   const { data: categories } = useCategories();
   const { data: modifierGroups } = useProductModifiers(pendingModifierProduct);
-  const { order, addItem, startToppingSelection, toppingSelection, toggleTopping } = usePosStore();
+  const order = usePosStore((s) => s.order);
+  const addItem = usePosStore((s) => s.addItem);
+  const startToppingSelection = usePosStore((s) => s.startToppingSelection);
+  const toppingSelection = usePosStore((s) => s.toppingSelection);
+  const toggleTopping = usePosStore((s) => s.toggleTopping);
 
   // Broadcast channel
   const { send } = usePosChannel(
@@ -83,11 +91,18 @@ export default function CajaPage() {
     }, {} as Record<string, number>);
   }, [products]);
 
+  // Count favorites
+  const favoritesCount = useMemo(() => {
+    return products?.filter((p) => p.favorito).length ?? 0;
+  }, [products]);
+
   // Filter products by category + search
   const filteredProducts = useMemo(() => {
     if (!products) return [];
     let result = products;
-    if (selectedCategory) {
+    if (selectedCategory === FAVORITES_ID) {
+      result = result.filter((p) => p.favorito);
+    } else if (selectedCategory) {
       result = result.filter((p) => p.categoria_id === selectedCategory);
     }
     if (searchQuery.trim()) {
@@ -97,12 +112,17 @@ export default function CajaPage() {
     return result;
   }, [products, selectedCategory, searchQuery]);
 
-  // Detect crispetas category
+  // Detect special category views
   const crispetasCategoryId = useMemo(() => {
     return categories?.find((c) => c.nombre.toLowerCase() === "crispetas")?.id ?? null;
   }, [categories]);
 
-  const isCrispetasView = selectedCategory === crispetasCategoryId && crispetasCategoryId !== null;
+  const bebidasCategoryId = useMemo(() => {
+    return categories?.find((c) => c.nombre.toLowerCase() === "bebidas")?.id ?? null;
+  }, [categories]);
+
+  const isCrispetasView = selectedCategory === crispetasCategoryId && crispetasCategoryId !== null && selectedCategory !== FAVORITES_ID;
+  const isBebidasView = selectedCategory === bebidasCategoryId && bebidasCategoryId !== null && selectedCategory !== FAVORITES_ID;
 
   const handleProductSelect = useCallback(
     (product: PosProduct) => {
@@ -129,6 +149,19 @@ export default function CajaPage() {
     [addItem]
   );
 
+  const handleSaleSuccess = useCallback((fudoSaleId: string) => {
+    // Refetch history so the new sale appears
+    refetchHistory();
+    // Highlight the new sale
+    setHighlightSaleId(fudoSaleId);
+    // Reset to favorites view
+    setSelectedCategory(FAVORITES_ID);
+    setSearchQuery("");
+    // Clear highlight after 3 seconds
+    if (highlightTimer.current) clearTimeout(highlightTimer.current);
+    highlightTimer.current = setTimeout(() => setHighlightSaleId(null), 3000);
+  }, [refetchHistory]);
+
   const handleSync = useCallback(async () => {
     window.open("/pos/cliente", "_blank");
     await syncModifiers.mutateAsync();
@@ -152,6 +185,7 @@ export default function CajaPage() {
         onSelect={setSelectedCategory}
         productCounts={productCounts}
         totalCount={products?.length || 0}
+        favoritesCount={favoritesCount}
         onSync={handleSync}
         isSyncing={syncModifiers.isPending}
       />
@@ -159,7 +193,7 @@ export default function CajaPage() {
       {/* CENTER: Main content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Search bar */}
-        <div className="px-4 pt-4 pb-2">
+        <div className="px-3 pt-3 pb-1 lg:px-4 lg:pt-4 lg:pb-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -167,35 +201,44 @@ export default function CajaPage() {
               placeholder="Buscar producto..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-medium focus:outline-none focus:border-red-600/50 focus:ring-1 focus:ring-red-600/20"
+              className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2 lg:py-2.5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-medium focus:outline-none focus:border-red-600/50 focus:ring-1 focus:ring-red-600/20"
             />
           </div>
         </div>
 
-        {/* Product grid or special board */}
-        <div className="flex-1 overflow-y-auto p-4 pt-2 scrollbar-hide">
-          {isCrispetasView ? (
-            <CrispetasBoard
-              products={filteredProducts}
-              onSelect={handleProductSelect}
-            />
-          ) : (
-            <ProductGrid
-              products={filteredProducts}
-              onSelect={handleProductSelect}
-            />
-          )}
-        </div>
-
-        {/* Topping panel (slides up when active) */}
-        {toppingSelection && <ToppingPanel onSend={send} />}
+        {/* Product grid OR topping panel (full takeover) */}
+        {toppingSelection ? (
+          <div className="flex-1 overflow-hidden">
+            <ToppingPanel onSend={send} />
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto p-3 pt-1 lg:p-4 lg:pt-2 scrollbar-hide">
+            {isCrispetasView ? (
+              <CrispetasBoard
+                products={filteredProducts}
+                onSelect={handleProductSelect}
+              />
+            ) : isBebidasView ? (
+              <BebidasBoard
+                products={filteredProducts}
+                onSelect={handleProductSelect}
+              />
+            ) : (
+              <ProductGrid
+                products={filteredProducts}
+                onSelect={handleProductSelect}
+              />
+            )}
+          </div>
+        )}
       </main>
 
       {/* RIGHT: Order panel */}
-      <div className="w-80 shrink-0">
+      <div className="w-72 lg:w-80 shrink-0">
         <OrderPanel
           onPay={() => setPaymentOpen(true)}
           onHistoryOpen={() => setHistoryOpen(true)}
+          highlightSaleId={highlightSaleId}
         />
       </div>
 
@@ -204,6 +247,7 @@ export default function CajaPage() {
         open={paymentOpen}
         onClose={() => setPaymentOpen(false)}
         onSend={send}
+        onSaleSuccess={handleSaleSuccess}
       />
 
       {/* History panel */}
