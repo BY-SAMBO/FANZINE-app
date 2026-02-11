@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perro Birria Fuego | FANZINE Cine & Tex-Mex</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#1a1a2e;--accent:#FF4500;--accent-glow:rgba(255,69,0,.25);--text:#f1f1f1;--text-muted:#a0a0b8;--card:#16213e;--card-border:#253052}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+  h1,h2,h3,h4{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em}
+
+  /* Animations */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#1a1a2e 100%);position:relative}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--accent-glow) 0%,transparent 70%);pointer-events:none}
+  .hero-icon{font-size:8rem;margin-bottom:1.5rem;filter:drop-shadow(0 0 40px var(--accent-glow));animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .hero-badge{display:inline-block;background:var(--accent);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;padding:.3rem 1.2rem;border-radius:2px;letter-spacing:.12em;margin-bottom:1rem;text-transform:uppercase}
+  .hero h1{font-size:clamp(3rem,8vw,7rem);line-height:.95;margin-bottom:.5rem;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero .tagline{font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--text-muted);max-width:500px;margin:0 auto 1.5rem}
+  .hero .price{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--accent)}
+
+  /* Section base */
+  section{padding:5rem 1.5rem;max-width:800px;margin:0 auto}
+  .section-title{font-size:clamp(2rem,5vw,3rem);text-align:center;margin-bottom:.5rem}
+  .section-subtitle{text-align:center;color:var(--text-muted);margin-bottom:3rem;font-size:.95rem}
+  .accent-line{width:60px;height:3px;background:var(--accent);margin:0 auto 1.5rem;border-radius:2px}
+
+  /* LA RECETA - Timeline */
+  .recipe{position:relative}
+  .recipe-line{position:absolute;left:28px;top:0;bottom:0;width:3px;background:linear-gradient(to top,var(--accent),var(--card-border));border-radius:2px}
+  .recipe-item{display:flex;gap:1.2rem;align-items:flex-start;margin-bottom:2rem;position:relative}
+  .recipe-dot{flex-shrink:0;width:16px;height:16px;border-radius:50%;margin-top:.35rem;margin-left:21px;border:3px solid var(--accent);background:var(--bg);z-index:1}
+  .recipe-content{background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:1rem 1.2rem;flex:1;transition:border-color .3s}
+  .recipe-content:hover{border-color:var(--accent)}
+  .recipe-name{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;margin-bottom:.25rem}
+  .recipe-role{color:var(--text-muted);font-size:.85rem;margin-bottom:.5rem}
+  .tag{display:inline-block;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;padding:.2rem .6rem;border-radius:3px;color:#fff}
+  .tag-base{background:#6d4c2a}
+  .tag-queso{background:#d4a017}
+  .tag-salsa{background:#c1292e}
+  .tag-crunch{background:#e76f00}
+  .tag-fresco{background:#2d8a4e}
+  .tag-proteina{background:#c44536}
+
+  /* PALATABILITY */
+  .meters{display:flex;flex-direction:column;gap:1.2rem;max-width:500px;margin:0 auto}
+  .meter-row{display:flex;align-items:center;gap:1rem}
+  .meter-label{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;width:120px;text-align:right;flex-shrink:0}
+  .meter-track{flex:1;height:12px;background:var(--card);border-radius:6px;overflow:hidden;border:1px solid var(--card-border)}
+  .meter-fill{height:100%;border-radius:6px;transition:width 1s ease}
+  .meter-val{width:28px;font-size:.85rem;font-weight:600;color:var(--text-muted);text-align:center}
+
+  /* FLAVOR PROFILE */
+  .flavor-card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:2rem;font-size:1.05rem;line-height:1.75;color:var(--text-muted);position:relative;overflow:hidden}
+  .flavor-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent),transparent)}
+  .flavor-card p{position:relative;z-index:1}
+  .flavor-quote{font-size:5rem;color:var(--accent);opacity:.15;position:absolute;top:-.2rem;left:1rem;font-family:Georgia,serif;line-height:1}
+
+  /* FOOTER */
+  footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid var(--card-border);margin-top:2rem}
+  footer .brand{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.08em;color:var(--text-muted)}
+  footer a{color:var(--accent);text-decoration:none;font-size:.9rem;display:inline-block;margin-top:.8rem;transition:opacity .3s}
+  footer a:hover{opacity:.7}
+
+  @media(max-width:600px){
+    .hero-icon{font-size:5rem}
+    .meter-label{width:90px;font-size:.95rem}
+    .recipe-line{left:24px}
+    .recipe-dot{margin-left:17px}
+    section{padding:3.5rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-icon">🌭🔥🌶️</div>
+  <span class="hero-badge">Birria Series</span>
+  <h1>Perro Birria Fuego</h1>
+  <p class="tagline">Birria + fuego. No apto para t&iacute;midos.</p>
+  <div class="price">$18,000 COP</div>
+</header>
+
+<!-- LA RECETA -->
+<section>
+  <div class="reveal">
+    <h2 class="section-title">La Receta</h2>
+    <div class="accent-line"></div>
+    <p class="section-subtitle">De abajo hacia arriba, capa por capa</p>
+  </div>
+
+  <div class="recipe">
+    <div class="recipe-line"></div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Cheetos Picantes Triturados</div>
+        <div class="recipe-role">Crunch ardiente, color rojo intenso</div>
+        <span class="tag tag-crunch">Crunch</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Jalape&ntilde;os</div>
+        <div class="recipe-role">Picante fresco y directo</div>
+        <span class="tag tag-fresco">Fresco</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Queso Cheddar Fundido</div>
+        <div class="recipe-role">Cremosidad que modera el fuego</div>
+        <span class="tag tag-queso">Queso</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Res Birria</div>
+        <div class="recipe-role">Carne jugosa como fundamento</div>
+        <span class="tag tag-proteina">Prote&iacute;na</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Salchicha Envuelta en Tocino</div>
+        <div class="recipe-role">Humo y sal</div>
+        <span class="tag tag-base">Base</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Pan Brioche Dorado</div>
+        <div class="recipe-role">Base que absorbe los jugos</div>
+        <span class="tag tag-base">Base</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- POR QUE FUNCIONA -->
+<section>
+  <div class="reveal">
+    <h2 class="section-title">Por Qu&eacute; Funciona</h2>
+    <div class="accent-line"></div>
+    <p class="section-subtitle">An&aacute;lisis de palatabilidad</p>
+  </div>
+
+  <div class="meters reveal">
+    <div class="meter-row">
+      <span class="meter-label">Umami</span>
+      <div class="meter-track"><div class="meter-fill" style="width:100%;background:linear-gradient(90deg,#FF4500,#ff7043)"></div></div>
+      <span class="meter-val">5</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Crunch</span>
+      <div class="meter-track"><div class="meter-fill" style="width:80%;background:linear-gradient(90deg,#e76f00,#ffa040)"></div></div>
+      <span class="meter-val">4</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Frescura</span>
+      <div class="meter-track"><div class="meter-fill" style="width:40%;background:linear-gradient(90deg,#2d8a4e,#4cdf80)"></div></div>
+      <span class="meter-val">2</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Picante</span>
+      <div class="meter-track"><div class="meter-fill" style="width:100%;background:linear-gradient(90deg,#d4380d,#ff7a45)"></div></div>
+      <span class="meter-val">5</span>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Cremosidad</span>
+      <div class="meter-track"><div class="meter-fill" style="width:60%;background:linear-gradient(90deg,#d4a017,#ffe066)"></div></div>
+      <span class="meter-val">3</span>
+    </div>
+  </div>
+</section>
+
+<!-- PERFIL DE SABOR -->
+<section>
+  <div class="reveal">
+    <h2 class="section-title">Perfil de Sabor</h2>
+    <div class="accent-line"></div>
+  </div>
+  <div class="flavor-card reveal">
+    <span class="flavor-quote">&ldquo;</span>
+    <p>El Birria Fuego es para quien quiere sentir. Los jalape&ntilde;os meten un picante fresco y directo mientras los Cheetos Picantes triturados agregan un segundo nivel de ardor con crunch adictivo y color rojo intenso. El cheddar fundido act&uacute;a como mediador cremoso entre el fuego y la birria jugosa. Es agresivo, visual y memorable. El perro que te reta.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="brand">FANZINE &mdash; Cine &amp; Tex-Mex</div>
+  <a href="index.html">&larr; Volver al men&uacute;</a>
+</footer>
+
+<script>
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+  },{threshold:0.15});
+  els.forEach(el=>observer.observe(el));
+})();
+</script>
+</body>
+</html>

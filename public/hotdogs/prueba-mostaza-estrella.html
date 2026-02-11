@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba #1: Mostaza Como Estrella | FANZINE Cine &amp; Tex-Mex</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#1a1a2e;--accent:#e9c46a;--accent-glow:rgba(233,196,106,.25);--text:#f1f1f1;--text-muted:#a0a0b8;--card:#16213e;--card-border:#253052}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+  h1,h2,h3,h4{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em}
+
+  /* Animations */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  @keyframes goldPulse{0%,100%{box-shadow:0 0 20px rgba(233,196,106,.2)}50%{box-shadow:0 0 40px rgba(233,196,106,.45)}}
+  @keyframes badgePulse{0%,100%{opacity:.85}50%{opacity:1}}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;background:linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#1a1a2e 100%);position:relative}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--accent-glow) 0%,transparent 70%);pointer-events:none}
+  .hero-icon{font-size:8rem;margin-bottom:1.5rem;filter:drop-shadow(0 0 40px var(--accent-glow));animation:float 3s ease-in-out infinite}
+  .hero-badge{display:inline-block;background:var(--accent);color:#1a1a2e;font-family:'Bebas Neue',sans-serif;font-size:1rem;padding:.3rem 1.2rem;border-radius:2px;letter-spacing:.12em;margin-bottom:1rem;text-transform:uppercase;font-weight:700}
+  .validation-badge{display:inline-block;border:2px dashed var(--accent);color:var(--accent);font-family:'Bebas Neue',sans-serif;font-size:1.1rem;padding:.5rem 1.5rem;border-radius:4px;letter-spacing:.15em;margin-bottom:1.5rem;text-transform:uppercase;animation:badgePulse 2s ease-in-out infinite;background:rgba(233,196,106,.08)}
+  .hero h1{font-size:clamp(2.5rem,7vw,5.5rem);line-height:.95;margin-bottom:.5rem;background:linear-gradient(135deg,#fff 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero .tagline{font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--text-muted);max-width:540px;margin:0 auto 1.5rem}
+
+  /* Section base */
+  section{padding:5rem 1.5rem;max-width:800px;margin:0 auto}
+  .section-title{font-size:clamp(2rem,5vw,3rem);text-align:center;margin-bottom:.5rem}
+  .section-subtitle{text-align:center;color:var(--text-muted);margin-bottom:3rem;font-size:.95rem}
+  .accent-line{width:60px;height:3px;background:var(--accent);margin:0 auto 1.5rem;border-radius:2px}
+
+  /* LA RECETA - Timeline */
+  .recipe{position:relative}
+  .recipe-line{position:absolute;left:28px;top:0;bottom:0;width:3px;background:linear-gradient(to top,var(--accent),var(--card-border));border-radius:2px}
+  .recipe-item{display:flex;gap:1.2rem;align-items:flex-start;margin-bottom:2rem;position:relative}
+  .recipe-dot{flex-shrink:0;width:16px;height:16px;border-radius:50%;margin-top:.35rem;margin-left:21px;border:3px solid var(--accent);background:var(--bg);z-index:1}
+  .recipe-content{background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:1rem 1.2rem;flex:1;transition:border-color .3s}
+  .recipe-content:hover{border-color:var(--accent)}
+  .recipe-name{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;margin-bottom:.25rem}
+  .recipe-role{color:var(--text-muted);font-size:.85rem;margin-bottom:.5rem}
+  .tag{display:inline-block;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;padding:.2rem .6rem;border-radius:3px;color:#fff}
+  .tag-base{background:#6d4c2a}
+  .tag-queso{background:#d4a017}
+  .tag-salsa{background:#c1292e}
+  .tag-crunch{background:#e76f00}
+  .tag-fresco{background:#2d8a4e}
+  .tag-proteina{background:#c44536}
+
+  /* Star ingredient glow */
+  .recipe-star .recipe-content{border:2px solid var(--accent);background:linear-gradient(135deg,var(--card) 0%,rgba(233,196,106,.08) 100%);animation:goldPulse 3s ease-in-out infinite}
+  .recipe-star .recipe-dot{border-color:var(--accent);background:var(--accent);box-shadow:0 0 12px var(--accent-glow)}
+  .recipe-star .recipe-name{color:var(--accent)}
+  .star-label{display:inline-block;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.15rem .5rem;border-radius:2px;background:var(--accent);color:#1a1a2e;margin-left:.5rem;vertical-align:middle}
+
+  /* EVALUATION CALLOUT */
+  .eval-box{background:linear-gradient(135deg,rgba(233,196,106,.06) 0%,rgba(233,196,106,.02) 100%);border:1px solid rgba(233,196,106,.25);border-left:4px solid var(--accent);border-radius:8px;padding:2rem;position:relative;overflow:hidden}
+  .eval-box::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(233,196,106,.06) 0%,transparent 70%);pointer-events:none}
+  .eval-icon{font-size:2.5rem;margin-bottom:1rem;display:block}
+  .eval-box p{color:var(--text-muted);font-size:1.05rem;line-height:1.8;position:relative;z-index:1}
+
+  /* TIPS */
+  .tips-list{list-style:none;display:flex;flex-direction:column;gap:1rem}
+  .tips-list li{background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:1rem 1.2rem;color:var(--text-muted);font-size:.95rem;line-height:1.6;display:flex;gap:.8rem;align-items:flex-start}
+  .tips-list li::before{content:'';flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:.45rem}
+  .tips-list .tip-important{border-color:rgba(233,196,106,.3);background:linear-gradient(135deg,var(--card),rgba(233,196,106,.04))}
+
+  /* PALATABILITY METERS */
+  .meters{display:flex;flex-direction:column;gap:1.2rem;max-width:500px;margin:0 auto}
+  .meter-row{display:flex;align-items:center;gap:1rem}
+  .meter-label{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;width:120px;text-align:right;flex-shrink:0}
+  .dots{display:flex;gap:6px}
+  .dot{width:14px;height:14px;border-radius:50%;background:var(--card);border:1px solid var(--card-border)}
+  .dot.filled{background:var(--accent);border-color:var(--accent);box-shadow:0 0 6px var(--accent-glow)}
+
+  /* FOOTER */
+  footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid var(--card-border);margin-top:2rem}
+  footer .brand{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.08em;color:var(--text-muted)}
+  footer a{color:var(--accent);text-decoration:none;font-size:.9rem;display:inline-block;margin-top:.8rem;transition:opacity .3s}
+  footer a:hover{opacity:.7}
+
+  @media(max-width:600px){
+    .hero-icon{font-size:5rem}
+    .hero h1{font-size:clamp(2rem,8vw,3.5rem)}
+    .meter-label{width:90px;font-size:.95rem}
+    .recipe-line{left:24px}
+    .recipe-dot{margin-left:17px}
+    section{padding:3.5rem 1rem}
+    .eval-box{padding:1.5rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-icon">🌭🟡🔥</div>
+  <div class="validation-badge">PRUEBA DE VALIDACI&Oacute;N</div>
+  <span class="hero-badge">Prueba de Mostaza #1</span>
+  <h1>Mostaza Como Estrella</h1>
+  <p class="tagline">Sentir la mostaza inglesa como protagonista.</p>
+</header>
+
+<!-- LA RECETA -->
+<section>
+  <div class="reveal">
+    <h2 class="section-title">La Receta</h2>
+    <div class="accent-line"></div>
+    <p class="section-subtitle">De abajo hacia arriba, capa por capa</p>
+  </div>
+
+  <div class="recipe">
+    <div class="recipe-line"></div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Cebolla Crispy</div>
+        <div class="recipe-role">Crunch de cierre</div>
+        <span class="tag tag-crunch">Crunch</span>
+      </div>
+    </div>
+
+    <div class="recipe-item recipe-star reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">MOSTAZA INGLESA generosa <span class="star-label">PROTAGONISTA</span></div>
+        <div class="recipe-role">Probar su sabor puro &mdash; el golpe nasal completo</div>
+        <span class="tag tag-salsa">Salsa</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Queso Cheddar</div>
+        <div class="recipe-role">Cremosidad que modera</div>
+        <span class="tag tag-queso">Queso</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Salsa de Tomate</div>
+        <div class="recipe-role">Dulzor que contrasta el golpe nasal</div>
+        <span class="tag tag-salsa">Salsa</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Salchicha Envuelta en Tocino</div>
+        <div class="recipe-role">Grasa para que la mostaza tenga algo que cortar</div>
+        <span class="tag tag-base">Base</span>
+      </div>
+    </div>
+
+    <div class="recipe-item reveal">
+      <div class="recipe-dot"></div>
+      <div class="recipe-content">
+        <div class="recipe-name">Pan Brioche Dorado</div>
+        <div class="recipe-role">Base firme</div>
+        <span class="tag tag-base">Base</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUE ESTAS EVALUANDO -->
+<section>
+  <div class="reveal">
+    <h2 class="section-title">Qu&eacute; Est&aacute;s Evaluando</h2>
+    <div class="accent-line"></div>
+  </div>
+  <div class="eval-box reveal">
+    <span class="eval-icon">🔍</span>
+    <p>C&oacute;mo se siente la mostaza inglesa como sabor principal. El tomate dulce deber&iacute;a hacer que el picante nasal resalte m&aacute;s. Preg&uacute;ntate: &iquest;el golpe nasal es agradable o agresivo? &iquest;El tomate y el cheddar la equilibran? &iquest;Podr&iacute;as comer esto entero sin cansarte de la mostaza?</p>
+  </div>
+</section>
+
+<!-- TIPS DE PRUEBA -->
+<section>
+  <div class="reveal">
+    <h2 class="section-title">Tips de Prueba</h2>
+    <div class="accent-line"></div>
+    <p class="section-subtitle">C&oacute;mo probar esta combinaci&oacute;n</p>
+  </div>
+  <ul class="tips-list reveal">
+    <li class="tip-important">Pon cantidad generosa de mostaza, no t&iacute;mida &mdash; necesitas sentir el perfil completo</li>
+    <li>Primero un mordisco SIN tomate para sentir la mostaza pura contra el tocino</li>
+    <li>Luego un mordisco CON todo para sentir c&oacute;mo el tomate dulce modifica el picante nasal</li>
+    <li>Eval&uacute;a: &iquest;el golpe nasal es placentero o inc&oacute;modo?</li>
+  </ul>
+</section>
+
+<!-- POR QUE FUNCIONA (TEORIA) -->
+<section>
+  <div class="reveal">
+    <h2 class="section-title">Por Qu&eacute; Funciona (Teor&iacute;a)</h2>
+    <div class="accent-line"></div>
+    <p class="section-subtitle">An&aacute;lisis te&oacute;rico de palatabilidad</p>
+  </div>
+
+  <div class="meters reveal">
+    <div class="meter-row">
+      <span class="meter-label">Umami</span>
+      <div class="dots">
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Crunch</span>
+      <div class="dots">
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Frescura</span>
+      <div class="dots">
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Picante</span>
+      <div class="dots">
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="meter-row">
+      <span class="meter-label">Cremosidad</span>
+      <div class="dots">
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot filled"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="brand">FANZINE &mdash; Cine &amp; Tex-Mex</div>
+  <a href="index.html">&larr; Volver al men&uacute;</a>
+</footer>
+
+<script>
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+  },{threshold:0.15});
+  els.forEach(el=>observer.observe(el));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perro Pibil Cheeto - FANZINE Cine & Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #1a1a2e;
+      --accent: #D4451A;
+      --accent-light: #ef6a3a;
+      --text: #f0f0f0;
+      --text-muted: #a0a0b0;
+      --surface: #16213e;
+      --tag-salsa: #e63946;
+      --tag-queso: #e9c46a;
+      --tag-fresco: #2a9d8f;
+      --tag-crunch: #ff9f1c;
+      --tag-base: #8b5a2b;
+      --tag-proteina: #c44536;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .fade-in.d1 { animation-delay: 0.1s; }
+    .fade-in.d2 { animation-delay: 0.2s; }
+    .fade-in.d3 { animation-delay: 0.3s; }
+    .fade-in.d4 { animation-delay: 0.4s; }
+    .fade-in.d5 { animation-delay: 0.5s; }
+    .fade-in.d6 { animation-delay: 0.6s; }
+    .fade-in.d7 { animation-delay: 0.7s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes glitch {
+      0%, 100% { text-shadow: 0 0 40px rgba(212,69,26,0.3); }
+      25% { text-shadow: -3px 0 40px rgba(212,69,26,0.5), 3px 0 rgba(239,106,58,0.3); }
+      50% { text-shadow: 0 0 60px rgba(212,69,26,0.4); }
+      75% { text-shadow: 3px 0 40px rgba(212,69,26,0.5), -3px 0 rgba(239,106,58,0.3); }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(180deg, #1a1a2e 0%, #1e0e0a 50%, #1a1a2e 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(212,69,26,0.08) 0%, transparent 60%);
+      animation: pulse 5s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(212,69,26,0.02) 2px,
+        rgba(212,69,26,0.02) 4px
+      );
+      pointer-events: none;
+    }
+
+    .hero-emoji {
+      font-size: 6rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+      animation: pulse 3s ease-in-out infinite;
+      line-height: 1.2;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: var(--accent);
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      animation: glitch 4s ease-in-out infinite;
+    }
+
+    .hero .tagline {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero .subtitle {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: var(--accent-light);
+      margin-top: 0.5rem;
+      letter-spacing: 0.15em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero .price-badge {
+      margin-top: 1.5rem;
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      padding: 0.3rem 1.5rem;
+      border-radius: 4px;
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.05em;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      animation: fadeUp 1s ease 1.5s forwards;
+      opacity: 0;
+    }
+    .scroll-hint span {
+      display: block;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--accent);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    /* ── RECETA TIMELINE ── */
+    .recipe-timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .recipe-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0.75rem;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to top, var(--tag-base), var(--accent));
+      border-radius: 2px;
+    }
+
+    .ingredient {
+      position: relative;
+      margin-bottom: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid rgba(212,69,26,0.15);
+      transition: border-color 0.3s;
+    }
+
+    .ingredient:hover {
+      border-color: var(--accent);
+    }
+
+    .ingredient::before {
+      content: '';
+      position: absolute;
+      left: -1.65rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      background: var(--bg);
+    }
+
+    .ingredient-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.35rem;
+    }
+
+    .ingredient-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: #fff;
+    }
+
+    .ingredient-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.15rem 0.6rem;
+      border-radius: 20px;
+      color: #fff;
+    }
+
+    .tag-base { background: var(--tag-base); }
+    .tag-salsa { background: var(--tag-salsa); }
+    .tag-queso { background: var(--tag-queso); color: #1a1a2e; }
+    .tag-fresco { background: var(--tag-fresco); }
+    .tag-crunch { background: var(--tag-crunch); color: #1a1a2e; }
+    .tag-proteina { background: var(--tag-proteina); }
+
+    .ingredient-role {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .layer-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── STAR INGREDIENT HIGHLIGHT ── */
+    .ingredient.star {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(212,69,26,0.08) 100%);
+      box-shadow: 0 0 20px rgba(212,69,26,0.15);
+    }
+
+    .ingredient.star .ingredient-name::after {
+      content: ' \2605';
+      color: var(--accent);
+    }
+
+    /* ── PALATABILITY ── */
+    .meters {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .meter-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .meter-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15rem;
+      min-width: 120px;
+      color: #fff;
+    }
+
+    .meter-bar-bg {
+      flex: 1;
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .meter-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transition: width 1s ease;
+    }
+
+    .meter-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+      min-width: 30px;
+      text-align: right;
+    }
+
+    /* ── PERFIL DE SABOR ── */
+    .flavor-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    .flavor-text::before,
+    .flavor-text::after {
+      content: '"';
+      color: var(--accent);
+      font-size: 2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      vertical-align: -0.2em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid rgba(212,69,26,0.15);
+    }
+
+    footer .brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    footer .sub {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+
+    footer a {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    footer a:hover { color: var(--accent-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero-emoji { font-size: 4rem; }
+      section { padding: 3rem 1rem; }
+      .meter-label { min-width: 90px; font-size: 1rem; }
+      .ingredient { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="fade-in d1">
+      <div class="hero-emoji">🌭🧀🔴</div>
+    </div>
+    <h1 class="fade-in d2">PERRO PIBIL CHEETO</h1>
+    <div class="subtitle fade-in d3">La Fusi&oacute;n Inesperada</div>
+    <p class="tagline fade-in d4">Cochinita + Cheetos = lo que no sab&iacute;as que necesitabas.</p>
+    <div class="price-badge fade-in d5">$18.000 COP</div>
+    <div class="scroll-hint">
+      <span>&#8595; Descubre la receta</span>
+    </div>
+  </div>
+
+  <!-- LA RECETA -->
+  <section>
+    <h2 class="section-title fade-in">LA RECETA</h2>
+    <div class="recipe-timeline">
+
+      <div class="ingredient fade-in d1">
+        <div class="layer-number">Capa 06 &mdash; Tope</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Cebolla Encurtida</span>
+          <span class="ingredient-tag tag-fresco">fresco</span>
+        </div>
+        <div class="ingredient-role">&Aacute;cido que mantiene el balance</div>
+      </div>
+
+      <div class="ingredient star fade-in d2">
+        <div class="layer-number">Capa 05</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Cheetos Picantes Triturados</span>
+          <span class="ingredient-tag tag-crunch">crunch</span>
+        </div>
+        <div class="ingredient-role">Crunch picante, color, textura</div>
+      </div>
+
+      <div class="ingredient fade-in d3">
+        <div class="layer-number">Capa 04</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Queso Cheddar Fundido</span>
+          <span class="ingredient-tag tag-queso">queso</span>
+        </div>
+        <div class="ingredient-role">Manto cremoso que une pibil y Cheetos</div>
+      </div>
+
+      <div class="ingredient fade-in d4">
+        <div class="layer-number">Capa 03</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Cochinita Pibil</span>
+          <span class="ingredient-tag tag-proteina">prote&iacute;na</span>
+        </div>
+        <div class="ingredient-role">Carne c&iacute;trica y tierna</div>
+      </div>
+
+      <div class="ingredient fade-in d5">
+        <div class="layer-number">Capa 02</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
+          <span class="ingredient-tag tag-base">base</span>
+        </div>
+        <div class="ingredient-role">Sal y humo</div>
+      </div>
+
+      <div class="ingredient fade-in d6">
+        <div class="layer-number">Capa 01 &mdash; Base</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Pan Brioche Dorado</span>
+          <span class="ingredient-tag tag-base">base</span>
+        </div>
+        <div class="ingredient-role">Base que sostiene la locura</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- POR QUE FUNCIONA -->
+  <section>
+    <h2 class="section-title fade-in">POR QU&Eacute; FUNCIONA</h2>
+    <div class="meters">
+      <div class="meter-row fade-in d1">
+        <span class="meter-label">Umami</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
+      </div>
+      <div class="meter-row fade-in d2">
+        <span class="meter-label">Crunch</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
+        <span class="meter-value">5/5</span>
+      </div>
+      <div class="meter-row fade-in d3">
+        <span class="meter-label">Frescura</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:40%"></div></div>
+        <span class="meter-value">2/5</span>
+      </div>
+      <div class="meter-row fade-in d4">
+        <span class="meter-label">Picante</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
+      </div>
+      <div class="meter-row fade-in d5">
+        <span class="meter-label">Cremosidad</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
+        <span class="meter-value">3/5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFIL DE SABOR -->
+  <section>
+    <h2 class="section-title fade-in">PERFIL DE SABOR</h2>
+    <p class="flavor-text fade-in d2">El Pibil Cheeto es la fusi&oacute;n m&aacute;s inesperada de la carta. La cochinita pibil con sus notas c&iacute;tricas de achiote se encuentra con el cheddar fundido y los Cheetos Picantes triturados en una explosi&oacute;n de color y crunch. La cebolla encurtida hace el trabajo &aacute;cido que evita que la riqueza canse. Es arriesgado, visual y absolutamente adictivo. El pibil como nunca lo hab&iacute;as probado.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="brand">FANZINE</div>
+    <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
+    <a href="index.html">&larr; Ver todos los perros</a>
+  </footer>
+
+</body>
+</html>

@@ -13,6 +13,7 @@ import {
   Settings,
   LogOut,
   Monitor,
+  FlaskConical,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -58,6 +59,12 @@ const navigation = [
     href: "/pos/caja",
     icon: Monitor,
     roles: ["administrador", "cajero"],
+  },
+  {
+    name: "LAB",
+    href: "/lab",
+    icon: FlaskConical,
+    roles: ["administrador"],
   },
 ];
 
