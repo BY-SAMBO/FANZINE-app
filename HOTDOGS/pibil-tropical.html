@@ -284,6 +284,22 @@
       color: var(--accent);
     }
 
+    /* ── QUANTITY INPUT ── */
+    .ingredient-qty { margin-top: 0.5rem; }
+    .qty-input {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      color: #fff;
+      font-size: 0.85rem;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s;
+    }
+    .qty-input:focus { outline: none; border-color: var(--accent); }
+    .qty-input::placeholder { color: rgba(255,255,255,0.25); }
+
     /* ── PALATABILITY ── */
     .meters {
       display: flex;
@@ -392,7 +408,7 @@
   <!-- HERO -->
   <div class="hero">
     <div class="fade-in d1">
-      <div class="hero-emoji">🌭🍍🌴</div>
+      <div class="hero-emoji">🍍🐷🌴</div>
     </div>
     <h1 class="fade-in d2">PERRO PIBIL TROPICAL</h1>
     <div class="subtitle fade-in d3">Sabor Yucat&aacute;n</div>
@@ -409,57 +425,99 @@
     <div class="recipe-timeline">
 
       <div class="ingredient fade-in d1">
-        <div class="layer-number">Capa 06 &mdash; Tope</div>
+        <div class="layer-number">Capa 08 &mdash; Tope</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Cebolla Crispy</span>
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
-        <div class="ingredient-role">Crunch salado que cierra el perro</div>
+        <div class="ingredient-role">Crunch salado que cierra</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-cebolla-crispy" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d2">
-        <div class="layer-number">Capa 05</div>
+        <div class="layer-number">Capa 07</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Cebolla Encurtida</span>
           <span class="ingredient-tag tag-fresco">fresco</span>
         </div>
         <div class="ingredient-role">El acompa&ntilde;amiento cl&aacute;sico yucateco, &aacute;cido rosado</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-cebolla-encurtida" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d3">
-        <div class="layer-number">Capa 04</div>
+        <div class="layer-number">Capa 06</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">SourCream</span>
+          <span class="ingredient-tag tag-salsa">salsa</span>
+        </div>
+        <div class="ingredient-role">Cremosidad refrescante</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-sourcream" placeholder="Cantidad..." />
+        </div>
+      </div>
+
+      <div class="ingredient fade-in d4">
+        <div class="layer-number">Capa 05</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Salsa de Pi&ntilde;a</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
         <div class="ingredient-role">Dulzor tropical que amplifica las notas c&iacute;tricas del pibil</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-salsa-pina" placeholder="Cantidad..." />
+        </div>
       </div>
 
-      <div class="ingredient star fade-in d4">
+      <div class="ingredient fade-in d5">
+        <div class="layer-number">Capa 04</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Salsa de Le&ntilde;a</span>
+          <span class="ingredient-tag tag-salsa">salsa</span>
+        </div>
+        <div class="ingredient-role">Ancla ahumada</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-salsa-lena" placeholder="Cantidad..." />
+        </div>
+      </div>
+
+      <div class="ingredient star fade-in d6">
         <div class="layer-number">Capa 03</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Cochinita Pibil</span>
           <span class="ingredient-tag tag-proteina">prote&iacute;na</span>
         </div>
         <div class="ingredient-role">Carne c&iacute;trica, tierna, arom&aacute;tica con achiote</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-cochinita" placeholder="Cantidad..." />
+        </div>
       </div>
 
-      <div class="ingredient fade-in d5">
+      <div class="ingredient fade-in d7">
         <div class="layer-number">Capa 02</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Ahumado que ancla lo tropical</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-salchicha" placeholder="Cantidad..." />
+        </div>
       </div>
 
-      <div class="ingredient fade-in d6">
+      <div class="ingredient fade-in">
         <div class="layer-number">Capa 01 &mdash; Base</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Pan Brioche Dorado</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Dulzor tostado</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-tropical-pan" placeholder="Cantidad..." />
+        </div>
       </div>
 
     </div>
@@ -481,8 +539,8 @@
       </div>
       <div class="meter-row fade-in d3">
         <span class="meter-label">Frescura</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
-        <span class="meter-value">3/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
       </div>
       <div class="meter-row fade-in d4">
         <span class="meter-label">Picante</span>
@@ -491,8 +549,8 @@
       </div>
       <div class="meter-row fade-in d5">
         <span class="meter-label">Cremosidad</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:40%"></div></div>
-        <span class="meter-value">2/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
       </div>
     </div>
   </section>
@@ -500,7 +558,7 @@
   <!-- PERFIL DE SABOR -->
   <section>
     <h2 class="section-title fade-in">PERFIL DE SABOR</h2>
-    <p class="flavor-text fade-in d2">El Pibil Tropical es la ruta directa a Yucat&aacute;n. La cochinita con sus notas de achiote y c&iacute;trico se amplifica con la salsa de pi&ntilde;a en vez de competir, porque ambas hablan el mismo idioma tropical. La cebolla encurtida rosada es el acompa&ntilde;amiento que ha funcionado por siglos con la cochinita, y la cebolla crispy remata con el crunch salado que el plato necesita. Es ex&oacute;tico pero inmediatamente familiar.</p>
+    <p class="flavor-text fade-in d2">El Pibil Tropical es la ruta directa a Yucat&aacute;n. La cochinita con sus notas de achiote y c&iacute;trico se amplifica con la salsa de pi&ntilde;a en vez de competir, porque ambas hablan el mismo idioma tropical. La SourCream aporta cremosidad refrescante y la mayo ahumada ancla con profundidad. La cebolla encurtida rosada es el acompa&ntilde;amiento que ha funcionado por siglos con la cochinita, y la cebolla crispy remata con crunch salado. Es ex&oacute;tico pero inmediatamente familiar.</p>
   </section>
 
   <!-- FOOTER -->
@@ -509,6 +567,16 @@
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
     <a href="index.html">&larr; Ver todos los perros</a>
   </footer>
+
+  <script>
+    document.querySelectorAll('.qty-input').forEach(input => {
+      const saved = localStorage.getItem('lab-qty-' + input.dataset.key);
+      if (saved) input.value = saved;
+      input.addEventListener('input', () => {
+        localStorage.setItem('lab-qty-' + input.dataset.key, input.value);
+      });
+    });
+  </script>
 
 </body>
 </html>

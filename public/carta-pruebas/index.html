@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FANZINE - Sesion de Degustacion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #1a1a2e;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* STEPS */
+        .step { display: none; }
+        .step.active { display: block; }
+
+        /* STEP 1 - Name */
+        .welcome {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .welcome-emoji {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #e63946, #f4a261, #e9c46a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .welcome .subtitle {
+            font-size: 1.1rem;
+            color: #888;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .name-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-family: 'Inter', sans-serif;
+            background: #16213e;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #f0f0f0;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #e63946;
+        }
+
+        .name-input::placeholder { color: #555; }
+
+        .btn {
+            padding: 14px 40px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .btn:active { transform: translateY(0); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e63946, #c62828);
+            color: #fff;
+        }
+
+        .btn-primary:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* STEP 2 - Pick dogs */
+        .pick-header {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+
+        .pick-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            letter-spacing: 3px;
+            color: #e63946;
+            margin-bottom: 4px;
+        }
+
+        .pick-header .instruction {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .pick-counter {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            transition: color 0.3s;
+        }
+
+        .pick-counter.ready { color: #2a9d8f; }
+        .pick-counter.picking { color: #f4a261; }
+
+        .serie-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 24px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .dog-card {
+            background: #16213e;
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s, transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            user-select: none;
+        }
+
+        .dog-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .dog-card.selected {
+            border-color: #2a9d8f;
+            box-shadow: 0 0 20px rgba(42,157,143,0.25);
+        }
+
+        .dog-card.selected::after {
+            content: '\2713';
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: #2a9d8f;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .dog-card.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .dog-emoji { font-size: 2rem; margin-bottom: 8px; }
+
+        .dog-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .dog-serie {
+            font-size: 0.75rem;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .dog-tagline {
+            font-size: 0.8rem;
+            color: #999;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .dog-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .pill {
+            font-size: 0.6rem;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .pill-base { background: rgba(139,90,43,0.25); color: #d4a574; }
+        .pill-salsa { background: rgba(230,57,70,0.2); color: #f08080; }
+        .pill-queso { background: rgba(233,196,106,0.2); color: #e9c46a; }
+        .pill-crunch { background: rgba(255,159,28,0.2); color: #ff9f1c; }
+        .pill-fresco { background: rgba(42,157,143,0.2); color: #2a9d8f; }
+        .pill-proteina { background: rgba(196,69,54,0.25); color: #e07c6a; }
+
+        .dog-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        /* Bottom bar */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 16px 20px;
+            display: none;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .bottom-bar.visible { display: flex; }
+
+        .bottom-bar .picks-summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pick-tag {
+            background: rgba(42,157,143,0.2);
+            color: #2a9d8f;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* STEP 3 - Thank you */
+        .thanks {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .thanks-emoji {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .thanks h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 7vw, 4rem);
+            letter-spacing: 3px;
+            color: #2a9d8f;
+            margin-bottom: 12px;
+        }
+
+        .thanks .msg {
+            font-size: 1.15rem;
+            color: #aaa;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .thanks .guest-name {
+            color: #f4a261;
+            font-weight: 700;
+        }
+
+        .thanks .picks-recap {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .recap-tag {
+            background: #16213e;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(42,157,143,0.3);
+            color: #2a9d8f;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .dog-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .dog-card { padding: 14px; }
+            .dog-emoji { font-size: 1.5rem; }
+            .dog-name { font-size: 1.1rem; }
+            .container { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STEP 1: Nombre -->
+    <div id="step1" class="step active">
+        <div class="welcome">
+            <div class="welcome-emoji">🌭🎬🔬</div>
+            <h1>DEGUSTACION FANZINE</h1>
+            <p class="subtitle">Sesion de pruebas &mdash; Escoge tus 2 favoritos</p>
+            <div class="name-form">
+                <input type="text" id="guestName" class="name-input" placeholder="Tu nombre..." autocomplete="off" autofocus>
+                <button id="btnEntrar" class="btn btn-primary" disabled>ENTRAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 2: Escoger perros -->
+    <div id="step2" class="step">
+        <div class="pick-header">
+            <h1>ESCOGE TUS 2 PERROS</h1>
+            <p class="instruction">Toca las cards de los 2 que quieres probar</p>
+            <div id="pickCounter" class="pick-counter picking">0 / 2 SELECCIONADOS</div>
+        </div>
+
+        <div class="container" id="dogContainer"></div>
+
+        <div style="height: 100px;"></div>
+
+        <div id="bottomBar" class="bottom-bar">
+            <div class="picks-summary">
+                <span id="pickTag1" class="pick-tag">---</span>
+                <span id="pickTag2" class="pick-tag">---</span>
+                <button id="btnEnviar" class="btn btn-primary" disabled>ENVIAR ORDEN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3: Gracias -->
+    <div id="step3" class="step">
+        <div class="thanks">
+            <div class="thanks-emoji">🎉🌭✅</div>
+            <h1>ORDEN RECIBIDA</h1>
+            <p class="msg">Gracias, <span id="thanksName" class="guest-name"></span>. Tu orden fue registrada. Prepararemos tus 2 perros en un momento.</p>
+            <div id="thanksRecap" class="picks-recap"></div>
+        </div>
+    </div>
+
+<script>
+const SUPABASE_URL = 'https://gkorrgndppfindultvkn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdrb3JyZ25kcHBmaW5kdWx0dmtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MDk2NzgsImV4cCI6MjA4NjA4NTY3OH0.K-WHtanOfUfEk9wRp2Dx0J48xFBNC6XmEnqmRzSbtsQ';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── Dog data ──
+const DOGS = [
+    { id: 'fanzine-clasico', name: 'Fanzine Clasico', emoji: '🔥🌭🎬', serie: 'Fanzine', price: 16000, color: '#e63946',
+      tagline: 'Triple crema, doble crunch, cero picante. Si no sabes que pedir, pide este.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cheddar', cls: 'pill-queso' },
+        { label: 'Mayo Ahumada', cls: 'pill-salsa' }, { label: 'SourCream', cls: 'pill-salsa' },
+        { label: 'Tomate', cls: 'pill-salsa' }, { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+        { label: 'Papas Fosforito', cls: 'pill-crunch' },
+      ]},
+    { id: 'fanzine-dorado', name: 'Fanzine Dorado', emoji: '✨🌭🧈', serie: 'Fanzine', price: 16000, color: '#d4a017',
+      tagline: 'Cebolla caramelizada, maiz dulce y mayo ahumada. El mas adictivo de la carta.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cheddar', cls: 'pill-queso' },
+        { label: 'Mayo Ahumada', cls: 'pill-salsa' }, { label: 'Maiz Dulce', cls: 'pill-salsa' },
+        { label: 'SourCream', cls: 'pill-salsa' }, { label: 'Cebolla Caramelizada', cls: 'pill-fresco' },
+        { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+      ]},
+    { id: 'fanzine-fresco', name: 'Fanzine Fresco', emoji: '🌿🌭🍋', serie: 'Fanzine', price: 16000, color: '#2a9d8f',
+      tagline: 'Pepinillos, SourCream y tomate sobre cheddar. El mas balanceado.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cheddar', cls: 'pill-queso' },
+        { label: 'Mayo Ahumada', cls: 'pill-salsa' }, { label: 'SourCream', cls: 'pill-salsa' },
+        { label: 'Tomate', cls: 'pill-salsa' }, { label: 'Pepinillos', cls: 'pill-fresco' },
+        { label: 'Papas Fosforito', cls: 'pill-crunch' },
+      ]},
+    { id: 'cheeto-cremoso', name: 'Cheeto Cremoso', emoji: '💥🧴🧀', serie: 'Cheeto', price: 16000, color: '#f72585',
+      tagline: 'Triple capa cremosa contra Cheetos picantes. Todo existe para que el Cheeto brille.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cheddar', cls: 'pill-queso' },
+        { label: 'SourCream', cls: 'pill-salsa' }, { label: 'Mayo Ahumada', cls: 'pill-salsa' },
+        { label: 'Cheetos Picantes', cls: 'pill-crunch' },
+      ]},
+    { id: 'cheeto-tropical', name: 'Cheeto Tropical', emoji: '💥🍍🔥', serie: 'Cheeto', price: 16000, color: '#ff6b35',
+      tagline: 'Salsa de pina + Cheetos picantes. Dulce y ardor en un ciclo adictivo.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cheddar', cls: 'pill-queso' },
+        { label: 'Salsa de Pina', cls: 'pill-salsa' }, { label: 'SourCream', cls: 'pill-salsa' },
+        { label: 'Cheetos Picantes', cls: 'pill-crunch' },
+      ]},
+    { id: 'birria-fundido', name: 'Birria Fundido', emoji: '🧀🥩🔥', serie: 'Birria', price: 18000, color: '#cd5c5c',
+      tagline: 'La quesabirria hecha hot dog. Birria jugosa, cheddar fundido y mayo ahumada.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Res Birria', cls: 'pill-proteina' },
+        { label: 'Cheddar', cls: 'pill-queso' }, { label: 'Mayo Ahumada', cls: 'pill-salsa' },
+        { label: 'SourCream', cls: 'pill-salsa' }, { label: 'Tomate', cls: 'pill-salsa' },
+        { label: 'Cebolla Encurtida', cls: 'pill-fresco' }, { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+      ]},
+    { id: 'birria-crunch', name: 'Birria Crunch', emoji: '🥩💥🥔', serie: 'Birria', price: 18000, color: '#cd853f',
+      tagline: 'Birria con mostaza, cebolla crispy y papas fosforito. Doble crunch sin cheetos.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Res Birria', cls: 'pill-proteina' },
+        { label: 'Cheddar', cls: 'pill-queso' }, { label: 'Mostaza', cls: 'pill-salsa' },
+        { label: 'Mayo Ahumada', cls: 'pill-salsa' }, { label: 'Tomate', cls: 'pill-salsa' },
+        { label: 'Cebolla Crispy', cls: 'pill-crunch' }, { label: 'Papas Fosforito', cls: 'pill-crunch' },
+      ]},
+    { id: 'birria-fuego', name: 'Birria Fuego', emoji: '🥩🔥🌶️', serie: 'Birria', price: 18000, color: '#FF4500',
+      tagline: 'Birria + jalapenos + SourCream. El fuego del jalapeno amplifica la birria.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Res Birria', cls: 'pill-proteina' },
+        { label: 'Cheddar', cls: 'pill-queso' }, { label: 'Mayo Ahumada', cls: 'pill-salsa' },
+        { label: 'SourCream', cls: 'pill-salsa' }, { label: 'Tomate', cls: 'pill-salsa' },
+        { label: 'Jalapenos', cls: 'pill-fresco' }, { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+      ]},
+    { id: 'pibil-tropical', name: 'Pibil Tropical', emoji: '🍍🐷🌴', serie: 'Pibil', price: 18000, color: '#E07C24',
+      tagline: 'Cochinita con salsa de pina, SourCream y encurtida. Un viaje al tropico.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cochinita Pibil', cls: 'pill-proteina' },
+        { label: 'Salsa de Pina', cls: 'pill-salsa' }, { label: 'SourCream', cls: 'pill-salsa' },
+        { label: 'Mayo Ahumada', cls: 'pill-salsa' }, { label: 'Cebolla Encurtida', cls: 'pill-fresco' },
+        { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+      ]},
+    { id: 'pibil-ahumado', name: 'Pibil Ahumado', emoji: '🐷💨🔥', serie: 'Pibil', price: 18000, color: '#c4724e',
+      tagline: 'Tocino + lena + achiote. Triple humo con cheddar fundido y encurtida.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cochinita Pibil', cls: 'pill-proteina' },
+        { label: 'Cheddar', cls: 'pill-queso' }, { label: 'Mayo Ahumada', cls: 'pill-salsa' },
+        { label: 'SourCream', cls: 'pill-salsa' }, { label: 'Tomate', cls: 'pill-salsa' },
+        { label: 'Cebolla Encurtida', cls: 'pill-fresco' }, { label: 'Papas Fosforito', cls: 'pill-crunch' },
+      ]},
+    { id: 'pibil-dulce', name: 'Pibil Dulce', emoji: '🐷🌽✨', serie: 'Pibil', price: 18000, color: '#D4951A',
+      tagline: 'Salsa de maiz dulce amplifica el achiote. SourCream y encurtida cierran el ciclo.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Cochinita Pibil', cls: 'pill-proteina' },
+        { label: 'Maiz Dulce', cls: 'pill-salsa' }, { label: 'SourCream', cls: 'pill-salsa' },
+        { label: 'Mayo Ahumada', cls: 'pill-salsa' }, { label: 'Cebolla Encurtida', cls: 'pill-fresco' },
+        { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+      ]},
+    { id: 'chipotle-cream', name: 'Chipotle Cream', emoji: '🍗🧴🔥', serie: 'Chipotle', price: 18000, color: '#C2452D',
+      tagline: 'Triple crema: SourCream + guacamole + mayo ahumada calman el fuego chipotle.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Pollo Chipotle', cls: 'pill-proteina' },
+        { label: 'SourCream', cls: 'pill-salsa' }, { label: 'Guacamole', cls: 'pill-salsa' },
+        { label: 'Mayo Ahumada', cls: 'pill-salsa' }, { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+      ]},
+    { id: 'chipotle-gold', name: 'Chipotle Gold', emoji: '🍗🥇💨', serie: 'Chipotle', price: 18000, color: '#B8860B',
+      tagline: 'Tocino + chipotle + mayo ahumada = triple humo. Mostaza y tomate cortan la riqueza.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Pollo Chipotle', cls: 'pill-proteina' },
+        { label: 'Cheddar', cls: 'pill-queso' }, { label: 'Mayo Ahumada', cls: 'pill-salsa' },
+        { label: 'Mostaza', cls: 'pill-salsa' }, { label: 'Tomate', cls: 'pill-salsa' },
+        { label: 'Cebolla Crispy', cls: 'pill-crunch' },
+      ]},
+    { id: 'chipotle-guac', name: 'Chipotle Guac', emoji: '🍗🥑🌶️', serie: 'Chipotle', price: 18000, color: '#7a9a44',
+      tagline: 'Chipotle + guacamole + jalapenos. Doble fuego, cremosidad verde.',
+      pills: [
+        { label: 'Tocino', cls: 'pill-base' }, { label: 'Pollo Chipotle', cls: 'pill-proteina' },
+        { label: 'Guacamole', cls: 'pill-salsa' }, { label: 'SourCream', cls: 'pill-salsa' },
+        { label: 'Tomate', cls: 'pill-salsa' }, { label: 'Jalapenos', cls: 'pill-fresco' },
+        { label: 'Papas Fosforito', cls: 'pill-crunch' },
+      ]},
+];
+
+const SERIES = [
+    { name: 'Fanzine', emoji: '⭐', label: 'Serie Fanzine', bg: 'rgba(230,57,70,0.1)', color: '#e63946' },
+    { name: 'Cheeto',  emoji: '💥', label: 'Serie Cheeto',  bg: 'rgba(247,37,133,0.12)', color: '#f72585' },
+    { name: 'Birria',  emoji: '🥩', label: 'Serie Birria',  bg: 'rgba(139,0,0,0.15)', color: '#cd5c5c' },
+    { name: 'Pibil',   emoji: '🐷', label: 'Serie Pibil',   bg: 'rgba(224,124,36,0.12)', color: '#E07C24' },
+    { name: 'Chipotle',emoji: '🍗', label: 'Serie Chipotle', bg: 'rgba(194,69,45,0.12)', color: '#C2452D' },
+];
+
+// ── State ──
+let guestName = '';
+let picks = [];
+
+// ── Elements ──
+const $step1 = document.getElementById('step1');
+const $step2 = document.getElementById('step2');
+const $step3 = document.getElementById('step3');
+const $nameInput = document.getElementById('guestName');
+const $btnEntrar = document.getElementById('btnEntrar');
+const $dogContainer = document.getElementById('dogContainer');
+const $pickCounter = document.getElementById('pickCounter');
+const $bottomBar = document.getElementById('bottomBar');
+const $pickTag1 = document.getElementById('pickTag1');
+const $pickTag2 = document.getElementById('pickTag2');
+const $btnEnviar = document.getElementById('btnEnviar');
+const $thanksName = document.getElementById('thanksName');
+const $thanksRecap = document.getElementById('thanksRecap');
+
+// ── Step 1: Name ──
+$nameInput.addEventListener('input', () => {
+    $btnEntrar.disabled = $nameInput.value.trim().length === 0;
+});
+
+$nameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && $nameInput.value.trim()) goToStep2();
+});
+
+$btnEntrar.addEventListener('click', goToStep2);
+
+function goToStep2() {
+    guestName = $nameInput.value.trim();
+    if (!guestName) return;
+    $step1.classList.remove('active');
+    $step2.classList.add('active');
+    renderDogs();
+    window.scrollTo(0, 0);
+}
+
+// ── Step 2: Pick dogs ──
+function renderDogs() {
+    let html = '';
+    for (const serie of SERIES) {
+        const dogs = DOGS.filter(d => d.serie === serie.name);
+        html += `<div class="serie-label" style="background:${serie.bg};color:${serie.color};">
+            <span>${serie.emoji}</span> ${serie.label}
+        </div>`;
+        html += '<div class="dog-grid">';
+        for (const dog of dogs) {
+            const pillsHtml = dog.pills.map(p => `<span class="pill ${p.cls}">${p.label}</span>`).join('');
+            html += `<div class="dog-card" data-id="${dog.id}" onclick="togglePick('${dog.id}')">
+                <div class="dog-emoji">${dog.emoji}</div>
+                <div class="dog-name" style="color:${dog.color};">${dog.name.toUpperCase()}</div>
+                <div class="dog-serie">Serie ${dog.serie}</div>
+                <div class="dog-tagline">${dog.tagline}</div>
+                <div class="dog-pills">${pillsHtml}</div>
+                <div class="dog-price" style="color:${dog.color};">$${dog.price.toLocaleString('es-CO')}</div>
+            </div>`;
+        }
+        html += '</div>';
+    }
+    $dogContainer.innerHTML = html;
+}
+
+function togglePick(id) {
+    const idx = picks.indexOf(id);
+    if (idx >= 0) {
+        picks.splice(idx, 1);
+    } else {
+        if (picks.length >= 2) return;
+        picks.push(id);
+    }
+    updatePickUI();
+}
+
+function updatePickUI() {
+    // Update cards
+    document.querySelectorAll('.dog-card').forEach(card => {
+        const id = card.dataset.id;
+        const isSelected = picks.includes(id);
+        card.classList.toggle('selected', isSelected);
+        card.classList.toggle('disabled', picks.length >= 2 && !isSelected);
+    });
+
+    // Counter
+    $pickCounter.textContent = `${picks.length} / 2 SELECCIONADOS`;
+    $pickCounter.classList.toggle('ready', picks.length === 2);
+    $pickCounter.classList.toggle('picking', picks.length < 2);
+
+    // Bottom bar
+    $bottomBar.classList.toggle('visible', picks.length > 0);
+    const dog1 = DOGS.find(d => d.id === picks[0]);
+    const dog2 = DOGS.find(d => d.id === picks[1]);
+    $pickTag1.textContent = dog1 ? dog1.name : '---';
+    $pickTag2.textContent = dog2 ? dog2.name : '---';
+    $btnEnviar.disabled = picks.length !== 2;
+}
+
+// ── Submit ──
+$btnEnviar.addEventListener('click', async () => {
+    if (picks.length !== 2) return;
+
+    $btnEnviar.disabled = true;
+    $btnEnviar.innerHTML = '<span class="spinner"></span>ENVIANDO...';
+
+    const dog1 = DOGS.find(d => d.id === picks[0]);
+    const dog2 = DOGS.find(d => d.id === picks[1]);
+
+    const { error } = await sb.from('tasting_orders').insert({
+        guest_name: guestName,
+        pick_1: dog1.name,
+        pick_2: dog2.name,
+    });
+
+    if (error) {
+        alert('Error al enviar. Intenta de nuevo.');
+        $btnEnviar.disabled = false;
+        $btnEnviar.textContent = 'ENVIAR ORDEN';
+        console.error(error);
+        return;
+    }
+
+    // Go to step 3
+    $step2.classList.remove('active');
+    $bottomBar.classList.remove('visible');
+    $step3.classList.add('active');
+    $thanksName.textContent = guestName;
+    $thanksRecap.innerHTML = `
+        <div class="recap-tag">${dog1.emoji} ${dog1.name}</div>
+        <div class="recap-tag">${dog2.emoji} ${dog2.name}</div>
+    `;
+    window.scrollTo(0, 0);
+});
+</script>
+
+</body>
+</html>

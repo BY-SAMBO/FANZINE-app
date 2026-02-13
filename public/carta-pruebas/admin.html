@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FANZINE - Admin Degustacion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #1a1a2e;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #e63946, #f4a261);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: #e63946;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Orders container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #555;
+        }
+
+        .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+
+        .empty-state p {
+            font-size: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #2a9d8f;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Order card */
+        .order-card {
+            background: #16213e;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid #e63946;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .order-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .order-guest {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #f4a261;
+        }
+
+        .order-time {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .order-picks {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .order-pick {
+            background: rgba(230,57,70,0.12);
+            color: #e63946;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .order-pick:nth-child(2) {
+            background: rgba(42,157,143,0.15);
+            color: #2a9d8f;
+        }
+
+        /* Feedback area */
+        .feedback-area {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .feedback-textarea {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #f0f0f0;
+            resize: vertical;
+            min-height: 60px;
+            transition: border-color 0.3s;
+        }
+
+        .feedback-textarea:focus {
+            outline: none;
+            border-color: #e63946;
+        }
+
+        .feedback-textarea::placeholder { color: #444; }
+
+        .btn-save {
+            padding: 10px 18px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #16213e;
+            color: #888;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-save:hover {
+            border-color: #2a9d8f;
+            color: #2a9d8f;
+        }
+
+        .btn-save.saved {
+            border-color: #2a9d8f;
+            color: #2a9d8f;
+            background: rgba(42,157,143,0.1);
+        }
+
+        .btn-save:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Tally section */
+        .tally-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .tally-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            color: #888;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .tally-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .tally-item {
+            background: #16213e;
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tally-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .tally-count {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            color: #e63946;
+        }
+
+        .tally-bar {
+            height: 3px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .tally-bar-fill {
+            height: 100%;
+            background: #e63946;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 16px 12px; }
+            .order-card { padding: 16px; }
+            .feedback-area { flex-direction: column; }
+            .btn-save { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🔬 ADMIN DEGUSTACION</h1>
+        <p class="subtitle"><span class="live-dot"></span>Tiempo real &mdash; Las ordenes aparecen automaticamente</p>
+        <div class="stats-bar">
+            <div class="stat">
+                <span id="totalOrders" class="stat-number">0</span>
+                <span class="stat-label">Ordenes</span>
+            </div>
+            <div class="stat">
+                <span id="totalGuests" class="stat-number">0</span>
+                <span class="stat-label">Invitados</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="ordersContainer">
+            <div class="empty-state" id="emptyState">
+                <div class="emoji">🕐</div>
+                <p>Esperando ordenes... Cuando un invitado envie su seleccion, aparecera aqui.</p>
+            </div>
+        </div>
+
+        <div class="tally-section" id="tallySection" style="display:none;">
+            <div class="tally-title">RANKING DE PERROS</div>
+            <div class="tally-grid" id="tallyGrid"></div>
+        </div>
+    </div>
+
+<script>
+const SUPABASE_URL = 'https://gkorrgndppfindultvkn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdrb3JyZ25kcHBmaW5kdWx0dmtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MDk2NzgsImV4cCI6MjA4NjA4NTY3OH0.K-WHtanOfUfEk9wRp2Dx0J48xFBNC6XmEnqmRzSbtsQ';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let orders = [];
+
+const $ordersContainer = document.getElementById('ordersContainer');
+const $emptyState = document.getElementById('emptyState');
+const $totalOrders = document.getElementById('totalOrders');
+const $totalGuests = document.getElementById('totalGuests');
+const $tallySection = document.getElementById('tallySection');
+const $tallyGrid = document.getElementById('tallyGrid');
+
+// ── Load existing orders ──
+async function loadOrders() {
+    const { data, error } = await sb
+        .from('tasting_orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error loading orders:', error);
+        return;
+    }
+
+    orders = data || [];
+    renderAll();
+}
+
+// ── Realtime subscription ──
+sb.channel('tasting-realtime')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tasting_orders' }, (payload) => {
+        orders.unshift(payload.new);
+        renderAll();
+    })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'tasting_orders' }, (payload) => {
+        const idx = orders.findIndex(o => o.id === payload.new.id);
+        if (idx >= 0) orders[idx] = payload.new;
+        renderAll();
+    })
+    .subscribe();
+
+// ── Render ──
+function renderAll() {
+    renderOrders();
+    renderStats();
+    renderTally();
+}
+
+function renderOrders() {
+    if (orders.length === 0) {
+        $emptyState.style.display = 'block';
+        // Remove any order cards but keep empty state
+        document.querySelectorAll('.order-card').forEach(el => el.remove());
+        return;
+    }
+
+    $emptyState.style.display = 'none';
+
+    // Build HTML
+    let html = '';
+    for (const order of orders) {
+        const time = new Date(order.created_at).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+        const feedbackVal = (order.feedback || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+        const savedClass = order.feedback ? 'saved' : '';
+
+        html += `<div class="order-card" id="order-${order.id}">
+            <div class="order-header">
+                <span class="order-guest">${escapeHtml(order.guest_name)}</span>
+                <span class="order-time">${time}</span>
+            </div>
+            <div class="order-picks">
+                <span class="order-pick">1. ${escapeHtml(order.pick_1)}</span>
+                <span class="order-pick">2. ${escapeHtml(order.pick_2)}</span>
+            </div>
+            <div class="feedback-area">
+                <textarea class="feedback-textarea" id="fb-${order.id}" placeholder="Escribe feedback para ${escapeHtml(order.guest_name)}...">${feedbackVal}</textarea>
+                <button class="btn-save ${savedClass}" id="btn-${order.id}" onclick="saveFeedback('${order.id}')">GUARDAR</button>
+            </div>
+        </div>`;
+    }
+
+    // Preserve scroll position
+    const scrollY = window.scrollY;
+    $ordersContainer.innerHTML = html;
+    window.scrollTo(0, scrollY);
+}
+
+function renderStats() {
+    $totalOrders.textContent = orders.length;
+    const uniqueGuests = new Set(orders.map(o => o.guest_name.toLowerCase())).size;
+    $totalGuests.textContent = uniqueGuests;
+}
+
+function renderTally() {
+    if (orders.length === 0) {
+        $tallySection.style.display = 'none';
+        return;
+    }
+
+    $tallySection.style.display = 'block';
+
+    // Count picks
+    const counts = {};
+    for (const order of orders) {
+        counts[order.pick_1] = (counts[order.pick_1] || 0) + 1;
+        counts[order.pick_2] = (counts[order.pick_2] || 0) + 1;
+    }
+
+    // Sort by count descending
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const max = sorted[0]?.[1] || 1;
+
+    let html = '';
+    for (const [name, count] of sorted) {
+        const pct = Math.round((count / max) * 100);
+        html += `<div class="tally-item">
+            <div>
+                <div class="tally-name">${escapeHtml(name)}</div>
+                <div class="tally-bar"><div class="tally-bar-fill" style="width:${pct}%"></div></div>
+            </div>
+            <span class="tally-count">${count}</span>
+        </div>`;
+    }
+
+    $tallyGrid.innerHTML = html;
+}
+
+// ── Save feedback ──
+async function saveFeedback(orderId) {
+    const textarea = document.getElementById('fb-' + orderId);
+    const btn = document.getElementById('btn-' + orderId);
+    const feedback = textarea.value.trim();
+
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    const { error } = await sb
+        .from('tasting_orders')
+        .update({ feedback })
+        .eq('id', orderId);
+
+    if (error) {
+        alert('Error al guardar feedback');
+        console.error(error);
+        btn.disabled = false;
+        btn.textContent = 'GUARDAR';
+        return;
+    }
+
+    // Update local state
+    const idx = orders.findIndex(o => o.id === orderId);
+    if (idx >= 0) orders[idx].feedback = feedback;
+
+    btn.textContent = 'GUARDADO';
+    btn.classList.add('saved');
+    btn.disabled = false;
+
+    setTimeout(() => {
+        btn.textContent = 'GUARDAR';
+    }, 2000);
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+// ── Init ──
+loadOrders();
+</script>
+
+</body>
+</html>

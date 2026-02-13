@@ -11,7 +11,7 @@
     :root {
       --bg: #1a1a2e;
       --accent: #9B4F2E;
-      --accent-light: #c06a3f;
+      --accent-light: #c4724e;
       --text: #f0f0f0;
       --text-muted: #a0a0b0;
       --surface: #16213e;
@@ -57,9 +57,9 @@
 
     @keyframes glitch {
       0%, 100% { text-shadow: 0 0 40px rgba(155,79,46,0.3); }
-      25% { text-shadow: -3px 0 40px rgba(155,79,46,0.5), 3px 0 rgba(192,106,63,0.3); }
+      25% { text-shadow: -3px 0 40px rgba(155,79,46,0.5), 3px 0 rgba(196,114,78,0.3); }
       50% { text-shadow: 0 0 60px rgba(155,79,46,0.4); }
-      75% { text-shadow: 3px 0 40px rgba(155,79,46,0.5), -3px 0 rgba(192,106,63,0.3); }
+      75% { text-shadow: 3px 0 40px rgba(155,79,46,0.5), -3px 0 rgba(196,114,78,0.3); }
     }
 
     /* ── HERO ── */
@@ -284,6 +284,22 @@
       color: var(--accent);
     }
 
+    /* ── QUANTITY INPUT ── */
+    .ingredient-qty { margin-top: 0.5rem; }
+    .qty-input {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      color: #fff;
+      font-size: 0.85rem;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s;
+    }
+    .qty-input:focus { outline: none; border-color: var(--accent); }
+    .qty-input::placeholder { color: rgba(255,255,255,0.25); }
+
     /* ── PALATABILITY ── */
     .meters {
       display: flex;
@@ -392,11 +408,11 @@
   <!-- HERO -->
   <div class="hero">
     <div class="fade-in d1">
-      <div class="hero-emoji">🌭🔥💨</div>
+      <div class="hero-emoji">🐷💨🔥</div>
     </div>
     <h1 class="fade-in d2">PERRO PIBIL AHUMADO</h1>
-    <div class="subtitle fade-in d3">Humo &amp; Profundidad</div>
-    <p class="tagline fade-in d4">Achiote, humo y profundidad.</p>
+    <div class="subtitle fade-in d3">Triple Humo</div>
+    <p class="tagline fade-in d4">Tocino, le&ntilde;a y achiote. Profundidad m&aacute;xima.</p>
     <div class="price-badge fade-in d5">$18.000 COP</div>
     <div class="scroll-hint">
       <span>&#8595; Descubre la receta</span>
@@ -409,57 +425,111 @@
     <div class="recipe-timeline">
 
       <div class="ingredient fade-in d1">
-        <div class="layer-number">Capa 06 &mdash; Tope</div>
+        <div class="layer-number">Capa 09 &mdash; Tope</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Papas Fosforito</span>
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
-        <div class="ingredient-role">Crunch fino y salado</div>
+        <div class="ingredient-role">Crunch salado</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-papas-fosforito" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d2">
-        <div class="layer-number">Capa 05</div>
+        <div class="layer-number">Capa 08</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Cebolla Encurtida</span>
           <span class="ingredient-tag tag-fresco">fresco</span>
         </div>
-        <div class="ingredient-role">&Aacute;cido esencial</div>
+        <div class="ingredient-role">&Aacute;cido imprescindible que corta el humo</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-cebolla-encurtida" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d3">
-        <div class="layer-number">Capa 04</div>
+        <div class="layer-number">Capa 07</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Le&ntilde;a / Mayo Ahumada</span>
+          <span class="ingredient-name">SourCream</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Segunda capa de humo, cremosidad</div>
+        <div class="ingredient-role">Cremosidad que equilibra</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-sourcream" placeholder="Cantidad..." />
+        </div>
       </div>
 
-      <div class="ingredient star fade-in d4">
+      <div class="ingredient fade-in d4">
+        <div class="layer-number">Capa 06</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Salsa de Tomate</span>
+          <span class="ingredient-tag tag-salsa">salsa</span>
+        </div>
+        <div class="ingredient-role">Acidez dulce</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-salsa-tomate" placeholder="Cantidad..." />
+        </div>
+      </div>
+
+      <div class="ingredient fade-in d5">
+        <div class="layer-number">Capa 05</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Salsa de Le&ntilde;a</span>
+          <span class="ingredient-tag tag-salsa">salsa</span>
+        </div>
+        <div class="ingredient-role">Humo protagonista</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-salsa-lena" placeholder="Cantidad..." />
+        </div>
+      </div>
+
+      <div class="ingredient fade-in d6">
+        <div class="layer-number">Capa 04</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Queso Cheddar</span>
+          <span class="ingredient-tag tag-queso">queso</span>
+        </div>
+        <div class="ingredient-role">Fundido cremoso</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-cheddar" placeholder="Cantidad..." />
+        </div>
+      </div>
+
+      <div class="ingredient star fade-in d7">
         <div class="layer-number">Capa 03</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Cochinita Pibil</span>
           <span class="ingredient-tag tag-proteina">prote&iacute;na</span>
         </div>
-        <div class="ingredient-role">Achiote + c&iacute;trico + cerdo tierno</div>
+        <div class="ingredient-role">Profundidad de achiote</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-cochinita" placeholder="Cantidad..." />
+        </div>
       </div>
 
-      <div class="ingredient fade-in d5">
+      <div class="ingredient fade-in">
         <div class="layer-number">Capa 02</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Primera capa de humo</div>
+        <div class="ingredient-role">Primer humo</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-salchicha" placeholder="Cantidad..." />
+        </div>
       </div>
 
-      <div class="ingredient fade-in d6">
+      <div class="ingredient fade-in">
         <div class="layer-number">Capa 01 &mdash; Base</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Pan Brioche Dorado</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Firme y tostado</div>
+        <div class="ingredient-role">Base firme</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="pibil-ahumado-pan" placeholder="Cantidad..." />
+        </div>
       </div>
 
     </div>
@@ -476,13 +546,13 @@
       </div>
       <div class="meter-row fade-in d2">
         <span class="meter-label">Crunch</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
-        <span class="meter-value">3/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
       </div>
       <div class="meter-row fade-in d3">
         <span class="meter-label">Frescura</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:40%"></div></div>
-        <span class="meter-value">2/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
+        <span class="meter-value">3/5</span>
       </div>
       <div class="meter-row fade-in d4">
         <span class="meter-label">Picante</span>
@@ -491,8 +561,8 @@
       </div>
       <div class="meter-row fade-in d5">
         <span class="meter-label">Cremosidad</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
-        <span class="meter-value">4/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
+        <span class="meter-value">5/5</span>
       </div>
     </div>
   </section>
@@ -500,7 +570,7 @@
   <!-- PERFIL DE SABOR -->
   <section>
     <h2 class="section-title fade-in">PERFIL DE SABOR</h2>
-    <p class="flavor-text fade-in d2">El Pibil Ahumado lleva la cochinita a territorio nuevo. En vez del cl&aacute;sico acompa&ntilde;amiento tropical, la mayo ahumada (Salsa de Le&ntilde;a) crea un puente de humo entre el tocino y el achiote del pibil. La cebolla encurtida mantiene el balance &aacute;cido imprescindible, y las papas fosforito aportan un crunch sutil y salado. Es m&aacute;s oscuro y profundo que el Tropical &mdash; el pibil para paladares que buscan complejidad.</p>
+    <p class="flavor-text fade-in d2">El Pibil Ahumado es triple humo: tocino crujiente, mayo ahumada y el achiote profundo de la cochinita se encuentran y se amplifican mutuamente. El cheddar fundido abraza la carne y la SourCream aporta el respiro cremoso que necesita tanta profundidad. La salsa de tomate balancea con acidez dulce. La cebolla encurtida es el corte &aacute;cido imprescindible y las papas fosforito coronan con crunch salado. Es el Pibil para los que quieren profundidad sobre todo lo dem&aacute;s.</p>
   </section>
 
   <!-- FOOTER -->
@@ -509,6 +579,16 @@
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
     <a href="index.html">&larr; Ver todos los perros</a>
   </footer>
+
+  <script>
+    document.querySelectorAll('.qty-input').forEach(input => {
+      const saved = localStorage.getItem('lab-qty-' + input.dataset.key);
+      if (saved) input.value = saved;
+      input.addEventListener('input', () => {
+        localStorage.setItem('lab-qty-' + input.dataset.key, input.value);
+      });
+    });
+  </script>
 
 </body>
 </html>

@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perro Chipotle Gold - FANZINE Cine & Tex-Mex</title>
+  <title>Perro Pibil Dulce - FANZINE Cine & Tex-Mex</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #1a1a2e;
-      --accent: #B8860B;
-      --accent-light: #d4a843;
+      --accent: #D4951A;
+      --accent-light: #f0c050;
       --text: #f0f0f0;
       --text-muted: #a0a0b0;
       --surface: #16213e;
@@ -45,7 +45,6 @@
     .fade-in.d5 { animation-delay: 0.5s; }
     .fade-in.d6 { animation-delay: 0.6s; }
     .fade-in.d7 { animation-delay: 0.7s; }
-    .fade-in.d8 { animation-delay: 0.8s; }
 
     @keyframes fadeUp {
       to { opacity: 1; transform: translateY(0); }
@@ -57,10 +56,10 @@
     }
 
     @keyframes glitch {
-      0%, 100% { text-shadow: 0 0 40px rgba(184,134,11,0.3); }
-      25% { text-shadow: -3px 0 40px rgba(184,134,11,0.5), 3px 0 rgba(212,168,67,0.3); }
-      50% { text-shadow: 0 0 60px rgba(184,134,11,0.4); }
-      75% { text-shadow: 3px 0 40px rgba(184,134,11,0.5), -3px 0 rgba(212,168,67,0.3); }
+      0%, 100% { text-shadow: 0 0 40px rgba(212,149,26,0.3); }
+      25% { text-shadow: -3px 0 40px rgba(212,149,26,0.5), 3px 0 rgba(240,192,80,0.3); }
+      50% { text-shadow: 0 0 60px rgba(212,149,26,0.4); }
+      75% { text-shadow: 3px 0 40px rgba(212,149,26,0.5), -3px 0 rgba(240,192,80,0.3); }
     }
 
     /* ── HERO ── */
@@ -72,7 +71,7 @@
       justify-content: center;
       text-align: center;
       padding: 2rem;
-      background: linear-gradient(180deg, #1a1a2e 0%, #1a150a 50%, #1a1a2e 100%);
+      background: linear-gradient(180deg, #1a1a2e 0%, #1a170e 50%, #1a1a2e 100%);
       position: relative;
       overflow: hidden;
     }
@@ -84,7 +83,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at center, rgba(184,134,11,0.08) 0%, transparent 60%);
+      background: radial-gradient(circle at center, rgba(212,149,26,0.08) 0%, transparent 60%);
       animation: pulse 5s ease-in-out infinite;
     }
 
@@ -99,8 +98,8 @@
         0deg,
         transparent,
         transparent 2px,
-        rgba(184,134,11,0.02) 2px,
-        rgba(184,134,11,0.02) 4px
+        rgba(212,149,26,0.02) 2px,
+        rgba(212,149,26,0.02) 4px
       );
       pointer-events: none;
     }
@@ -208,7 +207,7 @@
       padding: 1.25rem 1.5rem;
       background: var(--surface);
       border-radius: 12px;
-      border: 1px solid rgba(184,134,11,0.15);
+      border: 1px solid rgba(212,149,26,0.15);
       transition: border-color 0.3s;
     }
 
@@ -276,8 +275,8 @@
     /* ── STAR INGREDIENT HIGHLIGHT ── */
     .ingredient.star {
       border-color: var(--accent);
-      background: linear-gradient(135deg, var(--surface) 0%, rgba(184,134,11,0.08) 100%);
-      box-shadow: 0 0 20px rgba(184,134,11,0.15);
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(212,149,26,0.08) 100%);
+      box-shadow: 0 0 20px rgba(212,149,26,0.15);
     }
 
     .ingredient.star .ingredient-name::after {
@@ -368,7 +367,7 @@
     footer {
       text-align: center;
       padding: 3rem 1.5rem;
-      border-top: 1px solid rgba(184,134,11,0.15);
+      border-top: 1px solid rgba(212,149,26,0.15);
     }
 
     footer .brand {
@@ -409,11 +408,11 @@
   <!-- HERO -->
   <div class="hero">
     <div class="fade-in d1">
-      <div class="hero-emoji">&#x1F357;&#x1F947;&#x1F4A8;</div>
+      <div class="hero-emoji">🐷🌽✨</div>
     </div>
-    <h1 class="fade-in d2">PERRO CHIPOTLE GOLD</h1>
-    <div class="subtitle fade-in d3">Triple Humo</div>
-    <p class="tagline fade-in d4">Tocino + chipotle + le&ntilde;a. Sin tregua.</p>
+    <h1 class="fade-in d2">PERRO PIBIL DULCE</h1>
+    <div class="subtitle fade-in d3">Ma&iacute;z &amp; Achiote</div>
+    <p class="tagline fade-in d4">Ma&iacute;z dulce amplifica el achiote.</p>
     <div class="price-badge fade-in d5">$18.000 COP</div>
     <div class="scroll-hint">
       <span>&#8595; Descubre la receta</span>
@@ -431,69 +430,69 @@
           <span class="ingredient-name">Cebolla Crispy</span>
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
-        <div class="ingredient-role">Dulzor crujiente final</div>
+        <div class="ingredient-role">Crujido final</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-cebolla-crispy" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-cebolla-crispy" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d2">
         <div class="layer-number">Capa 07</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Mostaza</span>
-          <span class="ingredient-tag tag-salsa">salsa</span>
+          <span class="ingredient-name">Cebolla Encurtida</span>
+          <span class="ingredient-tag tag-fresco">fresco</span>
         </div>
-        <div class="ingredient-role">Acidez que corta el triple humo</div>
+        <div class="ingredient-role">&Aacute;cido yucateco que balancea la dulzura</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-mostaza" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-cebolla-encurtida" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d3">
         <div class="layer-number">Capa 06</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Le&ntilde;a</span>
+          <span class="ingredient-name">Salsa de Ma&iacute;z Dulce</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Segundo humo</div>
+        <div class="ingredient-role">Dulzura terrosa que amplifica el achiote</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-salsa-lena" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-maiz-dulce" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d4">
         <div class="layer-number">Capa 05</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Tomate</span>
+          <span class="ingredient-name">SourCream</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Acidez dulce de base</div>
+        <div class="ingredient-role">Frescura cremosa</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-salsa-tomate" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-sourcream" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d5">
         <div class="layer-number">Capa 04</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Queso Cheddar</span>
-          <span class="ingredient-tag tag-queso">queso</span>
+          <span class="ingredient-name">Salsa de Le&ntilde;a</span>
+          <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Fundido dorado</div>
+        <div class="ingredient-role">Humo de fondo</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-cheddar" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-salsa-lena" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient star fade-in d6">
         <div class="layer-number">Capa 03</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Pollo Chipotle</span>
+          <span class="ingredient-name">Cochinita Pibil</span>
           <span class="ingredient-tag tag-proteina">prote&iacute;na</span>
         </div>
-        <div class="ingredient-role">Humo n&uacute;mero uno</div>
+        <div class="ingredient-role">C&iacute;trica, arom&aacute;tica, protagonista absoluta</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-pollo" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-cochinita" placeholder="Cantidad..." />
         </div>
       </div>
 
@@ -503,21 +502,21 @@
           <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Humo base</div>
+        <div class="ingredient-role">Sal y humo de base</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-salchicha" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-salchicha" placeholder="Cantidad..." />
         </div>
       </div>
 
-      <div class="ingredient fade-in d8">
+      <div class="ingredient fade-in">
         <div class="layer-number">Capa 01 &mdash; Base</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Pan Brioche Dorado</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Fundamento firme</div>
+        <div class="ingredient-role">Dulzor tostado</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-pan" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="pibil-dulce-pan" placeholder="Cantidad..." />
         </div>
       </div>
 
@@ -530,8 +529,8 @@
     <div class="meters">
       <div class="meter-row fade-in d1">
         <span class="meter-label">Umami</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
-        <span class="meter-value">5/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
       </div>
       <div class="meter-row fade-in d2">
         <span class="meter-label">Crunch</span>
@@ -540,18 +539,18 @@
       </div>
       <div class="meter-row fade-in d3">
         <span class="meter-label">Frescura</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:20%"></div></div>
-        <span class="meter-value">1/5</span>
-      </div>
-      <div class="meter-row fade-in d4">
-        <span class="meter-label">Picante</span>
         <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
         <span class="meter-value">3/5</span>
       </div>
+      <div class="meter-row fade-in d4">
+        <span class="meter-label">Picante</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:0%"></div></div>
+        <span class="meter-value">0/5</span>
+      </div>
       <div class="meter-row fade-in d5">
         <span class="meter-label">Cremosidad</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
-        <span class="meter-value">4/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
+        <span class="meter-value">5/5</span>
       </div>
     </div>
   </section>
@@ -559,7 +558,7 @@
   <!-- PERFIL DE SABOR -->
   <section>
     <h2 class="section-title fade-in">PERFIL DE SABOR</h2>
-    <p class="flavor-text fade-in d2">El Chipotle Gold es triple humo sin tregua: tocino crujiente, pollo chipotle ahumado y mayo ahumada de le&ntilde;a se encuentran y se amplifican. La mostaza aporta la acidez necesaria para cortar tanta profundidad y la salsa de tomate balancea por debajo. El cheddar fundido abraza todo con cremosidad dorada y la cebolla crispy cierra con dulzor crujiente. El m&aacute;s sofisticado de la serie.</p>
+    <p class="flavor-text fade-in d2">El Pibil Dulce descubre que el ma&iacute;z dulce y el achiote de la cochinita son aliados naturales. La salsa de ma&iacute;z aporta una dulzura terrosa que amplifica las notas c&iacute;tricas del pibil sin competir. La SourCream y la mayo ahumada crean cremosidad con profundidad. La cebolla encurtida balancea la dulzura con su &aacute;cido rosado y la cebolla crispy remata con crunch. Es el Pibil m&aacute;s dulce y el que menos picante tiene &mdash; pura armon&iacute;a.</p>
   </section>
 
   <!-- FOOTER -->

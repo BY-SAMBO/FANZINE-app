@@ -182,6 +182,7 @@
         .inv-tag-active { background: rgba(42, 157, 143, 0.2); color: #2a9d8f; }
         .inv-tag-new { background: rgba(233, 196, 106, 0.25); color: #e9c46a; }
         .inv-tag-removed { background: rgba(255, 255, 255, 0.06); color: #666; text-decoration: line-through; }
+        .inv-tag-pending { background: rgba(233, 196, 106, 0.15); color: #e9c46a; }
 
         .grid {
             display: grid;
@@ -392,7 +393,7 @@
             <div class="hero-emoji">🌭🎬🔥</div>
             <h1>FANZINE HOT DOGS</h1>
             <p class="subtitle">Carta Insignia &mdash; Cine &amp; Tex-Mex</p>
-            <p class="tagline">13 perros calientes de autor. 2 insignia + 2 serie cheeto + 9 variantes con prote&iacute;na. Palatabilidad 9.5/10. Sin toppings libres. Solo sabor perfecto.</p>
+            <p class="tagline">15 perros calientes de autor. 3 insignia + 2 serie cheeto + 9 variantes con prote&iacute;na. Palatabilidad m&aacute;xima.</p>
         </div>
     </section>
 
@@ -476,7 +477,7 @@
                     </li>
                     <li class="inv-item">
                         <span class="name">Mostaza Inglesa</span>
-                        <span class="inv-tag inv-tag-new">pendiente</span>
+                        <span class="inv-tag inv-tag-pending">pendiente</span>
                     </li>
                 </ul>
             </div>
@@ -505,16 +506,16 @@
                         <span class="inv-tag inv-tag-active">activo</span>
                     </li>
                     <li class="inv-item">
-                        <span class="name">Pi&ntilde;a Dulce</span>
-                        <span class="inv-tag inv-tag-active">activo</span>
-                    </li>
-                    <li class="inv-item">
                         <span class="name">Pepinillos Picados</span>
                         <span class="inv-tag inv-tag-new">nuevo</span>
                     </li>
                     <li class="inv-item">
                         <span class="name">Cebolla Caramelizada</span>
                         <span class="inv-tag inv-tag-new">nuevo</span>
+                    </li>
+                    <li class="inv-item">
+                        <span class="name">Pi&ntilde;a Dulce</span>
+                        <span class="inv-tag inv-tag-removed">retirado</span>
                     </li>
                     <li class="inv-item">
                         <span class="name">Pico de Gallo</span>
@@ -553,27 +554,29 @@
         </div>
     </section>
 
-    <!-- ═══════════════ INSIGNIA ═══════════════ -->
+    <!-- ═══════════════ SERIE FANZINE ═══════════════ -->
     <section class="grid-section">
         <div class="category-header" style="background: rgba(230,57,70,0.1); color: #e63946;">
-            <span class="emoji">⭐</span> PERROS INSIGNIA
+            <span class="emoji">⭐</span> SERIE FANZINE &mdash; Perros Insignia
         </div>
 
         <div class="grid">
 
-            <!-- PERRO FANZINE -->
-            <a href="perro-fanzine.html" class="card" style="--accent: #e63946;">
+            <!-- PERRO FANZINE CLÁSICO -->
+            <a href="fanzine-clasico.html" class="card" style="--accent: #e63946;">
                 <div class="card-accent" style="background: linear-gradient(90deg, #e63946, #ff6b6b);"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
                     <div class="card-emoji">🔥🌭🎬</div>
-                    <h2 class="card-name" style="color: #e63946;">PERRO FANZINE</h2>
+                    <h2 class="card-name" style="color: #e63946;">PERRO FANZINE CL&Aacute;SICO</h2>
                     <p class="card-subtitle">La Casa &mdash; El Insignia</p>
-                    <p class="card-tagline">Mayo ahumada, cheddar fundido, doble crunch de cebolla crispy y papas fosforito sobre tocino crujiente. El que nos define.</p>
+                    <p class="card-tagline">Triple crema, doble crunch, cero picante. Si no sabes qu&eacute; pedir, pide este.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-queso">Cheddar</span>
                         <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                         <span class="pill pill-crunch">Papas Fosforito</span>
                     </div>
@@ -588,28 +591,59 @@
                 </div>
             </a>
 
-            <!-- PERRO TEXANO -->
-            <a href="perro-texano.html" class="card" style="--accent: #e76f51;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #e76f51, #f4a261);"></div>
+            <!-- PERRO FANZINE DORADO -->
+            <a href="fanzine-dorado.html" class="card" style="--accent: #d4a017;">
+                <div class="card-accent" style="background: linear-gradient(90deg, #d4a017, #ffe066);"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🤠🔥🌶️</div>
-                    <h2 class="card-name" style="color: #e76f51;">PERRO TEXANO</h2>
-                    <p class="card-subtitle">Texas Heat &mdash; Sin Rodeos</p>
-                    <p class="card-tagline">Cheddar fundido, mostaza, jalape&ntilde;os y cebolla crispy. El calor de Texas en cada mordida con tocino envuelto.</p>
+                    <div class="card-emoji">✨🌭🧈</div>
+                    <h2 class="card-name" style="color: #d4a017;">PERRO FANZINE DORADO</h2>
+                    <p class="card-subtitle">Gold Edition &mdash; Dulzura Profunda</p>
+                    <p class="card-tagline">Cebolla caramelizada, ma&iacute;z dulce y mayo ahumada. El m&aacute;s adictivo de la carta.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-queso">Cheddar</span>
-                        <span class="pill pill-salsa">Mostaza</span>
-                        <span class="pill pill-fresco">Jalape&ntilde;os</span>
+                        <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">Ma&iacute;z Dulce</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-fresco">Cebolla Caramelizada</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
-                        <div class="meter"><span class="meter-label">Picante</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
-                        <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
+                        <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
+                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #e76f51;">$16.000</span>
+                        <span class="price" style="color: #d4a017;">$16.000</span>
+                        <span class="base-badge base-tocino">Envuelta en Tocino</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- PERRO FANZINE FRESCO -->
+            <a href="fanzine-fresco.html" class="card" style="--accent: #2a9d8f;">
+                <div class="card-accent" style="background: linear-gradient(90deg, #2a9d8f, #4ecdc4);"></div>
+                <span class="card-arrow">&rarr;</span>
+                <div class="card-body">
+                    <div class="card-emoji">🌿🌭🍋</div>
+                    <h2 class="card-name" style="color: #2a9d8f;">PERRO FANZINE FRESCO</h2>
+                    <p class="card-subtitle">The Fresh One &mdash; Balance &Aacute;cido</p>
+                    <p class="card-tagline">Pepinillos, SourCream y tomate sobre cheddar drizzled. El m&aacute;s balanceado.</p>
+                    <div class="ingredients">
+                        <span class="pill pill-base">Tocino</span>
+                        <span class="pill pill-queso">Cheddar</span>
+                        <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Tomate</span>
+                        <span class="pill pill-fresco">Pepinillos</span>
+                        <span class="pill pill-crunch">Papas Fosforito</span>
+                    </div>
+                    <div class="meters">
+                        <div class="meter"><span class="meter-label">Frescura</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
+                        <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="price" style="color: #2a9d8f;">$16.000</span>
                         <span class="base-badge base-tocino">Envuelta en Tocino</span>
                     </div>
                 </div>
@@ -634,7 +668,7 @@
                     <div class="card-emoji">💥🧴🧀</div>
                     <h2 class="card-name" style="color: #f72585;">PERRO CHEETO CREMOSO</h2>
                     <p class="card-subtitle">Crunch vs Crema &mdash; Contraste Perfecto</p>
-                    <p class="card-tagline">Triple capa cremosa (cheddar + SourCream + leña) contra Cheetos picantes. Todo existe para que el Cheeto brille.</p>
+                    <p class="card-tagline">Triple capa cremosa (cheddar + SourCream + le&ntilde;a) contra Cheetos picantes. Todo existe para que el Cheeto brille.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-queso">Cheddar</span>
@@ -691,25 +725,28 @@
 
         <div class="grid">
 
-            <!-- QUESABIRRIA -->
-            <a href="birria-quesabirria.html" class="card" style="--accent: #8B0000;">
+            <!-- BIRRIA FUNDIDO -->
+            <a href="birria-fundido.html" class="card" style="--accent: #8B0000;">
                 <div class="card-accent" style="background: linear-gradient(90deg, #8B0000, #cd5c5c);"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
                     <div class="card-emoji">🧀🥩🔥</div>
-                    <h2 class="card-name" style="color: #cd5c5c;">PERRO QUESABIRRIA</h2>
-                    <p class="card-subtitle">Opci&oacute;n A &mdash; Ahumado + &Aacute;cido</p>
-                    <p class="card-tagline">La quesabirria hecha hot dog. Birria jugosa, cheddar fundido, mayo ahumada y cebolla encurtida.</p>
+                    <h2 class="card-name" style="color: #cd5c5c;">PERRO BIRRIA FUNDIDO</h2>
+                    <p class="card-subtitle">Queso + Carne &mdash; Fusi&oacute;n Total</p>
+                    <p class="card-tagline">La quesabirria hecha hot dog. Birria jugosa, cheddar fundido, mayo ahumada y encurtida.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Res Birria</span>
                         <span class="pill pill-queso">Cheddar</span>
                         <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-fresco">Cebolla Encurtida</span>
+                        <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
                         <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
-                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
+                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
                         <span class="price" style="color: #cd5c5c;">$18.000</span>
@@ -725,18 +762,21 @@
                 <div class="card-body">
                     <div class="card-emoji">🥩💥🥔</div>
                     <h2 class="card-name" style="color: #cd853f;">PERRO BIRRIA CRUNCH</h2>
-                    <p class="card-subtitle">Opci&oacute;n B &mdash; Doble Crunch</p>
-                    <p class="card-tagline">Birria jugosa con cheddar fundido, cebolla crispy y papas fosforito. Pura indulgencia crujiente.</p>
+                    <p class="card-subtitle">Doble Crunch &mdash; Textura M&aacute;xima</p>
+                    <p class="card-tagline">Birria jugosa con mostaza, cebolla crispy y papas fosforito. Doble crunch sin cheetos.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Res Birria</span>
                         <span class="pill pill-queso">Cheddar</span>
+                        <span class="pill pill-salsa">Mostaza</span>
+                        <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                         <span class="pill pill-crunch">Papas Fosforito</span>
                     </div>
                     <div class="meters">
-                        <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                         <div class="meter"><span class="meter-label">Crunch</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
+                        <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
                         <span class="price" style="color: #cd853f;">$18.000</span>
@@ -752,14 +792,17 @@
                 <div class="card-body">
                     <div class="card-emoji">🥩🔥🌶️</div>
                     <h2 class="card-name" style="color: #FF4500;">PERRO BIRRIA FUEGO</h2>
-                    <p class="card-subtitle">Opci&oacute;n C &mdash; Picante Agresivo</p>
-                    <p class="card-tagline">Birria + cheddar + jalape&ntilde;os + Cheetos picantes. No apto para t&iacute;midos.</p>
+                    <p class="card-subtitle">Jalape&ntilde;o Amplifica &mdash; Para Valientes</p>
+                    <p class="card-tagline">Birria + jalape&ntilde;os + SourCream. El fuego del jalape&ntilde;o amplifica la birria.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Res Birria</span>
                         <span class="pill pill-queso">Cheddar</span>
+                        <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-fresco">Jalape&ntilde;os</span>
-                        <span class="pill pill-crunch">Cheetos Picantes</span>
+                        <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
                         <div class="meter"><span class="meter-label">Picante</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
@@ -790,18 +833,20 @@
                 <div class="card-body">
                     <div class="card-emoji">🍍🐷🌴</div>
                     <h2 class="card-name" style="color: #E07C24;">PERRO PIBIL TROPICAL</h2>
-                    <p class="card-subtitle">Opci&oacute;n A &mdash; Yucat&aacute;n + Caribe</p>
-                    <p class="card-tagline">Cochinita con salsa de pi&ntilde;a, cebolla encurtida y cebolla crispy. Un viaje al tr&oacute;pico.</p>
+                    <p class="card-subtitle">Yucat&aacute;n + Caribe &mdash; Lo Tropical</p>
+                    <p class="card-tagline">Cochinita con salsa de pi&ntilde;a, SourCream y encurtida. Un viaje al tr&oacute;pico.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Cochinita Pibil</span>
                         <span class="pill pill-salsa">Salsa de Pi&ntilde;a</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
                         <span class="pill pill-fresco">Cebolla Encurtida</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
+                        <div class="meter"><span class="meter-label">Frescura</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                         <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
-                        <div class="meter"><span class="meter-label">Frescura</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span><span class="meter-dot"></span></div></div>
                     </div>
                     <div class="card-footer">
                         <span class="price" style="color: #E07C24;">$18.000</span>
@@ -817,18 +862,21 @@
                 <div class="card-body">
                     <div class="card-emoji">🐷💨🔥</div>
                     <h2 class="card-name" style="color: #c4724e;">PERRO PIBIL AHUMADO</h2>
-                    <p class="card-subtitle">Opci&oacute;n B &mdash; Profundidad Ahumada</p>
-                    <p class="card-tagline">Cochinita con mayo ahumada, cebolla encurtida y papas fosforito. Achiote + humo profundo.</p>
+                    <p class="card-subtitle">Triple Humo &mdash; Profundidad M&aacute;xima</p>
+                    <p class="card-tagline">Tocino + le&ntilde;a + achiote. Triple humo con cheddar fundido y encurtida.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Cochinita Pibil</span>
+                        <span class="pill pill-queso">Cheddar</span>
                         <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-fresco">Cebolla Encurtida</span>
                         <span class="pill pill-crunch">Papas Fosforito</span>
                     </div>
                     <div class="meters">
                         <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
-                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
+                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
                         <span class="price" style="color: #c4724e;">$18.000</span>
@@ -837,28 +885,30 @@
                 </div>
             </a>
 
-            <!-- PIBIL CHEETO -->
-            <a href="pibil-cheeto.html" class="card" style="--accent: #D4451A;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #D4451A, #f06543);"></div>
+            <!-- PIBIL DULCE -->
+            <a href="pibil-dulce.html" class="card" style="--accent: #D4951A;">
+                <div class="card-accent" style="background: linear-gradient(90deg, #D4951A, #f0c050);"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🐷💥🌶️</div>
-                    <h2 class="card-name" style="color: #f06543;">PERRO PIBIL CHEETO</h2>
-                    <p class="card-subtitle">Opci&oacute;n C &mdash; Crunch Picante</p>
-                    <p class="card-tagline">Cochinita + cheddar fundido + Cheetos picantes + encurtida. La fusi&oacute;n m&aacute;s inesperada.</p>
+                    <div class="card-emoji">🐷🌽✨</div>
+                    <h2 class="card-name" style="color: #D4951A;">PERRO PIBIL DULCE</h2>
+                    <p class="card-subtitle">Ma&iacute;z Dulce &mdash; Dulzura Natural</p>
+                    <p class="card-tagline">Salsa de ma&iacute;z dulce amplifica el achiote. SourCream y encurtida cierran el ciclo.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Cochinita Pibil</span>
-                        <span class="pill pill-queso">Cheddar</span>
-                        <span class="pill pill-crunch">Cheetos Picantes</span>
+                        <span class="pill pill-salsa">Ma&iacute;z Dulce</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
                         <span class="pill pill-fresco">Cebolla Encurtida</span>
+                        <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
-                        <div class="meter"><span class="meter-label">Crunch</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
-                        <div class="meter"><span class="meter-label">Picante</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
+                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
+                        <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #f06543;">$18.000</span>
+                        <span class="price" style="color: #D4951A;">$18.000</span>
                         <span class="base-badge base-tocino">Envuelta en Tocino</span>
                     </div>
                 </div>
@@ -882,18 +932,19 @@
                 <div class="card-body">
                     <div class="card-emoji">🍗🧴🔥</div>
                     <h2 class="card-name" style="color: #C2452D;">PERRO CHIPOTLE CREAM</h2>
-                    <p class="card-subtitle">Opci&oacute;n A &mdash; Cremoso vs Picante</p>
-                    <p class="card-tagline">Pollo chipotle, SourCream generosa, Cheetos picantes y cebolla crispy. El perro de los contrastes.</p>
+                    <p class="card-subtitle">Cremoso vs Picante &mdash; Contrastes</p>
+                    <p class="card-tagline">Triple crema: SourCream + guacamole + mayo ahumada calman el fuego chipotle.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Pollo Chipotle</span>
                         <span class="pill pill-salsa">SourCream</span>
-                        <span class="pill pill-crunch">Cheetos Picantes</span>
+                        <span class="pill pill-salsa">Guacamole</span>
+                        <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
                         <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
-                        <div class="meter"><span class="meter-label">Crunch</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
+                        <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                     </div>
                     <div class="card-footer">
                         <span class="price" style="color: #C2452D;">$18.000</span>
@@ -909,18 +960,20 @@
                 <div class="card-body">
                     <div class="card-emoji">🍗🥇💨</div>
                     <h2 class="card-name" style="color: #B8860B;">PERRO CHIPOTLE GOLD</h2>
-                    <p class="card-subtitle">Opci&oacute;n B &mdash; Triple Humo</p>
-                    <p class="card-tagline">Tocino + chipotle + mayo ahumada = triple humo. Cheddar fundido y cebolla crispy. El m&aacute;s sofisticado.</p>
+                    <p class="card-subtitle">Triple Humo &mdash; El Sofisticado</p>
+                    <p class="card-tagline">Tocino + chipotle + mayo ahumada = triple humo. Mostaza y tomate cortan la riqueza.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Pollo Chipotle</span>
                         <span class="pill pill-queso">Cheddar</span>
                         <span class="pill pill-salsa">Salsa de Le&ntilde;a</span>
+                        <span class="pill pill-salsa">Mostaza</span>
+                        <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
                         <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
-                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
+                        <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                     </div>
                     <div class="card-footer">
                         <span class="price" style="color: #B8860B;">$18.000</span>
@@ -936,17 +989,19 @@
                 <div class="card-body">
                     <div class="card-emoji">🍗🥑🌶️</div>
                     <h2 class="card-name" style="color: #7a9a44;">PERRO CHIPOTLE GUAC</h2>
-                    <p class="card-subtitle">Opci&oacute;n C &mdash; M&eacute;xico Puro</p>
-                    <p class="card-tagline">Chipotle + guacamole + jalape&ntilde;os + papas fosforito. Doble fuego, cremosidad verde. El m&aacute;s mexicano.</p>
+                    <p class="card-subtitle">M&eacute;xico Puro &mdash; Doble Fuego</p>
+                    <p class="card-tagline">Chipotle + guacamole + jalape&ntilde;os. Doble fuego, cremosidad verde.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Pollo Chipotle</span>
                         <span class="pill pill-salsa">Guacamole</span>
+                        <span class="pill pill-salsa">SourCream</span>
+                        <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-fresco">Jalape&ntilde;os</span>
                         <span class="pill pill-crunch">Papas Fosforito</span>
                     </div>
                     <div class="meters">
-                        <div class="meter"><span class="meter-label">Picante</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
+                        <div class="meter"><span class="meter-label">Picante</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                         <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                     </div>
                     <div class="card-footer">
@@ -1065,7 +1120,7 @@
     <footer>
         <div class="brand">FANZINE</div>
         <p>Cine &amp; Tex-Mex &mdash; Bogot&aacute;, Colombia</p>
-        <p style="margin-top: 8px; color: #444;">13 perros insignia &middot; 0 toppings libres &middot; 100% calidad garantizada</p>
+        <p style="margin-top: 8px; color: #444;">15 perros insignia &middot; 3 pruebas &middot; 0 toppings libres &middot; 100% calidad garantizada</p>
     </footer>
 
     <script>

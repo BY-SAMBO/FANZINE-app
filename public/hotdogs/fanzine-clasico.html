@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perro Chipotle Gold - FANZINE Cine & Tex-Mex</title>
+  <title>Perro Fanzine Cl&aacute;sico - FANZINE Cine &amp; Tex-Mex</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #1a1a2e;
-      --accent: #B8860B;
-      --accent-light: #d4a843;
+      --accent: #e63946;
+      --accent-light: #ff6b6b;
       --text: #f0f0f0;
       --text-muted: #a0a0b0;
       --surface: #16213e;
@@ -36,20 +36,20 @@
     .fade-in {
       opacity: 0;
       transform: translateY(30px);
-      animation: fadeUp 0.8s ease forwards;
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
-    .fade-in.d1 { animation-delay: 0.1s; }
-    .fade-in.d2 { animation-delay: 0.2s; }
-    .fade-in.d3 { animation-delay: 0.3s; }
-    .fade-in.d4 { animation-delay: 0.4s; }
-    .fade-in.d5 { animation-delay: 0.5s; }
-    .fade-in.d6 { animation-delay: 0.6s; }
-    .fade-in.d7 { animation-delay: 0.7s; }
-    .fade-in.d8 { animation-delay: 0.8s; }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
+    .fade-in.d1 { transition-delay: 0.1s; }
+    .fade-in.d2 { transition-delay: 0.2s; }
+    .fade-in.d3 { transition-delay: 0.3s; }
+    .fade-in.d4 { transition-delay: 0.4s; }
+    .fade-in.d5 { transition-delay: 0.5s; }
+    .fade-in.d6 { transition-delay: 0.6s; }
+    .fade-in.d7 { transition-delay: 0.7s; }
+    .fade-in.d8 { transition-delay: 0.8s; }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
@@ -57,10 +57,10 @@
     }
 
     @keyframes glitch {
-      0%, 100% { text-shadow: 0 0 40px rgba(184,134,11,0.3); }
-      25% { text-shadow: -3px 0 40px rgba(184,134,11,0.5), 3px 0 rgba(212,168,67,0.3); }
-      50% { text-shadow: 0 0 60px rgba(184,134,11,0.4); }
-      75% { text-shadow: 3px 0 40px rgba(184,134,11,0.5), -3px 0 rgba(212,168,67,0.3); }
+      0%, 100% { text-shadow: 0 0 40px rgba(230,57,70,0.3); }
+      25% { text-shadow: -3px 0 40px rgba(230,57,70,0.5), 3px 0 rgba(255,107,107,0.3); }
+      50% { text-shadow: 0 0 60px rgba(230,57,70,0.4); }
+      75% { text-shadow: 3px 0 40px rgba(230,57,70,0.5), -3px 0 rgba(255,107,107,0.3); }
     }
 
     /* ── HERO ── */
@@ -72,7 +72,7 @@
       justify-content: center;
       text-align: center;
       padding: 2rem;
-      background: linear-gradient(180deg, #1a1a2e 0%, #1a150a 50%, #1a1a2e 100%);
+      background: linear-gradient(180deg, #1a1a2e 0%, #2e0a0e 50%, #1a1a2e 100%);
       position: relative;
       overflow: hidden;
     }
@@ -84,7 +84,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at center, rgba(184,134,11,0.08) 0%, transparent 60%);
+      background: radial-gradient(circle at center, rgba(230,57,70,0.08) 0%, transparent 60%);
       animation: pulse 5s ease-in-out infinite;
     }
 
@@ -99,10 +99,23 @@
         0deg,
         transparent,
         transparent 2px,
-        rgba(184,134,11,0.02) 2px,
-        rgba(184,134,11,0.02) 4px
+        rgba(230,57,70,0.02) 2px,
+        rgba(230,57,70,0.02) 4px
       );
       pointer-events: none;
+    }
+
+    .hero-badge {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.25em;
+      color: var(--accent-light);
+      border: 1px solid rgba(230,57,70,0.4);
+      padding: 0.3rem 1.2rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-emoji {
@@ -163,12 +176,15 @@
       transform: translateX(-50%);
       color: var(--text-muted);
       font-size: 0.85rem;
-      animation: fadeUp 1s ease 1.5s forwards;
       opacity: 0;
+      animation: fadeUp 1s ease 1.5s forwards;
     }
     .scroll-hint span {
       display: block;
       animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     /* ── SECTIONS ── */
@@ -208,7 +224,7 @@
       padding: 1.25rem 1.5rem;
       background: var(--surface);
       border-radius: 12px;
-      border: 1px solid rgba(184,134,11,0.15);
+      border: 1px solid rgba(230,57,70,0.15);
       transition: border-color 0.3s;
     }
 
@@ -276,8 +292,8 @@
     /* ── STAR INGREDIENT HIGHLIGHT ── */
     .ingredient.star {
       border-color: var(--accent);
-      background: linear-gradient(135deg, var(--surface) 0%, rgba(184,134,11,0.08) 100%);
-      box-shadow: 0 0 20px rgba(184,134,11,0.15);
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(230,57,70,0.08) 100%);
+      box-shadow: 0 0 20px rgba(230,57,70,0.15);
     }
 
     .ingredient.star .ingredient-name::after {
@@ -368,7 +384,7 @@
     footer {
       text-align: center;
       padding: 3rem 1.5rem;
-      border-top: 1px solid rgba(184,134,11,0.15);
+      border-top: 1px solid rgba(230,57,70,0.15);
     }
 
     footer .brand {
@@ -408,13 +424,16 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="fade-in d1">
-      <div class="hero-emoji">&#x1F357;&#x1F947;&#x1F4A8;</div>
+    <div class="fade-in d1 visible">
+      <div class="hero-badge">SERIE FANZINE</div>
     </div>
-    <h1 class="fade-in d2">PERRO CHIPOTLE GOLD</h1>
-    <div class="subtitle fade-in d3">Triple Humo</div>
-    <p class="tagline fade-in d4">Tocino + chipotle + le&ntilde;a. Sin tregua.</p>
-    <div class="price-badge fade-in d5">$18.000 COP</div>
+    <div class="fade-in d1 visible">
+      <div class="hero-emoji">&#128293;&#127789;&#127916;</div>
+    </div>
+    <h1 class="fade-in d2 visible">PERRO FANZINE CL&Aacute;SICO</h1>
+    <div class="subtitle fade-in d3 visible">La Casa</div>
+    <p class="tagline fade-in d4 visible">El insignia. El que define qui&eacute;nes somos.</p>
+    <div class="price-badge fade-in d5 visible">$16.000 COP</div>
     <div class="scroll-hint">
       <span>&#8595; Descubre la receta</span>
     </div>
@@ -426,74 +445,74 @@
     <div class="recipe-timeline">
 
       <div class="ingredient fade-in d1">
-        <div class="layer-number">Capa 08 &mdash; Tope</div>
+        <div class="layer-number">Capa 08 &mdash; Corona</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Cebolla Crispy</span>
+          <span class="ingredient-name">Papas Fosforito</span>
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
-        <div class="ingredient-role">Dulzor crujiente final</div>
+        <div class="ingredient-role">Sal y crunch fino que corona</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-cebolla-crispy" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-papas-fosforito" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d2">
         <div class="layer-number">Capa 07</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Mostaza</span>
-          <span class="ingredient-tag tag-salsa">salsa</span>
+          <span class="ingredient-name">Cebolla Crispy</span>
+          <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
-        <div class="ingredient-role">Acidez que corta el triple humo</div>
+        <div class="ingredient-role">Dulzor crujiente que amplifica</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-mostaza" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-cebolla-crispy" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d3">
         <div class="layer-number">Capa 06</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Le&ntilde;a</span>
+          <span class="ingredient-name">SourCream</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Segundo humo</div>
+        <div class="ingredient-role">Frescura cremosa que balancea la riqueza</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-salsa-lena" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-sourcream" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d4">
         <div class="layer-number">Capa 05</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Tomate</span>
+          <span class="ingredient-name">Salsa de Le&ntilde;a / Mayo Ahumada</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Acidez dulce de base</div>
+        <div class="ingredient-role">El alma ahumada de la casa</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-salsa-tomate" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-salsa-lena" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient fade-in d5">
         <div class="layer-number">Capa 04</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Queso Cheddar</span>
-          <span class="ingredient-tag tag-queso">queso</span>
+          <span class="ingredient-name">Salsa de Tomate</span>
+          <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Fundido dorado</div>
+        <div class="ingredient-role">Acidez dulce de fondo</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-cheddar" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-salsa-tomate" placeholder="Cantidad..." />
         </div>
       </div>
 
       <div class="ingredient star fade-in d6">
         <div class="layer-number">Capa 03</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Pollo Chipotle</span>
-          <span class="ingredient-tag tag-proteina">prote&iacute;na</span>
+          <span class="ingredient-name">Queso Cheddar Drizzled</span>
+          <span class="ingredient-tag tag-queso">queso</span>
         </div>
-        <div class="ingredient-role">Humo n&uacute;mero uno</div>
+        <div class="ingredient-role">R&iacute;o dorado que abraza todo por encima</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-pollo" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-cheddar" placeholder="Cantidad..." />
         </div>
       </div>
 
@@ -503,9 +522,9 @@
           <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Humo base</div>
+        <div class="ingredient-role">Umami y sal en cada mordida</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-salchicha" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-salchicha" placeholder="Cantidad..." />
         </div>
       </div>
 
@@ -515,9 +534,9 @@
           <span class="ingredient-name">Pan Brioche Dorado</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Fundamento firme</div>
+        <div class="ingredient-role">El fundamento perfecto</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-gold-pan" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-clasico-pan" placeholder="Cantidad..." />
         </div>
       </div>
 
@@ -535,23 +554,23 @@
       </div>
       <div class="meter-row fade-in d2">
         <span class="meter-label">Crunch</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
-        <span class="meter-value">3/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
+        <span class="meter-value">5/5</span>
       </div>
       <div class="meter-row fade-in d3">
         <span class="meter-label">Frescura</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:20%"></div></div>
-        <span class="meter-value">1/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:40%"></div></div>
+        <span class="meter-value">2/5</span>
       </div>
       <div class="meter-row fade-in d4">
         <span class="meter-label">Picante</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
-        <span class="meter-value">3/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:0%"></div></div>
+        <span class="meter-value">0/5</span>
       </div>
       <div class="meter-row fade-in d5">
         <span class="meter-label">Cremosidad</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
-        <span class="meter-value">4/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
+        <span class="meter-value">5/5</span>
       </div>
     </div>
   </section>
@@ -559,7 +578,7 @@
   <!-- PERFIL DE SABOR -->
   <section>
     <h2 class="section-title fade-in">PERFIL DE SABOR</h2>
-    <p class="flavor-text fade-in d2">El Chipotle Gold es triple humo sin tregua: tocino crujiente, pollo chipotle ahumado y mayo ahumada de le&ntilde;a se encuentran y se amplifican. La mostaza aporta la acidez necesaria para cortar tanta profundidad y la salsa de tomate balancea por debajo. El cheddar fundido abraza todo con cremosidad dorada y la cebolla crispy cierra con dulzor crujiente. El m&aacute;s sofisticado de la serie.</p>
+    <p class="flavor-text fade-in d2">El Fanzine Cl&aacute;sico es nuestro manifiesto en forma de hot dog. Triple crema &mdash; cheddar drizzled, SourCream y mayo ahumada &mdash; crea una cama irresistible mientras la salsa de tomate aporta acidez dulce de fondo. Arriba, doble crunch de cebolla crispy y papas fosforito crea una sinfon&iacute;a de texturas. Cero picante, m&aacute;ximo sabor. Es ahumado, rico e imposible de comer solo una vez. Si no sabes qu&eacute; pedir, pide este.</p>
   </section>
 
   <!-- FOOTER -->
@@ -570,6 +589,18 @@
   </footer>
 
   <script>
+    // Scroll animation observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
+
+    // Quantity input localStorage persistence
     document.querySelectorAll('.qty-input').forEach(input => {
       const saved = localStorage.getItem('lab-qty-' + input.dataset.key);
       if (saved) input.value = saved;

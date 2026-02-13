@@ -308,6 +308,22 @@
       color: var(--accent);
     }
 
+    /* ── QUANTITY INPUT ── */
+    .ingredient-qty { margin-top: 0.5rem; }
+    .qty-input {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      color: #fff;
+      font-size: 0.85rem;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s;
+    }
+    .qty-input:focus { outline: none; border-color: var(--accent); }
+    .qty-input::placeholder { color: rgba(255,255,255,0.25); }
+
     /* ── EL CONCEPTO ── */
     .concepto-section {
       max-width: 900px;
@@ -407,13 +423,6 @@
       letter-spacing: 0.05em;
       margin-top: 0.15rem;
     }
-
-    /* Position orbit nodes around center */
-    .orbit-node:nth-child(2) { top: 2%; left: 50%; transform: translateX(-50%); }
-    .orbit-node:nth-child(3) { top: 18%; right: 2%; }
-    .orbit-node:nth-child(4) { bottom: 18%; right: 2%; }
-    .orbit-node:nth-child(5) { bottom: 2%; left: 50%; transform: translateX(-50%); }
-    .orbit-node:nth-child(6) { bottom: 18%; left: 2%; }
 
     /* Connector lines via SVG */
     .diagram-lines {
@@ -573,7 +582,7 @@
       <div class="serie-badge">SERIE CHEETO</div>
     </div>
     <div class="fade-in d2">
-      <div class="hero-emoji">🌭🧀🔥</div>
+      <div class="hero-emoji">&#x1F32D;&#x1F9C0;&#x1F525;</div>
     </div>
     <h1 class="fade-in d3">PERRO CHEETO CREMOSO</h1>
     <p class="tagline fade-in d4">Crunch contra crema. El contraste perfecto.</p>
@@ -595,6 +604,9 @@
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
         <div class="ingredient-role">LA ESTRELLA. Crunch, picante, color, sabor. Corona todo. &Uacute;NICO CRUNCH.</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-cremoso-cheetos" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d2">
@@ -604,6 +616,9 @@
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
         <div class="ingredient-role">Segundo contraste cremoso + humo que profundiza</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-cremoso-salsa-lena" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d3">
@@ -613,6 +628,9 @@
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
         <div class="ingredient-role">FR&Iacute;O + CREMOSO vs CALIENTE + CRUJIENTE del Cheeto. Contraste principal.</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-cremoso-sourcream" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d4">
@@ -622,6 +640,9 @@
           <span class="ingredient-tag tag-queso">queso</span>
         </div>
         <div class="ingredient-role">&ldquo;Pegamento&rdquo; que adhiere los Cheetos + amplifica su sabor a queso</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-cremoso-cheddar" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d5">
@@ -631,6 +652,9 @@
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Sal + humo de fondo que amplifica el Cheeto</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-cremoso-salchicha" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d6">
@@ -640,6 +664,9 @@
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Suave, absorbe la cremosidad, contrasta con el crunch</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-cremoso-pan" placeholder="Cantidad..." />
+        </div>
       </div>
 
     </div>
@@ -655,58 +682,52 @@
     <div class="concepto-diagram fade-in d3">
       <!-- SVG connector lines -->
       <svg class="diagram-lines" viewBox="0 0 520 520" preserveAspectRatio="xMidYMid meet">
-        <!-- Lines from each node to center (260,260) -->
-        <!-- Node 1: Pan Brioche - top center (260, 55) -->
         <line x1="260" y1="80" x2="260" y2="210" />
         <text class="connector-label" x="268" y="150">suavidad</text>
-        <!-- Node 2: Cheddar - top right (435, 145) -->
         <line x1="410" y1="145" x2="320" y2="225" />
         <text class="connector-label" x="370" y="175" transform="rotate(-30, 370, 175)">amplifica</text>
-        <!-- Node 3: SourCream - bottom right (435, 375) -->
         <line x1="410" y1="365" x2="320" y2="295" />
         <text class="connector-label" x="370" y="340" transform="rotate(30, 370, 340)">contraste</text>
-        <!-- Node 4: Mayo Ahumada - bottom center (260, 465) -->
         <line x1="260" y1="440" x2="260" y2="310" />
         <text class="connector-label" x="268" y="385">humo</text>
-        <!-- Node 5: Tocino - bottom left (85, 375) -->
         <line x1="110" y1="365" x2="200" y2="295" />
         <text class="connector-label" x="120" y="340" transform="rotate(-30, 120, 340)">sal</text>
       </svg>
 
       <!-- Center: Cheetos -->
       <div class="diagram-center">
-        <div class="diagram-center-emoji">🔥</div>
+        <div class="diagram-center-emoji">&#x1F525;</div>
         <div class="diagram-center-label">CHEETOS</div>
         <div class="diagram-center-sub">Protagonista</div>
       </div>
 
       <!-- Orbit nodes -->
       <div class="orbit-node" style="top: 2%; left: 50%; transform: translateX(-50%);">
-        <div class="orbit-node-dot">🍞</div>
+        <div class="orbit-node-dot">&#x1F35E;</div>
         <div class="orbit-node-name">Pan Brioche</div>
         <div class="orbit-node-role">Suavidad</div>
       </div>
 
       <div class="orbit-node" style="top: 18%; right: 2%;">
-        <div class="orbit-node-dot">🧀</div>
+        <div class="orbit-node-dot">&#x1F9C0;</div>
         <div class="orbit-node-name">Cheddar</div>
         <div class="orbit-node-role">Amplifica</div>
       </div>
 
       <div class="orbit-node" style="bottom: 18%; right: 2%;">
-        <div class="orbit-node-dot">🥄</div>
+        <div class="orbit-node-dot">&#x1F944;</div>
         <div class="orbit-node-name">SourCream</div>
         <div class="orbit-node-role">Cremoso</div>
       </div>
 
       <div class="orbit-node" style="bottom: 2%; left: 50%; transform: translateX(-50%);">
-        <div class="orbit-node-dot">💨</div>
+        <div class="orbit-node-dot">&#x1F4A8;</div>
         <div class="orbit-node-name">Mayo Ahumada</div>
         <div class="orbit-node-role">Humo</div>
       </div>
 
       <div class="orbit-node" style="bottom: 18%; left: 2%;">
-        <div class="orbit-node-dot">🥓</div>
+        <div class="orbit-node-dot">&#x1F953;</div>
         <div class="orbit-node-name">Tocino</div>
         <div class="orbit-node-role">Sal</div>
       </div>
@@ -788,6 +809,16 @@
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
     <a href="index.html">&larr; Ver todos los perros</a>
   </footer>
+
+  <script>
+    document.querySelectorAll('.qty-input').forEach(input => {
+      const saved = localStorage.getItem('lab-qty-' + input.dataset.key);
+      if (saved) input.value = saved;
+      input.addEventListener('input', () => {
+        localStorage.setItem('lab-qty-' + input.dataset.key, input.value);
+      });
+    });
+  </script>
 
 </body>
 </html>

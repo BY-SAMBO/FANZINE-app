@@ -547,6 +547,22 @@
     }
     footer a:hover { color: var(--accent-light); }
 
+    /* -- QTY INPUT -- */
+    .ingredient-qty { margin-top: 0.5rem; }
+    .qty-input {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      color: #fff;
+      font-size: 0.85rem;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s;
+    }
+    .qty-input:focus { outline: none; border-color: var(--accent); }
+    .qty-input::placeholder { color: rgba(255,255,255,0.25); }
+
     /* -- RESPONSIVE -- */
     @media (max-width: 600px) {
       .hero-emoji { font-size: 4rem; }
@@ -593,6 +609,9 @@
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
         <div class="ingredient-role">LA ESTRELLA. Picante + crunch vs dulzor tropical</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-tropical-cheetos" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d2">
@@ -602,6 +621,9 @@
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
         <div class="ingredient-role">Cremosidad que une los dos mundos</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-tropical-sourcream" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d3">
@@ -611,6 +633,9 @@
           <span class="ingredient-tag tag-salsa">salsa + fresco</span>
         </div>
         <div class="ingredient-role">DULZOR TROPICAL vs PICANTE del Cheeto. Doble pi&ntilde;a: salsa como base constante + trozos que estallan en frescura frutal. Probar ambas juntas o solo salsa.</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-tropical-pina" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d4">
@@ -620,6 +645,9 @@
           <span class="ingredient-tag tag-queso">queso</span>
         </div>
         <div class="ingredient-role">Puente cremoso que une dulce y salado</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-tropical-cheddar" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d5">
@@ -629,6 +657,9 @@
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Sal + humo que ancla lo tropical</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-tropical-salchicha" placeholder="Cantidad..." />
+        </div>
       </div>
 
       <div class="ingredient fade-in d6">
@@ -638,6 +669,9 @@
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Base suave y c&aacute;lida</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="cheeto-tropical-pan" placeholder="Cantidad..." />
+        </div>
       </div>
 
     </div>
@@ -778,6 +812,16 @@
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
     <a href="index.html">&larr; Ver todos los perros</a>
   </footer>
+
+  <script>
+    document.querySelectorAll('.qty-input').forEach(input => {
+      const saved = localStorage.getItem('lab-qty-' + input.dataset.key);
+      if (saved) input.value = saved;
+      input.addEventListener('input', () => {
+        localStorage.setItem('lab-qty-' + input.dataset.key, input.value);
+      });
+    });
+  </script>
 
 </body>
 </html>
