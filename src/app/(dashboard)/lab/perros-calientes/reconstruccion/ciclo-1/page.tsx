@@ -109,7 +109,7 @@ export default function Ciclo1HubPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Link
-              href="ciclo-1/recetas"
+              href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas"
               className="no-underline text-inherit block"
               style={{ color: "inherit", textDecoration: "none" }}
             >
@@ -123,7 +123,7 @@ export default function Ciclo1HubPage() {
             </Link>
 
             <Link
-              href="ciclo-1/degustacion"
+              href="/lab/perros-calientes/reconstruccion/ciclo-1/degustacion"
               className="no-underline text-inherit block"
               style={{ color: "inherit", textDecoration: "none" }}
             >
@@ -137,7 +137,7 @@ export default function Ciclo1HubPage() {
             </Link>
 
             <Link
-              href="ciclo-1/degustacion/admin"
+              href="/lab/perros-calientes/reconstruccion/ciclo-1/degustacion/admin"
               className="no-underline text-inherit block"
               style={{ color: "inherit", textDecoration: "none" }}
             >

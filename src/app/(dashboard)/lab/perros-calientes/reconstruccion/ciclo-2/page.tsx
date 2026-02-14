@@ -31,7 +31,7 @@ const CANDIDATES: Recipe[] = [
     name: "Fanzine Gold",
     emoji: "✨🌭🥇",
     color: "#B8860B",
-    landingUrl: "recetas/c2-fanzine-gold",
+    landingUrl: "/lab/perros-calientes/reconstruccion/ciclo-2/recetas/c2-fanzine-gold",
     ingredients: [
       { name: "Tocineta", type: "base" },
       { name: "Queso Crema", type: "queso" },
@@ -53,7 +53,7 @@ const CANDIDATES: Recipe[] = [
     name: "Tropical",
     emoji: "🍍🌭🔥",
     color: "#ff6b35",
-    landingUrl: "recetas/c2-tropical",
+    landingUrl: "/lab/perros-calientes/reconstruccion/ciclo-2/recetas/c2-tropical",
     ingredients: [
       { name: "Tocineta", type: "base" },
       { name: "Cheddar", type: "queso" },
@@ -76,7 +76,7 @@ const CANDIDATES: Recipe[] = [
     name: "Birria Fundido",
     emoji: "🧀🥩🔥",
     color: "#8B0000",
-    landingUrl: "recetas/c2-birria-fundido",
+    landingUrl: "/lab/perros-calientes/reconstruccion/ciclo-2/recetas/c2-birria-fundido",
     ingredients: [
       { name: "Base v1", type: "base" },
       { name: "Res Birria", type: "proteina" },
@@ -98,7 +98,7 @@ const CANDIDATES: Recipe[] = [
     name: "Chipotle Guac",
     emoji: "🥑🌶️🍗",
     color: "#556B2F",
-    landingUrl: "recetas/c2-chipotle-guac",
+    landingUrl: "/lab/perros-calientes/reconstruccion/ciclo-2/recetas/c2-chipotle-guac",
     ingredients: [
       { name: "Guacamole", type: "salsa" },
       { name: "SourCream", type: "salsa" },
@@ -125,7 +125,7 @@ const CANDIDATES: Recipe[] = [
     name: "Pibil",
     emoji: "🐷🍊🔥",
     color: "#E07C24",
-    landingUrl: "recetas/c2-pibil",
+    landingUrl: "/lab/perros-calientes/reconstruccion/ciclo-2/recetas/c2-pibil",
     ingredients: [
       { name: "Cochinita Pibil", type: "proteina" },
       { name: "Cebolla Encurtida", type: "fresco" },
