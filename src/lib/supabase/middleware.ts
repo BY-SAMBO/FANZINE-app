@@ -30,7 +30,7 @@ export async function updateSession(request: NextRequest) {
   );
 
   // Public routes that don't require auth
-  const publicRoutes = ["/login", "/api/auth/callback", "/carta-pruebas", "/hotdogs"];
+  const publicRoutes = ["/login", "/api/auth/callback", "/api/webhooks"];
   const isPublicRoute =
     request.nextUrl.pathname === "/" ||
     publicRoutes.some((route) =>
