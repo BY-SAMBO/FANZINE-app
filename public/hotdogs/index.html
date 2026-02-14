@@ -4,156 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FANZINE Hot Dogs - Carta Insignia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --tag-base: #8b5a2b;
+            --tag-salsa: #e63946;
+            --tag-queso: #e9c46a;
+            --tag-crunch: #ff9f1c;
+            --tag-fresco: #2a9d8f;
+            --tag-proteina: #c44536;
+        }
 
         body {
-            background: #1a1a2e;
-            color: #f0f0f0;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
+            background: #fff;
+            color: #000;
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
         }
 
-        /* HERO */
+        h1, h2, h3 { font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+
+        /* ── HERO ── */
         .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 80px 20px 60px;
-            background: linear-gradient(180deg, #0f0f23 0%, #1a1a2e 100%);
-            position: relative;
-            overflow: hidden;
+            padding: 2rem;
+            background: #fff;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(230, 57, 70, 0.05) 0%, transparent 50%);
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-
-        .hero-content { position: relative; z-index: 1; }
-
-        .hero-emoji {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+        .hero-emoji { font-size: 5rem; margin-bottom: 1rem; line-height: 1.2; }
 
         .hero h1 {
-            font-family: 'Bebas Neue', sans-serif;
             font-size: clamp(3rem, 8vw, 6rem);
-            letter-spacing: 4px;
-            background: linear-gradient(135deg, #e63946, #f4a261, #e9c46a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
+            color: #e63946;
+            line-height: 1;
         }
 
         .hero .subtitle {
-            font-size: 1.2rem;
-            color: #aaa;
-            font-weight: 300;
-            letter-spacing: 2px;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            color: #666;
+            margin-top: 0.5rem;
+            letter-spacing: 0.15em;
+            font-weight: 700;
             text-transform: uppercase;
         }
 
         .hero .tagline {
             font-size: 1rem;
-            color: #888;
-            margin-top: 15px;
+            color: #333;
+            margin-top: 1rem;
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
+            font-weight: 600;
         }
 
-        /* SECTIONS */
-        .grid-section {
+        /* ── SECTIONS ── */
+        .grid-section, .inventory-section {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px 20px;
-        }
-
-        .grid-section:last-of-type {
-            padding-bottom: 60px;
+            padding: 2rem 1.5rem;
         }
 
         .section-label {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 3px;
-            color: #666;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #000;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
         }
 
         .category-header {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 3px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            padding: 12px 24px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            background: #fff;
         }
 
-        .category-header .emoji { font-size: 1.4rem; }
+        .category-header .emoji { font-size: 1.3rem; }
 
-        /* INVENTORY */
-        .inventory-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px 20px;
-        }
-
+        /* ── INVENTORY ── */
         .inventory-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 48px;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
         }
 
         .inventory-card {
-            background: #16213e;
-            border-radius: 12px;
-            padding: 24px;
-            border-top: 4px solid var(--inv-color, #555);
+            background: #fff;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            padding: 1.25rem;
+            border-left: 6px solid var(--inv-color, #555);
         }
 
         .inventory-card h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            color: var(--inv-color, #aaa);
-            margin-bottom: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #000;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
+            text-transform: uppercase;
         }
 
         .inv-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 0.5rem;
         }
 
         .inv-item {
@@ -161,58 +137,53 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.85rem;
-            color: #ccc;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #333;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #eee;
         }
 
         .inv-item:last-child { border-bottom: none; }
-
-        .inv-item .name { font-weight: 500; }
+        .inv-item .name { font-weight: 600; }
 
         .inv-tag {
             font-size: 0.6rem;
             padding: 2px 8px;
-            border-radius: 10px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border: 2px solid #000;
         }
 
-        .inv-tag-active { background: rgba(42, 157, 143, 0.2); color: #2a9d8f; }
-        .inv-tag-new { background: rgba(233, 196, 106, 0.25); color: #e9c46a; }
-        .inv-tag-removed { background: rgba(255, 255, 255, 0.06); color: #666; text-decoration: line-through; }
-        .inv-tag-pending { background: rgba(233, 196, 106, 0.15); color: #e9c46a; }
+        .inv-tag-active { background: #2a9d8f; color: #fff; }
+        .inv-tag-new { background: #e9c46a; color: #000; }
+        .inv-tag-removed { background: #eee; color: #999; text-decoration: line-through; }
+        .inv-tag-pending { background: #fff; color: #000; border-style: dashed; }
 
+        /* ── GRID ── */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        /* CARDS */
+        /* ── CARDS ── */
         .card {
-            background: #16213e;
-            border-radius: 16px;
+            background: #fff;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0 #000;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: block;
             position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .card.visible {
-            animation: fadeUp 0.6s ease forwards;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
 
         .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #000;
         }
 
         .card-accent {
@@ -221,80 +192,84 @@
         }
 
         .card-body {
-            padding: 28px 24px;
+            padding: 1.5rem;
         }
 
         .card-emoji {
             font-size: 2.5rem;
-            margin-bottom: 12px;
+            margin-bottom: 0.75rem;
         }
 
         .card-name {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 2px;
-            margin-bottom: 4px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
         }
 
         .card-subtitle {
-            font-size: 0.85rem;
-            color: #888;
+            font-size: 0.8rem;
+            color: #666;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         .card-tagline {
-            font-size: 0.95rem;
-            color: #ccc;
+            font-size: 0.9rem;
+            color: #333;
             line-height: 1.5;
-            margin-bottom: 20px;
+            margin-bottom: 1.25rem;
         }
 
-        /* Ingredient pills */
+        /* ── INGREDIENT PILLS ── */
         .ingredients {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 20px;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
         }
 
         .pill {
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 600;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.6rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border: 2px solid #000;
+            color: #fff;
         }
 
-        .pill-base { background: rgba(139, 90, 43, 0.25); color: #d4a574; }
-        .pill-salsa { background: rgba(230, 57, 70, 0.2); color: #f08080; }
-        .pill-queso { background: rgba(233, 196, 106, 0.2); color: #e9c46a; }
-        .pill-crunch { background: rgba(255, 159, 28, 0.2); color: #ff9f1c; }
-        .pill-fresco { background: rgba(42, 157, 143, 0.2); color: #2a9d8f; }
-        .pill-proteina { background: rgba(196, 69, 54, 0.25); color: #e07c6a; }
+        .pill-base { background: var(--tag-base); }
+        .pill-salsa { background: var(--tag-salsa); }
+        .pill-queso { background: var(--tag-queso); color: #000; }
+        .pill-crunch { background: var(--tag-crunch); color: #000; }
+        .pill-fresco { background: var(--tag-fresco); }
+        .pill-proteina { background: var(--tag-proteina); }
 
-        /* Meters */
+        /* ── METERS ── */
         .meters {
             display: flex;
-            gap: 12px;
+            gap: 0.75rem;
             flex-wrap: wrap;
-            margin-bottom: 16px;
+            margin-bottom: 1rem;
         }
 
         .meter {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 0.35rem;
         }
 
         .meter-label {
             font-size: 0.65rem;
-            color: #888;
+            color: #000;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             width: 55px;
+            font-weight: 700;
         }
 
         .meter-dots {
@@ -303,85 +278,122 @@
         }
 
         .meter-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #2a2a4a;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #000;
+            background: #fff;
         }
 
         .meter-dot.filled {
-            background: var(--accent);
+            background: var(--accent, #e63946);
         }
 
-        /* Price + Base badges */
+        /* ── CARD FOOTER ── */
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 1rem;
+            border-top: 2px solid #000;
         }
 
         .price {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
-            letter-spacing: 1px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
         }
 
         .base-badge {
-            font-size: 0.7rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.08);
-            color: #aaa;
-            font-weight: 600;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+            background: #fff;
+            color: #000;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border: 2px solid #000;
         }
 
-        .base-tocino { background: rgba(230, 57, 70, 0.15); color: #f08080; }
+        .base-tocino { background: var(--tag-proteina); color: #fff; }
 
-        /* CTA arrow */
+        /* ── CARD ARROW ── */
         .card-arrow {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.2rem;
-            color: #444;
-            transition: color 0.3s, transform 0.3s;
+            color: #000;
+            font-weight: 700;
         }
 
-        .card:hover .card-arrow {
-            color: var(--accent);
-            transform: translateX(4px);
+        /* ── LEGEND ── */
+        .legend-box {
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            padding: 1.5rem;
+            background: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
         }
 
-        /* Footer */
+        .legend-label {
+            color: #666;
+            font-size: 0.8rem;
+            font-weight: 700;
+            width: 100%;
+            text-align: center;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* ── FOOTER ── */
         footer {
             text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: #555;
-            font-size: 0.85rem;
+            padding: 3rem 1.5rem;
+            border-top: 3px solid #000;
         }
 
         footer .brand {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 3px;
-            color: #888;
-            margin-bottom: 8px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
         }
 
-        /* Animations */
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
+        footer .sub {
+            color: #666;
+            font-size: 0.85rem;
         }
 
-        /* Responsive */
+        footer .stats {
+            margin-top: 0.5rem;
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        footer a {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #e63946;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        footer a:hover { color: #000; }
+
+        /* ── RESPONSIVE ── */
         @media (max-width: 680px) {
             .grid { grid-template-columns: 1fr; }
-            .hero { padding: 60px 20px 40px; }
+            .hero { padding: 4rem 1.5rem 3rem; }
+            .hero-emoji { font-size: 3.5rem; }
+            .grid-section, .inventory-section { padding: 1.5rem 1rem; }
+            .card-body { padding: 1.25rem; }
         }
     </style>
 </head>
@@ -389,25 +401,23 @@
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-content">
-            <div class="hero-emoji">🌭🎬🔥</div>
-            <h1>FANZINE HOT DOGS</h1>
-            <p class="subtitle">Carta Insignia &mdash; Cine &amp; Tex-Mex</p>
-            <p class="tagline">15 perros calientes de autor. 3 insignia + 2 serie cheeto + 9 variantes con prote&iacute;na. Palatabilidad m&aacute;xima.</p>
-        </div>
+        <div class="hero-emoji">&#x1F32D;&#x1F3AC;&#x1F525;</div>
+        <h1>FANZINE HOT DOGS</h1>
+        <p class="subtitle">Carta Insignia &mdash; Cine &amp; Tex-Mex</p>
+        <p class="tagline">15 perros calientes de autor. 3 insignia + 2 serie cheeto + 9 variantes con prote&iacute;na. Palatabilidad m&aacute;xima.</p>
     </section>
 
     <!-- ═══════════════ INVENTARIO ═══════════════ -->
     <section class="inventory-section">
-        <div class="category-header" style="background: rgba(255,255,255,0.04); color: #888;">
-            <span class="emoji">📋</span> INVENTARIO DE INGREDIENTES
+        <div class="category-header">
+            <span class="emoji">&#x1F4CB;</span> INVENTARIO DE INGREDIENTES
         </div>
 
         <div class="inventory-grid">
 
             <!-- BASES -->
-            <div class="inventory-card" style="--inv-color: #d4a574;">
-                <h3>🌭 Bases</h3>
+            <div class="inventory-card" style="--inv-color: #8b5a2b;">
+                <h3>&#x1F32D; Bases</h3>
                 <ul class="inv-list">
                     <li class="inv-item">
                         <span class="name">Salchicha Americana</span>
@@ -425,8 +435,8 @@
             </div>
 
             <!-- PROTEÍNAS -->
-            <div class="inventory-card" style="--inv-color: #e07c6a;">
-                <h3>🥩 Prote&iacute;nas</h3>
+            <div class="inventory-card" style="--inv-color: #c44536;">
+                <h3>&#x1F969; Prote&iacute;nas</h3>
                 <ul class="inv-list">
                     <li class="inv-item">
                         <span class="name">Res Birria</span>
@@ -444,8 +454,8 @@
             </div>
 
             <!-- SALSAS -->
-            <div class="inventory-card" style="--inv-color: #f08080;">
-                <h3>🫙 Salsas</h3>
+            <div class="inventory-card" style="--inv-color: #e63946;">
+                <h3>&#x1FAD9; Salsas</h3>
                 <ul class="inv-list">
                     <li class="inv-item">
                         <span class="name">Salsa de Le&ntilde;a (mayo ahumada)</span>
@@ -484,7 +494,7 @@
 
             <!-- QUESOS -->
             <div class="inventory-card" style="--inv-color: #e9c46a;">
-                <h3>🧀 Quesos</h3>
+                <h3>&#x1F9C0; Quesos</h3>
                 <ul class="inv-list">
                     <li class="inv-item">
                         <span class="name">Queso Cheddar</span>
@@ -495,7 +505,7 @@
 
             <!-- FRESCOS -->
             <div class="inventory-card" style="--inv-color: #2a9d8f;">
-                <h3>🌿 Frescos</h3>
+                <h3>&#x1F33F; Frescos</h3>
                 <ul class="inv-list">
                     <li class="inv-item">
                         <span class="name">Cebolla Encurtida</span>
@@ -534,7 +544,7 @@
 
             <!-- CROCANTES -->
             <div class="inventory-card" style="--inv-color: #ff9f1c;">
-                <h3>💥 Crocantes</h3>
+                <h3>&#x1F4A5; Crocantes</h3>
                 <ul class="inv-list">
                     <li class="inv-item">
                         <span class="name">Cebolla Crispy</span>
@@ -556,18 +566,18 @@
 
     <!-- ═══════════════ SERIE FANZINE ═══════════════ -->
     <section class="grid-section">
-        <div class="category-header" style="background: rgba(230,57,70,0.1); color: #e63946;">
-            <span class="emoji">⭐</span> SERIE FANZINE &mdash; Perros Insignia
+        <div class="category-header" style="border-left: 6px solid #e63946; color: #e63946;">
+            <span class="emoji">&#x2B50;</span> SERIE FANZINE &mdash; Perros Insignia
         </div>
 
         <div class="grid">
 
             <!-- PERRO FANZINE CLÁSICO -->
-            <a href="fanzine-clasico.html" class="card" style="--accent: #e63946;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #e63946, #ff6b6b);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/fanzine-clasico" target="_top" class="card" style="--accent: #e63946;">
+                <div class="card-accent" style="background: #e63946;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🔥🌭🎬</div>
+                    <div class="card-emoji">&#x1F525;&#x1F32D;&#x1F3AC;</div>
                     <h2 class="card-name" style="color: #e63946;">PERRO FANZINE CL&Aacute;SICO</h2>
                     <p class="card-subtitle">La Casa &mdash; El Insignia</p>
                     <p class="card-tagline">Triple crema, doble crunch, cero picante. Si no sabes qu&eacute; pedir, pide este.</p>
@@ -592,11 +602,11 @@
             </a>
 
             <!-- PERRO FANZINE DORADO -->
-            <a href="fanzine-dorado.html" class="card" style="--accent: #d4a017;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #d4a017, #ffe066);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/fanzine-dorado" target="_top" class="card" style="--accent: #d4a017;">
+                <div class="card-accent" style="background: #d4a017;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">✨🌭🧈</div>
+                    <div class="card-emoji">&#x2728;&#x1F32D;&#x1F9C8;</div>
                     <h2 class="card-name" style="color: #d4a017;">PERRO FANZINE DORADO</h2>
                     <p class="card-subtitle">Gold Edition &mdash; Dulzura Profunda</p>
                     <p class="card-tagline">Cebolla caramelizada, ma&iacute;z dulce y mayo ahumada. El m&aacute;s adictivo de la carta.</p>
@@ -621,11 +631,11 @@
             </a>
 
             <!-- PERRO FANZINE FRESCO -->
-            <a href="fanzine-fresco.html" class="card" style="--accent: #2a9d8f;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #2a9d8f, #4ecdc4);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/fanzine-fresco" target="_top" class="card" style="--accent: #2a9d8f;">
+                <div class="card-accent" style="background: #2a9d8f;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🌿🌭🍋</div>
+                    <div class="card-emoji">&#x1F33F;&#x1F32D;&#x1F34B;</div>
                     <h2 class="card-name" style="color: #2a9d8f;">PERRO FANZINE FRESCO</h2>
                     <p class="card-subtitle">The Fresh One &mdash; Balance &Aacute;cido</p>
                     <p class="card-tagline">Pepinillos, SourCream y tomate sobre cheddar drizzled. El m&aacute;s balanceado.</p>
@@ -654,18 +664,18 @@
 
     <!-- ═══════════════ SERIE CHEETO ═══════════════ -->
     <section class="grid-section">
-        <div class="category-header" style="background: rgba(247,37,133,0.12); color: #f72585;">
-            <span class="emoji">💥</span> SERIE CHEETO &mdash; Cheetos Picantes como Protagonista
+        <div class="category-header" style="border-left: 6px solid #f72585; color: #f72585;">
+            <span class="emoji">&#x1F4A5;</span> SERIE CHEETO &mdash; Cheetos Picantes como Protagonista
         </div>
 
         <div class="grid">
 
             <!-- CHEETO CREMOSO -->
-            <a href="cheeto-cremoso.html" class="card" style="--accent: #f72585;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #f72585, #b5179e);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/cheeto-cremoso" target="_top" class="card" style="--accent: #f72585;">
+                <div class="card-accent" style="background: #f72585;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">💥🧴🧀</div>
+                    <div class="card-emoji">&#x1F4A5;&#x1F9F4;&#x1F9C0;</div>
                     <h2 class="card-name" style="color: #f72585;">PERRO CHEETO CREMOSO</h2>
                     <p class="card-subtitle">Crunch vs Crema &mdash; Contraste Perfecto</p>
                     <p class="card-tagline">Triple capa cremosa (cheddar + SourCream + le&ntilde;a) contra Cheetos picantes. Todo existe para que el Cheeto brille.</p>
@@ -688,11 +698,11 @@
             </a>
 
             <!-- CHEETO TROPICAL -->
-            <a href="cheeto-tropical.html" class="card" style="--accent: #ff6b35;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #ff6b35, #f4a261);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/cheeto-tropical" target="_top" class="card" style="--accent: #ff6b35;">
+                <div class="card-accent" style="background: #ff6b35;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">💥🍍🔥</div>
+                    <div class="card-emoji">&#x1F4A5;&#x1F34D;&#x1F525;</div>
                     <h2 class="card-name" style="color: #ff6b35;">PERRO CHEETO TROPICAL</h2>
                     <p class="card-subtitle">Picante vs Dulce &mdash; Loop Infinito</p>
                     <p class="card-tagline">Salsa de pi&ntilde;a + Cheetos picantes. Dulce y ardor en un ciclo adictivo que no para. El m&aacute;s inesperado.</p>
@@ -719,19 +729,19 @@
 
     <!-- ═══════════════ SERIE BIRRIA ═══════════════ -->
     <section class="grid-section">
-        <div class="category-header" style="background: rgba(139,0,0,0.15); color: #cd5c5c;">
-            <span class="emoji">🥩</span> SERIE BIRRIA &mdash; Res Birria
+        <div class="category-header" style="border-left: 6px solid #8B0000; color: #8B0000;">
+            <span class="emoji">&#x1F969;</span> SERIE BIRRIA &mdash; Res Birria
         </div>
 
         <div class="grid">
 
             <!-- BIRRIA FUNDIDO -->
-            <a href="birria-fundido.html" class="card" style="--accent: #8B0000;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #8B0000, #cd5c5c);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/birria-fundido" target="_top" class="card" style="--accent: #8B0000;">
+                <div class="card-accent" style="background: #8B0000;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🧀🥩🔥</div>
-                    <h2 class="card-name" style="color: #cd5c5c;">PERRO BIRRIA FUNDIDO</h2>
+                    <div class="card-emoji">&#x1F9C0;&#x1F969;&#x1F525;</div>
+                    <h2 class="card-name" style="color: #8B0000;">PERRO BIRRIA FUNDIDO</h2>
                     <p class="card-subtitle">Queso + Carne &mdash; Fusi&oacute;n Total</p>
                     <p class="card-tagline">La quesabirria hecha hot dog. Birria jugosa, cheddar fundido, mayo ahumada y encurtida.</p>
                     <div class="ingredients">
@@ -749,19 +759,19 @@
                         <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #cd5c5c;">$18.000</span>
+                        <span class="price" style="color: #8B0000;">$18.000</span>
                         <span class="base-badge base-tocino">Envuelta en Tocino</span>
                     </div>
                 </div>
             </a>
 
             <!-- BIRRIA CRUNCH -->
-            <a href="birria-crunch.html" class="card" style="--accent: #A52A2A;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #A52A2A, #cd853f);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/birria-crunch" target="_top" class="card" style="--accent: #A52A2A;">
+                <div class="card-accent" style="background: #A52A2A;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🥩💥🥔</div>
-                    <h2 class="card-name" style="color: #cd853f;">PERRO BIRRIA CRUNCH</h2>
+                    <div class="card-emoji">&#x1F969;&#x1F4A5;&#x1F954;</div>
+                    <h2 class="card-name" style="color: #A52A2A;">PERRO BIRRIA CRUNCH</h2>
                     <p class="card-subtitle">Doble Crunch &mdash; Textura M&aacute;xima</p>
                     <p class="card-tagline">Birria jugosa con mostaza, cebolla crispy y papas fosforito. Doble crunch sin cheetos.</p>
                     <div class="ingredients">
@@ -779,18 +789,18 @@
                         <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #cd853f;">$18.000</span>
+                        <span class="price" style="color: #A52A2A;">$18.000</span>
                         <span class="base-badge base-tocino">Envuelta en Tocino</span>
                     </div>
                 </div>
             </a>
 
             <!-- BIRRIA FUEGO -->
-            <a href="birria-fuego.html" class="card" style="--accent: #FF4500;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #FF4500, #ff6347);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/birria-fuego" target="_top" class="card" style="--accent: #FF4500;">
+                <div class="card-accent" style="background: #FF4500;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🥩🔥🌶️</div>
+                    <div class="card-emoji">&#x1F969;&#x1F525;&#x1F336;&#xFE0F;</div>
                     <h2 class="card-name" style="color: #FF4500;">PERRO BIRRIA FUEGO</h2>
                     <p class="card-subtitle">Jalape&ntilde;o Amplifica &mdash; Para Valientes</p>
                     <p class="card-tagline">Birria + jalape&ntilde;os + SourCream. El fuego del jalape&ntilde;o amplifica la birria.</p>
@@ -820,18 +830,18 @@
 
     <!-- ═══════════════ SERIE PIBIL ═══════════════ -->
     <section class="grid-section">
-        <div class="category-header" style="background: rgba(224,124,36,0.12); color: #E07C24;">
-            <span class="emoji">🐷</span> SERIE PIBIL &mdash; Cochinita Pibil
+        <div class="category-header" style="border-left: 6px solid #E07C24; color: #E07C24;">
+            <span class="emoji">&#x1F437;</span> SERIE PIBIL &mdash; Cochinita Pibil
         </div>
 
         <div class="grid">
 
             <!-- PIBIL TROPICAL -->
-            <a href="pibil-tropical.html" class="card" style="--accent: #E07C24;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #E07C24, #f4a261);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/pibil-tropical" target="_top" class="card" style="--accent: #E07C24;">
+                <div class="card-accent" style="background: #E07C24;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🍍🐷🌴</div>
+                    <div class="card-emoji">&#x1F34D;&#x1F437;&#x1F334;</div>
                     <h2 class="card-name" style="color: #E07C24;">PERRO PIBIL TROPICAL</h2>
                     <p class="card-subtitle">Yucat&aacute;n + Caribe &mdash; Lo Tropical</p>
                     <p class="card-tagline">Cochinita con salsa de pi&ntilde;a, SourCream y encurtida. Un viaje al tr&oacute;pico.</p>
@@ -856,12 +866,12 @@
             </a>
 
             <!-- PIBIL AHUMADO -->
-            <a href="pibil-ahumado.html" class="card" style="--accent: #9B4F2E;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #9B4F2E, #c4724e);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/pibil-ahumado" target="_top" class="card" style="--accent: #9B4F2E;">
+                <div class="card-accent" style="background: #9B4F2E;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🐷💨🔥</div>
-                    <h2 class="card-name" style="color: #c4724e;">PERRO PIBIL AHUMADO</h2>
+                    <div class="card-emoji">&#x1F437;&#x1F4A8;&#x1F525;</div>
+                    <h2 class="card-name" style="color: #9B4F2E;">PERRO PIBIL AHUMADO</h2>
                     <p class="card-subtitle">Triple Humo &mdash; Profundidad M&aacute;xima</p>
                     <p class="card-tagline">Tocino + le&ntilde;a + achiote. Triple humo con cheddar fundido y encurtida.</p>
                     <div class="ingredients">
@@ -879,18 +889,18 @@
                         <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #c4724e;">$18.000</span>
+                        <span class="price" style="color: #9B4F2E;">$18.000</span>
                         <span class="base-badge base-tocino">Envuelta en Tocino</span>
                     </div>
                 </div>
             </a>
 
             <!-- PIBIL DULCE -->
-            <a href="pibil-dulce.html" class="card" style="--accent: #D4951A;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #D4951A, #f0c050);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/pibil-dulce" target="_top" class="card" style="--accent: #D4951A;">
+                <div class="card-accent" style="background: #D4951A;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🐷🌽✨</div>
+                    <div class="card-emoji">&#x1F437;&#x1F33D;&#x2728;</div>
                     <h2 class="card-name" style="color: #D4951A;">PERRO PIBIL DULCE</h2>
                     <p class="card-subtitle">Ma&iacute;z Dulce &mdash; Dulzura Natural</p>
                     <p class="card-tagline">Salsa de ma&iacute;z dulce amplifica el achiote. SourCream y encurtida cierran el ciclo.</p>
@@ -919,18 +929,18 @@
 
     <!-- ═══════════════ SERIE CHIPOTLE ═══════════════ -->
     <section class="grid-section">
-        <div class="category-header" style="background: rgba(194,69,45,0.12); color: #C2452D;">
-            <span class="emoji">🍗</span> SERIE CHIPOTLE &mdash; Pollo Chipotle
+        <div class="category-header" style="border-left: 6px solid #C2452D; color: #C2452D;">
+            <span class="emoji">&#x1F357;</span> SERIE CHIPOTLE &mdash; Pollo Chipotle
         </div>
 
         <div class="grid">
 
             <!-- CHIPOTLE CREAM -->
-            <a href="chipotle-cream.html" class="card" style="--accent: #C2452D;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #C2452D, #e06b54);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/chipotle-cream" target="_top" class="card" style="--accent: #C2452D;">
+                <div class="card-accent" style="background: #C2452D;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🍗🧴🔥</div>
+                    <div class="card-emoji">&#x1F357;&#x1F9F4;&#x1F525;</div>
                     <h2 class="card-name" style="color: #C2452D;">PERRO CHIPOTLE CREAM</h2>
                     <p class="card-subtitle">Cremoso vs Picante &mdash; Contrastes</p>
                     <p class="card-tagline">Triple crema: SourCream + guacamole + mayo ahumada calman el fuego chipotle.</p>
@@ -954,11 +964,11 @@
             </a>
 
             <!-- CHIPOTLE GOLD -->
-            <a href="chipotle-gold.html" class="card" style="--accent: #B8860B;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #B8860B, #d4a843);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/chipotle-gold" target="_top" class="card" style="--accent: #B8860B;">
+                <div class="card-accent" style="background: #B8860B;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🍗🥇💨</div>
+                    <div class="card-emoji">&#x1F357;&#x1F947;&#x1F4A8;</div>
                     <h2 class="card-name" style="color: #B8860B;">PERRO CHIPOTLE GOLD</h2>
                     <p class="card-subtitle">Triple Humo &mdash; El Sofisticado</p>
                     <p class="card-tagline">Tocino + chipotle + mayo ahumada = triple humo. Mostaza y tomate cortan la riqueza.</p>
@@ -983,12 +993,12 @@
             </a>
 
             <!-- CHIPOTLE GUAC -->
-            <a href="chipotle-guac.html" class="card" style="--accent: #556B2F;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #556B2F, #7a9a44);"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/chipotle-guac" target="_top" class="card" style="--accent: #556B2F;">
+                <div class="card-accent" style="background: #556B2F;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🍗🥑🌶️</div>
-                    <h2 class="card-name" style="color: #7a9a44;">PERRO CHIPOTLE GUAC</h2>
+                    <div class="card-emoji">&#x1F357;&#x1F951;&#x1F336;&#xFE0F;</div>
+                    <h2 class="card-name" style="color: #556B2F;">PERRO CHIPOTLE GUAC</h2>
                     <p class="card-subtitle">M&eacute;xico Puro &mdash; Doble Fuego</p>
                     <p class="card-tagline">Chipotle + guacamole + jalape&ntilde;os. Doble fuego, cremosidad verde.</p>
                     <div class="ingredients">
@@ -1005,7 +1015,7 @@
                         <div class="meter"><span class="meter-label">Cremoso</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #7a9a44;">$18.000</span>
+                        <span class="price" style="color: #556B2F;">$18.000</span>
                         <span class="base-badge base-tocino">Envuelta en Tocino</span>
                     </div>
                 </div>
@@ -1016,77 +1026,77 @@
 
     <!-- ═══════════════ PRUEBAS DE VALIDACIÓN ═══════════════ -->
     <section class="grid-section">
-        <div class="category-header" style="background: rgba(233,196,106,0.1); color: #e9c46a; border: 1px dashed rgba(233,196,106,0.3);">
-            <span class="emoji">🔬</span> PRUEBAS DE VALIDACI&Oacute;N &mdash; Mostaza Inglesa (Pendiente)
+        <div class="category-header" style="border-left: 6px solid #e9c46a; color: #000; border-style: dashed; border-left-style: solid;">
+            <span class="emoji">&#x1F52C;</span> PRUEBAS DE VALIDACI&Oacute;N &mdash; Mostaza Inglesa (Pendiente)
         </div>
 
         <div class="grid">
 
             <!-- PRUEBA 1 -->
-            <a href="prueba-mostaza-estrella.html" class="card" style="--accent: #e9c46a;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #e9c46a, #d4a843); opacity: 0.6;"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/prueba-mostaza-estrella" target="_top" class="card" style="--accent: #e9c46a;">
+                <div class="card-accent" style="background: #e9c46a;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🔬🌭⭐</div>
-                    <h2 class="card-name" style="color: #e9c46a;">PRUEBA #1</h2>
+                    <div class="card-emoji">&#x1F52C;&#x1F32D;&#x2B50;</div>
+                    <h2 class="card-name" style="color: #b8860b;">PRUEBA #1</h2>
                     <p class="card-subtitle">Mostaza como Estrella</p>
                     <p class="card-tagline">Sentir la mostaza inglesa como protagonista. Tocino + tomate + cheddar + mostaza inglesa generosa.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-salsa">Tomate</span>
                         <span class="pill pill-queso">Cheddar</span>
-                        <span class="pill pill-salsa" style="background: rgba(233,196,106,0.25); color: #e9c46a;">Mostaza Inglesa</span>
+                        <span class="pill pill-queso">Mostaza Inglesa</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
                         <div class="meter"><span class="meter-label">Picante</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #e9c46a; font-size: 1rem;">EXPERIMENTAL</span>
-                        <span class="base-badge" style="border: 1px dashed rgba(233,196,106,0.4); color: #e9c46a;">Validar sabor</span>
+                        <span class="price" style="color: #b8860b; font-size: 1rem;">EXPERIMENTAL</span>
+                        <span class="base-badge" style="border-style: dashed;">Validar sabor</span>
                     </div>
                 </div>
             </a>
 
             <!-- PRUEBA 2 -->
-            <a href="prueba-mostaza-grasa.html" class="card" style="--accent: #d4a843;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #d4a843, #b8860b); opacity: 0.6;"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/prueba-mostaza-grasa" target="_top" class="card" style="--accent: #d4a843;">
+                <div class="card-accent" style="background: #d4a843;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🔬🥩🧈</div>
-                    <h2 class="card-name" style="color: #d4a843;">PRUEBA #2</h2>
+                    <div class="card-emoji">&#x1F52C;&#x1F969;&#x1F9C8;</div>
+                    <h2 class="card-name" style="color: #b8860b;">PRUEBA #2</h2>
                     <p class="card-subtitle">Mostaza Cortando Grasa</p>
                     <p class="card-tagline">&iquest;Puede ser el fresco agresivo? Tocino + birria + cheddar + mostaza. M&aacute;xima grasa, a ver si la corta.</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-proteina">Res Birria</span>
                         <span class="pill pill-queso">Cheddar</span>
-                        <span class="pill pill-salsa" style="background: rgba(233,196,106,0.25); color: #e9c46a;">Mostaza Inglesa</span>
+                        <span class="pill pill-queso">Mostaza Inglesa</span>
                         <span class="pill pill-crunch">Cebolla Crispy</span>
                     </div>
                     <div class="meters">
                         <div class="meter"><span class="meter-label">Umami</span><div class="meter-dots"><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span><span class="meter-dot filled"></span></div></div>
                     </div>
                     <div class="card-footer">
-                        <span class="price" style="color: #d4a843; font-size: 1rem;">EXPERIMENTAL</span>
-                        <span class="base-badge" style="border: 1px dashed rgba(233,196,106,0.4); color: #d4a843;">Validar fresco</span>
+                        <span class="price" style="color: #b8860b; font-size: 1rem;">EXPERIMENTAL</span>
+                        <span class="base-badge" style="border-style: dashed;">Validar fresco</span>
                     </div>
                 </div>
             </a>
 
             <!-- PRUEBA 3 -->
-            <a href="prueba-mostaza-doble-picante.html" class="card" style="--accent: #b8860b;">
-                <div class="card-accent" style="background: linear-gradient(90deg, #b8860b, #8b6914); opacity: 0.6;"></div>
+            <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas/prueba-mostaza-doble-picante" target="_top" class="card" style="--accent: #b8860b;">
+                <div class="card-accent" style="background: #b8860b;"></div>
                 <span class="card-arrow">&rarr;</span>
                 <div class="card-body">
-                    <div class="card-emoji">🔬🌶️🔥</div>
+                    <div class="card-emoji">&#x1F52C;&#x1F336;&#xFE0F;&#x1F525;</div>
                     <h2 class="card-name" style="color: #b8860b;">PRUEBA #3</h2>
                     <p class="card-subtitle">Doble Picante (Nariz + Lengua)</p>
                     <p class="card-tagline">Mostaza inglesa (nariz) + jalape&ntilde;os (lengua). &iquest;Se suman o se estorban?</p>
                     <div class="ingredients">
                         <span class="pill pill-base">Tocino</span>
                         <span class="pill pill-queso">Cheddar</span>
-                        <span class="pill pill-salsa" style="background: rgba(233,196,106,0.25); color: #e9c46a;">Mostaza Inglesa</span>
+                        <span class="pill pill-queso">Mostaza Inglesa</span>
                         <span class="pill pill-fresco">Jalape&ntilde;os</span>
                         <span class="pill pill-crunch">Papas Fosforito</span>
                     </div>
@@ -1095,7 +1105,7 @@
                     </div>
                     <div class="card-footer">
                         <span class="price" style="color: #b8860b; font-size: 1rem;">EXPERIMENTAL</span>
-                        <span class="base-badge" style="border: 1px dashed rgba(233,196,106,0.4); color: #b8860b;">Validar combo</span>
+                        <span class="base-badge" style="border-style: dashed;">Validar combo</span>
                     </div>
                 </div>
             </a>
@@ -1104,40 +1114,25 @@
     </section>
 
     <!-- LEGEND -->
-    <section style="max-width: 800px; margin: 0 auto; padding: 0 20px 60px;">
-        <div style="background: #16213e; border-radius: 12px; padding: 24px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+    <section style="max-width: 800px; margin: 0 auto; padding: 0 1.5rem 3rem;">
+        <div class="legend-box">
             <span class="pill pill-base">Base</span>
             <span class="pill pill-proteina">Prote&iacute;na</span>
             <span class="pill pill-salsa">Salsa</span>
             <span class="pill pill-queso">Queso</span>
             <span class="pill pill-crunch">Crunch</span>
             <span class="pill pill-fresco">Fresco</span>
-            <span style="color: #666; font-size: 0.8rem; width: 100%; text-align: center; margin-top: 4px;">Leyenda de ingredientes</span>
+            <span class="legend-label">Leyenda de ingredientes</span>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
         <div class="brand">FANZINE</div>
-        <p>Cine &amp; Tex-Mex &mdash; Bogot&aacute;, Colombia</p>
-        <p style="margin-top: 8px; color: #444;">15 perros insignia &middot; 3 pruebas &middot; 0 toppings libres &middot; 100% calidad garantizada</p>
+        <p class="sub">Cine &amp; Tex-Mex &mdash; Bogot&aacute;, Colombia</p>
+        <p class="stats">15 perros insignia &middot; 3 pruebas &middot; 0 toppings libres &middot; 100% calidad garantizada</p>
+        <a href="/lab/perros-calientes/reconstruccion/ciclo-1" target="_top">LAB Gastron&oacute;mico &rarr;</a>
     </footer>
-
-    <script>
-        // Intersection Observer for scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, i) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, i * 100);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.card').forEach(card => observer.observe(card));
-    </script>
 
 </body>
 </html>

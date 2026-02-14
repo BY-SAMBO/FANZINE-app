@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="scroll-behavior: smooth;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perro Pibil Dulce - FANZINE Cine & Tex-Mex</title>
+  <title>Fanzine Gold - FANZINE Cine &amp; Tex-Mex</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --accent: #D4951A;
-      --accent-light: #f0c050;
-      --tag-salsa: #e63946;
-      --tag-queso: #e9c46a;
+      --accent: #B8860B;
+      --accent-light: #d4a843;
+      --bg: #ffffff;
+      --text: #000000;
+      --text-muted: #555555;
+      --surface: #ffffff;
+      --border: #000000;
+      --tag-salsa: #DC2626;
+      --tag-queso: #FDE047;
       --tag-fresco: #2a9d8f;
       --tag-crunch: #ff9f1c;
       --tag-base: #8b5a2b;
@@ -24,10 +29,14 @@
       color: #000;
       font-family: 'Space Grotesk', sans-serif;
       line-height: 1.6;
-      overflow-x: hidden;
     }
 
-    h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+    h1, h2, h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
     /* -- HERO -- */
     .hero {
@@ -39,26 +48,26 @@
       text-align: center;
       padding: 2rem;
       background: #fff;
-      position: relative;
     }
 
     .hero-badge {
-      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: #000;
       background: var(--accent);
-      color: #fff;
       border: 2px solid #000;
-      padding: 0.3rem 1.2rem;
       border-radius: 0;
-      margin-bottom: 1rem;
+      padding: 4px 10px;
+      margin-bottom: 1.5rem;
+      display: inline-block;
     }
 
     .hero-emoji {
-      font-size: 5rem;
-      margin-bottom: 1rem;
+      font-size: 6rem;
+      margin-bottom: 1.5rem;
       line-height: 1.2;
     }
 
@@ -68,42 +77,30 @@
       line-height: 1;
     }
 
+    .hero .subtitle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent-light);
+      margin-top: 0.5rem;
+    }
+
     .hero .tagline {
-      font-size: clamp(1rem, 3vw, 1.3rem);
-      color: #333;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--text-muted);
       margin-top: 0.75rem;
       font-weight: 600;
     }
 
-    .hero .subtitle {
-      font-size: clamp(1.2rem, 3vw, 1.6rem);
-      color: var(--accent-light);
-      margin-top: 0.5rem;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .hero .price-badge {
-      margin-top: 1.5rem;
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      font-size: 1.6rem;
-      font-weight: 700;
-      padding: 0.3rem 1.5rem;
-      border: 3px solid #000;
-      border-radius: 0;
-      box-shadow: 4px 4px 0 #000;
-    }
-
     .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #666;
+      margin-top: 3rem;
+      color: var(--text-muted);
       font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     /* -- SECTIONS -- */
@@ -138,12 +135,12 @@
 
     .ingredient {
       position: relative;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       padding: 1.25rem 1.5rem;
       background: #fff;
       border: 3px solid #000;
-      border-radius: 0;
       box-shadow: 4px 4px 0 #000;
+      border-radius: 0;
     }
 
     .ingredient::before {
@@ -156,7 +153,7 @@
       height: 14px;
       border-radius: 50%;
       border: 3px solid #000;
-      background: #fff;
+      background: var(--accent);
     }
 
     .ingredient-header {
@@ -168,46 +165,50 @@
     }
 
     .ingredient-name {
-      font-size: 1.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: #000;
       text-transform: uppercase;
+      color: #000;
     }
 
     .ingredient-tag {
-      font-size: 0.7rem;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      padding: 0.15rem 0.6rem;
+      padding: 2px 8px;
       border: 2px solid #000;
       border-radius: 0;
-      color: #fff;
+      color: #000;
     }
 
     .tag-base { background: var(--tag-base); }
     .tag-salsa { background: var(--tag-salsa); }
-    .tag-queso { background: var(--tag-queso); color: #000; }
+    .tag-queso { background: var(--tag-queso); }
     .tag-fresco { background: var(--tag-fresco); }
-    .tag-crunch { background: var(--tag-crunch); color: #000; }
+    .tag-crunch { background: var(--tag-crunch); }
     .tag-proteina { background: var(--tag-proteina); }
 
     .ingredient-role {
-      color: #666;
+      color: var(--text-muted);
       font-size: 0.9rem;
     }
 
     .layer-number {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.8rem;
       font-weight: 700;
-      color: var(--accent);
       text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
       margin-bottom: 0.25rem;
     }
 
-    /* -- STAR INGREDIENT -- */
+    /* -- STAR INGREDIENT HIGHLIGHT -- */
     .ingredient.star {
       border-left: 6px solid var(--accent);
+      box-shadow: 4px 4px 0 var(--accent);
     }
 
     .ingredient.star .ingredient-name::after {
@@ -221,7 +222,7 @@
       background: #fff;
       border: 2px solid #000;
       border-radius: 0;
-      padding: 0.4rem 0.8rem;
+      padding: 0.5rem 0.75rem;
       color: #000;
       font-size: 0.85rem;
       width: 100%;
@@ -244,19 +245,19 @@
     }
 
     .meter-label {
-      font-size: 1.1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
       font-weight: 700;
+      text-transform: uppercase;
       min-width: 120px;
       color: #000;
-      text-transform: uppercase;
     }
 
     .meter-bar-bg {
       flex: 1;
       height: 16px;
-      background: #fff;
+      background: #f5f5f5;
       border: 2px solid #000;
-      border-radius: 0;
       overflow: hidden;
     }
 
@@ -266,6 +267,7 @@
     }
 
     .meter-value {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
       font-weight: 700;
       color: var(--accent);
@@ -274,10 +276,16 @@
     }
 
     /* -- PERFIL DE SABOR -- */
+    .flavor-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 2rem;
+    }
+
     .flavor-text {
       font-size: 1.1rem;
       line-height: 1.8;
-      color: #333;
+      color: var(--text-muted);
       text-align: center;
       max-width: 650px;
       margin: 0 auto;
@@ -289,74 +297,109 @@
       content: '\201C';
       color: var(--accent);
       font-size: 2rem;
+      font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
       vertical-align: -0.2em;
     }
-
     .flavor-text::after {
       content: '\201D';
     }
 
-    /* -- LAB NOTES -- */
+    /* -- NOTAS DEL LAB -- */
     .lab-notes-card {
       border: 3px solid #000;
-      border-radius: 0;
       box-shadow: 4px 4px 0 #000;
       padding: 1.5rem;
-      background: #fff;
     }
 
-    .lab-notes {
+    .lab-notes-area {
       width: 100%;
       min-height: 120px;
       background: #fff;
       border: 2px solid #000;
       border-radius: 0;
-      padding: 1rem;
+      padding: 0.5rem 0.75rem;
       color: #000;
-      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.95rem;
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
       resize: vertical;
     }
-    .lab-notes:focus { outline: none; border-color: var(--accent); }
-    .lab-notes::placeholder { color: #999; }
+    .lab-notes-area:focus { outline: none; border-color: var(--accent); }
+    .lab-notes-area::placeholder { color: #999; }
+
+    /* -- TAREAS -- */
+    .tareas-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tarea-item {
+      padding: 0.75rem 1rem;
+      background: #f9f9f9;
+      border-left: 4px solid var(--accent);
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .tarea-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .tarea-text {
+      font-size: 1rem;
+      color: #000;
+    }
 
     /* -- FOOTER -- */
     footer {
       text-align: center;
-      padding: 3rem 1.5rem;
+      padding: 2rem 1.5rem;
       border-top: 3px solid #000;
     }
 
     footer .brand {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 1.6rem;
       font-weight: 700;
-      color: #000;
-      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--accent);
+      letter-spacing: 0.1em;
     }
 
     footer .sub {
-      color: #666;
+      color: var(--text-muted);
       font-size: 0.85rem;
       margin-top: 0.25rem;
     }
 
-    footer a {
-      display: inline-block;
+    footer .footer-links {
       margin-top: 1rem;
-      color: var(--accent);
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    footer a {
+      color: #000;
       text-decoration: none;
       font-weight: 700;
       font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
-    footer a:hover { color: var(--accent-light); }
+    footer a:hover { color: var(--accent); }
 
     /* -- RESPONSIVE -- */
     @media (max-width: 600px) {
-      .hero-emoji { font-size: 3.5rem; }
+      .hero-emoji { font-size: 4rem; }
       section { padding: 3rem 1rem; }
-      .meter-label { min-width: 90px; font-size: 0.95rem; }
+      .meter-label { min-width: 90px; font-size: 0.9rem; }
       .ingredient { padding: 1rem; }
     }
   </style>
@@ -365,15 +408,12 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-badge">CICLO 1 &mdash; DEGUSTACI&Oacute;N</div>
-    <div class="hero-emoji">&#128055;&#127805;&#10024;</div>
-    <h1>PERRO PIBIL DULCE</h1>
-    <div class="subtitle">Ma&iacute;z &amp; Achiote</div>
-    <p class="tagline">Ma&iacute;z dulce amplifica el achiote.</p>
-    <div class="price-badge">$18.000 COP</div>
-    <div class="scroll-hint">
-      <span>&#8595; Descubre la receta</span>
-    </div>
+    <div class="hero-badge">CICLO 2 &mdash; CANDIDATO</div>
+    <div class="hero-emoji">&#10024;&#127789;&#129351;</div>
+    <h1>FANZINE GOLD</h1>
+    <div class="subtitle">Identidad Premium</div>
+    <p class="tagline">Identidad premium. Carolina Gold reemplaza la le&ntilde;a.</p>
+    <div class="scroll-hint">&#8595; Descubre la receta</div>
   </div>
 
   <!-- LA RECETA -->
@@ -382,98 +422,62 @@
     <div class="recipe-timeline">
 
       <div class="ingredient">
-        <div class="layer-number">Capa 08 &mdash; Tope</div>
+        <div class="layer-number">Capa 05 &mdash; Corona</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Cebolla Crispy</span>
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
-        <div class="ingredient-role">Crujido final</div>
+        <div class="ingredient-role">Textura crujiente que corona y amplifica</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-cebolla-crispy" placeholder="Cantidad..." />
-        </div>
-      </div>
-
-      <div class="ingredient">
-        <div class="layer-number">Capa 07</div>
-        <div class="ingredient-header">
-          <span class="ingredient-name">Cebolla Encurtida</span>
-          <span class="ingredient-tag tag-fresco">fresco</span>
-        </div>
-        <div class="ingredient-role">&Aacute;cido yucateco que balancea la dulzura</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-cebolla-encurtida" placeholder="Cantidad..." />
-        </div>
-      </div>
-
-      <div class="ingredient">
-        <div class="layer-number">Capa 06</div>
-        <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Ma&iacute;z Dulce</span>
-          <span class="ingredient-tag tag-salsa">salsa</span>
-        </div>
-        <div class="ingredient-role">Dulzura terrosa que amplifica el achiote</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-maiz-dulce" placeholder="Cantidad..." />
-        </div>
-      </div>
-
-      <div class="ingredient">
-        <div class="layer-number">Capa 05</div>
-        <div class="ingredient-header">
-          <span class="ingredient-name">SourCream</span>
-          <span class="ingredient-tag tag-salsa">salsa</span>
-        </div>
-        <div class="ingredient-role">Frescura cremosa</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-sourcream" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-gold-cebolla-crispy" placeholder="Notas..." />
         </div>
       </div>
 
       <div class="ingredient">
         <div class="layer-number">Capa 04</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Le&ntilde;a</span>
+          <span class="ingredient-name">BBQ Carolina Gold</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Humo de fondo</div>
+        <div class="ingredient-role">Humo dulce y acidez que reemplaza la le&ntilde;a</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-salsa-lena" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-gold-carolina-gold" placeholder="Notas..." />
         </div>
       </div>
 
       <div class="ingredient star">
         <div class="layer-number">Capa 03</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Cochinita Pibil</span>
-          <span class="ingredient-tag tag-proteina">prote&iacute;na</span>
+          <span class="ingredient-name">Queso Crema</span>
+          <span class="ingredient-tag tag-queso">queso</span>
         </div>
-        <div class="ingredient-role">C&iacute;trica, arom&aacute;tica, protagonista absoluta</div>
+        <div class="ingredient-role">Base cremosa, suave y elegante &mdash; distinta al cheddar</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-cochinita" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-gold-queso-crema" placeholder="Notas..." />
         </div>
       </div>
 
       <div class="ingredient">
         <div class="layer-number">Capa 02</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
+          <span class="ingredient-name">Salchicha en Tocino</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Sal y humo de base</div>
+        <div class="ingredient-role">Umami y sal en cada mordida</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-salchicha" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-gold-salchicha" placeholder="Notas..." />
         </div>
       </div>
 
       <div class="ingredient">
         <div class="layer-number">Capa 01 &mdash; Base</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Pan Brioche Dorado</span>
+          <span class="ingredient-name">Pan Brioche</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Dulzor tostado</div>
+        <div class="ingredient-role">El fundamento perfecto</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="pibil-dulce-pan" placeholder="Cantidad..." />
+          <input type="text" class="qty-input" data-key="fanzine-gold-pan-brioche" placeholder="Notas..." />
         </div>
       </div>
 
@@ -496,18 +500,18 @@
       </div>
       <div class="meter-row">
         <span class="meter-label">Frescura</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
-        <span class="meter-value">3/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:20%"></div></div>
+        <span class="meter-value">1/5</span>
       </div>
       <div class="meter-row">
         <span class="meter-label">Picante</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:0%"></div></div>
-        <span class="meter-value">0/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:20%"></div></div>
+        <span class="meter-value">1/5</span>
       </div>
       <div class="meter-row">
         <span class="meter-label">Cremosidad</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
-        <span class="meter-value">5/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
       </div>
     </div>
   </section>
@@ -515,27 +519,42 @@
   <!-- PERFIL DE SABOR -->
   <section>
     <h2 class="section-title">PERFIL DE SABOR</h2>
-    <p class="flavor-text">El Pibil Dulce descubre que el ma&iacute;z dulce y el achiote de la cochinita son aliados naturales. La salsa de ma&iacute;z aporta una dulzura terrosa que amplifica las notas c&iacute;tricas del pibil sin competir. La SourCream y la mayo ahumada crean cremosidad con profundidad. La cebolla encurtida balancea la dulzura con su &aacute;cido rosado y la cebolla crispy remata con crunch. Es el Pibil m&aacute;s dulce y el que menos picante tiene &mdash; pura armon&iacute;a.</p>
+    <div class="flavor-card">
+      <p class="flavor-text">Carolina Gold aporta humo dulce y acidez, eliminando la necesidad de salsa le&ntilde;a. El queso crema crea una base cremosa distinta al cheddar &mdash; m&aacute;s suave, m&aacute;s elegante. Es el Fanzine que no se parece a ning&uacute;n otro.</p>
+    </div>
   </section>
 
   <!-- NOTAS DEL LAB -->
   <section>
     <h2 class="section-title">NOTAS DEL LAB</h2>
     <div class="lab-notes-card">
-      <textarea class="lab-notes" data-key="lab-notes-pibil-dulce" placeholder="Escribe tus notas sobre esta receta..."></textarea>
+      <textarea class="lab-notes-area" id="labNotes" data-key="fanzine-gold-lab-notes" placeholder="Escribe tus notas de laboratorio aqu&iacute;..."></textarea>
     </div>
+  </section>
+
+  <!-- TAREAS -->
+  <section>
+    <h2 class="section-title">TAREAS</h2>
+    <ul class="tareas-list">
+      <li class="tarea-item">
+        <span class="tarea-icon">&#9744;</span>
+        <span class="tarea-text">Definir nombre final e identidad premium</span>
+      </li>
+    </ul>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="brand">FANZINE</div>
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
-    <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas" target="_top">&larr; Ver todos los perros</a>
-    <a href="/lab/perros-calientes/reconstruccion/ciclo-1" target="_top" style="margin-left: 1rem;">LAB Gastron&oacute;mico &rarr;</a>
+    <div class="footer-links">
+      <a href="/lab/perros-calientes/reconstruccion/ciclo-2" target="_top">&larr; Ver todos los perros</a>
+      <a href="/lab/perros-calientes/reconstruccion/ciclo-2" target="_top">LAB Gastron&oacute;mico &rarr;</a>
+    </div>
   </footer>
 
   <script>
-    // Quantity persistence via localStorage
+    // Quantity input localStorage persistence
     document.querySelectorAll('.qty-input').forEach(input => {
       const saved = localStorage.getItem('lab-qty-' + input.dataset.key);
       if (saved) input.value = saved;
@@ -545,12 +564,12 @@
     });
 
     // Lab notes localStorage persistence
-    document.querySelectorAll('.lab-notes').forEach(ta => {
-      const saved = localStorage.getItem(ta.dataset.key);
-      if (saved) ta.value = saved;
-      ta.addEventListener('input', () => {
-        localStorage.setItem(ta.dataset.key, ta.value);
-      });
+    const labNotes = document.getElementById('labNotes');
+    const notesKey = 'lab-notes-' + labNotes.dataset.key;
+    const savedNotes = localStorage.getItem(notesKey);
+    if (savedNotes) labNotes.value = savedNotes;
+    labNotes.addEventListener('input', () => {
+      localStorage.setItem(notesKey, labNotes.value);
     });
   </script>
 

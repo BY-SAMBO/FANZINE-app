@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perro Chipotle Guac - FANZINE Cine & Tex-Mex</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Perro Chipotle Guac - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #1a1a2e;
       --accent: #556B2F;
       --accent-light: #7a9a44;
-      --text: #f0f0f0;
-      --text-muted: #a0a0b0;
-      --surface: #16213e;
       --tag-salsa: #e63946;
       --tag-queso: #e9c46a;
       --tag-fresco: #2a9d8f;
@@ -23,379 +19,67 @@
       --tag-proteina: #c44536;
     }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    body { background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; line-height: 1.6; }
+    h1, h2, h3 { font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
 
-    h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; background: #fff; }
+    .hero-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #000; border: 2px solid #000; padding: 0.3rem 1rem; border-radius: 0; margin-bottom: 1rem; text-transform: uppercase; background: #fff; }
+    .hero-emoji { font-size: 5rem; margin-bottom: 1.5rem; line-height: 1.2; }
+    .hero h1 { font-size: clamp(3rem, 8vw, 6rem); color: var(--accent); line-height: 1; }
+    .hero .tagline { font-size: clamp(1rem, 3vw, 1.3rem); color: #333; margin-top: 0.75rem; font-weight: 600; }
+    .hero .subtitle { font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--accent-light); margin-top: 0.5rem; letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase; }
+    .hero .price-badge { margin-top: 1.5rem; display: inline-block; background: var(--accent); color: #fff; font-size: 1.6rem; font-weight: 700; padding: 0.3rem 1.5rem; border: 3px solid #000; border-radius: 0; }
+    .scroll-hint { margin-top: 2rem; color: #666; font-size: 0.85rem; }
 
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 0.8s ease forwards;
-    }
-    .fade-in.d1 { animation-delay: 0.1s; }
-    .fade-in.d2 { animation-delay: 0.2s; }
-    .fade-in.d3 { animation-delay: 0.3s; }
-    .fade-in.d4 { animation-delay: 0.4s; }
-    .fade-in.d5 { animation-delay: 0.5s; }
-    .fade-in.d6 { animation-delay: 0.6s; }
-    .fade-in.d7 { animation-delay: 0.7s; }
-    .fade-in.d8 { animation-delay: 0.8s; }
+    section { max-width: 800px; margin: 0 auto; padding: 4rem 1.5rem; }
+    .section-title { font-size: clamp(2rem, 5vw, 3rem); color: var(--accent); margin-bottom: 2rem; text-align: center; }
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .recipe-timeline { position: relative; padding-left: 2rem; }
+    .recipe-timeline::before { content: ''; position: absolute; left: 0.75rem; top: 0; bottom: 0; width: 3px; background: #000; }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    @keyframes glitch {
-      0%, 100% { text-shadow: 0 0 40px rgba(85,107,47,0.3); }
-      25% { text-shadow: -3px 0 40px rgba(85,107,47,0.5), 3px 0 rgba(122,154,68,0.3); }
-      50% { text-shadow: 0 0 60px rgba(85,107,47,0.4); }
-      75% { text-shadow: 3px 0 40px rgba(85,107,47,0.5), -3px 0 rgba(122,154,68,0.3); }
-    }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      background: linear-gradient(180deg, #1a1a2e 0%, #0e1a0e 50%, #1a1a2e 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(85,107,47,0.08) 0%, transparent 60%);
-      animation: pulse 5s ease-in-out infinite;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(85,107,47,0.02) 2px,
-        rgba(85,107,47,0.02) 4px
-      );
-      pointer-events: none;
-    }
-
-    .hero-emoji {
-      font-size: 6rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      z-index: 1;
-      animation: pulse 3s ease-in-out infinite;
-      line-height: 1.2;
-    }
-
-    .hero h1 {
-      font-size: clamp(3rem, 8vw, 6rem);
-      color: var(--accent);
-      line-height: 1;
-      position: relative;
-      z-index: 1;
-      animation: glitch 4s ease-in-out infinite;
-    }
-
-    .hero .tagline {
-      font-size: clamp(1rem, 3vw, 1.4rem);
-      color: var(--text-muted);
-      margin-top: 0.75rem;
-      font-weight: 600;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero .subtitle {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      color: var(--accent-light);
-      margin-top: 0.5rem;
-      letter-spacing: 0.15em;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero .price-badge {
-      margin-top: 1.5rem;
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      padding: 0.3rem 1.5rem;
-      border-radius: 4px;
-      position: relative;
-      z-index: 1;
-      letter-spacing: 0.05em;
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      animation: fadeUp 1s ease 1.5s forwards;
-      opacity: 0;
-    }
-    .scroll-hint span {
-      display: block;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    /* ── SECTIONS ── */
-    section {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem;
-    }
-
-    .section-title {
-      font-size: clamp(2rem, 5vw, 3rem);
-      color: var(--accent);
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    /* ── RECETA TIMELINE ── */
-    .recipe-timeline {
-      position: relative;
-      padding-left: 2rem;
-    }
-
-    .recipe-timeline::before {
-      content: '';
-      position: absolute;
-      left: 0.75rem;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: linear-gradient(to top, var(--tag-base), var(--accent));
-      border-radius: 2px;
-    }
-
-    .ingredient {
-      position: relative;
-      margin-bottom: 1.5rem;
-      padding: 1.25rem 1.5rem;
-      background: var(--surface);
-      border-radius: 12px;
-      border: 1px solid rgba(85,107,47,0.15);
-      transition: border-color 0.3s;
-    }
-
-    .ingredient:hover {
-      border-color: var(--accent);
-    }
-
-    .ingredient::before {
-      content: '';
-      position: absolute;
-      left: -1.65rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border: 3px solid var(--accent);
-      background: var(--bg);
-    }
-
-    .ingredient-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.35rem;
-    }
-
-    .ingredient-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.3rem;
-      color: #fff;
-    }
-
-    .ingredient-tag {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 0.15rem 0.6rem;
-      border-radius: 20px;
-      color: #fff;
-    }
-
+    .ingredient { position: relative; margin-bottom: 1.5rem; padding: 1.25rem 1.5rem; background: #fff; border: 3px solid #000; box-shadow: 4px 4px 0 #000; border-radius: 0; }
+    .ingredient::before { content: ''; position: absolute; left: -1.65rem; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; border-radius: 50%; border: 3px solid #000; background: #fff; }
+    .ingredient-header { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
+    .ingredient-name { font-size: 1.3rem; font-weight: 700; color: #000; text-transform: uppercase; }
+    .ingredient-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.15rem 0.6rem; border: 2px solid #000; border-radius: 0; color: #fff; }
     .tag-base { background: var(--tag-base); }
     .tag-salsa { background: var(--tag-salsa); }
-    .tag-queso { background: var(--tag-queso); color: #1a1a2e; }
+    .tag-queso { background: var(--tag-queso); color: #000; }
     .tag-fresco { background: var(--tag-fresco); }
-    .tag-crunch { background: var(--tag-crunch); color: #1a1a2e; }
+    .tag-crunch { background: var(--tag-crunch); color: #000; }
     .tag-proteina { background: var(--tag-proteina); }
+    .ingredient-role { color: #333; font-size: 0.9rem; }
+    .layer-number { font-size: 0.85rem; font-weight: 700; color: var(--accent); opacity: 0.6; margin-bottom: 0.25rem; text-transform: uppercase; }
 
-    .ingredient-role {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
+    .ingredient.star { border-left: 6px solid var(--accent); background: #fff; box-shadow: 4px 4px 0 #000; }
+    .ingredient.star .ingredient-name::after { content: ' \2605'; color: var(--accent); }
 
-    .layer-number {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 0.85rem;
-      color: var(--accent);
-      opacity: 0.6;
-      margin-bottom: 0.25rem;
-    }
-
-    /* ── STAR INGREDIENT HIGHLIGHT ── */
-    .ingredient.star {
-      border-color: var(--accent);
-      background: linear-gradient(135deg, var(--surface) 0%, rgba(85,107,47,0.08) 100%);
-      box-shadow: 0 0 20px rgba(85,107,47,0.15);
-    }
-
-    .ingredient.star .ingredient-name::after {
-      content: ' \2605';
-      color: var(--accent);
-    }
-
-    /* ── QUANTITY INPUT ── */
     .ingredient-qty { margin-top: 0.5rem; }
-    .qty-input {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 6px;
-      padding: 0.4rem 0.8rem;
-      color: #fff;
-      font-size: 0.85rem;
-      width: 100%;
-      font-family: 'Inter', sans-serif;
-      transition: border-color 0.3s;
-    }
+    .qty-input { background: #fff; border: 2px solid #000; border-radius: 0; padding: 0.4rem 0.8rem; color: #000; font-size: 0.85rem; width: 100%; font-family: 'Space Grotesk', sans-serif; }
     .qty-input:focus { outline: none; border-color: var(--accent); }
-    .qty-input::placeholder { color: rgba(255,255,255,0.25); }
+    .qty-input::placeholder { color: #999; }
 
-    /* ── PALATABILITY ── */
-    .meters {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
+    .meters { display: flex; flex-direction: column; gap: 1.25rem; }
+    .meter-row { display: flex; align-items: center; gap: 1rem; }
+    .meter-label { font-size: 1.15rem; font-weight: 700; min-width: 120px; color: #000; text-transform: uppercase; }
+    .meter-bar-bg { flex: 1; height: 16px; background: #fff; border: 2px solid #000; border-radius: 0; overflow: hidden; }
+    .meter-bar-fill { height: 100%; background: var(--accent); }
+    .meter-value { font-size: 1.1rem; font-weight: 700; color: var(--accent); min-width: 30px; text-align: right; }
 
-    .meter-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+    .flavor-text { font-size: 1.1rem; line-height: 1.8; color: #333; text-align: center; max-width: 650px; margin: 0 auto; font-style: italic; }
+    .flavor-text::before, .flavor-text::after { content: '"'; color: var(--accent); font-size: 2rem; font-weight: 700; vertical-align: -0.2em; }
 
-    .meter-label {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.15rem;
-      min-width: 120px;
-      color: #fff;
-    }
+    .lab-notes-card { border: 3px solid #000; box-shadow: 4px 4px 0 #000; border-radius: 0; padding: 1.5rem; background: #fff; }
+    .lab-notes { width: 100%; min-height: 120px; background: #fff; border: 2px solid #000; border-radius: 0; padding: 1rem; color: #000; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; resize: vertical; }
+    .lab-notes:focus { outline: none; border-color: var(--accent); }
+    .lab-notes::placeholder { color: #999; }
 
-    .meter-bar-bg {
-      flex: 1;
-      height: 12px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .meter-bar-fill {
-      height: 100%;
-      border-radius: 6px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-light));
-      transition: width 1s ease;
-    }
-
-    .meter-value {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      color: var(--accent);
-      min-width: 30px;
-      text-align: right;
-    }
-
-    /* ── PERFIL DE SABOR ── */
-    .flavor-text {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: var(--text-muted);
-      text-align: center;
-      max-width: 650px;
-      margin: 0 auto;
-      font-style: italic;
-    }
-
-    .flavor-text::before,
-    .flavor-text::after {
-      content: '"';
-      color: var(--accent);
-      font-size: 2rem;
-      font-family: 'Bebas Neue', sans-serif;
-      vertical-align: -0.2em;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 3rem 1.5rem;
-      border-top: 1px solid rgba(85,107,47,0.15);
-    }
-
-    footer .brand {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-    }
-
-    footer .sub {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: 0.25rem;
-    }
-
-    footer a {
-      display: inline-block;
-      margin-top: 1rem;
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: color 0.3s;
-    }
+    footer { text-align: center; padding: 3rem 1.5rem; border-top: 3px solid #000; }
+    footer .brand { font-size: 1.6rem; font-weight: 700; color: #000; letter-spacing: 0.1em; text-transform: uppercase; }
+    footer .sub { color: #666; font-size: 0.85rem; margin-top: 0.25rem; }
+    footer a { display: inline-block; margin-top: 1rem; color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
     footer a:hover { color: var(--accent-light); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       .hero-emoji { font-size: 4rem; }
       section { padding: 3rem 1rem; }
@@ -408,117 +92,98 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="fade-in d1">
-      <div class="hero-emoji">&#x1F357;&#x1F951;&#x1F336;&#xFE0F;</div>
-    </div>
-    <h1 class="fade-in d2">PERRO CHIPOTLE GUAC</h1>
-    <div class="subtitle fade-in d3">M&eacute;xico Puro</div>
-    <p class="tagline fade-in d4">Doble fuego, cremosidad verde.</p>
-    <div class="price-badge fade-in d5">$18.000 COP</div>
-    <div class="scroll-hint">
-      <span>&#8595; Descubre la receta</span>
-    </div>
+    <div class="hero-badge">CICLO 1 — DEGUSTACION</div>
+    <div class="hero-emoji">&#x1F357;&#x1F951;&#x1F336;&#xFE0F;</div>
+    <h1>PERRO CHIPOTLE GUAC</h1>
+    <div class="subtitle">M&eacute;xico Puro</div>
+    <p class="tagline">Doble fuego, cremosidad verde.</p>
+    <div class="price-badge">$18.000 COP</div>
+    <div class="scroll-hint"><span>&#8595; Descubre la receta</span></div>
   </div>
 
   <!-- LA RECETA -->
   <section>
-    <h2 class="section-title fade-in">LA RECETA</h2>
+    <h2 class="section-title">LA RECETA</h2>
     <div class="recipe-timeline">
 
-      <div class="ingredient fade-in d1">
+      <div class="ingredient">
         <div class="layer-number">Capa 08 &mdash; Tope</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Papas Fosforito</span>
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
         <div class="ingredient-role">Crunch salado</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-papas-fosforito" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-papas-fosforito" placeholder="Cantidad..." /></div>
       </div>
 
-      <div class="ingredient fade-in d2">
+      <div class="ingredient">
         <div class="layer-number">Capa 07</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Jalape&ntilde;os</span>
           <span class="ingredient-tag tag-fresco">fresco</span>
         </div>
         <div class="ingredient-role">Fuego fresco que amplifica el chipotle</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-jalapenos" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-jalapenos" placeholder="Cantidad..." /></div>
       </div>
 
-      <div class="ingredient fade-in d3">
+      <div class="ingredient">
         <div class="layer-number">Capa 06</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Guacamole</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
         <div class="ingredient-role">Cremosidad verde mexicana</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-guacamole" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-guacamole" placeholder="Cantidad..." /></div>
       </div>
 
-      <div class="ingredient fade-in d4">
+      <div class="ingredient">
         <div class="layer-number">Capa 05</div>
         <div class="ingredient-header">
           <span class="ingredient-name">SourCream</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
         <div class="ingredient-role">Calma cremosa</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-sourcream" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-sourcream" placeholder="Cantidad..." /></div>
       </div>
 
-      <div class="ingredient fade-in d5">
+      <div class="ingredient">
         <div class="layer-number">Capa 04</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Salsa de Tomate</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
         <div class="ingredient-role">Acidez dulce de fondo</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-salsa-tomate" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-salsa-tomate" placeholder="Cantidad..." /></div>
       </div>
 
-      <div class="ingredient star fade-in d6">
+      <div class="ingredient star">
         <div class="layer-number">Capa 03</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Pollo Chipotle</span>
           <span class="ingredient-tag tag-proteina">prote&iacute;na</span>
         </div>
         <div class="ingredient-role">Ahumado profundo, protagonista</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-pollo" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-pollo" placeholder="Cantidad..." /></div>
       </div>
 
-      <div class="ingredient fade-in d7">
+      <div class="ingredient">
         <div class="layer-number">Capa 02</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Sal y humo base</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-salchicha" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-salchicha" placeholder="Cantidad..." /></div>
       </div>
 
-      <div class="ingredient fade-in d8">
+      <div class="ingredient">
         <div class="layer-number">Capa 01 &mdash; Base</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Pan Brioche Dorado</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
         <div class="ingredient-role">Fundamento suave</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="chipotle-guac-pan" placeholder="Cantidad..." />
-        </div>
+        <div class="ingredient-qty"><input type="text" class="qty-input" data-key="chipotle-guac-pan" placeholder="Cantidad..." /></div>
       </div>
 
     </div>
@@ -526,29 +191,29 @@
 
   <!-- POR QUE FUNCIONA -->
   <section>
-    <h2 class="section-title fade-in">POR QU&Eacute; FUNCIONA</h2>
+    <h2 class="section-title">POR QU&Eacute; FUNCIONA</h2>
     <div class="meters">
-      <div class="meter-row fade-in d1">
+      <div class="meter-row">
         <span class="meter-label">Umami</span>
         <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
         <span class="meter-value">4/5</span>
       </div>
-      <div class="meter-row fade-in d2">
+      <div class="meter-row">
         <span class="meter-label">Crunch</span>
         <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
         <span class="meter-value">4/5</span>
       </div>
-      <div class="meter-row fade-in d3">
+      <div class="meter-row">
         <span class="meter-label">Frescura</span>
         <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
         <span class="meter-value">3/5</span>
       </div>
-      <div class="meter-row fade-in d4">
+      <div class="meter-row">
         <span class="meter-label">Picante</span>
         <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
         <span class="meter-value">4/5</span>
       </div>
-      <div class="meter-row fade-in d5">
+      <div class="meter-row">
         <span class="meter-label">Cremosidad</span>
         <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
         <span class="meter-value">4/5</span>
@@ -558,15 +223,24 @@
 
   <!-- PERFIL DE SABOR -->
   <section>
-    <h2 class="section-title fade-in">PERFIL DE SABOR</h2>
-    <p class="flavor-text fade-in d2">El Chipotle Guac es M&eacute;xico puro en un hot dog. Doble fuego &mdash; el humo del chipotle y el frescor ardiente del jalape&ntilde;o &mdash; se encuentra con la cremosidad verde del guacamole y la calma de la SourCream. La salsa de tomate aporta acidez dulce y las papas fosforito coronan con crunch salado. Es el m&aacute;s mexicano de la carta: picante, cremoso y con ese verde inconfundible.</p>
+    <h2 class="section-title">PERFIL DE SABOR</h2>
+    <p class="flavor-text">El Chipotle Guac es M&eacute;xico puro en un hot dog. Doble fuego &mdash; el humo del chipotle y el frescor ardiente del jalape&ntilde;o &mdash; se encuentra con la cremosidad verde del guacamole y la calma de la SourCream. La salsa de tomate aporta acidez dulce y las papas fosforito coronan con crunch salado. Es el m&aacute;s mexicano de la carta: picante, cremoso y con ese verde inconfundible.</p>
+  </section>
+
+  <!-- NOTAS DEL LAB -->
+  <section>
+    <h2 class="section-title">NOTAS DEL LAB</h2>
+    <div class="lab-notes-card">
+      <textarea class="lab-notes" data-key="lab-notes-chipotle-guac" placeholder="Escribe tus notas sobre esta receta..."></textarea>
+    </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="brand">FANZINE</div>
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
-    <a href="index.html">&larr; Ver todos los perros</a>
+    <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas" target="_top">&larr; Ver todos los perros</a>
+    <a href="/lab/perros-calientes/reconstruccion/ciclo-1" target="_top" style="margin-left: 1rem;">LAB Gastronomico &rarr;</a>
   </footer>
 
   <script>
@@ -575,6 +249,13 @@
       if (saved) input.value = saved;
       input.addEventListener('input', () => {
         localStorage.setItem('lab-qty-' + input.dataset.key, input.value);
+      });
+    });
+    document.querySelectorAll('.lab-notes').forEach(ta => {
+      const saved = localStorage.getItem(ta.dataset.key);
+      if (saved) ta.value = saved;
+      ta.addEventListener('input', () => {
+        localStorage.setItem(ta.dataset.key, ta.value);
       });
     });
   </script>

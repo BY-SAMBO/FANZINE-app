@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perro Cheeto Cremoso - FANZINE Cine & Tex-Mex</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Perro Cheeto Cremoso - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #1a1a2e;
       --accent: #f72585;
       --accent-light: #ff70ab;
-      --text: #f0f0f0;
-      --text-muted: #a0a0b0;
-      --surface: #16213e;
       --tag-salsa: #e63946;
       --tag-queso: #e9c46a;
       --tag-fresco: #2a9d8f;
@@ -23,54 +19,14 @@
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
-
-    /* ── ANIMATIONS ── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 0.8s ease forwards;
-    }
-    .fade-in.d1 { animation-delay: 0.1s; }
-    .fade-in.d2 { animation-delay: 0.2s; }
-    .fade-in.d3 { animation-delay: 0.3s; }
-    .fade-in.d4 { animation-delay: 0.4s; }
-    .fade-in.d5 { animation-delay: 0.5s; }
-    .fade-in.d6 { animation-delay: 0.6s; }
-    .fade-in.d7 { animation-delay: 0.7s; }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    @keyframes glitch {
-      0%, 100% { text-shadow: 0 0 40px rgba(247,37,133,0.3); }
-      25% { text-shadow: -3px 0 40px rgba(247,37,133,0.5), 3px 0 rgba(255,112,171,0.3); }
-      50% { text-shadow: 0 0 60px rgba(247,37,133,0.4); }
-      75% { text-shadow: 3px 0 40px rgba(247,37,133,0.5), -3px 0 rgba(255,112,171,0.3); }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    @keyframes orbitPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(247,37,133,0.3); }
-      50% { box-shadow: 0 0 20px 5px rgba(247,37,133,0.15); }
-    }
+    h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.02em; }
 
     /* ── HERO ── */
     .hero {
@@ -81,60 +37,25 @@
       justify-content: center;
       text-align: center;
       padding: 2rem;
-      background: linear-gradient(180deg, #1a1a2e 0%, #100a1e 50%, #1a1a2e 100%);
+      background: #fff;
       position: relative;
-      overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(247,37,133,0.08) 0%, transparent 60%);
-      animation: pulse 5s ease-in-out infinite;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(247,37,133,0.02) 2px,
-        rgba(247,37,133,0.02) 4px
-      );
-      pointer-events: none;
-    }
-
-    .serie-badge {
-      display: inline-block;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 0.9rem;
+    .hero-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
       letter-spacing: 0.25em;
-      color: var(--accent);
-      border: 2px solid var(--accent);
-      padding: 0.25rem 1.2rem;
-      border-radius: 4px;
+      color: #000;
+      border: 2px solid #000;
+      padding: 0.3rem 1.2rem;
+      border-radius: 0;
       margin-bottom: 1rem;
-      position: relative;
-      z-index: 1;
-      background: rgba(247,37,133,0.08);
     }
 
     .hero-emoji {
       font-size: 6rem;
       margin-bottom: 1.5rem;
-      position: relative;
-      z-index: 1;
-      animation: float 3s ease-in-out infinite;
       line-height: 1.2;
     }
 
@@ -142,28 +63,14 @@
       font-size: clamp(3rem, 8vw, 6rem);
       color: var(--accent);
       line-height: 1;
-      position: relative;
-      z-index: 1;
-      animation: glitch 4s ease-in-out infinite;
+      text-transform: uppercase;
     }
 
     .hero .tagline {
       font-size: clamp(1rem, 3vw, 1.4rem);
-      color: var(--text-muted);
+      color: #555;
       margin-top: 0.75rem;
       font-weight: 600;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero .subtitle {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      color: var(--accent-light);
-      margin-top: 0.5rem;
-      letter-spacing: 0.15em;
-      position: relative;
-      z-index: 1;
     }
 
     .hero .price-badge {
@@ -171,12 +78,11 @@
       display: inline-block;
       background: var(--accent);
       color: #fff;
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.8rem;
+      font-weight: 700;
       padding: 0.3rem 1.5rem;
-      border-radius: 4px;
-      position: relative;
-      z-index: 1;
+      border: 3px solid #000;
+      border-radius: 0;
       letter-spacing: 0.05em;
     }
 
@@ -185,14 +91,8 @@
       bottom: 2rem;
       left: 50%;
       transform: translateX(-50%);
-      color: var(--text-muted);
+      color: #555;
       font-size: 0.85rem;
-      animation: fadeUp 1s ease 1.5s forwards;
-      opacity: 0;
-    }
-    .scroll-hint span {
-      display: block;
-      animation: pulse 2s ease-in-out infinite;
     }
 
     /* ── SECTIONS ── */
@@ -204,9 +104,10 @@
 
     .section-title {
       font-size: clamp(2rem, 5vw, 3rem);
-      color: var(--accent);
+      color: #000;
       margin-bottom: 2rem;
       text-align: center;
+      text-transform: uppercase;
     }
 
     /* ── RECETA TIMELINE ── */
@@ -222,22 +123,17 @@
       top: 0;
       bottom: 0;
       width: 3px;
-      background: linear-gradient(to top, var(--tag-base), var(--accent));
-      border-radius: 2px;
+      background: #000;
     }
 
     .ingredient {
       position: relative;
       margin-bottom: 1.5rem;
       padding: 1.25rem 1.5rem;
-      background: var(--surface);
-      border-radius: 12px;
-      border: 1px solid rgba(247,37,133,0.15);
-      transition: border-color 0.3s;
-    }
-
-    .ingredient:hover {
-      border-color: var(--accent);
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      border-radius: 0;
     }
 
     .ingredient::before {
@@ -250,7 +146,7 @@
       height: 14px;
       border-radius: 50%;
       border: 3px solid var(--accent);
-      background: var(--bg);
+      background: #fff;
     }
 
     .ingredient-header {
@@ -262,9 +158,10 @@
     }
 
     .ingredient-name {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.3rem;
-      color: #fff;
+      font-weight: 700;
+      color: #000;
+      text-transform: uppercase;
     }
 
     .ingredient-tag {
@@ -273,34 +170,34 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
       padding: 0.15rem 0.6rem;
-      border-radius: 20px;
+      border: 2px solid #000;
+      border-radius: 0;
       color: #fff;
     }
 
     .tag-base { background: var(--tag-base); }
     .tag-salsa { background: var(--tag-salsa); }
-    .tag-queso { background: var(--tag-queso); color: #1a1a2e; }
+    .tag-queso { background: var(--tag-queso); color: #000; }
     .tag-fresco { background: var(--tag-fresco); }
-    .tag-crunch { background: var(--tag-crunch); color: #1a1a2e; }
+    .tag-crunch { background: var(--tag-crunch); color: #000; }
 
     .ingredient-role {
-      color: var(--text-muted);
+      color: #555;
       font-size: 0.9rem;
     }
 
     .layer-number {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 0.85rem;
+      font-weight: 700;
       color: var(--accent);
       opacity: 0.6;
       margin-bottom: 0.25rem;
+      text-transform: uppercase;
     }
 
     /* ── STAR INGREDIENT HIGHLIGHT ── */
     .ingredient.star {
-      border-color: var(--accent);
-      background: linear-gradient(135deg, var(--surface) 0%, rgba(247,37,133,0.08) 100%);
-      box-shadow: 0 0 20px rgba(247,37,133,0.15);
+      border-left: 6px solid var(--accent);
     }
 
     .ingredient.star .ingredient-name::after {
@@ -311,18 +208,17 @@
     /* ── QUANTITY INPUT ── */
     .ingredient-qty { margin-top: 0.5rem; }
     .qty-input {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 6px;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 0;
       padding: 0.4rem 0.8rem;
-      color: #fff;
+      color: #000;
       font-size: 0.85rem;
       width: 100%;
-      font-family: 'Inter', sans-serif;
-      transition: border-color 0.3s;
+      font-family: 'Space Grotesk', sans-serif;
     }
     .qty-input:focus { outline: none; border-color: var(--accent); }
-    .qty-input::placeholder { color: rgba(255,255,255,0.25); }
+    .qty-input::placeholder { color: #999; }
 
     /* ── EL CONCEPTO ── */
     .concepto-section {
@@ -334,7 +230,7 @@
     .concepto-text {
       font-size: 1.05rem;
       line-height: 1.8;
-      color: var(--text-muted);
+      color: #555;
       text-align: center;
       max-width: 680px;
       margin: 0 auto 3rem;
@@ -348,7 +244,6 @@
       aspect-ratio: 1;
     }
 
-    /* Center star */
     .diagram-center {
       position: absolute;
       top: 50%;
@@ -357,14 +252,14 @@
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,159,28,0.3) 0%, rgba(247,37,133,0.15) 60%, transparent 100%);
+      background: #fff;
       border: 3px solid var(--tag-crunch);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 2;
-      animation: orbitPulse 3s ease-in-out infinite;
+      box-shadow: 4px 4px 0 #000;
     }
 
     .diagram-center-emoji {
@@ -373,21 +268,21 @@
     }
 
     .diagram-center-label {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 1rem;
+      font-weight: 700;
       color: var(--tag-crunch);
       letter-spacing: 0.1em;
       margin-top: 0.25rem;
+      text-transform: uppercase;
     }
 
     .diagram-center-sub {
       font-size: 0.6rem;
-      color: var(--text-muted);
+      color: #555;
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
 
-    /* Orbit nodes */
     .orbit-node {
       position: absolute;
       width: 110px;
@@ -398,33 +293,34 @@
     .orbit-node-dot {
       width: 48px;
       height: 48px;
-      border-radius: 50%;
+      border-radius: 0;
       margin: 0 auto 0.4rem;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.4rem;
-      border: 2px solid rgba(255,255,255,0.15);
-      background: var(--surface);
+      border: 3px solid #000;
+      background: #fff;
+      box-shadow: 3px 3px 0 #000;
     }
 
     .orbit-node-name {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 0.85rem;
-      color: #fff;
+      font-weight: 700;
+      color: #000;
       line-height: 1.1;
+      text-transform: uppercase;
     }
 
     .orbit-node-role {
       font-size: 0.65rem;
-      color: var(--accent-light);
-      font-weight: 600;
+      color: var(--accent);
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-top: 0.15rem;
     }
 
-    /* Connector lines via SVG */
     .diagram-lines {
       position: absolute;
       top: 0;
@@ -435,17 +331,16 @@
     }
 
     .diagram-lines line {
-      stroke: rgba(247,37,133,0.25);
-      stroke-width: 1.5;
+      stroke: #000;
+      stroke-width: 2;
       stroke-dasharray: 6 4;
     }
 
-    /* Arrow labels on connectors */
     .connector-label {
-      fill: var(--accent-light);
+      fill: var(--accent);
       font-size: 9px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -464,36 +359,30 @@
     }
 
     .meter-label {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.15rem;
+      font-weight: 700;
       min-width: 120px;
-      color: #fff;
+      color: #000;
+      text-transform: uppercase;
     }
 
-    .meter-dots {
-      display: flex;
-      gap: 0.5rem;
+    .meter-bar-bg {
       flex: 1;
+      height: 16px;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 0;
+      overflow: hidden;
     }
 
-    .meter-dot {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      border: 2px solid rgba(255,255,255,0.1);
-      transition: all 0.3s;
-    }
-
-    .meter-dot.filled {
+    .meter-bar-fill {
+      height: 100%;
       background: var(--accent);
-      border-color: var(--accent-light);
-      box-shadow: 0 0 8px rgba(247,37,133,0.4);
     }
 
     .meter-value {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.1rem;
+      font-weight: 700;
       color: var(--accent);
       min-width: 30px;
       text-align: right;
@@ -503,7 +392,7 @@
     .flavor-text {
       font-size: 1.1rem;
       line-height: 1.8;
-      color: var(--text-muted);
+      color: #555;
       text-align: center;
       max-width: 650px;
       margin: 0 auto;
@@ -515,7 +404,7 @@
       content: '\201C';
       color: var(--accent);
       font-size: 2rem;
-      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 700;
       vertical-align: -0.2em;
     }
 
@@ -523,22 +412,40 @@
       content: '\201D';
     }
 
+    /* ── LAB NOTES ── */
+    .lab-notes {
+      width: 100%;
+      min-height: 120px;
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      border-radius: 0;
+      padding: 1rem;
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      resize: vertical;
+    }
+    .lab-notes:focus { outline: none; border-color: var(--accent); }
+    .lab-notes::placeholder { color: #999; }
+
     /* ── FOOTER ── */
     footer {
       text-align: center;
       padding: 3rem 1.5rem;
-      border-top: 1px solid rgba(247,37,133,0.15);
+      border-top: 3px solid #000;
     }
 
     footer .brand {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.6rem;
-      color: var(--accent);
+      font-weight: 700;
+      color: #000;
       letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     footer .sub {
-      color: var(--text-muted);
+      color: #555;
       font-size: 0.85rem;
       margin-top: 0.25rem;
     }
@@ -548,20 +455,17 @@
       margin-top: 1rem;
       color: var(--accent);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.9rem;
-      transition: color 0.3s;
     }
-    footer a:hover { color: var(--accent-light); }
+    footer a:hover { color: #000; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       .hero-emoji { font-size: 4rem; }
       section, .concepto-section { padding: 3rem 1rem; }
       .meter-label { min-width: 90px; font-size: 1rem; }
-      .meter-dot { width: 18px; height: 18px; }
       .ingredient { padding: 1rem; }
-
       .concepto-diagram { max-width: 340px; }
       .diagram-center { width: 100px; height: 100px; }
       .diagram-center-emoji { font-size: 1.6rem; }
@@ -578,15 +482,11 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="fade-in d1">
-      <div class="serie-badge">SERIE CHEETO</div>
-    </div>
-    <div class="fade-in d2">
-      <div class="hero-emoji">&#x1F32D;&#x1F9C0;&#x1F525;</div>
-    </div>
-    <h1 class="fade-in d3">PERRO CHEETO CREMOSO</h1>
-    <p class="tagline fade-in d4">Crunch contra crema. El contraste perfecto.</p>
-    <div class="price-badge fade-in d5">$16.000 COP</div>
+    <div class="hero-badge">CICLO 1 — DEGUSTACI&Oacute;N</div>
+    <div class="hero-emoji">&#x1F32D;&#x1F9C0;&#x1F525;</div>
+    <h1>PERRO CHEETO CREMOSO</h1>
+    <p class="tagline">Crunch contra crema. El contraste perfecto.</p>
+    <div class="price-badge">$16.000 COP</div>
     <div class="scroll-hint">
       <span>&#8595; Descubre la receta</span>
     </div>
@@ -594,10 +494,10 @@
 
   <!-- LA RECETA -->
   <section>
-    <h2 class="section-title fade-in">LA RECETA</h2>
+    <h2 class="section-title">LA RECETA</h2>
     <div class="recipe-timeline">
 
-      <div class="ingredient star fade-in d1">
+      <div class="ingredient star">
         <div class="layer-number">Capa 06 &mdash; Corona</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Cheetos Picantes Generosos</span>
@@ -609,7 +509,7 @@
         </div>
       </div>
 
-      <div class="ingredient fade-in d2">
+      <div class="ingredient">
         <div class="layer-number">Capa 05</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Salsa de Le&ntilde;a / Mayo Ahumada</span>
@@ -621,7 +521,7 @@
         </div>
       </div>
 
-      <div class="ingredient fade-in d3">
+      <div class="ingredient">
         <div class="layer-number">Capa 04</div>
         <div class="ingredient-header">
           <span class="ingredient-name">SourCream Generosa</span>
@@ -633,7 +533,7 @@
         </div>
       </div>
 
-      <div class="ingredient fade-in d4">
+      <div class="ingredient">
         <div class="layer-number">Capa 03</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Queso Cheddar Fundido</span>
@@ -645,7 +545,7 @@
         </div>
       </div>
 
-      <div class="ingredient fade-in d5">
+      <div class="ingredient">
         <div class="layer-number">Capa 02</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Salchicha Envuelta en Tocino</span>
@@ -657,7 +557,7 @@
         </div>
       </div>
 
-      <div class="ingredient fade-in d6">
+      <div class="ingredient">
         <div class="layer-number">Capa 01 &mdash; Base</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Pan Brioche Dorado</span>
@@ -674,12 +574,12 @@
 
   <!-- EL CONCEPTO -->
   <section class="concepto-section">
-    <h2 class="section-title fade-in">EL CONCEPTO</h2>
-    <p class="concepto-text fade-in d1">
+    <h2 class="section-title">EL CONCEPTO</h2>
+    <p class="concepto-text">
       Todo en este perro existe para que el Cheeto brille m&aacute;s. El pan brioche es suave para que el crunch del Cheeto resalte. El cheddar fundido amplifica el sabor a queso que ya traen los Cheetos. La SourCream fr&iacute;a contrasta con el ardor picante. La mayo ahumada agrega profundidad sin robar protagonismo. El Cheeto no es un topping &mdash; es el protagonista. Todo lo dem&aacute;s es su escenario.
     </p>
 
-    <div class="concepto-diagram fade-in d3">
+    <div class="concepto-diagram">
       <!-- SVG connector lines -->
       <svg class="diagram-lines" viewBox="0 0 520 520" preserveAspectRatio="xMidYMid meet">
         <line x1="260" y1="80" x2="260" y2="210" />
@@ -737,61 +637,31 @@
 
   <!-- POR QUE FUNCIONA -->
   <section>
-    <h2 class="section-title fade-in">POR QU&Eacute; FUNCIONA</h2>
+    <h2 class="section-title">POR QU&Eacute; FUNCIONA</h2>
     <div class="meters">
-      <div class="meter-row fade-in d1">
+      <div class="meter-row">
         <span class="meter-label">Umami</span>
-        <div class="meter-dots">
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-        </div>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
         <span class="meter-value">5/5</span>
       </div>
-      <div class="meter-row fade-in d2">
+      <div class="meter-row">
         <span class="meter-label">Crunch</span>
-        <div class="meter-dots">
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-        </div>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
         <span class="meter-value">5/5</span>
       </div>
-      <div class="meter-row fade-in d3">
+      <div class="meter-row">
         <span class="meter-label">Frescura</span>
-        <div class="meter-dots">
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot"></span>
-          <span class="meter-dot"></span>
-          <span class="meter-dot"></span>
-          <span class="meter-dot"></span>
-        </div>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:20%"></div></div>
         <span class="meter-value">1/5</span>
       </div>
-      <div class="meter-row fade-in d4">
+      <div class="meter-row">
         <span class="meter-label">Picante</span>
-        <div class="meter-dots">
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot"></span>
-        </div>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
         <span class="meter-value">4/5</span>
       </div>
-      <div class="meter-row fade-in d5">
+      <div class="meter-row">
         <span class="meter-label">Cremosidad</span>
-        <div class="meter-dots">
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-          <span class="meter-dot filled"></span>
-        </div>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
         <span class="meter-value">5/5</span>
       </div>
     </div>
@@ -799,15 +669,22 @@
 
   <!-- PERFIL DE SABOR -->
   <section>
-    <h2 class="section-title fade-in">PERFIL DE SABOR</h2>
-    <p class="flavor-text fade-in d2">El Cheeto Cremoso es un estudio en contrastes. Tres capas cremosas distintas &mdash; cheddar fundido, SourCream fr&iacute;a y mayo ahumada &mdash; crean una cama de suavidad sobre la que los Cheetos Picantes explotan con crunch adictivo y color rojo intenso. Cada mordida es la misma historia: crujiente-picante choca contra cremoso-fr&iacute;o. Es el perro donde el Cheeto dej&oacute; de ser topping para convertirse en estrella. Sin cebolla crispy, sin papas fosforito &mdash; el &uacute;nico crunch son los Cheetos porque no necesitan competencia.</p>
+    <h2 class="section-title">PERFIL DE SABOR</h2>
+    <p class="flavor-text">El Cheeto Cremoso es un estudio en contrastes. Tres capas cremosas distintas &mdash; cheddar fundido, SourCream fr&iacute;a y mayo ahumada &mdash; crean una cama de suavidad sobre la que los Cheetos Picantes explotan con crunch adictivo y color rojo intenso. Cada mordida es la misma historia: crujiente-picante choca contra cremoso-fr&iacute;o. Es el perro donde el Cheeto dej&oacute; de ser topping para convertirse en estrella. Sin cebolla crispy, sin papas fosforito &mdash; el &uacute;nico crunch son los Cheetos porque no necesitan competencia.</p>
+  </section>
+
+  <!-- NOTAS DEL LAB -->
+  <section>
+    <h2 class="section-title">NOTAS DEL LAB</h2>
+    <textarea class="lab-notes" data-key="lab-notes-cheeto-cremoso" placeholder="Escribe tus notas sobre esta receta..."></textarea>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="brand">FANZINE</div>
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
-    <a href="index.html">&larr; Ver todos los perros</a>
+    <a href="/lab/perros-calientes/reconstruccion/ciclo-1/recetas" target="_top">&larr; Ver todos los perros</a>
+    <a href="/lab/perros-calientes/reconstruccion/ciclo-1" target="_top" style="margin-left: 1rem;">LAB Gastron&oacute;mico &rarr;</a>
   </footer>
 
   <script>
@@ -816,6 +693,15 @@
       if (saved) input.value = saved;
       input.addEventListener('input', () => {
         localStorage.setItem('lab-qty-' + input.dataset.key, input.value);
+      });
+    });
+
+    // Lab notes localStorage persistence
+    document.querySelectorAll('.lab-notes').forEach(ta => {
+      const saved = localStorage.getItem(ta.dataset.key);
+      if (saved) ta.value = saved;
+      ta.addEventListener('input', () => {
+        localStorage.setItem(ta.dataset.key, ta.value);
       });
     });
   </script>
