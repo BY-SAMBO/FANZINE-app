@@ -1,13 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
 
 // GET /api/lab/notes?slug=fanzine-clasico
 export async function GET(req: Request) {
+  const supabase = await createClient();
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get("slug");
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
@@ -24,6 +20,7 @@ export async function GET(req: Request) {
 
 // POST /api/lab/notes  { slug, data }
 export async function POST(req: Request) {
+  const supabase = await createClient();
   const body = await req.json();
   const { slug, data } = body;
   if (!slug || !data) return NextResponse.json({ error: "slug and data required" }, { status: 400 });

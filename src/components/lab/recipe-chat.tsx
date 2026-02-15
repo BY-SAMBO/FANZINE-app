@@ -85,6 +85,7 @@ export function RecipeChat({ iframeRef, slug }: RecipeChatProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const contextRef = useRef(context);
   contextRef.current = context;
+  const lastContextTimeRef = useRef(0);
 
   // Request context from iframe
   const requestContext = useCallback(() => {
@@ -93,6 +94,15 @@ export function RecipeChat({ iframeRef, slug }: RecipeChatProps) {
       iframe.contentWindow.postMessage({ type: "get-recipe-context" }, "*");
     }
   }, [iframeRef]);
+
+  // Throttled version — at most once every 5 seconds
+  const requestContextThrottled = useCallback(() => {
+    const now = Date.now();
+    if (now - lastContextTimeRef.current > 5000) {
+      lastContextTimeRef.current = now;
+      requestContext();
+    }
+  }, [requestContext]);
 
   // Listen for context response and edit confirmations from iframe
   useEffect(() => {
@@ -204,7 +214,7 @@ export function RecipeChat({ iframeRef, slug }: RecipeChatProps) {
     setAppliedTools((prev) => new Set(prev).add(toolCallId));
 
     // Refresh context after edit
-    setTimeout(() => requestContext(), 300);
+    setTimeout(() => requestContextThrottled(), 300);
   }
 
   function cycleSize() {
@@ -221,7 +231,7 @@ export function RecipeChat({ iframeRef, slug }: RecipeChatProps) {
       <button
         onClick={() => {
           setOpen(!open);
-          if (!open) requestContext();
+          if (!open) requestContextThrottled();
         }}
         style={{
           position: "fixed",
@@ -352,7 +362,7 @@ export function RecipeChat({ iframeRef, slug }: RecipeChatProps) {
             <button
               onClick={() => {
                 setMode("editar");
-                requestContext();
+                requestContextThrottled();
               }}
               style={{
                 flex: 1,
