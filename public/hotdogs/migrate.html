@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Migrar Notas del Lab - FANZINE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #fff; color: #000; font-family: 'Space Grotesk', sans-serif; padding: 2rem; max-width: 700px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 3px solid #000; padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+    .info { font-size: 13px; color: #555; margin-bottom: 1.5rem; line-height: 1.6; }
+    #btn-migrate {
+      padding: 14px 28px; border: 3px solid #000; background: #e63946; color: #fff;
+      font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
+      box-shadow: 4px 4px 0 #000; transition: transform 100ms, box-shadow 100ms;
+    }
+    #btn-migrate:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+    #btn-migrate:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: 4px 4px 0 #000; }
+    #log { margin-top: 1.5rem; font-size: 12px; line-height: 1.8; }
+    .log-item { padding: 4px 0; border-bottom: 1px solid #eee; }
+    .log-ok { color: #2a9d8f; }
+    .log-skip { color: #999; }
+    .log-err { color: #e63946; }
+    .log-done { font-weight: 700; font-size: 14px; margin-top: 1rem; padding: 12px; border: 3px solid #000; background: #f0fff0; }
+    a { color: #e63946; text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Migrar Notas del Lab</h1>
+  <p class="info">
+    Este script lee las notas y cantidades guardadas en localStorage de este navegador
+    y las sube a Supabase para que sean persistentes y compartidas.
+    <br><br>
+    <strong>Solo necesitas ejecutarlo una vez</strong> desde el navegador donde tienes las notas guardadas.
+  </p>
+  <button id="btn-migrate">Migrar Notas a Supabase</button>
+  <div id="log"></div>
+
+  <script>
+    // All known recipe slugs
+    var SLUGS = [
+      'fanzine-clasico','fanzine-dorado','fanzine-fresco',
+      'cheeto-cremoso','cheeto-tropical',
+      'birria-fundido','birria-crunch','birria-fuego','birria-quesabirria',
+      'pibil-tropical','pibil-ahumado','pibil-dulce','pibil-cheeto',
+      'chipotle-cream','chipotle-gold','chipotle-guac',
+      'perro-texano','perro-cheeto-bomb','perro-fanzine',
+      'prueba-mostaza-estrella','prueba-mostaza-grasa','prueba-mostaza-doble-picante',
+      'c2-fanzine-gold','c2-tropical','c2-birria-fundido','c2-chipotle-guac','c2-pibil'
+    ];
+
+    var logEl = document.getElementById('log');
+    var btn = document.getElementById('btn-migrate');
+
+    function log(msg, cls) {
+      var div = document.createElement('div');
+      div.className = 'log-item ' + (cls || '');
+      div.textContent = msg;
+      logEl.appendChild(div);
+    }
+
+    // Scan localStorage for legacy keys belonging to a slug
+    function collectLegacyData(slug) {
+      var d = {};
+      var found = false;
+
+      // Scan all localStorage keys
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        var val = localStorage.getItem(key);
+        if (!val) continue;
+
+        // qty inputs: lab-qty-{data-key} where data-key starts with slug
+        if (key.startsWith('lab-qty-')) {
+          var dataKey = key.replace('lab-qty-', '');
+          // Check if this data-key belongs to this slug
+          if (dataKey.startsWith(slug + '-') || dataKey === slug) {
+            d['qty-' + dataKey] = val;
+            found = true;
+          }
+          // C2 slugs have data-keys without the c2- prefix sometimes
+          var bareSlug = slug.replace('c2-', '');
+          if (dataKey.startsWith(bareSlug + '-') || dataKey === bareSlug) {
+            d['qty-' + dataKey] = val;
+            found = true;
+          }
+        }
+
+        // Lab notes: various patterns
+        // Pattern 1: lab-notes-{slug}
+        if (key === 'lab-notes-' + slug) {
+          d['lab-notes'] = val;
+          found = true;
+        }
+        // Pattern 2: {slug}-lab-notes (C2 data-key pattern)
+        var bareSlug2 = slug.replace('c2-', '');
+        if (key === bareSlug2 + '-lab-notes' || key === 'lab-notes-' + bareSlug2 + '-lab-notes') {
+          d['lab-notes'] = val;
+          found = true;
+        }
+        // Pattern 3: the data-key itself as key
+        if (key === slug + '-lab-notes') {
+          d['lab-notes'] = val;
+          found = true;
+        }
+      }
+
+      // Also check the new format key
+      var newKey = localStorage.getItem('lab-recipe-' + slug);
+      if (newKey) {
+        try {
+          var parsed = JSON.parse(newKey);
+          // Merge: new format takes priority
+          for (var k in parsed) {
+            if (parsed[k]) d[k] = parsed[k];
+          }
+          found = true;
+        } catch(e) {}
+      }
+
+      return found ? d : null;
+    }
+
+    btn.addEventListener('click', async function() {
+      btn.disabled = true;
+      btn.textContent = 'Migrando...';
+      log('Escaneando localStorage...', '');
+
+      var migrated = 0;
+      var skipped = 0;
+      var errors = 0;
+
+      for (var i = 0; i < SLUGS.length; i++) {
+        var slug = SLUGS[i];
+        var data = collectLegacyData(slug);
+
+        if (!data || Object.keys(data).length === 0) {
+          log(slug + ' — sin datos locales', 'log-skip');
+          skipped++;
+          continue;
+        }
+
+        try {
+          var res = await fetch('/api/lab/notes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: slug, data: data })
+          });
+          if (res.ok) {
+            var keys = Object.keys(data);
+            log(slug + ' — migrado (' + keys.length + ' campos: ' + keys.join(', ') + ')', 'log-ok');
+            migrated++;
+          } else {
+            var err = await res.json();
+            log(slug + ' — error: ' + (err.error || res.status), 'log-err');
+            errors++;
+          }
+        } catch(e) {
+          log(slug + ' — error de red: ' + e.message, 'log-err');
+          errors++;
+        }
+      }
+
+      var summary = 'Listo: ' + migrated + ' migradas, ' + skipped + ' sin datos, ' + errors + ' errores.';
+      var div = document.createElement('div');
+      div.className = 'log-done';
+      div.textContent = summary;
+      logEl.appendChild(div);
+
+      btn.textContent = 'Migracion completa';
+    });
+  </script>
+</body>
+</html>

@@ -1,7 +1,8 @@
 "use client";
 
-import { use } from "react";
+import { use, useRef } from "react";
 import Link from "next/link";
+import { RecipeChat } from "@/components/lab/recipe-chat";
 
 export default function Ciclo2RecetaSlugPage({
   params,
@@ -9,6 +10,7 @@ export default function Ciclo2RecetaSlugPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = use(params);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   return (
     <div
@@ -46,10 +48,12 @@ export default function Ciclo2RecetaSlugPage({
         </nav>
       </div>
       <iframe
+        ref={iframeRef}
         src={`/hotdogs/${slug}.html`}
         width="100%"
         style={{ height: "calc(100vh - 120px)", border: "none" }}
       />
+      <RecipeChat iframeRef={iframeRef} slug={slug} />
     </div>
   );
 }

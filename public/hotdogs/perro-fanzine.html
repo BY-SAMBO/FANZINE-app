@@ -209,14 +209,118 @@
   <a href="/lab/perros-calientes/reconstruccion/ciclo-1" target="_top" style="margin-left: 1rem;">LAB Gastronomico &rarr;</a>
 </footer>
 
-<script>
-  document.querySelectorAll('.lab-notes').forEach(ta => {
-    const saved = localStorage.getItem(ta.dataset.key);
-    if (saved) ta.value = saved;
-    ta.addEventListener('input', () => {
-      localStorage.setItem(ta.dataset.key, ta.value);
-    });
-  });
-</script>
+  <script>
+    (function() {
+      var slug = location.pathname.replace(/.*\//, '').replace('.html', '');
+      var debounceTimer;
+
+      // Collect all editable data into an object
+      function collectData() {
+        var d = {};
+        document.querySelectorAll('.qty-input').forEach(function(input) {
+          if (input.value) d['qty-' + input.dataset.key] = input.value;
+        });
+        var notesEl = document.getElementById('labNotes') || document.querySelector('.lab-notes');
+        if (notesEl && notesEl.value) d['lab-notes'] = notesEl.value;
+        return d;
+      }
+
+      // Apply data to DOM fields
+      function applyData(d) {
+        if (!d) return;
+        document.querySelectorAll('.qty-input').forEach(function(input) {
+          var val = d['qty-' + input.dataset.key];
+          if (val) input.value = val;
+        });
+        var notesEl = document.getElementById('labNotes') || document.querySelector('.lab-notes');
+        if (notesEl && d['lab-notes']) notesEl.value = d['lab-notes'];
+      }
+
+      // Save to localStorage (instant) + Supabase (debounced)
+      function save() {
+        var d = collectData();
+        localStorage.setItem('lab-recipe-' + slug, JSON.stringify(d));
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          fetch('/api/lab/notes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: slug, data: d })
+          }).catch(function() {});
+        }, 1500);
+      }
+
+      // Load: try Supabase first, fall back to localStorage
+      fetch('/api/lab/notes?slug=' + slug)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.data && Object.keys(res.data).length > 0) {
+            applyData(res.data);
+            localStorage.setItem('lab-recipe-' + slug, JSON.stringify(res.data));
+          } else {
+            // Fall back to localStorage
+            var local = localStorage.getItem('lab-recipe-' + slug);
+            if (local) {
+              applyData(JSON.parse(local));
+            } else {
+              // Try legacy localStorage keys
+              document.querySelectorAll('.qty-input').forEach(function(input) {
+                var saved = localStorage.getItem('lab-qty-' + input.dataset.key);
+                if (saved) input.value = saved;
+              });
+              var notesEl = document.getElementById('labNotes') || document.querySelector('.lab-notes');
+              if (notesEl) {
+                var nk = notesEl.dataset.key;
+                var saved = localStorage.getItem(nk) || localStorage.getItem('lab-notes-' + nk);
+                if (saved) notesEl.value = saved;
+              }
+            }
+          }
+        })
+        .catch(function() {
+          // Offline: use localStorage
+          var local = localStorage.getItem('lab-recipe-' + slug);
+          if (local) applyData(JSON.parse(local));
+        });
+
+      // Bind save on input
+      document.querySelectorAll('.qty-input').forEach(function(input) {
+        input.addEventListener('input', save);
+      });
+      var notesEl = document.getElementById('labNotes') || document.querySelector('.lab-notes');
+      if (notesEl) notesEl.addEventListener('input', save);
+
+      // PostMessage context bridge for Lab Chat
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'get-recipe-context') {
+          var name = document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : '';
+          var ingredients = [];
+          document.querySelectorAll('.ingredient').forEach(function(el) {
+            var n = el.querySelector('.ingredient-name');
+            var t = el.querySelector('.ingredient-tag');
+            var r = el.querySelector('.ingredient-role');
+            var q = el.querySelector('.qty-input');
+            ingredients.push((n?n.textContent.trim():'') + ' [' + (t?t.textContent.trim():'') + '] — ' + (r?r.textContent.trim():'') + (q?' (qty: '+q.value+')':''));
+          });
+          var meters = [];
+          document.querySelectorAll('.meter-row').forEach(function(el) {
+            var l = el.querySelector('.meter-label');
+            var v = el.querySelector('.meter-value');
+            meters.push((l?l.textContent.trim():'') + ': ' + (v?v.textContent.trim():''));
+          });
+          var flavor = document.querySelector('.flavor-text') ? document.querySelector('.flavor-text').textContent.trim() : '';
+          var tasks = [];
+          document.querySelectorAll('.tarea-text').forEach(function(el) { tasks.push(el.textContent.trim()); });
+          var notes = '';
+          var ne = document.getElementById('labNotes') || document.querySelector('.lab-notes');
+          if (ne) notes = ne.value || '';
+          var ctx = 'RECETA: ' + name + '\n\nINGREDIENTES:\n' + ingredients.join('\n') + '\n\nMETERS:\n' + meters.join('\n') + '\n\nPERFIL DE SABOR:\n' + flavor;
+          if (tasks.length) ctx += '\n\nTAREAS:\n' + tasks.join('\n');
+          if (notes) ctx += '\n\nNOTAS DEL LAB:\n' + notes;
+          parent.postMessage({ type: 'recipe-context', context: ctx }, '*');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
