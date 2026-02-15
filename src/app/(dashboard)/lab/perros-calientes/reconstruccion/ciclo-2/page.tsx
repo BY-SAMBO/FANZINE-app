@@ -381,7 +381,7 @@ export default function Ciclo2HubPage() {
           CICLO 2 — ITERACION
         </h1>
         <p className="text-neutral-500 text-sm tracking-widest uppercase mt-2 font-bold">
-          Dic 2025 &middot; 5 candidatos &middot; Activo
+          Dic 2025 &middot; 5 candidatos &middot; Cerrado
         </p>
       </header>
 

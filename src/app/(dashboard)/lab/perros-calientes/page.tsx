@@ -63,7 +63,7 @@ export default function PerrosCalientesPage() {
                       border: "2px solid #000",
                     }}
                   >
-                    2 ciclos
+                    3 ciclos
                   </span>
                 </div>
                 <h2 className="font-bold text-xl tracking-wide uppercase text-neutral-900 mt-3">

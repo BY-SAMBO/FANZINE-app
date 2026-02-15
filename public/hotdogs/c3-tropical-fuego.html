@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tropical - FANZINE Cine &amp; Tex-Mex</title>
+  <title>Tropical Fuego C3 - FANZINE Cine &amp; Tex-Mex</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -59,7 +59,6 @@
       color: #000;
       background: var(--accent);
       border: 2px solid #000;
-      border-radius: 0;
       padding: 4px 10px;
       margin-bottom: 1.5rem;
       display: inline-block;
@@ -140,7 +139,6 @@
       background: #fff;
       border: 3px solid #000;
       box-shadow: 4px 4px 0 #000;
-      border-radius: 0;
     }
 
     .ingredient::before {
@@ -179,7 +177,6 @@
       letter-spacing: 0.1em;
       padding: 2px 8px;
       border: 2px solid #000;
-      border-radius: 0;
       color: #000;
     }
 
@@ -193,6 +190,13 @@
     .ingredient-role {
       color: var(--text-muted);
       font-size: 0.9rem;
+    }
+
+    .ingredient-detail {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-style: italic;
+      margin-top: 0.2rem;
     }
 
     .layer-number {
@@ -221,7 +225,6 @@
     .qty-input {
       background: #fff;
       border: 2px solid #000;
-      border-radius: 0;
       padding: 0.5rem 0.75rem;
       color: #000;
       font-size: 0.85rem;
@@ -230,6 +233,51 @@
     }
     .qty-input:focus { outline: none; border-color: var(--accent); }
     .qty-input::placeholder { color: #999; }
+
+    /* -- CONSTRUCTION DIAGRAM -- */
+    .construction {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 2rem;
+    }
+
+    .construction-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.75rem 0;
+    }
+
+    .construction-step + .construction-step {
+      border-top: 2px solid #eee;
+    }
+
+    .step-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent);
+      border: 2px solid #000;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-text {
+      font-size: 0.95rem;
+      color: #000;
+      line-height: 1.5;
+    }
+
+    .step-text strong {
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
 
     /* -- PALATABILITY -- */
     .meters {
@@ -317,7 +365,6 @@
       min-height: 120px;
       background: #fff;
       border: 2px solid #000;
-      border-radius: 0;
       padding: 0.5rem 0.75rem;
       color: #000;
       font-size: 0.95rem;
@@ -340,7 +387,6 @@
       padding: 0.75rem 1rem;
       background: #f9f9f9;
       border-left: 4px solid var(--accent);
-      border-radius: 0;
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -354,6 +400,45 @@
     .tarea-text {
       font-size: 1rem;
       color: #000;
+    }
+
+    /* -- EVOLUTION CARD -- */
+    .evolution-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 1.5rem;
+    }
+
+    .evolution-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .evolution-change {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+    }
+
+    .evolution-change + .evolution-change {
+      border-top: 1px solid #eee;
+    }
+
+    .change-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .change-text {
+      font-size: 0.9rem;
+      color: #000;
+      line-height: 1.5;
     }
 
     /* -- FOOTER -- */
@@ -408,11 +493,11 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-badge">CICLO 2 &mdash; CANDIDATO</div>
+    <div class="hero-badge">CICLO 3 &mdash; ACOTACI&Oacute;N</div>
     <div class="hero-emoji">&#127821;&#127789;&#128293;</div>
-    <h1>TROPICAL</h1>
-    <div class="subtitle">Dulce Tropical vs Crunch Picante</div>
-    <p class="tagline">Pi&ntilde;a validada. Crunch picante por definir.</p>
+    <h1>TROPICAL FUEGO</h1>
+    <div class="subtitle">Dulce &times; Picante</div>
+    <p class="tagline">Pi&ntilde;a + le&ntilde;a, SourCream, pi&ntilde;a en trozos, Takis 15+15.</p>
     <div class="scroll-hint">&#8595; Descubre la receta</div>
   </div>
 
@@ -422,77 +507,127 @@
     <div class="recipe-timeline">
 
       <div class="ingredient">
-        <div class="layer-number">Capa 06 &mdash; Corona</div>
+        <div class="layer-number">Paso 07 &mdash; Corona</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Crunch Picante TBD</span>
+          <span class="ingredient-name">Takis ~15g</span>
           <span class="ingredient-tag tag-crunch">crunch</span>
         </div>
-        <div class="ingredient-role">Crunch picante por definir &mdash; &iquest;Cheeto o Takis?</div>
+        <div class="ingredient-role">Corona picante &mdash; cierre visual y de textura</div>
+        <div class="ingredient-detail">Mismos Takis que la base, segunda mitad encima de todo</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="tropical-crunch-picante" placeholder="Notas..." />
-        </div>
-      </div>
-
-      <div class="ingredient star">
-        <div class="layer-number">Capa 05</div>
-        <div class="ingredient-header">
-          <span class="ingredient-name">Salsa de Pi&ntilde;a</span>
-          <span class="ingredient-tag tag-salsa">salsa</span>
-        </div>
-        <div class="ingredient-role">El gancho tropical &mdash; dulce y memorable</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="tropical-salsa-pina" placeholder="Notas..." />
+          <input type="text" class="qty-input" data-key="c3-tropical-fuego-takis-arriba" placeholder="Notas..." />
         </div>
       </div>
 
       <div class="ingredient">
-        <div class="layer-number">Capa 04</div>
+        <div class="layer-number">Paso 06 &mdash; Fruta</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Pi&ntilde;a Dulce en Trozos</span>
+          <span class="ingredient-tag tag-fresco">fresco</span>
+        </div>
+        <div class="ingredient-role">Trozos de pi&ntilde;a dulce encima &mdash; textura y frescura tropical</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="c3-tropical-fuego-pina-trozos" placeholder="Notas..." />
+        </div>
+      </div>
+
+      <div class="ingredient">
+        <div class="layer-number">Paso 05</div>
         <div class="ingredient-header">
           <span class="ingredient-name">SourCream</span>
           <span class="ingredient-tag tag-salsa">salsa</span>
         </div>
-        <div class="ingredient-role">Frescura cremosa que balancea la riqueza</div>
+        <div class="ingredient-role">Frescura cremosa que balancea el picante y el dulce</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="tropical-sourcream" placeholder="Notas..." />
+          <input type="text" class="qty-input" data-key="c3-tropical-fuego-sourcream" placeholder="Notas..." />
+        </div>
+      </div>
+
+      <div class="ingredient star">
+        <div class="layer-number">Paso 04 &mdash; Salsas</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Salsa de Pi&ntilde;a + Le&ntilde;a</span>
+          <span class="ingredient-tag tag-salsa">salsa</span>
+        </div>
+        <div class="ingredient-role">Pi&ntilde;a: dos l&iacute;neas a los laterales de la salchicha. Le&ntilde;a: una l&iacute;nea central</div>
+        <div class="ingredient-detail">El gancho tropical flanquea la salchicha, le&ntilde;a aporta humo al centro</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="c3-tropical-fuego-salsas" placeholder="Notas..." />
         </div>
       </div>
 
       <div class="ingredient">
-        <div class="layer-number">Capa 03</div>
+        <div class="layer-number">Paso 03 &mdash; Proteina</div>
         <div class="ingredient-header">
-          <span class="ingredient-name">Cheddar</span>
-          <span class="ingredient-tag tag-queso">queso</span>
-        </div>
-        <div class="ingredient-role">R&iacute;o dorado que abraza todo por encima</div>
-        <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="tropical-cheddar" placeholder="Notas..." />
-        </div>
-      </div>
-
-      <div class="ingredient">
-        <div class="layer-number">Capa 02</div>
-        <div class="ingredient-header">
-          <span class="ingredient-name">Salchicha en Tocino</span>
+          <span class="ingredient-name">Salchicha</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">Umami y sal en cada mordida</div>
+        <div class="ingredient-role">Sin tocino &mdash; deja que pi&ntilde;a y Takis dominen</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="tropical-salchicha" placeholder="Notas..." />
+          <input type="text" class="qty-input" data-key="c3-tropical-fuego-salchicha" placeholder="Notas..." />
+        </div>
+      </div>
+
+      <div class="ingredient star">
+        <div class="layer-number">Paso 02 &mdash; Estructura</div>
+        <div class="ingredient-header">
+          <span class="ingredient-name">Takis ~15g</span>
+          <span class="ingredient-tag tag-crunch">crunch</span>
+        </div>
+        <div class="ingredient-role">Cama crocante y picante &mdash; reemplaza el crocante base est&aacute;ndar</div>
+        <div class="ingredient-detail">15g de Takis como estructura debajo de la salchicha</div>
+        <div class="ingredient-qty">
+          <input type="text" class="qty-input" data-key="c3-tropical-fuego-takis-abajo" placeholder="Notas..." />
         </div>
       </div>
 
       <div class="ingredient">
-        <div class="layer-number">Capa 01 &mdash; Base</div>
+        <div class="layer-number">Paso 01 &mdash; Base</div>
         <div class="ingredient-header">
           <span class="ingredient-name">Pan Brioche</span>
           <span class="ingredient-tag tag-base">base</span>
         </div>
-        <div class="ingredient-role">El fundamento perfecto</div>
+        <div class="ingredient-role">El fundamento</div>
         <div class="ingredient-qty">
-          <input type="text" class="qty-input" data-key="tropical-pan-brioche" placeholder="Notas..." />
+          <input type="text" class="qty-input" data-key="c3-tropical-fuego-pan" placeholder="Notas..." />
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- CONSTRUCCION -->
+  <section>
+    <h2 class="section-title">CONSTRUCCI&Oacute;N</h2>
+    <div class="construction">
+      <div class="construction-step">
+        <div class="step-number">1</div>
+        <div class="step-text"><strong>Pan brioche</strong> abierto</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number">2</div>
+        <div class="step-text"><strong>Takis ~15g</strong> como cama crocante en el fondo del pan</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number">3</div>
+        <div class="step-text"><strong>Salchicha</strong> se monta sobre los Takis</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number">4</div>
+        <div class="step-text"><strong>Salsa de pi&ntilde;a</strong> dos l&iacute;neas a los laterales de la salchicha + <strong>salsa le&ntilde;a</strong> una l&iacute;nea al centro</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number">5</div>
+        <div class="step-text"><strong>SourCream</strong> sobre las salsas</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number">6</div>
+        <div class="step-text"><strong>Pi&ntilde;a dulce en trozos</strong> encima</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number">7</div>
+        <div class="step-text"><strong>Takis ~15g</strong> como corona &mdash; cierre de textura y picante</div>
+      </div>
     </div>
   </section>
 
@@ -502,13 +637,18 @@
     <div class="meters">
       <div class="meter-row">
         <span class="meter-label">Umami</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
-        <span class="meter-value">3/5</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:40%"></div></div>
+        <span class="meter-value">2/5</span>
       </div>
       <div class="meter-row">
         <span class="meter-label">Crunch</span>
         <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:100%"></div></div>
         <span class="meter-value">5/5</span>
+      </div>
+      <div class="meter-row">
+        <span class="meter-label">Cremosidad</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
+        <span class="meter-value">3/5</span>
       </div>
       <div class="meter-row">
         <span class="meter-label">Frescura</span>
@@ -521,9 +661,9 @@
         <span class="meter-value">4/5</span>
       </div>
       <div class="meter-row">
-        <span class="meter-label">Cremosidad</span>
-        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:60%"></div></div>
-        <span class="meter-value">3/5</span>
+        <span class="meter-label">Dulce</span>
+        <div class="meter-bar-bg"><div class="meter-bar-fill" style="width:80%"></div></div>
+        <span class="meter-value">4/5</span>
       </div>
     </div>
   </section>
@@ -532,7 +672,47 @@
   <section>
     <h2 class="section-title">PERFIL DE SABOR</h2>
     <div class="flavor-card">
-      <p class="flavor-text">La salsa de pi&ntilde;a fue el gancho m&aacute;s memorable de la degustaci&oacute;n. Dulce tropical contra crunch picante crea un loop adictivo. Falta definir: &iquest;Cheeto o Takis?</p>
+      <p class="flavor-text">Loop adictivo de dulce tropical contra picante crujiente. Salsa de pi&ntilde;a flanquea la salchicha en dos l&iacute;neas laterales, le&ntilde;a aporta humo al centro, y pi&ntilde;a dulce en trozos remata con textura fresca. Los Takis hacen doble funci&oacute;n: estructura abajo (15g) y corona arriba (15g). SourCream equilibra todo. Sin tocino ni cheddar &mdash; el protagonismo es pi&ntilde;a vs Takis, limpio y directo.</p>
+    </div>
+  </section>
+
+  <!-- EVOLUCION DESDE C2 -->
+  <section>
+    <h2 class="section-title">EVOLUCI&Oacute;N DESDE C2</h2>
+    <div class="evolution-card">
+      <div class="evolution-label">Cambios respecto al Ciclo 2</div>
+      <div class="evolution-change">
+        <span class="change-icon">&minus;</span>
+        <span class="change-text"><strong>Cheddar eliminado</strong> &mdash; no se aplic&oacute; en C2 y no hubo cambios en el perfil de sabor</span>
+      </div>
+      <div class="evolution-change">
+        <span class="change-icon">&minus;</span>
+        <span class="change-text"><strong>Tocino eliminado</strong> &mdash; salchicha va sola, deja que pi&ntilde;a y Takis dominen</span>
+      </div>
+      <div class="evolution-change">
+        <span class="change-icon">&#8635;</span>
+        <span class="change-text"><strong>Crunch definido: Takis</strong> &mdash; resolvi&oacute; la prueba ciega C2, mejor contraste de sabores</span>
+      </div>
+      <div class="evolution-change">
+        <span class="change-icon">+</span>
+        <span class="change-text"><strong>Takis 15+15 (abajo y arriba)</strong> &mdash; doble funci&oacute;n: estructura + corona</span>
+      </div>
+      <div class="evolution-change">
+        <span class="change-icon">+</span>
+        <span class="change-text"><strong>Salsa le&ntilde;a</strong> &mdash; una l&iacute;nea central, aporta humo que no ten&iacute;a en C2</span>
+      </div>
+      <div class="evolution-change">
+        <span class="change-icon">+</span>
+        <span class="change-text"><strong>Pi&ntilde;a dulce en trozos</strong> &mdash; nuevo elemento de textura fresca encima</span>
+      </div>
+      <div class="evolution-change">
+        <span class="change-icon">&#8635;</span>
+        <span class="change-text"><strong>Aplicaci&oacute;n de pi&ntilde;a definida</strong> &mdash; dos l&iacute;neas a los laterales de la salchicha</span>
+      </div>
+      <div class="evolution-change">
+        <span class="change-icon">&#8635;</span>
+        <span class="change-text"><strong>Nombre: Tropical Fuego</strong> &mdash; antes solo &ldquo;Tropical&rdquo;</span>
+      </div>
     </div>
   </section>
 
@@ -540,7 +720,7 @@
   <section>
     <h2 class="section-title">NOTAS DEL LAB</h2>
     <div class="lab-notes-card">
-      <textarea class="lab-notes-area" id="labNotes" data-key="tropical-lab-notes" placeholder="Escribe tus notas de laboratorio aqu&iacute;..."></textarea>
+      <textarea class="lab-notes-area" id="labNotes" data-key="c3-tropical-fuego-lab-notes" placeholder="Escribe tus notas de laboratorio aqu&iacute;..."></textarea>
     </div>
   </section>
 
@@ -550,7 +730,19 @@
     <ul class="tareas-list">
       <li class="tarea-item">
         <span class="tarea-icon">&#9744;</span>
-        <span class="tarea-text">Prueba ciega Cheeto vs Takis</span>
+        <span class="tarea-text">Validar proporci&oacute;n 15+15 de Takis</span>
+      </li>
+      <li class="tarea-item">
+        <span class="tarea-icon">&#9744;</span>
+        <span class="tarea-text">Definir cantidad exacta de salsa de pi&ntilde;a (abajo y drizzle)</span>
+      </li>
+      <li class="tarea-item">
+        <span class="tarea-icon">&#9744;</span>
+        <span class="tarea-text">Definir cantidad de SourCream</span>
+      </li>
+      <li class="tarea-item">
+        <span class="tarea-icon">&#9744;</span>
+        <span class="tarea-text">Probar ensamble completo C3</span>
       </li>
     </ul>
   </section>
@@ -560,8 +752,8 @@
     <div class="brand">FANZINE</div>
     <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
     <div class="footer-links">
-      <a href="/lab/perros-calientes/reconstruccion/ciclo-2" target="_top">&larr; Ver todos los perros</a>
-      <a href="/lab/perros-calientes/reconstruccion/ciclo-2" target="_top">LAB Gastron&oacute;mico &rarr;</a>
+      <a href="/lab/perros-calientes/reconstruccion/ciclo-3" target="_top">&larr; Ciclo 3</a>
+      <a href="/lab/perros-calientes/reconstruccion/ciclo-3" target="_top">LAB Gastron&oacute;mico &rarr;</a>
     </div>
   </footer>
 
@@ -570,7 +762,6 @@
       var slug = location.pathname.replace(/.*\//, '').replace('.html', '');
       var debounceTimer;
 
-      // Collect all editable data into an object
       function collectData() {
         var d = {};
         document.querySelectorAll('.qty-input').forEach(function(input) {
@@ -599,7 +790,6 @@
         return d;
       }
 
-      // Apply data to DOM fields
       function applyData(d) {
         if (!d) return;
         document.querySelectorAll('.qty-input').forEach(function(input) {
@@ -634,7 +824,6 @@
         });
       }
 
-      // Save to localStorage (instant) + Supabase (debounced)
       function save() {
         var d = collectData();
         localStorage.setItem('lab-recipe-' + slug, JSON.stringify(d));
@@ -662,7 +851,6 @@
         })
         .catch(function() {});
 
-      // Bind save on input
       document.querySelectorAll('.qty-input').forEach(function(input) {
         input.addEventListener('input', save);
       });
@@ -757,9 +945,15 @@
             var n = el.querySelector('.ingredient-name');
             var t = el.querySelector('.ingredient-tag');
             var r = el.querySelector('.ingredient-role');
+            var d = el.querySelector('.ingredient-detail');
             var q = el.querySelector('.qty-input');
-            ingredients.push((n?n.textContent.trim():'') + ' [' + (t?t.textContent.trim():'') + '] — ' + (r?r.textContent.trim():'') + (q?' (qty: '+q.value+')':''));
+            var line = (n?n.textContent.trim():'') + ' [' + (t?t.textContent.trim():'') + '] — ' + (r?r.textContent.trim():'');
+            if (d) line += ' (' + d.textContent.trim() + ')';
+            if (q && q.value) line += ' {notas: ' + q.value + '}';
+            ingredients.push(line);
           });
+          var construction = [];
+          document.querySelectorAll('.step-text').forEach(function(el) { construction.push(el.textContent.trim()); });
           var meters = [];
           document.querySelectorAll('.meter-row').forEach(function(el) {
             var l = el.querySelector('.meter-label');
@@ -767,12 +961,17 @@
             meters.push((l?l.textContent.trim():'') + ': ' + (v?v.textContent.trim():''));
           });
           var flavor = document.querySelector('.flavor-text') ? document.querySelector('.flavor-text').textContent.trim() : '';
+          var changes = [];
+          document.querySelectorAll('.change-text').forEach(function(el) { changes.push(el.textContent.trim()); });
           var tasks = [];
           document.querySelectorAll('.tarea-text').forEach(function(el) { tasks.push(el.textContent.trim()); });
           var notes = '';
           var ne = document.getElementById('labNotes') || document.querySelector('.lab-notes');
           if (ne) notes = ne.value || '';
-          var ctx = 'RECETA: ' + name + '\n\nINGREDIENTES:\n' + ingredients.join('\n') + '\n\nMETERS:\n' + meters.join('\n') + '\n\nPERFIL DE SABOR:\n' + flavor;
+          var ctx = 'RECETA: ' + name + ' (Ciclo 3 — Acotacion)\n\nINGREDIENTES:\n' + ingredients.join('\n');
+          if (construction.length) ctx += '\n\nCONSTRUCCION:\n' + construction.join('\n');
+          ctx += '\n\nMETERS:\n' + meters.join('\n') + '\n\nPERFIL DE SABOR:\n' + flavor;
+          if (changes.length) ctx += '\n\nCAMBIOS DESDE C2:\n' + changes.join('\n');
           if (tasks.length) ctx += '\n\nTAREAS:\n' + tasks.join('\n');
           if (notes) ctx += '\n\nNOTAS DEL LAB:\n' + notes;
           parent.postMessage({ type: 'recipe-context', context: ctx }, '*');
