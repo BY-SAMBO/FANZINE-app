@@ -60,6 +60,43 @@ export default function LabPage() {
               </div>
             </div>
           </Link>
+
+          <Link href="/lab/nachos" className="no-underline block">
+            <div
+              className="overflow-hidden transition-transform duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5"
+              style={{
+                backgroundColor: "#fff",
+                border: "3px solid #000",
+                boxShadow: "4px 4px 0 #000",
+              }}
+            >
+              <div
+                className="h-1.5 w-full"
+                style={{ backgroundColor: "#D4A017" }}
+              />
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-2">
+                  <span className="text-4xl">🧀</span>
+                  <span
+                    className="text-[0.65rem] px-2.5 py-0.5 font-bold uppercase tracking-wider"
+                    style={{
+                      backgroundColor: "#e9c46a",
+                      color: "#000",
+                      border: "2px solid #000",
+                    }}
+                  >
+                    4 variantes
+                  </span>
+                </div>
+                <h2 className="font-bold text-xl tracking-wide uppercase text-neutral-900">
+                  Nachos
+                </h2>
+                <p className="text-xs text-neutral-500 mt-1 font-semibold">
+                  Chips + cheddar fundido + proteina
+                </p>
+              </div>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

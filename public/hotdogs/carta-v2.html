@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --text: #000000;
+      --text-muted: #777777;
+      --text-light: #999999;
+      --border: #000000;
+      --border-light: #e0e0e0;
+      --bg: #ffffff;
+      --zinema: #1a1a2e;
+      --hawaiano: #ff6b35;
+      --gold: #B8860B;
+      --tropical: #ff6b35;
+      --birria: #8B0000;
+      --tag-base: #8b5a2b;
+      --tag-salsa: #e63946;
+      --tag-queso: #e9c46a;
+      --tag-crunch: #ff9f1c;
+      --tag-fresco: #2a9d8f;
+      --tag-proteina: #c44536;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* -- HEADER -- */
+    .header {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .header-brand {
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .header-sub {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .header-line {
+      width: 40px;
+      height: 2px;
+      background: var(--text);
+      margin: 1.5rem auto 0;
+    }
+
+    /* -- MAIN LAYOUT -- */
+    .menu-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .menu-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .menu-col {
+      padding: 3rem 0;
+    }
+
+    .menu-col-left {
+      padding-right: 3rem;
+      border-right: 1px solid var(--border-light);
+    }
+
+    .menu-col-right {
+      padding-left: 3rem;
+    }
+
+    /* -- SECTION HEADERS -- */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-desc {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-weight: 400;
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+
+    /* -- HOT DOG ITEM -- */
+    .dog-item {
+      margin-bottom: 2.5rem;
+    }
+
+    .dog-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .dog-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .dog-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .dog-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .dog-tagline {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    /* -- INGREDIENT LIST -- */
+    .dog-ingredients {
+      list-style: none;
+    }
+
+    .dog-ingredient {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #333;
+    }
+
+    .dog-ingredient:last-child {
+      border-bottom: none;
+    }
+
+    .ing-tag {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    .ing-name {
+      font-weight: 500;
+    }
+
+    .ing-note {
+      color: var(--text-light);
+      font-size: 0.8rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    /* -- PICK BADGE -- */
+    .dog-pick {
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px dashed var(--border-light);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .dog-pick strong {
+      font-weight: 700;
+    }
+
+    .dog-pick-options {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .pick-option {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border: 2px solid #000;
+      background: #fff;
+    }
+
+    /* -- TOPPINGS BOX (clasicos) -- */
+    .toppings-box {
+      margin-top: 2rem;
+      padding: 1.25rem;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .toppings-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .toppings-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .topping-chip {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border: 2px solid #000;
+      background: #fff;
+    }
+
+    .toppings-pricing {
+      display: flex;
+      gap: 1.5rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .toppings-price-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .toppings-price-qty {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .toppings-price-val {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* -- DIVIDER -- */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border-light);
+      margin: 3rem 0;
+    }
+
+    /* -- SALSAS -- */
+    .salsas-section {
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+    }
+
+    .salsas-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .salsas-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.25rem 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .salsa-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+
+    .salsas-note {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    /* -- FOOTER -- */
+    .footer {
+      text-align: center;
+      padding: 2rem 2rem 3rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .footer-sub {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-top: 0.25rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* -- ACCENT DOT -- */
+    .accent-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    /* -- RESPONSIVE -- */
+    @media (max-width: 768px) {
+      .header {
+        padding: 3rem 1.5rem 2rem;
+      }
+
+      .menu-container {
+        padding: 0 1.5rem;
+      }
+
+      .menu-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .menu-col-left {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 2.5rem;
+      }
+
+      .menu-col-right {
+        padding-left: 0;
+        padding-top: 2.5rem;
+      }
+
+      .dog-header {
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .toppings-pricing {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-brand">FANZINE</div>
+    <div class="header-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- MENU -->
+  <div class="menu-container">
+    <div class="menu-columns">
+
+      <!-- LEFT: CLASICOS -->
+      <div class="menu-col menu-col-left">
+        <div class="section-label">Perros Cl&aacute;sicos</div>
+        <div class="section-title">Cl&aacute;sicos</div>
+        <div class="section-desc">Base armada por cocina. Elige tus toppings.</div>
+
+        <!-- ZINEMA -->
+        <div class="dog-item">
+          <div class="dog-header">
+            <div class="dog-name" style="color:var(--zinema);">
+              <span class="accent-dot" style="background:var(--zinema);"></span>Zinema
+            </div>
+          </div>
+          <div class="dog-tagline">Ahumado &middot; Salado &middot; Crocante</div>
+          <ul class="dog-ingredients">
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Pan Brioche</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Papas</span>
+              <span class="ing-note">cama inferior</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Salchicha</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="ing-name">Salsa Le&ntilde;a</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Papas</span>
+              <span class="ing-note">corona</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- HAWAIANO -->
+        <div class="dog-item">
+          <div class="dog-header">
+            <div class="dog-name" style="color:var(--hawaiano);">
+              <span class="accent-dot" style="background:var(--hawaiano);"></span>Hawaiano
+            </div>
+          </div>
+          <div class="dog-tagline">Dulce &middot; Fresco &middot; Crocante</div>
+          <ul class="dog-ingredients">
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Pan Brioche</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Papas</span>
+              <span class="ing-note">cama inferior</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Salchicha</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="ing-name">Salsa de Pi&ntilde;a</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Cebolla Crispy</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- TOPPINGS BOX -->
+        <div class="toppings-box">
+          <div class="toppings-label">Toppings &mdash; elige a tu gusto</div>
+          <div class="toppings-grid">
+            <span class="topping-chip">Pepinillos</span>
+            <span class="topping-chip">Jalape&ntilde;os</span>
+            <span class="topping-chip">Ma&iacute;z Tierno</span>
+            <span class="topping-chip">Cebolla Encurtida</span>
+            <span class="topping-chip">Queso Cheddar</span>
+          </div>
+          <div class="toppings-pricing">
+            <div class="toppings-price-item">
+              <span class="toppings-price-qty">2 toppings</span>
+              <span class="toppings-price-val">$12.000</span>
+            </div>
+            <div class="toppings-price-item">
+              <span class="toppings-price-qty">3 toppings</span>
+              <span class="toppings-price-val">$14.000</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: ESPECIALES -->
+      <div class="menu-col menu-col-right">
+        <div class="section-label">Perros Especiales</div>
+        <div class="section-title">Especiales</div>
+        <div class="section-desc">Recetas de autor. Cada uno es una experiencia completa.</div>
+
+        <!-- FANZINE GOLD -->
+        <div class="dog-item">
+          <div class="dog-header">
+            <div class="dog-name" style="color:var(--gold);">
+              <span class="accent-dot" style="background:var(--gold);"></span>Fanzine Gold
+            </div>
+          </div>
+          <div class="dog-tagline">Seattle Style</div>
+          <ul class="dog-ingredients">
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Pan Brioche</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Crocante Base</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-queso);">queso</span>
+              <span class="ing-name">Queso Crema</span>
+              <span class="ing-note">~50g</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Salchicha</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="ing-name">Salsa Gold + Le&ntilde;a</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Cebolla Crispy + Tocineta Picada</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-fresco);color:#fff;">fresco</span>
+              <span class="ing-name">A elegir</span>
+              <span class="ing-note">Pepinillos / Jalape&ntilde;os / Pi&ntilde;a</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="ing-name">Drizzle Gold</span>
+              <span class="ing-note">pase final</span>
+            </li>
+          </ul>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- TROPICAL FUEGO -->
+        <div class="dog-item">
+          <div class="dog-header">
+            <div class="dog-name" style="color:var(--tropical);">
+              <span class="accent-dot" style="background:var(--tropical);"></span>Tropical Fuego
+            </div>
+          </div>
+          <div class="dog-tagline">Dulce x Picante</div>
+          <ul class="dog-ingredients">
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Pan Brioche</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Takis 15g</span>
+              <span class="ing-note">cama inferior</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Salchicha</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="ing-name">Salsa de Pi&ntilde;a + Le&ntilde;a</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-queso);">queso</span>
+              <span class="ing-name">SourCream</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-fresco);color:#fff;">fresco</span>
+              <span class="ing-name">Pi&ntilde;a Dulce en Trozos</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Takis 15g</span>
+              <span class="ing-note">corona</span>
+            </li>
+          </ul>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- BIRRIA FUSION -->
+        <div class="dog-item">
+          <div class="dog-header">
+            <div class="dog-name" style="color:var(--birria);">
+              <span class="accent-dot" style="background:var(--birria);"></span>Birria Fusion
+            </div>
+          </div>
+          <div class="dog-tagline">La Quesabirria Hecha Hot Dog</div>
+          <ul class="dog-ingredients">
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Pan Brioche</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="ing-name">Cebolla Crispy</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-base);">base</span>
+              <span class="ing-name">Salchicha</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="ing-name">Le&ntilde;a</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-queso);">queso</span>
+              <span class="ing-name">SourCream</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-fresco);color:#fff;">fresco</span>
+              <span class="ing-name">A elegir</span>
+              <span class="ing-note">Cebolla Encurtida / Pi&ntilde;a / Jalape&ntilde;os</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-proteina);color:#fff;">prote&iacute;na</span>
+              <span class="ing-name">Res Birria</span>
+            </li>
+            <li class="dog-ingredient">
+              <span class="ing-tag" style="background:var(--tag-queso);">queso</span>
+              <span class="ing-name">Cheddar Drizzle</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SALSAS -->
+  <div class="salsas-section">
+    <div class="salsas-title">Estaci&oacute;n de Salsas &mdash; Self-Service</div>
+    <div class="salsas-list">
+      <span class="salsa-name">Tomate</span>
+      <span class="salsa-name">&middot;</span>
+      <span class="salsa-name">Mostaza</span>
+      <span class="salsa-name">&middot;</span>
+      <span class="salsa-name">Pi&ntilde;a</span>
+      <span class="salsa-name">&middot;</span>
+      <span class="salsa-name">Ma&iacute;z Dulce</span>
+      <span class="salsa-name">&middot;</span>
+      <span class="salsa-name">Salsa de la Casa</span>
+    </div>
+    <div class="salsas-note">Disponibles para todos los perros, sin costo adicional</div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">FANZINE</div>
+    <div class="footer-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div>
+  </footer>
+
+</body>
+</html>

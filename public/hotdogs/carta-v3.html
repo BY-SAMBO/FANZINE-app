@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Hot Dogs - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --border: #000000;
+      --text: #000000;
+      --text-muted: #555555;
+      --bg: #f5f5f0;
+      --tag-base: #8b5a2b;
+      --tag-salsa: #e63946;
+      --tag-queso: #e9c46a;
+      --tag-crunch: #ff9f1c;
+      --tag-fresco: #2a9d8f;
+      --tag-proteina: #c44536;
+      --zinema: #1a1a2e;
+      --hawaiano: #ff6b35;
+      --gold: #B8860B;
+      --tropical-fuego: #ff6b35;
+      --birria: #8B0000;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 { font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ========== HEADER ========== */
+    .header {
+      text-align: center;
+      padding: 2.5rem 1.5rem 2rem;
+      background: #000;
+      color: #fff;
+      border-bottom: 4px solid #000;
+    }
+
+    .header-brand {
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      line-height: 1;
+    }
+
+    .header-sub {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #aaa;
+      margin-top: 0.4rem;
+    }
+
+    .header-tagline {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 4px 12px;
+      border: 2px solid #fff;
+      color: #fff;
+    }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-header {
+      text-align: center;
+      padding: 2.5rem 1.5rem 1.5rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      letter-spacing: 0.1em;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+      font-weight: 600;
+    }
+
+    /* ========== GRID LAYOUT ========== */
+    .menu-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+    }
+
+    .clasicos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .especiales-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    /* ========== CARD ========== */
+    .dog-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      background: #fff;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card-accent {
+      height: 8px;
+      width: 100%;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-emoji {
+      font-size: 3.5rem;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-name {
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-style {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .card-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border: 2px solid #000;
+      background: #000;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== INGREDIENT PILLS ========== */
+    .ingredients-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+    }
+
+    .pill {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border: 2px solid #000;
+      white-space: nowrap;
+    }
+
+    .pill-base { background: var(--tag-base); color: #fff; }
+    .pill-salsa { background: var(--tag-salsa); color: #fff; }
+    .pill-queso { background: var(--tag-queso); color: #000; }
+    .pill-crunch { background: var(--tag-crunch); color: #000; }
+    .pill-fresco { background: var(--tag-fresco); color: #fff; }
+    .pill-proteina { background: var(--tag-proteina); color: #fff; }
+
+    /* ========== TOPPINGS PICK ========== */
+    .toppings-section {
+      border: 2px dashed #000;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .toppings-badge {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      background: var(--tag-salsa);
+      color: #fff;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .toppings-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .topping-chip {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 3px 7px;
+      border: 2px solid #000;
+      background: #f9f9f9;
+    }
+
+    /* ========== FRESCO CHOICE (Especiales) ========== */
+    .fresco-section {
+      border: 2px dashed var(--tag-fresco);
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .fresco-badge {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      background: var(--tag-fresco);
+      color: #fff;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========== PRICE TAG ========== */
+    .card-price {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 2px solid #000;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .price-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .price-small {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .price-row + .price-row {
+      margin-top: 0.25rem;
+    }
+
+    .price-especial {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      text-align: center;
+      padding-top: 0.5rem;
+    }
+
+    /* ========== SALSAS BAR ========== */
+    .salsas-bar {
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      padding: 0 1rem;
+    }
+
+    .salsas-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      background: #fff;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .salsas-title {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .salsas-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .salsa-chip {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 5px 12px;
+      border: 2px solid #000;
+      background: #fff;
+    }
+
+    .salsas-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-style: italic;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: #000;
+      color: #fff;
+    }
+
+    footer .brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    footer .sub {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.2rem;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      .especiales-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .clasicos-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-emoji { font-size: 2.8rem; }
+      .card-body { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-brand">FANZINE</div>
+    <div class="header-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+    <div class="header-tagline">Hot Dogs &mdash; Ciclo 3</div>
+  </header>
+
+  <!-- ===================== CLASICOS ===================== -->
+  <div class="section-header">
+    <h2>Cl&aacute;sicos</h2>
+    <p>Base armada por cocina + toppings a tu gusto</p>
+  </div>
+
+  <div class="menu-container">
+    <div class="clasicos-grid">
+
+      <!-- 1. ZINEMA -->
+      <div class="dog-card">
+        <div class="card-accent" style="background: var(--zinema);"></div>
+        <div class="card-body">
+          <div class="card-emoji">&#127908;&#127789;</div>
+          <div class="card-name" style="color: var(--zinema);">Zinema</div>
+          <div class="card-style" style="color: var(--zinema);">Ahumado &middot; Salado &middot; Crocante</div>
+
+          <div class="ingredients-label">Base fija</div>
+          <div class="pills">
+            <span class="pill pill-base">Pan Brioche</span>
+            <span class="pill pill-crunch">Papas (base)</span>
+            <span class="pill pill-base">Salchicha</span>
+            <span class="pill pill-salsa">Salsa Le&ntilde;a</span>
+            <span class="pill pill-crunch">Papas (arriba)</span>
+          </div>
+
+          <div class="toppings-section">
+            <div class="toppings-badge">Elige 2 o 3 Toppings</div>
+            <div class="toppings-list">
+              <span class="topping-chip">&#129362; Pepinillos</span>
+              <span class="topping-chip">&#127798;&#65039; Jalape&ntilde;os</span>
+              <span class="topping-chip">&#127805; Ma&iacute;z Tierno</span>
+              <span class="topping-chip">&#129472; Cebolla Encurtida</span>
+              <span class="topping-chip">&#129472; Queso Cheddar</span>
+            </div>
+          </div>
+
+          <div class="card-price">
+            <div class="price-row">
+              <span class="price-label">2 toppings</span>
+              <span class="price-value" style="color: var(--zinema);">$12.000</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">3 toppings</span>
+              <span class="price-value" style="color: var(--zinema);">$14.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. HAWAIANO -->
+      <div class="dog-card">
+        <div class="card-accent" style="background: var(--hawaiano);"></div>
+        <div class="card-body">
+          <div class="card-emoji">&#127821;&#127789;</div>
+          <div class="card-name" style="color: var(--hawaiano);">Hawaiano</div>
+          <div class="card-style" style="color: var(--hawaiano);">Dulce &middot; Fresco &middot; Crocante</div>
+
+          <div class="ingredients-label">Base fija</div>
+          <div class="pills">
+            <span class="pill pill-base">Pan Brioche</span>
+            <span class="pill pill-crunch">Papas (base)</span>
+            <span class="pill pill-base">Salchicha</span>
+            <span class="pill pill-salsa">Salsa de Pi&ntilde;a</span>
+            <span class="pill pill-crunch">Cebolla Crispy</span>
+          </div>
+
+          <div class="toppings-section">
+            <div class="toppings-badge">Elige 2 o 3 Toppings</div>
+            <div class="toppings-list">
+              <span class="topping-chip">&#129362; Pepinillos</span>
+              <span class="topping-chip">&#127798;&#65039; Jalape&ntilde;os</span>
+              <span class="topping-chip">&#127805; Ma&iacute;z Tierno</span>
+              <span class="topping-chip">&#129472; Cebolla Encurtida</span>
+              <span class="topping-chip">&#129472; Queso Cheddar</span>
+            </div>
+          </div>
+
+          <div class="card-price">
+            <div class="price-row">
+              <span class="price-label">2 toppings</span>
+              <span class="price-value" style="color: var(--hawaiano);">$12.000</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">3 toppings</span>
+              <span class="price-value" style="color: var(--hawaiano);">$14.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== ESPECIALES ===================== -->
+  <div class="section-header">
+    <h2>Especiales</h2>
+    <p>Recetas signature &mdash; precio superior</p>
+  </div>
+
+  <div class="menu-container">
+    <div class="especiales-grid">
+
+      <!-- 3. FANZINE GOLD -->
+      <div class="dog-card" style="box-shadow: 4px 4px 0 var(--gold);">
+        <div class="card-accent" style="background: linear-gradient(90deg, var(--gold), #d4a843, var(--gold));"></div>
+        <div class="card-body">
+          <div class="card-emoji">&#10024;&#127789;&#129351;</div>
+          <div class="card-name" style="color: var(--gold);">Fanzine Gold</div>
+          <div class="card-style" style="color: var(--gold);">Seattle Style</div>
+          <div class="card-badge" style="background: var(--gold); border-color: var(--gold);">Signature</div>
+
+          <div class="ingredients-label">Construcci&oacute;n</div>
+          <div class="pills">
+            <span class="pill pill-base">Pan Brioche</span>
+            <span class="pill pill-crunch">Crocante Base</span>
+            <span class="pill pill-queso">Queso Crema ~50g</span>
+            <span class="pill pill-base">Salchicha</span>
+            <span class="pill pill-salsa">Salsa Gold</span>
+            <span class="pill pill-salsa">Le&ntilde;a</span>
+            <span class="pill pill-crunch">Cebolla Crispy</span>
+            <span class="pill pill-proteina">Tocineta Picada</span>
+          </div>
+
+          <div class="fresco-section">
+            <div class="fresco-badge">Fresco a Elegir</div>
+            <div class="toppings-list">
+              <span class="topping-chip">&#129362; Pepinillos</span>
+              <span class="topping-chip">&#127798;&#65039; Jalape&ntilde;os</span>
+              <span class="topping-chip">&#127821; Pi&ntilde;a</span>
+            </div>
+          </div>
+
+          <div class="pills" style="margin-bottom:0;">
+            <span class="pill pill-salsa">Drizzle Gold</span>
+          </div>
+
+          <div class="card-price">
+            <div class="price-especial">Precio especial</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. TROPICAL FUEGO -->
+      <div class="dog-card">
+        <div class="card-accent" style="background: linear-gradient(90deg, var(--tropical-fuego), #ff4444, var(--tropical-fuego));"></div>
+        <div class="card-body">
+          <div class="card-emoji">&#127821;&#127789;&#128293;</div>
+          <div class="card-name" style="color: var(--tropical-fuego);">Tropical Fuego</div>
+          <div class="card-style" style="color: var(--tropical-fuego);">Dulce x Picante</div>
+          <div class="card-badge" style="background: var(--tropical-fuego); border-color: var(--tropical-fuego);">Signature</div>
+
+          <div class="ingredients-label">Construcci&oacute;n</div>
+          <div class="pills">
+            <span class="pill pill-base">Pan Brioche</span>
+            <span class="pill pill-crunch">Takis 15g (abajo)</span>
+            <span class="pill pill-base">Salchicha</span>
+            <span class="pill pill-salsa">Salsa de Pi&ntilde;a</span>
+            <span class="pill pill-salsa">Le&ntilde;a</span>
+            <span class="pill pill-queso">SourCream</span>
+            <span class="pill pill-fresco">Pi&ntilde;a Dulce en Trozos</span>
+            <span class="pill pill-crunch">Takis 15g (arriba)</span>
+          </div>
+
+          <div class="card-price">
+            <div class="price-especial">Precio especial</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. BIRRIA FUSION -->
+      <div class="dog-card" style="box-shadow: 4px 4px 0 var(--birria);">
+        <div class="card-accent" style="background: var(--birria);"></div>
+        <div class="card-body">
+          <div class="card-emoji">&#129472;&#129385;&#128293;</div>
+          <div class="card-name" style="color: var(--birria);">Birria Fusion</div>
+          <div class="card-style" style="color: var(--birria);">La Quesabirria Hecha Hot Dog</div>
+          <div class="card-badge" style="background: var(--birria); border-color: var(--birria);">Signature</div>
+
+          <div class="ingredients-label">Construcci&oacute;n</div>
+          <div class="pills">
+            <span class="pill pill-base">Pan Brioche</span>
+            <span class="pill pill-crunch">Cebolla Crispy</span>
+            <span class="pill pill-base">Salchicha</span>
+            <span class="pill pill-salsa">Le&ntilde;a</span>
+            <span class="pill pill-queso">SourCream</span>
+            <span class="pill pill-proteina">Res Birria</span>
+            <span class="pill pill-queso">Cheddar Drizzle</span>
+          </div>
+
+          <div class="fresco-section">
+            <div class="fresco-badge">Fresco a Elegir</div>
+            <div class="toppings-list">
+              <span class="topping-chip">&#129472; Cebolla Encurtida</span>
+              <span class="topping-chip">&#127821; Pi&ntilde;a</span>
+              <span class="topping-chip">&#127798;&#65039; Jalape&ntilde;os</span>
+            </div>
+          </div>
+
+          <div class="card-price">
+            <div class="price-especial">Precio especial</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== SALSAS SELF-SERVICE ===================== -->
+  <div class="salsas-bar">
+    <div class="salsas-card">
+      <div class="salsas-title">&#127798;&#65039; Estaci&oacute;n de Salsas &mdash; Self-Service</div>
+      <div class="salsas-chips">
+        <span class="salsa-chip">Tomate</span>
+        <span class="salsa-chip">Mostaza</span>
+        <span class="salsa-chip">Pi&ntilde;a</span>
+        <span class="salsa-chip">Ma&iacute;z Dulce</span>
+        <span class="salsa-chip">Salsa de la Casa</span>
+      </div>
+      <div class="salsas-note">Las salsas no entran en el pedido &mdash; el cliente se las pone</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="brand">FANZINE</div>
+    <div class="sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div>
+  </footer>
+
+</body>
+</html>

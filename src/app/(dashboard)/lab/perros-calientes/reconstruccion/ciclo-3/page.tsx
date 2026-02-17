@@ -26,7 +26,51 @@ interface Recipe {
   landingUrl?: string;
 }
 
-// ── Data ────────────────────────────────────────────────────────────────────
+// ── Clasico Data ────────────────────────────────────────────────────────────
+
+interface ClasicoCombo {
+  name: string;
+  emoji: string;
+  color: string;
+  tagline: string;
+  base: Ingredient[];
+  picks: string[];
+}
+
+const SHARED_PICKS = ["Pepinillos", "Jalapeños", "Maíz Tierno", "Cebolla Encurtida", "Queso Cheddar"];
+
+const CLASICO_COMBOS: ClasicoCombo[] = [
+  {
+    name: "Zinema",
+    emoji: "🎬🌭",
+    color: "#1a1a2e",
+    tagline: "Ahumado · Salado · Crocante",
+    base: [
+      { name: "Pan Brioche", type: "base" },
+      { name: "Papas (base)", type: "crunch" },
+      { name: "Salchicha", type: "base" },
+      { name: "Salsa Leña", type: "salsa" },
+      { name: "Papas (arriba)", type: "crunch" },
+    ],
+    picks: SHARED_PICKS,
+  },
+  {
+    name: "Hawaiano",
+    emoji: "🍍🌭",
+    color: "#ff6b35",
+    tagline: "Dulce · Fresco · Crocante",
+    base: [
+      { name: "Pan Brioche", type: "base" },
+      { name: "Papas (base)", type: "crunch" },
+      { name: "Salchicha", type: "base" },
+      { name: "Salsa de Piña", type: "salsa" },
+      { name: "Cebolla Crispy", type: "crunch" },
+    ],
+    picks: SHARED_PICKS,
+  },
+];
+
+// ── Especiales Data ─────────────────────────────────────────────────────────
 
 const CANDIDATES: Recipe[] = [
   {
@@ -127,6 +171,93 @@ function Pill({ ingredient }: { ingredient: Ingredient }) {
     >
       {ingredient.name}
     </span>
+  );
+}
+
+function ClasicoComboCard({ combo }: { combo: ClasicoCombo }) {
+  return (
+    <div
+      className="overflow-hidden h-full transition-transform duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5"
+      style={{
+        backgroundColor: "#fff",
+        border: "3px solid #000",
+        boxShadow: "4px 4px 0 #000",
+      }}
+    >
+      <div className="h-1.5 w-full" style={{ backgroundColor: combo.color }} />
+
+      <div className="p-5">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-2xl">{combo.emoji}</span>
+          <div className="flex gap-1.5">
+            <span
+              className="text-[0.65rem] font-bold px-2 py-1"
+              style={{ backgroundColor: "#000", color: "#fff" }}
+            >
+              2 top · $12.000
+            </span>
+            <span
+              className="text-[0.65rem] font-bold px-2 py-1"
+              style={{ backgroundColor: "#e63946", color: "#fff" }}
+            >
+              3 top · $14.000
+            </span>
+          </div>
+        </div>
+        <h3
+          className="font-bold text-xl tracking-wide mb-0.5 uppercase"
+          style={{ color: combo.color }}
+        >
+          {combo.name}
+        </h3>
+        <p className="text-[0.6rem] text-neutral-500 uppercase tracking-wider font-bold mb-4">
+          {combo.tagline}
+        </p>
+
+        {/* Base */}
+        <div className="mb-3">
+          <p className="text-[0.6rem] uppercase tracking-wider text-neutral-500 font-bold mb-2">
+            Base fija
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {combo.base.map((ing) => (
+              <Pill key={ing.name} ingredient={ing} />
+            ))}
+          </div>
+        </div>
+
+        {/* Picks */}
+        <div className="mb-4">
+          <div className="flex items-baseline gap-2 mb-2">
+            <p className="text-[0.6rem] uppercase tracking-wider text-neutral-500 font-bold">
+              Elige toppings
+            </p>
+            <span
+              className="text-[0.55rem] font-bold px-1.5 py-0.5"
+              style={{ backgroundColor: "#000", color: "#fff" }}
+            >
+              2
+            </span>
+            <span
+              className="text-[0.55rem] font-bold px-1.5 py-0.5"
+              style={{ backgroundColor: "#e63946", color: "#fff" }}
+            >
+              3
+            </span>
+          </div>
+          <p className="text-xs text-neutral-500">
+            {combo.picks.join(" · ")}
+          </p>
+        </div>
+
+        {/* Example */}
+        <div className="pt-3" style={{ borderTop: "2px solid #000" }}>
+          <p className="text-[0.6rem] text-neutral-400 italic">
+            &ldquo;Un {combo.name} con {combo.picks[0].toLowerCase()} y {combo.picks[4].toLowerCase()}&rdquo;
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -269,20 +400,43 @@ export default function Ciclo3HubPage() {
           CICLO 3 — ACOTACION
         </h1>
         <p className="text-neutral-500 text-sm tracking-widest uppercase mt-2 font-bold">
-          Feb 2026 &middot; {CANDIDATES.length} candidato{CANDIDATES.length !== 1 ? "s" : ""} &middot; Activo
+          Feb 2026 &middot; 2 clasicos + {CANDIDATES.length} especial{CANDIDATES.length !== 1 ? "es" : ""} &middot; Activo
         </p>
         <p className="text-neutral-400 text-xs tracking-wider uppercase mt-1 max-w-lg mx-auto">
-          Definicion de ingredientes y construccion final de cada perro
+          Transicion de barra de toppings a perros con estructura
         </p>
       </header>
 
       <div className="max-w-6xl mx-auto px-4 pb-16 space-y-12 pt-8">
-        {/* Candidatos */}
+        {/* Perros Clasicos */}
+        <section>
+          <SectionHeader
+            emoji="🌭"
+            title="PERROS CLASICOS — $12.000 / $14.000"
+            subtitle="2 combos con estructura · 2 toppings $12K · 3 toppings $14K"
+          />
+          <Link
+            href="/lab/perros-calientes/reconstruccion/ciclo-3/recetas/c3-clasico"
+            className="no-underline text-inherit block"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
+              {CLASICO_COMBOS.map((combo) => (
+                <ClasicoComboCard key={combo.name} combo={combo} />
+              ))}
+            </div>
+          </Link>
+          <p className="text-[0.6rem] text-neutral-400 uppercase tracking-wider font-bold mt-4">
+            Salsas libres en estacion &middot; Click para ver landing completa
+          </p>
+        </section>
+
+        {/* Especiales */}
         <section>
           <SectionHeader
             emoji="🔬"
-            title="FICHAS TECNICAS"
-            subtitle={CANDIDATES.length > 0 ? `${CANDIDATES.length} receta${CANDIDATES.length !== 1 ? "s" : ""}` : "Sin recetas aun"}
+            title="PERROS ESPECIALES"
+            subtitle={CANDIDATES.length > 0 ? `${CANDIDATES.length} receta${CANDIDATES.length !== 1 ? "s" : ""} — precio superior` : "Sin recetas aun"}
           />
 
           {CANDIDATES.length > 0 ? (

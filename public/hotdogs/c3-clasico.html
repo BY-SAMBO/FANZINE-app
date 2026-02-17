@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perros Cl&aacute;sicos C3 - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --text-muted: #555555;
+      --border: #000000;
+      --price: #e63946;
+      --cine-color: #1a1a2e;
+      --tropical-color: #ff6b35;
+      --tag-salsa: #DC2626;
+      --tag-fresco: #2a9d8f;
+      --tag-crunch: #ff9f1c;
+      --tag-base: #8b5a2b;
+      --tag-queso: #FDE047;
+    }
+
+    body {
+      background: #fff;
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 { font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* -- HERO -- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: #fff;
+    }
+
+    .hero-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #000;
+      border: 2px solid #000;
+      padding: 4px 10px;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+
+    .hero-emoji { font-size: 6rem; margin-bottom: 1.5rem; line-height: 1.2; }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5rem);
+      color: #000;
+      line-height: 1;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .hero .price-tag {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--price);
+      margin-top: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero .tagline {
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-weight: 600;
+      max-width: 500px;
+    }
+
+    .scroll-hint {
+      margin-top: 3rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- SECTIONS -- */
+    section { max-width: 900px; margin: 0 auto; padding: 4rem 1.5rem; }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #000;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* -- COMBO CARDS -- */
+    .combos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .combo-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      overflow: hidden;
+    }
+
+    .combo-accent { height: 6px; width: 100%; }
+    .combo-accent.cine { background: var(--cine-color); }
+    .combo-accent.tropical { background: var(--tropical-color); }
+
+    .combo-body { padding: 1.5rem; }
+
+    .combo-emoji { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+    .combo-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    .combo-name.cine { color: var(--cine-color); }
+    .combo-name.tropical { color: var(--tropical-color); }
+
+    .combo-tagline {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.25rem;
+    }
+
+    .combo-section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .combo-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .combo-layer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .combo-layer-tag {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      flex-shrink: 0;
+    }
+
+    .combo-layer-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .combo-pick-section {
+      border: 2px dashed #000;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .combo-pick-badge {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      background: var(--price);
+      color: #fff;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .combo-pick-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .combo-pick-option {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border: 2px solid #000;
+      background: #f9f9f9;
+    }
+
+    .combo-order {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid #000;
+    }
+
+    .combo-order-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .combo-order-example {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 0.25rem;
+    }
+
+    /* -- SALSAS SECTION -- */
+    .salsas-station {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .salsas-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .salsa-chip {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border: 2px solid #000;
+      background: #fff;
+    }
+
+    .salsas-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* -- CONSTRUCTION -- */
+    .construction {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 2rem;
+    }
+
+    .construction h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #000;
+    }
+
+    .construction-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.75rem 0;
+    }
+
+    .construction-step + .construction-step { border-top: 2px solid #eee; }
+
+    .step-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      background: #000;
+      border: 2px solid #000;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-number.cine { background: var(--cine-color); }
+    .step-number.tropical { background: var(--tropical-color); }
+
+    .step-text { font-size: 0.95rem; color: #000; line-height: 1.5; }
+    .step-text strong { text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+
+    /* -- SPEED SECTION -- */
+    .speed-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 2rem;
+    }
+
+    .speed-comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .speed-col { text-align: center; }
+
+    .speed-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .speed-steps {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .speed-steps.old { color: var(--text-muted); text-decoration: line-through; }
+    .speed-steps.new { color: var(--price); }
+
+    .speed-detail {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .speed-arrow {
+      font-size: 2rem;
+      color: var(--price);
+    }
+
+    /* -- COMPARISON -- */
+    .comparison-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      overflow: hidden;
+    }
+
+    .comparison-header { display: grid; grid-template-columns: 1fr 1fr; }
+
+    .comparison-col-header {
+      padding: 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    .comparison-col-header.before { background: #f5f5f5; color: var(--text-muted); }
+    .comparison-col-header.after { background: #000; color: #fff; }
+
+    .comparison-row { display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid #eee; }
+
+    .comparison-cell { padding: 0.75rem 1rem; font-size: 0.85rem; }
+    .comparison-cell.before { color: var(--text-muted); background: #fafafa; }
+    .comparison-cell.after { color: #000; font-weight: 600; }
+
+    .comparison-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    /* -- EXCLUSIONS -- */
+    .exclusions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .exclusion-item {
+      border: 2px solid #000;
+      padding: 0.75rem;
+      text-align: center;
+    }
+
+    .exclusion-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .exclusion-where {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    /* -- LAB NOTES -- */
+    .lab-notes-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 1.5rem;
+    }
+
+    .lab-notes-area {
+      width: 100%;
+      min-height: 120px;
+      background: #fff;
+      border: 2px solid #000;
+      padding: 0.5rem 0.75rem;
+      color: #000;
+      font-size: 0.95rem;
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      resize: vertical;
+    }
+    .lab-notes-area:focus { outline: none; border-color: var(--price); }
+    .lab-notes-area::placeholder { color: #999; }
+
+    /* -- FOOTER -- */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 3px solid #000;
+    }
+
+    footer .brand {
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #000;
+      letter-spacing: 0.1em;
+    }
+
+    footer .sub { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
+
+    footer .footer-links {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    footer a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    footer a:hover { color: var(--price); }
+
+    /* -- RESPONSIVE -- */
+    @media (max-width: 700px) {
+      .hero-emoji { font-size: 4rem; }
+      section { padding: 3rem 1rem; }
+      .combos-grid { grid-template-columns: 1fr; }
+      .speed-comparison { grid-template-columns: 1fr; gap: 1rem; }
+      .speed-arrow { transform: rotate(90deg); }
+      .exclusions-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">CICLO 3 &mdash; CL&Aacute;SICOS $12.000 / $14.000</div>
+    <div class="hero-emoji">&#127789;</div>
+    <h1>PERROS CL&Aacute;SICOS</h1>
+    <div class="subtitle">2 combos con estructura &middot; toppings a tu gusto</div>
+    <div class="price-tag">$12.000 <span style="font-size:0.6em;color:var(--text-muted);">/</span> $14.000</div>
+    <p class="tagline">2 toppings por $12.000 &middot; 3 toppings por $14.000<br>Base armada por cocina + salsas self-service.</p>
+    <div class="scroll-hint">&#8595; Conoce los combos</div>
+  </div>
+
+  <!-- LOS 2 COMBOS -->
+  <section>
+    <h2 class="section-title">LOS COMBOS</h2>
+    <p class="section-subtitle">Base fija armada por cocina &mdash; 2 toppings ($12.000) o 3 toppings ($14.000)</p>
+
+    <div class="combos-grid">
+
+      <!-- COMBO 1: ZINEMA -->
+      <div class="combo-card">
+        <div class="combo-accent cine"></div>
+        <div class="combo-body">
+          <div class="combo-emoji">&#127908;&#127789;</div>
+          <div class="combo-name cine">Zinema</div>
+          <div class="combo-tagline">Ahumado &middot; Salado &middot; Crocante</div>
+
+          <div class="combo-section-label">Base fija (arma cocina)</div>
+          <div class="combo-layers">
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-base);">base</span>
+              <span class="combo-layer-name">Pan Brioche</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="combo-layer-name">Papas (base)</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-base);">base</span>
+              <span class="combo-layer-name">Salchicha</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="combo-layer-name">Salsa Le&ntilde;a</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="combo-layer-name">Papas (arriba)</span>
+            </div>
+          </div>
+
+          <div class="combo-pick-section">
+            <div class="combo-pick-badge">ELIGE 2 ($12K) O 3 ($14K) TOPPINGS</div>
+            <div class="combo-pick-options">
+              <span class="combo-pick-option">&#129362; Pepinillos</span>
+              <span class="combo-pick-option">&#127798;&#65039; Jalape&ntilde;os</span>
+              <span class="combo-pick-option">&#127805; Ma&iacute;z Tierno</span>
+              <span class="combo-pick-option">&#129472; Cebolla Encurtida</span>
+              <span class="combo-pick-option">&#129472; Queso Cheddar</span>
+            </div>
+          </div>
+
+          <div class="combo-order">
+            <div class="combo-order-text">As&iacute; se pide:</div>
+            <div class="combo-order-example">&ldquo;Un Zinema con pepinillos y cheddar&rdquo; &mdash; $12K</div>
+            <div class="combo-order-example" style="color:var(--price);">&ldquo;Un Zinema con pepinillos, cheddar y jalape&ntilde;os&rdquo; &mdash; $14K</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMBO 2: HAWAIANO -->
+      <div class="combo-card">
+        <div class="combo-accent tropical"></div>
+        <div class="combo-body">
+          <div class="combo-emoji">&#127821;&#127789;</div>
+          <div class="combo-name tropical">Hawaiano</div>
+          <div class="combo-tagline">Dulce &middot; Fresco &middot; Crocante</div>
+
+          <div class="combo-section-label">Base fija (arma cocina)</div>
+          <div class="combo-layers">
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-base);">base</span>
+              <span class="combo-layer-name">Pan Brioche</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="combo-layer-name">Papas (base)</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-base);">base</span>
+              <span class="combo-layer-name">Salchicha</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-salsa);color:#fff;">salsa</span>
+              <span class="combo-layer-name">Salsa de Pi&ntilde;a</span>
+            </div>
+            <div class="combo-layer">
+              <span class="combo-layer-tag" style="background:var(--tag-crunch);">crunch</span>
+              <span class="combo-layer-name">Cebolla Crispy</span>
+            </div>
+          </div>
+
+          <div class="combo-pick-section">
+            <div class="combo-pick-badge">ELIGE 2 ($12K) O 3 ($14K) TOPPINGS</div>
+            <div class="combo-pick-options">
+              <span class="combo-pick-option">&#129362; Pepinillos</span>
+              <span class="combo-pick-option">&#127798;&#65039; Jalape&ntilde;os</span>
+              <span class="combo-pick-option">&#127805; Ma&iacute;z Tierno</span>
+              <span class="combo-pick-option">&#129472; Cebolla Encurtida</span>
+              <span class="combo-pick-option">&#129472; Queso Cheddar</span>
+            </div>
+          </div>
+
+          <div class="combo-order">
+            <div class="combo-order-text">As&iacute; se pide:</div>
+            <div class="combo-order-example">&ldquo;Un Hawaiano con jalape&ntilde;os y ma&iacute;z tierno&rdquo; &mdash; $12K</div>
+            <div class="combo-order-example" style="color:var(--price);">&ldquo;Un Hawaiano con jalape&ntilde;os, ma&iacute;z tierno y cheddar&rdquo; &mdash; $14K</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ESTACION DE SALSAS -->
+  <section>
+    <h2 class="section-title">ESTACI&Oacute;N DE SALSAS</h2>
+    <p class="section-subtitle">Self-service &mdash; el cliente se las pone</p>
+    <div class="salsas-station">
+      <div class="salsas-grid">
+        <span class="salsa-chip">Tomate</span>
+        <span class="salsa-chip">Mostaza</span>
+        <span class="salsa-chip">Pi&ntilde;a</span>
+        <span class="salsa-chip">Ma&iacute;z Dulce</span>
+        <span class="salsa-chip">Salsa de la Casa</span>
+      </div>
+      <div class="salsas-note">Las salsas no entran en el pedido &mdash; cero fricci&oacute;n en caja</div>
+    </div>
+  </section>
+
+  <!-- VELOCIDAD DE PEDIDO -->
+  <section>
+    <h2 class="section-title">VELOCIDAD DE PEDIDO</h2>
+    <div class="speed-card">
+      <div class="speed-comparison">
+        <div class="speed-col">
+          <div class="speed-label">Barra de Toppings</div>
+          <div class="speed-steps old">6+</div>
+          <div class="speed-detail">decisiones del cliente</div>
+        </div>
+        <div class="speed-arrow">&rarr;</div>
+        <div class="speed-col">
+          <div class="speed-label">Combos Cl&aacute;sicos</div>
+          <div class="speed-steps new">2</div>
+          <div class="speed-detail">&ldquo;&iquest;Cu&aacute;l combo?&rdquo; + &ldquo;&iquest;Cu&aacute;les toppings?&rdquo; + &ldquo;&iquest;2 o 3?&rdquo;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSTRUCCION -->
+  <section>
+    <h2 class="section-title">CONSTRUCCI&Oacute;N</h2>
+
+    <div class="construction" style="margin-bottom:1.5rem;">
+      <h3 style="color:var(--cine-color);">&#127908; Zinema</h3>
+      <div class="construction-step">
+        <div class="step-number cine">1</div>
+        <div class="step-text"><strong>Pan brioche</strong> abierto</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number cine">2</div>
+        <div class="step-text"><strong>Papas</strong> como cama en el fondo</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number cine">3</div>
+        <div class="step-text"><strong>Salchicha</strong> sobre las papas</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number cine">4</div>
+        <div class="step-text"><strong>Salsa le&ntilde;a</strong> sobre la salchicha</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number cine">5</div>
+        <div class="step-text"><strong>Toppings elegidos</strong> &mdash; 2 ($12K) o 3 ($14K): pepinillos, jalape&ntilde;os, ma&iacute;z tierno, cebolla encurtida o cheddar</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number cine">6</div>
+        <div class="step-text"><strong>M&aacute;s papas</strong> encima (corona)</div>
+      </div>
+    </div>
+
+    <div class="construction">
+      <h3 style="color:var(--tropical-color);">&#127821; Hawaiano</h3>
+      <div class="construction-step">
+        <div class="step-number tropical">1</div>
+        <div class="step-text"><strong>Pan brioche</strong> abierto</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number tropical">2</div>
+        <div class="step-text"><strong>Papas</strong> como cama en el fondo</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number tropical">3</div>
+        <div class="step-text"><strong>Salchicha</strong> sobre las papas</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number tropical">4</div>
+        <div class="step-text"><strong>Salsa de pi&ntilde;a</strong> sobre la salchicha</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number tropical">5</div>
+        <div class="step-text"><strong>Toppings elegidos</strong> &mdash; 2 ($12K) o 3 ($14K): pepinillos, jalape&ntilde;os, ma&iacute;z tierno, cebolla encurtida o cheddar</div>
+      </div>
+      <div class="construction-step">
+        <div class="step-number tropical">6</div>
+        <div class="step-text"><strong>Cebolla crispy</strong> encima (corona)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANTES VS AHORA -->
+  <section>
+    <h2 class="section-title">ANTES VS AHORA</h2>
+    <div class="comparison-card">
+      <div class="comparison-header">
+        <div class="comparison-col-header before">Barra de Toppings</div>
+        <div class="comparison-col-header after">Combos Cl&aacute;sicos</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell before"><div class="comparison-label">Precio</div>$10.000</div>
+        <div class="comparison-cell after"><div class="comparison-label">Precio</div>$12.000</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell before"><div class="comparison-label">Pedido</div>El cliente elige todo</div>
+        <div class="comparison-cell after"><div class="comparison-label">Pedido</div>&ldquo;&iquest;Cu&aacute;l combo? &iquest;Con qu&eacute; topping?&rdquo;</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell before"><div class="comparison-label">Salsas</div>Parte del pedido</div>
+        <div class="comparison-cell after"><div class="comparison-label">Salsas</div>Self-service, fuera del pedido</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell before"><div class="comparison-label">Control de costo</div>Sin l&iacute;mite</div>
+        <div class="comparison-cell after"><div class="comparison-label">Control de costo</div>Base fija + 2 top ($12K) o 3 ($14K)</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell before"><div class="comparison-label">Palatabilidad</div>Impredecible</div>
+        <div class="comparison-cell after"><div class="comparison-label">Palatabilidad</div>Receta pensada + personalizaci&oacute;n</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell before"><div class="comparison-label">Identidad</div>No representa a Fanzine</div>
+        <div class="comparison-cell after"><div class="comparison-label">Identidad</div>2 perros con nombre y car&aacute;cter</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUE NO INCLUYE -->
+  <section>
+    <h2 class="section-title">EXCLUSIVO DE ESPECIALES</h2>
+    <p class="section-subtitle">Estos ingredientes diferencian los perros de precio superior</p>
+    <div class="exclusions-grid">
+      <div class="exclusion-item">
+        <div class="exclusion-name">Queso Crema</div>
+        <div class="exclusion-where">Gold</div>
+      </div>
+      <div class="exclusion-item">
+        <div class="exclusion-name">Tocineta</div>
+        <div class="exclusion-where">Gold</div>
+      </div>
+      <div class="exclusion-item">
+        <div class="exclusion-name">Salsa Gold</div>
+        <div class="exclusion-where">Gold</div>
+      </div>
+      <div class="exclusion-item">
+        <div class="exclusion-name">Res Birria</div>
+        <div class="exclusion-where">Birria</div>
+      </div>
+      <div class="exclusion-item">
+        <div class="exclusion-name">Takis</div>
+        <div class="exclusion-where">Tropical Fuego</div>
+      </div>
+      <div class="exclusion-item">
+        <div class="exclusion-name">SourCream</div>
+        <div class="exclusion-where">Especiales</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTAS DEL LAB -->
+  <section>
+    <h2 class="section-title">NOTAS DEL LAB</h2>
+    <div class="lab-notes-card">
+      <textarea class="lab-notes-area" id="labNotes" data-key="c3-clasico-lab-notes" placeholder="Escribe tus notas de laboratorio aqu&iacute;..."></textarea>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="brand">FANZINE</div>
+    <div class="sub">Cine &amp; Tex-Mex &bull; Bogot&aacute;, Colombia</div>
+    <div class="footer-links">
+      <a href="/lab/perros-calientes/reconstruccion/ciclo-3" target="_top">&larr; Ciclo 3</a>
+      <a href="/lab/perros-calientes/reconstruccion/ciclo-3" target="_top">LAB Gastron&oacute;mico &rarr;</a>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var slug = 'c3-clasico';
+      var debounceTimer;
+
+      function collectData() {
+        var d = {};
+        document.querySelectorAll('.qty-input').forEach(function(input) {
+          if (input.value) d['qty-' + input.dataset.key] = input.value;
+        });
+        var notesEl = document.getElementById('labNotes');
+        if (notesEl && notesEl.value) d['lab-notes'] = notesEl.value;
+        return d;
+      }
+
+      function applyData(d) {
+        if (!d) return;
+        document.querySelectorAll('.qty-input').forEach(function(input) {
+          var val = d['qty-' + input.dataset.key];
+          if (val) input.value = val;
+        });
+        var notesEl = document.getElementById('labNotes');
+        if (notesEl && d['lab-notes']) notesEl.value = d['lab-notes'];
+      }
+
+      function save() {
+        var d = collectData();
+        localStorage.setItem('lab-recipe-' + slug, JSON.stringify(d));
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          fetch('/api/lab/notes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: slug, data: d })
+          }).catch(function() {});
+        }, 3000);
+      }
+
+      var localImmediate = localStorage.getItem('lab-recipe-' + slug);
+      if (localImmediate) { try { applyData(JSON.parse(localImmediate)); } catch(e) {} }
+
+      fetch('/api/lab/notes?slug=' + slug)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.data && Object.keys(res.data).length > 0) {
+            applyData(res.data);
+            localStorage.setItem('lab-recipe-' + slug, JSON.stringify(res.data));
+          }
+        })
+        .catch(function() {});
+
+      var notesEl = document.getElementById('labNotes');
+      if (notesEl) notesEl.addEventListener('input', save);
+
+      // PostMessage context bridge for Lab Chat
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'get-recipe-context') {
+          var ctx = 'RECETA: Perros Clasicos (Ciclo 3)\nPRECIO: $12.000 (2 toppings) / $14.000 (3 toppings)\n\n';
+          ctx += 'COMBO 1 — ZINEMA (ahumado/salado):\n';
+          ctx += 'Base fija: Pan Brioche + Papas (base) + Salchicha + Salsa Lena + Papas (arriba)\n\n';
+          ctx += 'COMBO 2 — HAWAIANO (dulce/fresco):\n';
+          ctx += 'Base fija: Pan Brioche + Papas (base) + Salchicha + Salsa de Pina + Cebolla Crispy\n\n';
+          ctx += 'TOPPINGS (mismos para ambos): Pepinillos / Jalapenos / Maiz Tierno / Cebolla Encurtida / Queso Cheddar\n';
+          ctx += '2 toppings = $12.000 / 3 toppings = $14.000\n\n';
+          ctx += 'SALSAS SELF-SERVICE: Tomate, Mostaza, Pina, Maiz Dulce, Salsa de la Casa\n\n';
+          ctx += 'PEDIDO EN CAJA: cual combo + cuales toppings + cuantos (2 o 3)\n';
+          var notes = document.getElementById('labNotes');
+          if (notes && notes.value) ctx += '\n\nNOTAS DEL LAB:\n' + notes.value;
+          parent.postMessage({ type: 'recipe-context', context: ctx }, '*');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

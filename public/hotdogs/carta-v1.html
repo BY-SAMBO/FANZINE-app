@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Hot Dogs - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --surface-raised: #1a1a1a;
+      --text: #f0f0f0;
+      --text-muted: #888888;
+      --text-dim: #555555;
+      --border: #333333;
+      --gold: #B8860B;
+      --gold-light: #d4a843;
+      --red: #e63946;
+      --tag-base: #8b5a2b;
+      --tag-salsa: #e63946;
+      --tag-queso: #e9c46a;
+      --tag-crunch: #ff9f1c;
+      --tag-fresco: #2a9d8f;
+      --tag-proteina: #c44536;
+      --zinema: #1a1a2e;
+      --hawaiano: #ff6b35;
+      --gold-color: #B8860B;
+      --tropical: #ff6b35;
+      --birria: #8B0000;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* -- MARQUEE HEADER -- */
+    .marquee-header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .marquee-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(184, 134, 11, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 100%, rgba(230, 57, 70, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .marquee-lights {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .marquee-light {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 6px var(--gold), 0 0 12px rgba(184, 134, 11, 0.3);
+      animation: pulse-light 2s ease-in-out infinite;
+    }
+
+    .marquee-light:nth-child(even) { animation-delay: 1s; }
+
+    @keyframes pulse-light {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .marquee-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 6px 16px;
+      margin-bottom: 1.5rem;
+    }
+
+    .marquee-header h1 {
+      font-size: clamp(4rem, 12vw, 8rem);
+      color: var(--text);
+      line-height: 0.9;
+      letter-spacing: 0.15em;
+    }
+
+    .marquee-subtitle {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+    }
+
+    .marquee-divider {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 2rem auto;
+    }
+
+    .marquee-tagline {
+      font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+    }
+
+    .scroll-cue {
+      margin-top: 3rem;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      animation: bob 2s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* -- SECTION WRAPPERS -- */
+    .menu-section {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    .section-label {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-label-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 4px 12px;
+      border: 2px solid var(--gold);
+    }
+
+    .section-label h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--text);
+      margin-top: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    .section-label-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    /* -- DIVIDERS -- */
+    .cinema-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 auto;
+      max-width: 680px;
+    }
+
+    /* -- FILM CARD (each hot dog) -- */
+    .film-card {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      background: var(--surface);
+      margin-bottom: 2rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .film-accent {
+      height: 4px;
+      width: 100%;
+    }
+
+    .film-body {
+      padding: 2rem 1.75rem;
+    }
+
+    .film-number {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .film-emoji {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .film-title {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      line-height: 1;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .film-tagline {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* -- CREDITS (ingredients) -- */
+    .credits-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .credits-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .credit-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .credit-tag {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      flex-shrink: 0;
+      color: #000;
+    }
+
+    .credit-tag.tag-base { background: var(--tag-base); }
+    .credit-tag.tag-salsa { background: var(--tag-salsa); color: #fff; }
+    .credit-tag.tag-queso { background: var(--tag-queso); }
+    .credit-tag.tag-crunch { background: var(--tag-crunch); }
+    .credit-tag.tag-fresco { background: var(--tag-fresco); color: #fff; }
+    .credit-tag.tag-proteina { background: var(--tag-proteina); color: #fff; }
+
+    .credit-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .credit-detail {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    /* -- TOPPINGS PICK (clasicos) -- */
+    .pick-section {
+      border: 2px dashed var(--border);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pick-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border: 2px solid #000;
+      background: var(--red);
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .pick-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pick-chip {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border: 2px solid var(--border);
+      background: var(--surface-raised);
+      color: var(--text);
+    }
+
+    /* -- CHOICE (especiales) -- */
+    .choice-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .choice-badge {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      background: var(--tag-fresco);
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .choice-options {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* -- RATING (price) -- */
+    .film-footer {
+      padding: 1rem 1.75rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .film-rating {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .film-rating-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+    }
+
+    .film-rating-tbd {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    /* -- PRICING BLOCK (clasicos) -- */
+    .pricing-block {
+      background: var(--surface);
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 1.75rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-block h3 {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .pricing-tiers {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .pricing-tier {
+      text-align: center;
+    }
+
+    .pricing-tier-amount {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+
+    .pricing-tier-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .pricing-slash {
+      font-size: 2rem;
+      color: var(--text-dim);
+      align-self: center;
+      font-weight: 300;
+    }
+
+    /* -- SALSAS STATION -- */
+    .salsas-card {
+      background: var(--surface);
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .salsas-card h3 {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .salsas-card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+
+    .salsas-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .salsa-chip {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border: 2px solid var(--border);
+      background: var(--surface-raised);
+      color: var(--text);
+    }
+
+    .salsas-note {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* -- FOOTER -- */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text);
+      letter-spacing: 0.2em;
+    }
+
+    footer .sub {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* -- RESPONSIVE -- */
+    @media (max-width: 600px) {
+      .marquee-header h1 { letter-spacing: 0.08em; }
+      .menu-section { padding: 3rem 1rem; }
+      .film-body { padding: 1.5rem 1.25rem; }
+      .film-footer { padding: 1rem 1.25rem; }
+      .film-title { font-size: 1.6rem; }
+      .pricing-tiers { gap: 1rem; }
+      .marquee-lights { gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== MARQUEE HEADER ========== -->
+  <div class="marquee-header">
+    <div class="marquee-lights">
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+      <span class="marquee-light"></span>
+    </div>
+    <div class="marquee-badge">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+    <h1>FANZINE</h1>
+    <div class="marquee-subtitle">Hot Dogs de Autor</div>
+    <div class="marquee-divider"></div>
+    <div class="marquee-tagline">Ahora en Cartelera</div>
+    <div class="scroll-cue">&#8595; Ver Cartelera</div>
+  </div>
+
+  <!-- ========== CLASICOS ========== -->
+  <div class="cinema-divider"></div>
+
+  <div class="menu-section">
+    <div class="section-label">
+      <div class="section-label-badge">En Cartelera</div>
+      <h2>CL&Aacute;SICOS</h2>
+      <div class="section-label-sub">Mismos toppings para ambos &mdash; base armada por cocina</div>
+    </div>
+
+    <!-- ZINEMA -->
+    <div class="film-card">
+      <div class="film-accent" style="background: var(--zinema);"></div>
+      <div class="film-body">
+        <div class="film-number">No. 01</div>
+        <div class="film-emoji">&#127908;&#127789;</div>
+        <div class="film-title" style="color: #5c5c8a;">ZINEMA</div>
+        <div class="film-tagline">Ahumado &middot; Salado &middot; Crocante</div>
+
+        <div class="credits-label">Reparto</div>
+        <div class="credits-list">
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Pan Brioche</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Papas</span>
+            <span class="credit-detail">(base)</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Salchicha</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-salsa">salsa</span>
+            <span class="credit-name">Salsa Le&ntilde;a</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Papas</span>
+            <span class="credit-detail">(arriba)</span>
+          </div>
+        </div>
+
+        <div class="pick-section">
+          <div class="pick-badge">Elige 2 o 3 Toppings</div>
+          <div class="pick-options">
+            <span class="pick-chip">Pepinillos</span>
+            <span class="pick-chip">Jalape&ntilde;os</span>
+            <span class="pick-chip">Ma&iacute;z Tierno</span>
+            <span class="pick-chip">Cebolla Encurtida</span>
+            <span class="pick-chip">Queso Cheddar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HAWAIANO -->
+    <div class="film-card">
+      <div class="film-accent" style="background: var(--hawaiano);"></div>
+      <div class="film-body">
+        <div class="film-number">No. 02</div>
+        <div class="film-emoji">&#127821;&#127789;</div>
+        <div class="film-title" style="color: var(--hawaiano);">HAWAIANO</div>
+        <div class="film-tagline">Dulce &middot; Fresco &middot; Crocante</div>
+
+        <div class="credits-label">Reparto</div>
+        <div class="credits-list">
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Pan Brioche</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Papas</span>
+            <span class="credit-detail">(base)</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Salchicha</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-salsa">salsa</span>
+            <span class="credit-name">Salsa de Pi&ntilde;a</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Cebolla Crispy</span>
+          </div>
+        </div>
+
+        <div class="pick-section">
+          <div class="pick-badge">Elige 2 o 3 Toppings</div>
+          <div class="pick-options">
+            <span class="pick-chip">Pepinillos</span>
+            <span class="pick-chip">Jalape&ntilde;os</span>
+            <span class="pick-chip">Ma&iacute;z Tierno</span>
+            <span class="pick-chip">Cebolla Encurtida</span>
+            <span class="pick-chip">Queso Cheddar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="pricing-block">
+      <h3>Clasificaci&oacute;n &mdash; Cl&aacute;sicos</h3>
+      <div class="pricing-tiers">
+        <div class="pricing-tier">
+          <div class="pricing-tier-amount">$12.000</div>
+          <div class="pricing-tier-label">2 Toppings</div>
+        </div>
+        <div class="pricing-slash">/</div>
+        <div class="pricing-tier">
+          <div class="pricing-tier-amount">$14.000</div>
+          <div class="pricing-tier-label">3 Toppings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ESPECIALES ========== -->
+  <div class="cinema-divider"></div>
+
+  <div class="menu-section">
+    <div class="section-label">
+      <div class="section-label-badge">Premiere</div>
+      <h2>ESPECIALES</h2>
+      <div class="section-label-sub">Recetas de autor &mdash; precio superior</div>
+    </div>
+
+    <!-- FANZINE GOLD -->
+    <div class="film-card">
+      <div class="film-accent" style="background: linear-gradient(90deg, var(--gold-color), var(--gold-light));"></div>
+      <div class="film-body">
+        <div class="film-number">No. 03 &mdash; Estreno</div>
+        <div class="film-emoji">&#10024;&#127789;&#129351;</div>
+        <div class="film-title" style="color: var(--gold);">FANZINE GOLD</div>
+        <div class="film-tagline">Seattle Style</div>
+
+        <div class="credits-label">Reparto</div>
+        <div class="credits-list">
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Pan Brioche</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Crocante Base</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-queso">queso</span>
+            <span class="credit-name">Queso Crema ~50g</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Salchicha</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-salsa">salsa</span>
+            <span class="credit-name">Salsa Gold + Le&ntilde;a</span>
+            <span class="credit-detail">(glaseado)</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Cebolla Crispy + Tocineta Picada</span>
+          </div>
+          <div class="credit-row">
+            <span class="choice-badge">a elegir</span>
+            <span class="credit-name" style="font-size:0.8rem;">Pepinillos / Jalape&ntilde;os / Pi&ntilde;a</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-salsa">salsa</span>
+            <span class="credit-name">Drizzle Gold</span>
+            <span class="credit-detail">(final)</span>
+          </div>
+        </div>
+      </div>
+      <div class="film-footer">
+        <div>
+          <div class="film-rating-label">Clasificaci&oacute;n</div>
+          <div class="film-rating-tbd">Precio Superior</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TROPICAL FUEGO -->
+    <div class="film-card">
+      <div class="film-accent" style="background: linear-gradient(90deg, var(--tropical), #ff3d00);"></div>
+      <div class="film-body">
+        <div class="film-number">No. 04 &mdash; Estreno</div>
+        <div class="film-emoji">&#127821;&#127789;&#128293;</div>
+        <div class="film-title" style="color: var(--tropical);">TROPICAL FUEGO</div>
+        <div class="film-tagline">Dulce x Picante</div>
+
+        <div class="credits-label">Reparto</div>
+        <div class="credits-list">
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Pan Brioche</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Takis 15g</span>
+            <span class="credit-detail">(abajo)</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Salchicha</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-salsa">salsa</span>
+            <span class="credit-name">Salsa de Pi&ntilde;a + Le&ntilde;a</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-queso">queso</span>
+            <span class="credit-name">SourCream</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-fresco">fresco</span>
+            <span class="credit-name">Pi&ntilde;a Dulce en Trozos</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Takis 15g</span>
+            <span class="credit-detail">(arriba)</span>
+          </div>
+        </div>
+      </div>
+      <div class="film-footer">
+        <div>
+          <div class="film-rating-label">Clasificaci&oacute;n</div>
+          <div class="film-rating-tbd">Precio Superior</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIRRIA FUSION -->
+    <div class="film-card">
+      <div class="film-accent" style="background: linear-gradient(90deg, var(--birria), #c0392b);"></div>
+      <div class="film-body">
+        <div class="film-number">No. 05 &mdash; Estreno</div>
+        <div class="film-emoji">&#129472;&#129385;&#128293;</div>
+        <div class="film-title" style="color: #c0392b;">BIRRIA FUSION</div>
+        <div class="film-tagline">La Quesabirria Hecha Hot Dog</div>
+
+        <div class="credits-label">Reparto</div>
+        <div class="credits-list">
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Pan Brioche</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-crunch">crunch</span>
+            <span class="credit-name">Cebolla Crispy</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-base">base</span>
+            <span class="credit-name">Salchicha</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-salsa">salsa</span>
+            <span class="credit-name">Salsa Le&ntilde;a + SourCream</span>
+          </div>
+          <div class="credit-row">
+            <span class="choice-badge">a elegir</span>
+            <span class="credit-name" style="font-size:0.8rem;">Cebolla Encurtida / Pi&ntilde;a / Jalape&ntilde;os</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-proteina">prote&iacute;na</span>
+            <span class="credit-name">Res Birria</span>
+          </div>
+          <div class="credit-row">
+            <span class="credit-tag tag-queso">queso</span>
+            <span class="credit-name">Cheddar Drizzle</span>
+          </div>
+        </div>
+      </div>
+      <div class="film-footer">
+        <div>
+          <div class="film-rating-label">Clasificaci&oacute;n</div>
+          <div class="film-rating-tbd">Precio Superior</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SALSAS SELF-SERVICE ========== -->
+  <div class="cinema-divider"></div>
+
+  <div class="menu-section">
+    <div class="salsas-card">
+      <h3>Self-Service</h3>
+      <div class="salsas-card-title">Estaci&oacute;n de Salsas</div>
+      <div class="salsas-grid">
+        <span class="salsa-chip">Tomate</span>
+        <span class="salsa-chip">Mostaza</span>
+        <span class="salsa-chip">Pi&ntilde;a</span>
+        <span class="salsa-chip">Ma&iacute;z Dulce</span>
+        <span class="salsa-chip">Salsa de la Casa</span>
+      </div>
+      <div class="salsas-note">Gratis &mdash; s&iacute;rvete las que quieras</div>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="brand">FANZINE</div>
+    <div class="sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div>
+  </footer>
+
+</body>
+</html>
