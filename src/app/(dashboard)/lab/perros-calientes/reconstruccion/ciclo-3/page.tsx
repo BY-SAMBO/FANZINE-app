@@ -479,6 +479,46 @@ export default function Ciclo3HubPage() {
           )}
         </section>
 
+        {/* Prototipos de Carta */}
+        <section>
+          <SectionHeader
+            emoji="📄"
+            title="PROTOTIPOS DE CARTA"
+            subtitle="Versiones imprimibles del menu de hot dogs"
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { name: "Carta Final", file: "carta", desc: "Menu limpio con toppings y contrastes", color: "#000" },
+              { name: "V1 — Poster de Cine", file: "carta-v1", desc: "Oscuro, dramatico, estilo cinematografico", color: "#1a1a2e" },
+              { name: "V2 — Minimalista", file: "carta-v2", desc: "Blanco, editorial, tipografia limpia", color: "#666" },
+              { name: "V3 — Street Food", file: "carta-v3", desc: "Vibrante, grid, festival callejero", color: "#e63946" },
+              { name: "V4 — Solo Zinema", file: "carta-v4", desc: "Zinema $12K 3top / $14K +tocineta, sin Hawaiano", color: "#1a1a2e" },
+            ].map((v) => (
+              <Link
+                key={v.file}
+                href={`/lab/perros-calientes/reconstruccion/ciclo-3/recetas/${v.file}`}
+                className="no-underline text-inherit block"
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                <div
+                  className="overflow-hidden transition-transform duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5"
+                  style={{
+                    border: "3px solid #000",
+                    boxShadow: "4px 4px 0 #000",
+                    borderTop: `4px solid ${v.color}`,
+                    background: "#fff",
+                  }}
+                >
+                  <div className="p-4">
+                    <h4 className="font-bold text-sm uppercase tracking-wider mb-1">{v.name}</h4>
+                    <p className="text-[0.7rem] text-neutral-500">{v.desc}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* Footer */}
         <div className="text-center pt-4" style={{ borderTop: "3px solid #000" }}>
           <Link

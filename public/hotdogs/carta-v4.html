@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Hot Dogs - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --text: #000;
+      --muted: #666;
+      --light: #999;
+      --border: #000;
+      --bg: #fff;
+      --zinema: #1a1a2e;
+      --hawaiano: #ff6b35;
+      --gold: #B8860B;
+      --fuego: #ff6b35;
+      --birria: #8B0000;
+      --price: #e63946;
+    }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .no-print { display: none !important; }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      border-bottom: 3px solid #000;
+    }
+
+    .brand {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      line-height: 1;
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .menu-label {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      padding: 5px 16px;
+      border: 2px solid #000;
+    }
+
+    /* ========== SECTIONS ========== */
+    .section {
+      padding: 2rem 2rem 0;
+    }
+
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #000;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ========== DOG ITEM ========== */
+    .dog {
+      margin-bottom: 2rem;
+      page-break-inside: avoid;
+    }
+
+    .dog-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .dog-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.2;
+    }
+
+    .dog-dots {
+      flex: 1;
+      border-bottom: 2px dotted #ccc;
+      margin-bottom: 0.35rem;
+      min-width: 2rem;
+    }
+
+    .dog-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .dog-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+
+    .dog-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .dog-desc em {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ========== CONTRAST PICKER ========== */
+    .contrast-box {
+      margin-top: 0.75rem;
+      margin-left: 2rem;
+      margin-right: 2rem;
+      border: 1.5px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .contrast-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      padding: 0.5rem 0 0.35rem;
+    }
+
+    .contrast-options {
+      display: flex;
+    }
+
+    .contrast-item {
+      flex: 1;
+      text-align: center;
+      padding: 0.4rem 0.5rem 0.6rem;
+    }
+
+    .contrast-item + .contrast-item {
+      border-left: 1.5px dashed #ddd;
+    }
+
+    .contrast-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .contrast-star {
+      color: #DAA520;
+      font-size: 1.15rem;
+      margin-right: 3px;
+    }
+
+    .contrast-hint {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.15rem;
+    }
+
+    /* ========== CLASICO PRICING ========== */
+    .clasico-pricing {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .clasico-price-option {
+      font-size: 1.1rem;
+      font-weight: 700;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .price-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.1rem;
+    }
+
+    /* ========== TOPPINGS BOX ========== */
+    .toppings-box {
+      margin-top: 0.75rem;
+      border: 1.5px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .toppings-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-align: center;
+      padding: 0.5rem 0 0.35rem;
+    }
+
+    .toppings-list {
+      display: flex;
+    }
+
+    .topping-item {
+      flex: 1;
+      text-align: center;
+      padding: 0.4rem 0.25rem 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.2rem;
+    }
+
+    .topping-item + .topping-item {
+      border-left: 1.5px dashed #ddd;
+    }
+
+    .topping-rec {
+      font-weight: 700;
+    }
+
+    .topping-rec .topping-star {
+      color: #DAA520;
+      font-size: 1.15rem;
+      margin-right: 3px;
+      line-height: 1;
+    }
+
+    /* ========== DIVIDER ========== */
+    .divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 0 2rem;
+    }
+
+    /* ========== SALSAS ========== */
+    .salsas {
+      text-align: center;
+      padding: 1.5rem 2rem;
+      border-top: 3px solid #000;
+      margin-top: 1rem;
+    }
+
+    .salsas-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .salsas-items {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .salsas-note {
+      font-size: 0.7rem;
+      color: var(--light);
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      text-align: center;
+      padding: 1.5rem 2rem 2rem;
+      border-top: 3px solid #000;
+    }
+
+    .footer-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .footer-sub {
+      font-size: 0.7rem;
+      color: var(--light);
+      margin-top: 0.15rem;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 600px) {
+      .header { padding: 2rem 1.25rem 1.5rem; }
+      .brand { font-size: 2.5rem; }
+      .section { padding: 1.5rem 1.25rem 0; }
+      .dog-name { font-size: 1.2rem; }
+      .dog-price { font-size: 1rem; }
+      .divider { margin: 0 1.25rem; }
+      .salsas { padding: 1.25rem; }
+      .clasico-pricing { flex-direction: column; gap: 0.25rem; align-items: flex-end; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">FANZINE</div>
+    <div class="brand-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+    <div class="menu-label">Hot Dogs de Autor</div>
+  </div>
+
+  <!-- ================ CLASICOS ================ -->
+  <div class="section">
+    <div class="section-title">Cl&aacute;sico</div>
+
+    <!-- ZINEMA -->
+    <div class="dog">
+      <div class="dog-header">
+        <span class="dog-name" style="color: var(--zinema);">Zinema</span>
+        <span class="dog-dots"></span>
+        <div class="clasico-pricing">
+          <div class="clasico-price-option">$12.000<div class="price-label">3 toppings</div></div>
+          <div class="clasico-price-option">$14.000<div class="price-label">con tocineta</div></div>
+        </div>
+      </div>
+      <div class="dog-tagline" style="color: var(--zinema);">Ahumado &middot; Salado &middot; Crocante</div>
+      <div class="dog-desc">
+        Salchicha americana en pan brioche dorado, <em>salsa le&ntilde;a</em> ahumada
+        y doble capa de <em>papas crocantes</em> que envuelven todo.
+        Personaliza tu combinaci&oacute;n con toppings frescos y crocantes que completan la experiencia del cine.
+      </div>
+      <div class="toppings-box">
+        <div class="toppings-title">Elige 3 toppings</div>
+        <div class="toppings-list">
+          <div class="topping-item topping-rec"><span class="topping-star">&#9733;</span>Jalape&ntilde;os</div>
+          <div class="topping-item">Pepinillos</div>
+          <div class="topping-item topping-rec"><span class="topping-star">&#9733;</span>Queso Cheddar</div>
+          <div class="topping-item">Ma&iacute;z Tierno</div>
+          <div class="topping-item">Cebolla Encurtida</div>
+          <div class="topping-item topping-rec"><span class="topping-star">&#9733;</span>Pi&ntilde;a</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ================ ESPECIALES ================ -->
+  <div class="section">
+    <div class="section-title">Especiales</div>
+
+    <!-- FANZINE GOLD -->
+    <div class="dog">
+      <div class="dog-header">
+        <span class="dog-name" style="color: var(--gold);">Fanzine Gold</span>
+        <span class="dog-dots"></span>
+        <span class="dog-price" style="color: var(--gold);">Precio especial</span>
+      </div>
+      <div class="dog-tagline" style="color: var(--gold);">Seattle Style</div>
+      <div class="dog-desc">
+        Perro premium estilo Seattle con <em>queso crema</em> generoso, salchicha glaseada
+        en <em>BBQ Carolina Gold</em> y <em>le&ntilde;a</em>, <em>tocineta picada</em> crocante
+        y <em>cebolla crispy</em>. T&uacute; decides c&oacute;mo degustarlo.
+      </div>
+      <div class="contrast-box">
+        <div class="contrast-label">Elige tu contraste</div>
+        <div class="contrast-options">
+          <div class="contrast-item">
+            <div class="contrast-name"><span class="contrast-star">&#9733;</span>Pepinillos</div>
+            <div class="contrast-hint">crujiente y &aacute;cido</div>
+          </div>
+          <div class="contrast-item">
+            <div class="contrast-name">Jalape&ntilde;os</div>
+            <div class="contrast-hint">el toque picante</div>
+          </div>
+          <div class="contrast-item">
+            <div class="contrast-name">Pi&ntilde;a</div>
+            <div class="contrast-hint">dulce y tropical</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TROPICAL FUEGO -->
+    <div class="dog">
+      <div class="dog-header">
+        <span class="dog-name" style="color: var(--fuego);">Tropical Fuego</span>
+        <span class="dog-dots"></span>
+        <span class="dog-price" style="color: var(--fuego);">Precio especial</span>
+      </div>
+      <div class="dog-tagline" style="color: var(--fuego);">Dulce x Picante</div>
+      <div class="dog-desc">
+        Doble capa de <em>Takis</em> que crujen desde la base hasta la corona, <em>salsa de pi&ntilde;a</em>
+        y <em>le&ntilde;a</em> sobre la salchicha, <em>SourCream</em> cremoso que refresca
+        y <em>trozos de pi&ntilde;a dulce</em> que rematan el contraste. Pica, refresca, cruje.
+      </div>
+    </div>
+
+    <!-- BIRRIA FUSION -->
+    <div class="dog">
+      <div class="dog-header">
+        <span class="dog-name" style="color: var(--birria);">Birria Fusi&oacute;n</span>
+        <span class="dog-dots"></span>
+        <span class="dog-price" style="color: var(--birria);">Precio especial</span>
+      </div>
+      <div class="dog-tagline" style="color: var(--birria);">La Quesabirria Hecha Hot Dog</div>
+      <div class="dog-desc">
+        <em>Res birria</em> jugosa sobre salchicha, <em>le&ntilde;a</em> ahumada, <em>SourCream</em> cremoso,
+        <em>cebolla crispy</em> crocante y <em>cheddar</em> fundido hasta el pan. Solo falta tu toque final.
+      </div>
+      <div class="contrast-box">
+        <div class="contrast-label">Elige tu contraste</div>
+        <div class="contrast-options">
+          <div class="contrast-item">
+            <div class="contrast-name"><span class="contrast-star">&#9733;</span>Cebolla Encurtida</div>
+            <div class="contrast-hint">frescura &aacute;cida</div>
+          </div>
+          <div class="contrast-item">
+            <div class="contrast-name">Pi&ntilde;a</div>
+            <div class="contrast-hint">dulzura que corta</div>
+          </div>
+          <div class="contrast-item">
+            <div class="contrast-name">Jalape&ntilde;os</div>
+            <div class="contrast-hint">el toque picante</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================ SALSAS ================ -->
+  <div class="salsas">
+    <div class="salsas-label">Estaci&oacute;n de Salsas &mdash; Self-Service</div>
+    <div class="salsas-items">
+      Tomate &middot; Mostaza &middot; Pi&ntilde;a &middot; Ma&iacute;z Dulce &middot; Salsa de la Casa
+    </div>
+    <div class="salsas-note">Disponibles en la barra, no se incluyen en el pedido</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">FANZINE</div>
+    <div class="footer-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div>
+  </div>
+
+</body>
+</html>
