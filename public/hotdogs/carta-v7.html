@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Hot Dogs - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #C41E3A;
+      --red-pale: #FDF0F2;
+      --black: #111;
+      --gray: #555;
+      --gray-light: #999;
+      --gray-rule: #ddd;
+      --white: #fff;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'Inter', sans-serif;
+    }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--sans);
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      padding: 3.5rem 3rem 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .header-overline {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--red);
+    }
+
+    .brand {
+      font-family: var(--serif);
+      font-size: 4.5rem;
+      font-weight: 400;
+      line-height: 1;
+      margin-top: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-sub {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    /* Memphis decorative element */
+    .header-deco {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--black);
+    }
+
+    .header-deco .tri {
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 10px solid var(--red);
+    }
+
+    .header-deco .circ {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--black);
+    }
+
+    .header-deco .rule {
+      width: 60px;
+      height: 1px;
+      background: var(--gray-rule);
+    }
+
+    .menu-badge {
+      display: inline-block;
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--red);
+    }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-head {
+      padding: 1.25rem 3rem;
+      border-bottom: 1px solid var(--gray-rule);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-head-label {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+
+    .section-head-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--gray-rule);
+    }
+
+    .section-head-num {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gray-light);
+    }
+
+    /* ========== DOG ITEM ========== */
+    .dog {
+      padding: 2rem 3rem;
+      border-bottom: 1px solid var(--gray-rule);
+      position: relative;
+      page-break-inside: avoid;
+    }
+
+    .dog:last-child {
+      border-bottom: none;
+    }
+
+    .dog-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .dog-name {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      line-height: 1.1;
+    }
+
+    .dog-price {
+      font-family: var(--sans);
+      font-size: 1.1rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .dog-level {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 0.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gray-light);
+      vertical-align: middle;
+      margin-left: 0.5rem;
+    }
+
+    .dog-tagline {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      margin-bottom: 0.6rem;
+    }
+
+    .dog-desc {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--gray);
+      line-height: 1.7;
+      max-width: 540px;
+    }
+
+    .dog-desc strong {
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    /* ========== CLASICO DUAL PRICING ========== */
+    .dual-price {
+      display: flex;
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+
+    .dual-price-item {
+      text-align: right;
+    }
+
+    .dual-price-label {
+      font-size: 0.55rem;
+      font-weight: 500;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ========== PUNCH — EDITORIAL PULL-OUT CARD ========== */
+    .punch-card {
+      margin-top: 1.5rem;
+      border: 2px solid var(--red);
+      position: relative;
+      background: var(--white);
+    }
+
+    /* Top triangular corner accent */
+    .punch-card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      width: 0;
+      height: 0;
+      border-top: 20px solid var(--red);
+      border-left: 20px solid transparent;
+    }
+
+    .punch-card-header {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .punch-card-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--red);
+    }
+
+    .punch-card-count {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gray-light);
+    }
+
+    .punch-card-body {
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      gap: 0;
+    }
+
+    .punch-option {
+      flex: 1;
+      text-align: center;
+      padding: 0.6rem 0.4rem;
+      border-right: 1px solid var(--gray-rule);
+      position: relative;
+    }
+
+    .punch-option:last-child {
+      border-right: none;
+    }
+
+    .punch-option.rec {
+      background: var(--red-pale);
+    }
+
+    .punch-option-name {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .punch-option-hint {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 400;
+      color: var(--gray-light);
+      margin-top: 0.15rem;
+    }
+
+    /* Star for recommended */
+    .punch-option.rec .punch-option-name::after {
+      content: ' \2605';
+      color: var(--red);
+      font-size: 0.6rem;
+    }
+
+    .punch-card-footer {
+      padding: 0.4rem 1.25rem;
+      border-top: 1px solid var(--gray-rule);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .punch-card-footer-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    .punch-card-footer-text {
+      font-size: 0.5rem;
+      font-weight: 500;
+      color: var(--gray-light);
+      letter-spacing: 0.08em;
+    }
+
+    /* ========== NO-PUNCH ========== */
+    .no-punch {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .no-punch .circ-sm {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gray-light);
+    }
+
+    /* ========== SALSAS ========== */
+    .salsas {
+      padding: 2rem 3rem;
+      border-top: 2px solid var(--black);
+      border-bottom: 2px solid var(--black);
+      text-align: center;
+      position: relative;
+    }
+
+    /* Memphis triangle accents */
+    .salsas::before {
+      content: '';
+      position: absolute;
+      top: 1rem;
+      left: 3rem;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 8px solid var(--red);
+      opacity: 0.4;
+    }
+
+    .salsas::after {
+      content: '';
+      position: absolute;
+      bottom: 1rem;
+      right: 3rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--red);
+      opacity: 0.4;
+    }
+
+    .salsas-overline {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--red);
+      margin-bottom: 0.25rem;
+    }
+
+    .salsas-title {
+      font-family: var(--sans);
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--gray-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .salsas-items {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--black);
+      line-height: 1.8;
+    }
+
+    .salsas-items .sep {
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      background: var(--red);
+      border-radius: 50%;
+      margin: 0 0.6rem;
+      vertical-align: middle;
+    }
+
+    .salsas-note {
+      font-size: 0.5rem;
+      font-weight: 500;
+      color: var(--gray-light);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-top: 0.5rem;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      padding: 2.5rem 3rem;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+    }
+
+    .footer-sub {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: var(--gray-light);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .footer-deco {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .footer-deco .tri-sm {
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 7px solid var(--red);
+    }
+
+    .footer-deco .circ-sm {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      border: 1.5px solid var(--black);
+    }
+
+    .footer-deco .sq-sm {
+      width: 6px;
+      height: 6px;
+      background: var(--gray-rule);
+    }
+
+    .footer-copy {
+      font-size: 0.55rem;
+      font-weight: 400;
+      color: var(--gray-light);
+      letter-spacing: 0.1em;
+      margin-top: 0.75rem;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 600px) {
+      .header {
+        padding: 2.5rem 1.5rem 0;
+      }
+
+      .brand {
+        font-size: 3rem;
+      }
+
+      .header-deco {
+        padding-bottom: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .section-head {
+        padding: 1rem 1.5rem;
+      }
+
+      .dog {
+        padding: 1.5rem;
+      }
+
+      .dog-name {
+        font-size: 1.4rem;
+      }
+
+      .dog-top {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .dual-price {
+        flex-direction: row;
+        gap: 1rem;
+      }
+
+      .dual-price-item {
+        text-align: left;
+      }
+
+      .punch-card-body {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .punch-option {
+        border-right: none;
+        border-bottom: 1px solid var(--gray-rule);
+        padding: 0.5rem;
+      }
+
+      .punch-option:last-child {
+        border-bottom: none;
+      }
+
+      .salsas {
+        padding: 1.5rem;
+      }
+
+      .footer {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-overline">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+    <div class="brand">Fanzine</div>
+    <div class="brand-sub">Hot Dogs de Autor</div>
+    <div class="header-deco">
+      <span class="tri"></span>
+      <span class="rule"></span>
+      <span class="circ"></span>
+      <span class="rule"></span>
+      <span class="menu-badge">La Carta</span>
+      <span class="rule"></span>
+      <span class="circ"></span>
+      <span class="rule"></span>
+      <span class="tri"></span>
+    </div>
+  </div>
+
+  <!-- ========== CLASICO ========== -->
+  <div class="section-head">
+    <span class="section-head-label">Cl&aacute;sico</span>
+    <span class="section-head-rule"></span>
+    <span class="section-head-num">01</span>
+  </div>
+
+  <div class="dog">
+    <div class="dog-top">
+      <span class="dog-name">Zinema <span class="dog-level">Base</span></span>
+      <div class="dual-price">
+        <div class="dual-price-item">
+          <div class="dog-price">$12.000</div>
+          <div class="dual-price-label">3 toppings</div>
+        </div>
+        <div class="dual-price-item">
+          <div class="dog-price">$14.000</div>
+          <div class="dual-price-label">con tocineta</div>
+        </div>
+      </div>
+    </div>
+    <div class="dog-tagline">Ahumado // Salado // Crocante</div>
+    <div class="dog-desc">
+      Salchicha americana en pan brioche dorado, <strong>salsa le&ntilde;a</strong> ahumada
+      y doble capa de <strong>papas crocantes</strong> que envuelven todo.
+      Ahora dale tu punch.
+    </div>
+
+    <div class="punch-card">
+      <div class="punch-card-header">
+        <span class="punch-card-title">Dale tu Punch</span>
+        <span class="punch-card-count">Elige 3</span>
+      </div>
+      <div class="punch-card-body">
+        <div class="punch-option rec">
+          <div class="punch-option-name">Jalape&ntilde;os</div>
+          <div class="punch-option-hint">+fuego</div>
+        </div>
+        <div class="punch-option">
+          <div class="punch-option-name">Pepinillos</div>
+          <div class="punch-option-hint">+&aacute;cido</div>
+        </div>
+        <div class="punch-option rec">
+          <div class="punch-option-name">Cheddar</div>
+          <div class="punch-option-hint">+fundido</div>
+        </div>
+        <div class="punch-option">
+          <div class="punch-option-name">Ma&iacute;z</div>
+          <div class="punch-option-hint">+dulce</div>
+        </div>
+        <div class="punch-option">
+          <div class="punch-option-name">Cebolla</div>
+          <div class="punch-option-hint">+encurtido</div>
+        </div>
+        <div class="punch-option rec">
+          <div class="punch-option-name">Pi&ntilde;a</div>
+          <div class="punch-option-hint">+tropical</div>
+        </div>
+      </div>
+      <div class="punch-card-footer">
+        <span class="punch-card-footer-dot"></span>
+        <span class="punch-card-footer-text">Recomendado por el chef</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ESPECIALES ========== -->
+  <div class="section-head">
+    <span class="section-head-label">Especiales</span>
+    <span class="section-head-rule"></span>
+    <span class="section-head-num">02 &mdash; 04</span>
+  </div>
+
+  <!-- FANZINE GOLD -->
+  <div class="dog">
+    <div class="dog-top">
+      <span class="dog-name">Fanzine Gold <span class="dog-level">Premium</span></span>
+      <span class="dog-price">Precio especial</span>
+    </div>
+    <div class="dog-tagline">Seattle Style</div>
+    <div class="dog-desc">
+      Perro premium estilo Seattle con <strong>queso crema</strong> generoso, salchicha glaseada
+      en <strong>BBQ Carolina Gold</strong> y <strong>le&ntilde;a</strong>, <strong>tocineta picada</strong> crocante
+      y <strong>cebolla crispy</strong>. T&uacute; le das el punch final.
+    </div>
+
+    <div class="punch-card">
+      <div class="punch-card-header">
+        <span class="punch-card-title">Dale tu Punch</span>
+        <span class="punch-card-count">Elige 1</span>
+      </div>
+      <div class="punch-card-body">
+        <div class="punch-option rec">
+          <div class="punch-option-name">Pepinillos</div>
+          <div class="punch-option-hint">+crunch &amp; &aacute;cido</div>
+        </div>
+        <div class="punch-option">
+          <div class="punch-option-name">Jalape&ntilde;os</div>
+          <div class="punch-option-hint">+fuego</div>
+        </div>
+        <div class="punch-option">
+          <div class="punch-option-name">Pi&ntilde;a</div>
+          <div class="punch-option-hint">+tropical</div>
+        </div>
+      </div>
+      <div class="punch-card-footer">
+        <span class="punch-card-footer-dot"></span>
+        <span class="punch-card-footer-text">Recomendado por el chef</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TROPICAL FUEGO -->
+  <div class="dog">
+    <div class="dog-top">
+      <span class="dog-name">Tropical Fuego <span class="dog-level">Combo</span></span>
+      <span class="dog-price">Precio especial</span>
+    </div>
+    <div class="dog-tagline">Dulce x Picante</div>
+    <div class="dog-desc">
+      Doble capa de <strong>Takis</strong> que crujen desde la base hasta la corona, <strong>salsa de pi&ntilde;a</strong>
+      y <strong>le&ntilde;a</strong> sobre la salchicha, <strong>SourCream</strong> cremoso que refresca
+      y <strong>trozos de pi&ntilde;a dulce</strong> que rematan el contraste. Pica, refresca, cruje.
+    </div>
+
+    <div class="no-punch">
+      <span class="circ-sm"></span>
+      Combo completo &mdash; no requiere punch
+    </div>
+  </div>
+
+  <!-- BIRRIA FUSION -->
+  <div class="dog">
+    <div class="dog-top">
+      <span class="dog-name">Birria Fusi&oacute;n <span class="dog-level">Premium</span></span>
+      <span class="dog-price">Precio especial</span>
+    </div>
+    <div class="dog-tagline">La Quesabirria Hecha Hot Dog</div>
+    <div class="dog-desc">
+      <strong>Res birria</strong> jugosa sobre salchicha, <strong>le&ntilde;a</strong> ahumada, <strong>SourCream</strong> cremoso,
+      <strong>papas cabello de &aacute;ngel</strong> crocantes y <strong>cheddar</strong> fundido hasta el pan. Solo falta tu punch.
+    </div>
+
+    <div class="punch-card">
+      <div class="punch-card-header">
+        <span class="punch-card-title">Dale tu Punch</span>
+        <span class="punch-card-count">Elige 1</span>
+      </div>
+      <div class="punch-card-body">
+        <div class="punch-option rec">
+          <div class="punch-option-name">Cebolla Encurtida</div>
+          <div class="punch-option-hint">+frescura &aacute;cida</div>
+        </div>
+        <div class="punch-option">
+          <div class="punch-option-name">Pi&ntilde;a</div>
+          <div class="punch-option-hint">+dulzura</div>
+        </div>
+        <div class="punch-option">
+          <div class="punch-option-name">Jalape&ntilde;os</div>
+          <div class="punch-option-hint">+fuego</div>
+        </div>
+      </div>
+      <div class="punch-card-footer">
+        <span class="punch-card-footer-dot"></span>
+        <span class="punch-card-footer-text">Recomendado por el chef</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SALSAS ========== -->
+  <div class="salsas">
+    <div class="salsas-overline">Bonus</div>
+    <div class="salsas-title">Estaci&oacute;n de Salsas &mdash; Self-Service</div>
+    <div class="salsas-items">
+      Tomate<span class="sep"></span>Mostaza<span class="sep"></span>Pi&ntilde;a<span class="sep"></span>Ma&iacute;z Dulce<span class="sep"></span>Salsa de la Casa
+    </div>
+    <div class="salsas-note">Disponibles en la barra &mdash; Free refill</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">Fanzine</div>
+    <div class="footer-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div>
+    <div class="footer-deco">
+      <span class="tri-sm"></span>
+      <span class="circ-sm"></span>
+      <span class="sq-sm"></span>
+    </div>
+    <div class="footer-copy">&copy; 2026</div>
+  </div>
+
+</body>
+</html>

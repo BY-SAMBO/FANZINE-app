@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Completa - FANZINE Cine &amp; Tex-Mex | v17c Masonry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 25cm 35cm; margin: 0; }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #DC2626;
+      --coral: #F87171;
+      --pink: #FB7185;
+      --yellow: #FACC15;
+      --yellow-light: #FEF9C3;
+      --black: #0A0A0A;
+      --outline: 3px;
+      --white: #fff;
+      --off-white: #FFFBEB;
+      --font: 'Space Grotesk', sans-serif;
+      --grad: linear-gradient(135deg, var(--red) 0%, var(--coral) 50%, var(--pink) 100%);
+      --grad-h: linear-gradient(90deg, var(--red) 0%, var(--coral) 50%, var(--pink) 100%);
+      --shadow: 4px 4px 0 var(--black);
+      --shadow-sm: 3px 3px 0 var(--black);
+      --shadow-lg: 6px 6px 0 var(--black);
+    }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    body {
+      background: repeating-conic-gradient(var(--white) 0% 25%, #FECACA 0% 50%) 0 0 / 40px 40px;
+      color: var(--black);
+      font-family: var(--font);
+      line-height: 1.3;
+      width: 25cm;
+      margin: 0 auto;
+      padding: 0.6cm;
+    }
+
+    /* ========== MAIN CARD ========== */
+    .card {
+      background: var(--white);
+      border: var(--outline) solid var(--black);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      padding: 0.7cm 1cm 0.3cm;
+      text-align: center;
+    }
+
+    .brand-arc {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .brand-arc text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 72px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      fill: var(--red);
+      stroke: var(--black);
+      stroke-width: 5;
+      paint-order: stroke fill;
+      filter: drop-shadow(4px 4px 0 var(--black));
+    }
+
+    .presenta-arc {
+      display: block;
+      width: 100%;
+      max-width: 260px;
+      margin: -1.8rem auto 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .presenta-arc text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 26px;
+      text-transform: uppercase;
+      letter-spacing: 8px;
+      fill: var(--black);
+    }
+
+    .brand-sub {
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--black);
+      margin-top: 0.2rem;
+    }
+
+    .menu-type {
+      display: inline-block;
+      margin-top: 0.35rem;
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--white);
+      padding: 0.25rem 1rem;
+      background: var(--black);
+      border: 2px solid var(--black);
+      border-radius: 100px;
+      box-shadow: 2px 2px 0 var(--black);
+    }
+
+    /* ========== SECTION LABEL ========== */
+    .section-label {
+      display: inline-block;
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--black);
+      background: var(--white);
+      padding: 0.2rem 0.6rem;
+      border: 2px solid var(--black);
+      border-radius: 6px;
+      box-shadow: 2px 2px 0 var(--black);
+      margin-bottom: 0.3cm;
+    }
+
+    /* ========== MASONRY LAYOUT ========== */
+    .masonry {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.3cm;
+      padding: 0.3cm 0.4cm;
+    }
+
+    .masonry-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3cm;
+    }
+
+    /* ========== HOT DOG CARD (image beside text) ========== */
+    .dog-card {
+      display: grid;
+      grid-template-columns: 2.8cm 1fr;
+      gap: 0.25cm;
+      background: var(--white);
+      border: var(--outline) solid var(--black);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      padding: 0.25cm;
+    }
+
+    .dog-card-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid var(--black);
+    }
+
+    .dog-card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .dog-card-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+      color: var(--black);
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.06);
+    }
+
+    .dog-card-tag {
+      display: inline-block;
+      font-size: 0.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      background: #FEE2E2;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      border: 1px solid var(--red);
+      margin-top: 0.1cm;
+      align-self: flex-start;
+    }
+
+    .dog-card-desc {
+      font-size: 0.38rem;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.45;
+      margin-top: 0.08cm;
+    }
+
+    .dog-card-desc strong {
+      font-weight: 700;
+      background: var(--yellow-light);
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    .dog-card-price {
+      font-size: 0.55rem;
+      font-weight: 300;
+      color: var(--red);
+      margin-top: 0.08cm;
+    }
+
+    .dog-card-dual-price {
+      display: flex;
+      gap: 0.3cm;
+      margin-top: 0.08cm;
+    }
+
+    .dog-card-dual-price .dp-item {
+      text-align: center;
+    }
+
+    .dog-card-dual-price .dp-price {
+      font-size: 0.5rem;
+      font-weight: 300;
+      color: var(--red);
+    }
+
+    .dog-card-dual-price .dp-label {
+      font-size: 0.32rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--black);
+    }
+
+    /* ========== PUNCH BOX (speech bubble, compact) ========== */
+    .punch {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 14px;
+      padding: 0.2cm 0.25cm;
+      position: relative;
+      box-shadow: 2px 2px 0 var(--black);
+      margin-top: 0.15cm;
+    }
+
+    .punch::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 16px;
+      width: 14px;
+      height: 14px;
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 3px;
+      transform: rotate(45deg);
+      z-index: -1;
+    }
+
+    .punch::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 14px;
+      width: 20px;
+      height: 7px;
+      background: var(--white);
+      z-index: 0;
+    }
+
+    .punch-title {
+      position: relative;
+      z-index: 1;
+      font-size: 0.45rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      margin-bottom: 0.1cm;
+    }
+
+    .punch-title .punch-highlight {
+      background: var(--grad-h);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .punch-title .punch-count {
+      font-weight: 600;
+      font-size: 0.38rem;
+      color: var(--black);
+    }
+
+    .punch-pills {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+
+    .pill {
+      font-size: 0.38rem;
+      font-weight: 700;
+      color: var(--black);
+      background: var(--off-white);
+      border: 1.5px solid var(--black);
+      border-radius: 100px;
+      padding: 0.08rem 0.3rem;
+      cursor: pointer;
+      box-shadow: 1px 1px 0 var(--black);
+      transition: all 0.15s;
+    }
+
+    .pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 2px 2px 0 var(--black);
+      background: var(--yellow-light);
+    }
+
+    .pill.rec::before {
+      content: '\2605';
+      color: var(--yellow);
+      -webkit-text-stroke: 0.5px var(--black);
+      font-size: 0.42rem;
+      margin-right: 0.1rem;
+      vertical-align: middle;
+    }
+
+    /* ========== SMALL ITEM CARDS (nachos, tacos, etc) ========== */
+    .small-cards {
+      display: grid;
+      gap: 0.2cm;
+    }
+
+    .small-cards.cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .small-cards.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .small-cards.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+    .small-card {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 2px 2px 0 var(--black);
+      text-align: center;
+    }
+
+    .small-card-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-bottom: 2px solid var(--black);
+    }
+
+    .small-card-body {
+      padding: 0.12cm 0.1cm;
+    }
+
+    .small-card-name {
+      font-size: 0.38rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--black);
+      line-height: 1.15;
+    }
+
+    .small-card-price {
+      font-size: 0.4rem;
+      font-weight: 300;
+      color: var(--red);
+      margin-top: 0.03cm;
+    }
+
+    /* ========== BOTTOM BAND ========== */
+    .bottom-band {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.2cm;
+      padding: 0.25cm 0.4cm;
+      border-top: var(--outline) solid var(--black);
+      background: linear-gradient(180deg, #FFF5F5 0%, var(--white) 100%);
+    }
+
+    .band-section {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 2px 2px 0 var(--black);
+    }
+
+    .band-section-title {
+      font-size: 0.42rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      background: var(--black);
+      padding: 0.1cm 0.15cm;
+      text-align: center;
+    }
+
+    .band-items {
+      padding: 0.12cm;
+    }
+
+    .band-item {
+      display: grid;
+      grid-template-columns: 0.8cm 1fr auto;
+      gap: 0.1cm;
+      align-items: center;
+      padding: 0.06cm 0;
+    }
+
+    .band-item + .band-item {
+      border-top: 1px dotted #ddd;
+    }
+
+    .band-item-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1.5px solid var(--black);
+    }
+
+    .band-item-name {
+      font-size: 0.36rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 1.15;
+    }
+
+    .band-item-price {
+      font-size: 0.38rem;
+      font-weight: 300;
+      color: var(--red);
+      white-space: nowrap;
+    }
+
+    /* Alitas special - no per-item image */
+    .band-item-noimg {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.05cm;
+      padding: 0.08cm 0;
+    }
+
+    .band-alitas-desc {
+      font-size: 0.32rem;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.3;
+    }
+
+    .band-alitas-prices {
+      display: flex;
+      gap: 0.15cm;
+      margin-top: 0.05cm;
+    }
+
+    .band-alitas-prices .ap {
+      font-size: 0.36rem;
+      font-weight: 600;
+      color: var(--red);
+    }
+
+    .band-alitas-prices .ap span {
+      font-weight: 400;
+      font-size: 0.32rem;
+      color: var(--black);
+    }
+
+    /* Shared image for chicanitas */
+    .band-shared-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-bottom: 2px solid var(--black);
+      border-radius: 0;
+    }
+
+    /* ========== SALSAS ========== */
+    .salsas-section {
+      padding: 0.2cm 0.4cm;
+      border-top: var(--outline) solid var(--black);
+      background: var(--yellow-light);
+      display: flex;
+      align-items: center;
+      gap: 0.3cm;
+    }
+
+    .salsas-label {
+      font-size: 0.42rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--black);
+      white-space: nowrap;
+    }
+
+    .salsas-list {
+      font-size: 0.45rem;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .salsas-sep {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--red);
+      margin: 0 0.2rem;
+      vertical-align: middle;
+    }
+
+    .salsas-note {
+      font-size: 0.32rem;
+      font-weight: 600;
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+      white-space: nowrap;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      padding: 0.25cm 0.4cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: var(--outline) solid var(--black);
+      background: var(--black);
+      color: var(--white);
+      border-radius: 0 0 21px 21px;
+    }
+
+    .footer-brand {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-sub {
+      font-size: 0.35rem;
+      font-weight: 400;
+      opacity: 0.6;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-badge {
+      font-size: 0.35rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.15rem 0.5rem;
+      background: var(--grad-h);
+      border-radius: 100px;
+      border: 1.5px solid var(--white);
+    }
+
+    /* ========== FOTO PLACEHOLDER ========== */
+    .foto-placeholder {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(135deg, #f3f3f3 0%, #e0e0e0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.4rem;
+      font-weight: 700;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .foto-placeholder.in-card {
+      border-radius: 12px;
+      border: 2px solid var(--black);
+    }
+
+    .foto-placeholder.in-small {
+      border-bottom: 2px solid var(--black);
+    }
+
+    .foto-placeholder.in-band {
+      border-radius: 6px;
+      border: 1.5px solid var(--black);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <svg class="brand-arc" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="arc" d="M 30,110 Q 250,10 470,110" fill="none"/>
+        </defs>
+        <text>
+          <textPath href="#arc" startOffset="50%" text-anchor="middle">FANZINE</textPath>
+        </text>
+      </svg>
+      <svg class="presenta-arc" viewBox="0 0 340 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="arc2" d="M 20,38 Q 170,2 320,38" fill="none"/>
+        </defs>
+        <text>
+          <textPath href="#arc2" startOffset="50%" text-anchor="middle">PRESENTA</textPath>
+        </text>
+      </svg>
+      <div class="brand-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+      <div class="menu-type">La Carta Completa</div>
+    </div>
+
+    <!-- ========== MASONRY TWO COLUMNS ========== -->
+    <div class="masonry">
+
+      <!-- ===== LEFT COLUMN ===== -->
+      <div class="masonry-col">
+
+        <div class="section-label">Hot Dogs</div>
+
+        <!-- ZINEMA -->
+        <div class="dog-card">
+          <img class="dog-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE001/foto_principal.png" alt="Zinema">
+          <div class="dog-card-body">
+            <div class="dog-card-name">Zinema</div>
+            <div class="dog-card-tag">Ahumado // Salado // Crocante</div>
+            <div class="dog-card-desc">
+              Salchicha americana en pan brioche, <strong>salsa le&ntilde;a</strong> ahumada y doble capa de <strong>papas crocantes</strong>.
+            </div>
+            <div class="dog-card-dual-price">
+              <div class="dp-item">
+                <div class="dp-price">$12.000</div>
+                <div class="dp-label">3 toppings</div>
+              </div>
+              <div class="dp-item">
+                <div class="dp-price">$14.000</div>
+                <div class="dp-label">con tocineta</div>
+              </div>
+            </div>
+            <div class="punch">
+              <div class="punch-title"><span class="punch-highlight">Dale tu Punch</span> <span class="punch-count">&mdash; Elige 3</span></div>
+              <div class="punch-pills">
+                <span class="pill rec">Jalape&ntilde;os</span>
+                <span class="pill">Pepinillos</span>
+                <span class="pill rec">Cheddar</span>
+                <span class="pill">Ma&iacute;z</span>
+                <span class="pill">Cebolla</span>
+                <span class="pill rec">Pi&ntilde;a</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FANZINE GOLD -->
+        <div class="dog-card">
+          <img class="dog-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE005/foto_principal.png" alt="Fanzine Gold">
+          <div class="dog-card-body">
+            <div class="dog-card-name">Fanzine Gold</div>
+            <div class="dog-card-tag">Seattle Style</div>
+            <div class="dog-card-desc">
+              <strong>Queso crema</strong>, salchicha glaseada en <strong>BBQ Carolina Gold</strong> y <strong>le&ntilde;a</strong>, <strong>tocineta crocante</strong> y <strong>cebolla crispy</strong>.
+            </div>
+            <div class="dog-card-price">Precio especial</div>
+            <div class="punch">
+              <div class="punch-title"><span class="punch-highlight">Dale tu Punch</span> <span class="punch-count">&mdash; Elige 1</span></div>
+              <div class="punch-pills">
+                <span class="pill rec">Pepinillos</span>
+                <span class="pill">Jalape&ntilde;os</span>
+                <span class="pill">Pi&ntilde;a</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NACHOS row -->
+        <div class="section-label">Nachos</div>
+        <div class="small-cards cols-4">
+          <div class="small-card">
+            <img class="small-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/NA001/foto_principal.png" alt="Nachos Birria">
+            <div class="small-card-body">
+              <div class="small-card-name">Birria</div>
+              <div class="small-card-price">$18.000</div>
+            </div>
+          </div>
+          <div class="small-card">
+            <img class="small-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/NA005/foto_principal.png" alt="Nachos Pibil">
+            <div class="small-card-body">
+              <div class="small-card-name">Pibil</div>
+              <div class="small-card-price">$18.000</div>
+            </div>
+          </div>
+          <div class="small-card">
+            <img class="small-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/NA002/foto_principal.png" alt="Nachos Pollo">
+            <div class="small-card-body">
+              <div class="small-card-name">Pollo</div>
+              <div class="small-card-price">$18.000</div>
+            </div>
+          </div>
+          <div class="small-card">
+            <div class="foto-placeholder in-small">FOTO</div>
+            <div class="small-card-body">
+              <div class="small-card-name">Salchi&shy;Nachos</div>
+              <div class="small-card-price">$15.000</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /left column -->
+
+      <!-- ===== RIGHT COLUMN ===== -->
+      <div class="masonry-col">
+
+        <div class="section-label">Especiales</div>
+
+        <!-- TROPICAL FUEGO -->
+        <div class="dog-card">
+          <img class="dog-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE006/foto_principal.png" alt="Tropical Fuego">
+          <div class="dog-card-body">
+            <div class="dog-card-name">Tropical Fuego</div>
+            <div class="dog-card-tag">Dulce x Picante</div>
+            <div class="dog-card-desc">
+              <strong>Salsa de pi&ntilde;a</strong> y <strong>le&ntilde;a</strong>, <strong>SourCream</strong> cremoso y <strong>trozos de pi&ntilde;a dulce</strong>.
+            </div>
+            <div class="dog-card-price">Precio especial</div>
+            <div class="punch">
+              <div class="punch-title"><span class="punch-highlight">Dale tu Punch</span> <span class="punch-count">&mdash; Elige 1</span></div>
+              <div class="punch-pills">
+                <span class="pill rec">Takis</span>
+                <span class="pill">Jalape&ntilde;os</span>
+                <span class="pill">Cebolla Encurtida</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BIRRIA FUSION -->
+        <div class="dog-card">
+          <img class="dog-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE004/foto_principal.png" alt="Birria Fusi&oacute;n">
+          <div class="dog-card-body">
+            <div class="dog-card-name">Birria Fusi&oacute;n</div>
+            <div class="dog-card-tag">La Quesabirria Hecha Hot Dog</div>
+            <div class="dog-card-desc">
+              <strong>Res birria</strong> jugosa, <strong>le&ntilde;a</strong>, <strong>SourCream</strong>, <strong>papas cabello de &aacute;ngel</strong> y <strong>cheddar</strong> fundido.
+            </div>
+            <div class="dog-card-price">Precio especial</div>
+            <div class="punch">
+              <div class="punch-title"><span class="punch-highlight">Dale tu Punch</span> <span class="punch-count">&mdash; Elige 1</span></div>
+              <div class="punch-pills">
+                <span class="pill rec">Cebolla Encurtida</span>
+                <span class="pill">Pi&ntilde;a</span>
+                <span class="pill">Jalape&ntilde;os</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TACOS row -->
+        <div class="section-label">Tacos</div>
+        <div class="small-cards cols-3">
+          <div class="small-card">
+            <img class="small-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/TA002/foto_principal.png" alt="Tacos Birria">
+            <div class="small-card-body">
+              <div class="small-card-name">Birria</div>
+              <div class="small-card-price">$18.000</div>
+            </div>
+          </div>
+          <div class="small-card">
+            <img class="small-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/TA003/foto_principal.png" alt="Tacos Cochinita">
+            <div class="small-card-body">
+              <div class="small-card-name">Cochinita</div>
+              <div class="small-card-price">$18.000</div>
+            </div>
+          </div>
+          <div class="small-card">
+            <img class="small-card-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/TA001/foto_principal.png" alt="Tacos Pollo">
+            <div class="small-card-body">
+              <div class="small-card-name">Pollo</div>
+              <div class="small-card-price">$18.000</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /right column -->
+
+    </div><!-- /masonry -->
+
+    <!-- ========== BOTTOM BAND: Corndogs + Chicanitas + Alitas + Tex-Mex ========== -->
+    <div class="bottom-band">
+
+      <!-- CORNDOGS -->
+      <div class="band-section">
+        <div class="band-section-title">Corndogs</div>
+        <div class="band-items">
+          <div class="band-item">
+            <img class="band-item-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CD001/foto_principal.png" alt="Corndog Americano">
+            <div class="band-item-name">Americano</div>
+            <div class="band-item-price">$12.000</div>
+          </div>
+          <div class="band-item">
+            <img class="band-item-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CD002/foto_principal.png" alt="Corndog de Queso">
+            <div class="band-item-name">De Queso</div>
+            <div class="band-item-price">$14.000</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHICANITAS (shared image) -->
+      <div class="band-section">
+        <div class="band-section-title">Chicanitas</div>
+        <img class="band-shared-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CH001/foto_principal.png" alt="Chicanitas">
+        <div class="band-items">
+          <div class="band-item" style="grid-template-columns: 1fr auto;">
+            <div class="band-item-name">Birria</div>
+            <div class="band-item-price">$5.000</div>
+          </div>
+          <div class="band-item" style="grid-template-columns: 1fr auto;">
+            <div class="band-item-name">Pibil</div>
+            <div class="band-item-price">$5.000</div>
+          </div>
+          <div class="band-item" style="grid-template-columns: 1fr auto;">
+            <div class="band-item-name">Pollo</div>
+            <div class="band-item-price">$5.000</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALITAS (one item, two prices, no per-item photo) -->
+      <div class="band-section">
+        <div class="band-section-title">Alitas BBQ Gold</div>
+        <div class="band-items" style="padding: 0.15cm;">
+          <div class="foto-placeholder in-band" style="aspect-ratio: 16/9; margin-bottom: 0.1cm;">FOTO</div>
+          <div class="band-alitas-desc">
+            Crujientes en salsa BBQ Carolina Gold. Incluye nachos y dip de SourCream.
+          </div>
+          <div class="band-alitas-prices">
+            <div class="ap"><span>8pz</span> $17.000</div>
+            <div class="ap"><span>12pz</span> $24.000</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEX-MEX -->
+      <div class="band-section">
+        <div class="band-section-title">Tex-Mex</div>
+        <div class="band-items">
+          <div class="band-item">
+            <img class="band-item-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/MC001/foto_principal.png" alt="Mac &amp; Cheese">
+            <div class="band-item-name">Mac &amp; Cheese con Pollo</div>
+            <div class="band-item-price">$22.000</div>
+          </div>
+          <div class="band-item">
+            <div class="foto-placeholder in-band">FOTO</div>
+            <div class="band-item-name">Pollo PopCorn</div>
+            <div class="band-item-price">$14.000</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /bottom-band -->
+
+    <!-- ========== SALSAS ========== -->
+    <div class="salsas-section">
+      <span class="salsas-label">Salsas Self-Service</span>
+      <div class="salsas-list">
+        Tomate<span class="salsas-sep"></span>Mostaza<span class="salsas-sep"></span>Pi&ntilde;a<span class="salsas-sep"></span>Ma&iacute;z Dulce<span class="salsas-sep"></span>Salsa de la Casa
+      </div>
+      <span class="salsas-note">Free refill</span>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div>
+        <div class="footer-brand">Fanzine</div>
+        <div class="footer-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div>
+      </div>
+      <div class="footer-badge">&copy; 2026</div>
+    </div>
+
+  </div><!-- .card -->
+
+</body>
+</html>

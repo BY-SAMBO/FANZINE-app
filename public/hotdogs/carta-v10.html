@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Hot Dogs - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #DC2626;
+      --coral: #F87171;
+      --pink: #FB7185;
+      --rose: #FDA4AF;
+      --dark: #111;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --light: #9ca3af;
+      --bg: #fff;
+      --grad: linear-gradient(135deg, var(--red) 0%, var(--coral) 50%, var(--pink) 100%);
+      --grad-h: linear-gradient(90deg, var(--red) 0%, var(--coral) 50%, var(--pink) 100%);
+    }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+      position: relative;
+    }
+
+    /* Subtle grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(220,38,38,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(220,38,38,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ========== GRADIENT LINE ========== */
+    .grad-line {
+      height: 3px;
+      background: var(--grad-h);
+      border: none;
+    }
+
+    .grad-line-thin {
+      height: 1.5px;
+      background: var(--grad-h);
+      border: none;
+      opacity: 0.5;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      position: relative;
+      text-align: center;
+      padding: 3rem 2rem 2.5rem;
+      z-index: 1;
+    }
+
+    /* Sunset gradient stripes — the 80s motif */
+    .sunset-stripes {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .sunset-stripes span {
+      display: block;
+      height: 2px;
+      background: var(--grad-h);
+      border-radius: 1px;
+    }
+
+    .sunset-stripes span:nth-child(1) { width: 120px; opacity: 1; }
+    .sunset-stripes span:nth-child(2) { width: 100px; opacity: 0.8; }
+    .sunset-stripes span:nth-child(3) { width: 80px; opacity: 0.6; }
+    .sunset-stripes span:nth-child(4) { width: 60px; opacity: 0.4; }
+    .sunset-stripes span:nth-child(5) { width: 40px; opacity: 0.25; }
+
+    .brand {
+      font-size: 4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      line-height: 1;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    .menu-label {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      padding: 6px 20px;
+      border: 1.5px solid var(--red);
+      color: var(--red);
+      border-radius: 2px;
+    }
+
+    /* ========== SECTION ========== */
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 2rem 2rem 0;
+    }
+
+    .section-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-rule {
+      height: 2px;
+      background: var(--grad-h);
+      border: none;
+      margin-bottom: 2rem;
+    }
+
+    /* ========== DOG CARD ========== */
+    .dog {
+      margin-bottom: 2.5rem;
+      page-break-inside: avoid;
+    }
+
+    .dog-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .dog-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+      color: var(--dark);
+    }
+
+    .dog-line {
+      flex: 1;
+      height: 1px;
+      background: var(--grad-h);
+      min-width: 1.5rem;
+      opacity: 0.4;
+      align-self: center;
+    }
+
+    .dog-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      white-space: nowrap;
+      color: var(--dark);
+    }
+
+    .clasico-pricing {
+      display: flex;
+      gap: 1.25rem;
+      align-items: baseline;
+    }
+
+    .clasico-price-option {
+      text-align: center;
+    }
+
+    .clasico-price-option .amount {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .clasico-price-option .label {
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .dog-tagline {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .dog-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .dog-desc em {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ========== PUNCH — Gradient card style ========== */
+    .punch {
+      margin-top: 1.25rem;
+      border: 1.5px solid transparent;
+      background: linear-gradient(#fff, #fff) padding-box,
+                  var(--grad-h) border-box;
+      border-radius: 4px;
+      padding: 1.25rem;
+    }
+
+    .punch-head {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .punch-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .punch-count {
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    .punch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0.6rem;
+    }
+
+    .punch-chip {
+      text-align: center;
+      padding: 0.7rem 0.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 3px;
+      background: #fafafa;
+      transition: border-color 0.15s;
+    }
+
+    .punch-chip:hover {
+      border-color: var(--coral);
+    }
+
+    .punch-chip-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .punch-chip-hint {
+      font-size: 0.6rem;
+      color: var(--light);
+      margin-top: 0.15rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* Recommended chip */
+    .punch-chip.rec {
+      border-color: var(--coral);
+      background: linear-gradient(135deg, rgba(220,38,38,0.04), rgba(251,113,133,0.06));
+      position: relative;
+    }
+
+    .punch-chip.rec .punch-chip-name {
+      color: var(--red);
+    }
+
+    .punch-chip.rec::after {
+      content: '\2605';
+      position: absolute;
+      top: -6px;
+      right: -4px;
+      font-size: 0.7rem;
+      color: var(--red);
+    }
+
+    .punch-footer {
+      margin-top: 0.75rem;
+      font-size: 0.6rem;
+      color: var(--light);
+      letter-spacing: 0.1em;
+    }
+
+    .punch-footer span {
+      color: var(--red);
+    }
+
+    /* ========== COMBO BADGE ========== */
+    .combo-badge {
+      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--coral);
+      border: 1.5px solid var(--rose);
+      padding: 6px 14px;
+      border-radius: 2px;
+    }
+
+    /* ========== DIVIDER ========== */
+    .section-divider {
+      margin: 0 2rem;
+      height: 1px;
+      border: none;
+      background: var(--grad-h);
+      opacity: 0.25;
+    }
+
+    /* ========== SALSAS ========== */
+    .salsas {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .salsas-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .salsas-items {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .salsas-items span {
+      display: inline-block;
+      margin: 0 0.15rem;
+      color: var(--rose);
+    }
+
+    .salsas-note {
+      font-size: 0.6rem;
+      color: var(--light);
+      margin-top: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem 2rem 2.5rem;
+    }
+
+    .footer-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-sub {
+      font-size: 0.7rem;
+      color: var(--light);
+      margin-top: 0.2rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* Inverted sunset at bottom */
+    .sunset-stripes-inv {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      align-items: center;
+      margin-top: 1.25rem;
+    }
+
+    .sunset-stripes-inv span {
+      display: block;
+      height: 2px;
+      background: var(--grad-h);
+      border-radius: 1px;
+    }
+
+    .sunset-stripes-inv span:nth-child(1) { width: 40px; opacity: 0.25; }
+    .sunset-stripes-inv span:nth-child(2) { width: 60px; opacity: 0.4; }
+    .sunset-stripes-inv span:nth-child(3) { width: 80px; opacity: 0.6; }
+    .sunset-stripes-inv span:nth-child(4) { width: 100px; opacity: 0.8; }
+    .sunset-stripes-inv span:nth-child(5) { width: 120px; opacity: 1; }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 600px) {
+      .header { padding: 2rem 1.25rem 2rem; }
+      .brand { font-size: 2.8rem; letter-spacing: 0.15em; }
+      .section { padding: 1.5rem 1.25rem 0; }
+      .dog-name { font-size: 1.25rem; }
+      .clasico-pricing { flex-direction: column; gap: 0.15rem; align-items: flex-end; }
+      .section-divider { margin: 0 1.25rem; }
+      .salsas { padding: 1.5rem 1.25rem; }
+      .punch { padding: 1rem; }
+      .punch-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 400px) {
+      .punch-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top gradient line -->
+  <hr class="grad-line">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="sunset-stripes">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="brand">FANZINE</div>
+    <div class="brand-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+    <div class="menu-label">Hot Dogs de Autor</div>
+  </header>
+
+  <hr class="grad-line">
+
+  <!-- ================ CLASICO ================ -->
+  <div class="section">
+    <div class="section-label">Cl&aacute;sico</div>
+    <hr class="section-rule">
+
+    <div class="dog">
+      <div class="dog-top">
+        <span class="dog-name">Zinema</span>
+        <span class="dog-line"></span>
+        <div class="clasico-pricing">
+          <div class="clasico-price-option">
+            <div class="amount">$12.000</div>
+            <div class="label">3 toppings</div>
+          </div>
+          <div class="clasico-price-option">
+            <div class="amount">$14.000</div>
+            <div class="label">con tocineta</div>
+          </div>
+        </div>
+      </div>
+      <div class="dog-tagline">Ahumado / Salado / Crocante</div>
+      <div class="dog-desc">
+        Salchicha americana en pan brioche dorado, <em>salsa le&ntilde;a</em> ahumada
+        y doble capa de <em>papas crocantes</em> que envuelven todo.
+      </div>
+      <div class="punch">
+        <div class="punch-head">
+          <span class="punch-title">Dale Tu Punch</span>
+          <span class="punch-count">&mdash; Elige 3</span>
+        </div>
+        <div class="punch-grid">
+          <div class="punch-chip rec">
+            <div class="punch-chip-name">Jalape&ntilde;os</div>
+            <div class="punch-chip-hint">+fuego</div>
+          </div>
+          <div class="punch-chip">
+            <div class="punch-chip-name">Pepinillos</div>
+            <div class="punch-chip-hint">+&aacute;cido</div>
+          </div>
+          <div class="punch-chip rec">
+            <div class="punch-chip-name">Cheddar</div>
+            <div class="punch-chip-hint">+fundido</div>
+          </div>
+          <div class="punch-chip">
+            <div class="punch-chip-name">Ma&iacute;z</div>
+            <div class="punch-chip-hint">+dulce</div>
+          </div>
+          <div class="punch-chip">
+            <div class="punch-chip-name">Cebolla Encurtida</div>
+            <div class="punch-chip-hint">+encurtido</div>
+          </div>
+          <div class="punch-chip rec">
+            <div class="punch-chip-name">Pi&ntilde;a</div>
+            <div class="punch-chip-hint">+tropical</div>
+          </div>
+        </div>
+        <div class="punch-footer"><span>&#9733;</span> = recomendado por el chef</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ================ ESPECIALES ================ -->
+  <div class="section">
+    <div class="section-label">Especiales</div>
+    <hr class="section-rule">
+
+    <!-- FANZINE GOLD -->
+    <div class="dog">
+      <div class="dog-top">
+        <span class="dog-name">Fanzine Gold</span>
+        <span class="dog-line"></span>
+        <span class="dog-price">Precio especial</span>
+      </div>
+      <div class="dog-tagline">Seattle Style</div>
+      <div class="dog-desc">
+        Perro premium estilo Seattle con <em>queso crema</em> generoso, salchicha glaseada
+        en <em>BBQ Carolina Gold</em> y <em>le&ntilde;a</em>, <em>tocineta picada</em> crocante
+        y <em>cebolla crispy</em>.
+      </div>
+      <div class="punch">
+        <div class="punch-head">
+          <span class="punch-title">Dale Tu Punch</span>
+          <span class="punch-count">&mdash; Elige 1</span>
+        </div>
+        <div class="punch-grid">
+          <div class="punch-chip rec">
+            <div class="punch-chip-name">Pepinillos</div>
+            <div class="punch-chip-hint">+crunch &amp; &aacute;cido</div>
+          </div>
+          <div class="punch-chip">
+            <div class="punch-chip-name">Jalape&ntilde;os</div>
+            <div class="punch-chip-hint">+fuego</div>
+          </div>
+          <div class="punch-chip">
+            <div class="punch-chip-name">Pi&ntilde;a</div>
+            <div class="punch-chip-hint">+tropical</div>
+          </div>
+        </div>
+        <div class="punch-footer"><span>&#9733;</span> = recomendado por el chef</div>
+      </div>
+    </div>
+
+    <!-- TROPICAL FUEGO -->
+    <div class="dog">
+      <div class="dog-top">
+        <span class="dog-name">Tropical Fuego</span>
+        <span class="dog-line"></span>
+        <span class="dog-price">Precio especial</span>
+      </div>
+      <div class="dog-tagline">Dulce x Picante</div>
+      <div class="dog-desc">
+        Doble capa de <em>Takis</em> que crujen desde la base hasta la corona, <em>salsa de pi&ntilde;a</em>
+        y <em>le&ntilde;a</em> sobre la salchicha, <em>SourCream</em> cremoso que refresca
+        y <em>trozos de pi&ntilde;a dulce</em> que rematan el contraste. Pica, refresca, cruje.
+      </div>
+      <div class="combo-badge">Combo completo &mdash; no requiere punch</div>
+    </div>
+
+    <!-- BIRRIA FUSION -->
+    <div class="dog">
+      <div class="dog-top">
+        <span class="dog-name">Birria Fusi&oacute;n</span>
+        <span class="dog-line"></span>
+        <span class="dog-price">Precio especial</span>
+      </div>
+      <div class="dog-tagline">La Quesabirria Hecha Hot Dog</div>
+      <div class="dog-desc">
+        <em>Res birria</em> jugosa sobre salchicha, <em>le&ntilde;a</em> ahumada, <em>SourCream</em> cremoso,
+        <em>papas cabello de &aacute;ngel</em> crocantes y <em>cheddar</em> fundido hasta el pan.
+      </div>
+      <div class="punch">
+        <div class="punch-head">
+          <span class="punch-title">Dale Tu Punch</span>
+          <span class="punch-count">&mdash; Elige 1</span>
+        </div>
+        <div class="punch-grid">
+          <div class="punch-chip rec">
+            <div class="punch-chip-name">Cebolla Encurtida</div>
+            <div class="punch-chip-hint">+frescura &aacute;cida</div>
+          </div>
+          <div class="punch-chip">
+            <div class="punch-chip-name">Pi&ntilde;a</div>
+            <div class="punch-chip-hint">+dulzura</div>
+          </div>
+          <div class="punch-chip">
+            <div class="punch-chip-name">Jalape&ntilde;os</div>
+            <div class="punch-chip-hint">+fuego</div>
+          </div>
+        </div>
+        <div class="punch-footer"><span>&#9733;</span> = recomendado por el chef</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================ SALSAS ================ -->
+  <hr class="grad-line">
+
+  <div class="salsas">
+    <div class="salsas-label">Estaci&oacute;n de Salsas &mdash; Self-Service</div>
+    <div class="salsas-items">
+      Tomate <span>/</span> Mostaza <span>/</span> Pi&ntilde;a <span>/</span> Ma&iacute;z Dulce <span>/</span> Salsa de la Casa
+    </div>
+    <div class="salsas-note">Disponibles en la barra</div>
+  </div>
+
+  <hr class="grad-line">
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">FANZINE</div>
+    <div class="footer-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div>
+    <div class="sunset-stripes-inv">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </footer>
+
+  <hr class="grad-line">
+
+</body>
+</html>

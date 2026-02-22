@@ -1,180 +1,87 @@
-# Fudo API - Documentación para FANZINE
+# Fudo API - Documentacion FANZINE
 
-**Versión API:** v1alpha1
-**Fecha de análisis:** 2025-12-06
-**Especificación completa:** `openapi.yml` (10,606 líneas)
-
----
-
-## Autenticación
-
-### Obtener credenciales
-Email a **soporte@fu.do** indicando:
-- Nombre de la cuenta en Fudo
-- Usuario al que dar acceso API
-
-**Recomendación:** Crear usuario específico para API (ej: `api@fanzine`)
-
-### Obtener token
-
-```bash
-# Producción
-curl -X POST https://auth.fu.do/api \
-     -d '{"apiKey":"TU_API_KEY","apiSecret":"TU_API_SECRET"}' \
-     -H "Content-Type: application/json"
-
-# Staging (pruebas)
-curl -X POST https://auth.staging.fu.do/api \
-     -d '{"apiKey":"TU_API_KEY","apiSecret":"TU_API_SECRET"}' \
-     -H "Content-Type: application/json"
-```
-
-**Respuesta:**
-```json
-{"token":"1234567890", "exp": "1645387452"}
-```
-
-### Usar token
-```bash
-curl https://api.fu.do/v1alpha1/products \
-     -H "Authorization: Bearer TU_TOKEN"
-```
-
-**Duración del token:** 24 horas
+**Version API:** v1alpha1 (principal) + Integraciones (orders)
+**Ultima actualizacion:** 2026-02-19
 
 ---
 
-## Servidores
-
-| Ambiente | URL Base |
-|----------|----------|
-| Producción | `https://api.fu.do/v1alpha1` |
-| Staging | `https://api.staging.fu.do/v1alpha1` |
-
----
-
-## Endpoints Disponibles
-
-### Productos (relevante para FANZINE)
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/products` | Listar productos |
-| POST | `/products` | Crear producto |
-| GET | `/products/{id}` | Obtener producto |
-| PATCH | `/products/{id}` | Actualizar producto |
-
-### Categorías de Productos
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/product-categories` | Listar categorías |
-| POST | `/product-categories` | Crear categoría |
-| GET | `/product-categories/{id}` | Obtener categoría |
-| PATCH | `/product-categories/{id}` | Actualizar categoría |
-
-### Modificadores de Productos
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/product-modifiers` | Listar modificadores |
-| POST | `/product-modifiers` | Crear modificador |
-| GET | `/product-modifiers/{id}` | Obtener modificador |
-| PATCH | `/product-modifiers/{id}` | Actualizar modificador |
-
-### Ventas
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/sales` | Listar ventas |
-| POST | `/sales` | Crear venta |
-| GET | `/sales/{id}` | Obtener venta |
-| PATCH | `/sales/{id}` | Actualizar venta |
-
-### Items (líneas de venta)
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/items` | Listar items |
-| POST | `/items` | Crear item |
-| GET | `/items/{id}` | Obtener item |
-| PATCH | `/items/{id}` | Actualizar item |
-
-### Clientes
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/customers` | Listar clientes |
-| POST | `/customers` | Crear cliente |
-| GET | `/customers/{id}` | Obtener cliente |
-| PATCH | `/customers/{id}` | Actualizar cliente |
-| DELETE | `/customers/{id}` | Eliminar cliente |
-
-### Otros Endpoints
-
-- `/ingredients` - Ingredientes
-- `/kitchens` - Cocinas/KDS
-- `/payments` - Pagos
-- `/payment-methods` - Métodos de pago
-- `/discounts` - Descuentos
-- `/expenses` - Gastos
-- `/expense-categories` - Categorías de gastos
-- `/rooms` - Salas/Sectores
-- `/tables` - Mesas
-- `/users` - Usuarios
-- `/roles` - Roles
-
----
-
-## Paginación
+## Estructura
 
 ```
-?page[size]=500&page[number]=1
+docs/fudo-api/
+├── README.md                          ← este archivo
+├── reference/                         ← docs de consulta rapida por recurso
+│   ├── auth.md                        ← autenticacion ambas APIs + paginacion + filtros
+│   ├── products.md                    ← CRUD productos + limitaciones PATCH
+│   ├── product-categories.md          ← CRUD categorias
+│   ├── product-modifiers.md           ← modifiers/toppings
+│   ├── sales.md                       ← ventas + flujo POS completo
+│   ├── items-subitems.md              ← lineas de venta + toppings
+│   ├── payments.md                    ← pagos + metodos de pago
+│   ├── orders.md                      ← API integraciones (delivery/pickup)
+│   ├── customers.md                   ← clientes + filtros
+│   └── other-resources.md             ← rooms, tables, users, roles, kitchens, etc.
+├── specs/                             ← specs OpenAPI originales
+│   ├── openapi.yml                    (10,606 lineas - API principal completa)
+│   └── integrations-openapi.yml       (488 lineas - API integraciones)
+└── snapshots/                         ← datos capturados de la API
+    ├── fudo-products.json             (69 productos, captura dic 2025)
+    └── fudo-categories.json           (10 categorias, captura dic 2025)
 ```
 
-- **Tamaño por defecto:** 250
-- **Tamaño máximo:** 500
-- **Página por defecto:** 1
+## Como usar
 
-Para obtener todos los items, hacer requests hasta que la cantidad recibida sea menor al tamaño de página.
-
----
-
-## Filtros (ejemplo customers)
-
-```
-?filter[active]=eq.true
-?filter[salesCount]=gte.5
-?filter[lastSaleDate]=and(gte.2020-05-11T23:15:00Z,lte.2020-12-31T23:59:59Z)
-?filter[@all]=fts.texto_busqueda
-```
+**Para consulta rapida:** Lee el archivo correspondiente en `reference/`.
+**Para spec exacta:** Busca en `specs/openapi.yml` o `specs/integrations-openapi.yml`.
+**Para datos de referencia:** Revisa `snapshots/`.
 
 ---
 
-## Mapeo FANZINE → Fudo
+## Dos APIs diferentes
 
-| FANZINE (JSON) | Fudo API |
-|----------------|----------|
-| `id` | N/A (Fudo genera su propio ID) |
-| `nombre` | `attributes.name` |
-| `categoria` | `relationships.productCategory` |
-| `precio.venta` | `attributes.price` |
-| `estado.activo` | `attributes.active` |
-| `contenido.descripcion_corta` | `attributes.description` |
-
----
-
-## Próximos Pasos
-
-1. [ ] Solicitar credenciales API a soporte@fu.do
-2. [ ] Probar autenticación en staging
-3. [ ] Obtener lista de productos actuales de Fudo
-4. [ ] Diseñar mapeo completo FANZINE ↔ Fudo
-5. [ ] Implementar sincronización bidireccional
+| | API Principal | API Integraciones |
+|---|---|---|
+| **Uso** | CRUD completo de recursos | Crear ordenes delivery/pickup |
+| **Base URL** | `api.fu.do/v1alpha1` | `integrations.fu.do/fudo` |
+| **Auth URL** | `auth.fu.do/api` | (misma base)/auth |
+| **Auth creds** | apiKey + apiSecret | clientId + clientSecret |
+| **Auth header** | `Authorization: Bearer` | `Fudo-External-App-Authorization: Bearer` |
+| **Formato** | JSON:API (data/attributes/relationships) | JSON plano |
+| **Docs** | `reference/*.md` | `reference/orders.md` |
 
 ---
 
-## Archivos
+## Recursos mas usados por FANZINE
 
-- `openapi.yml` - Especificación OpenAPI completa (10,606 líneas)
-- `README.md` - Este archivo
+| Recurso | Doc | Usado en |
+|---------|-----|----------|
+| Products | [products.md](reference/products.md) | Sync, catalogo, POS |
+| Product Categories | [product-categories.md](reference/product-categories.md) | Sync, catalogo |
+| Product Modifiers | [product-modifiers.md](reference/product-modifiers.md) | POS toppings |
+| Sales | [sales.md](reference/sales.md) | POS facturacion |
+| Items + Subitems | [items-subitems.md](reference/items-subitems.md) | POS lineas de venta |
+| Payments | [payments.md](reference/payments.md) | POS cobro |
+
+---
+
+## Gotchas y bugs conocidos
+
+1. **Auth URL** = `https://auth.fu.do/api` (no `/auth/api`)
+2. **`exp`** en auth response es Unix timestamp, NO duracion
+3. **Endpoints con hyphen**: `/product-categories`, `/product-modifiers`, `/payment-methods`
+4. **`imageUrl` es READ-ONLY** — no se puede subir fotos via PATCH
+5. **PATCH Products** solo acepta: `name`, `code`, `description`, `price`, `cost`, `stock`, `stockControl`
+6. **Tipos JSON:API** siempre PascalCase singular: `"Product"`, `"ProductCategory"`, etc.
+7. **Price puede ser null** en algunos productos — siempre usar `(price ?? 0)`
+8. **Pull endpoint** necesita service role client para bypass RLS
+
+---
+
+## Endpoints FANZINE implementados
+
+| Endpoint | Archivo | Descripcion |
+|----------|---------|-------------|
+| `POST /api/sync/pull` | `src/app/api/sync/pull/route.ts` | Pull masivo desde Fudo |
+| `POST /api/sync/enrich` | `src/app/api/sync/enrich/route.ts` | Enriquece con datos v2 |
+| `POST /api/pos/sale` | `src/app/api/pos/sale/route.ts` | Orquesta venta completa |
+| `POST /api/pos/modifiers/sync` | `src/app/api/pos/modifiers/sync/route.ts` | Sync modifier cache |

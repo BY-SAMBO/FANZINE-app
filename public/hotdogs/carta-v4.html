@@ -143,57 +143,32 @@
       color: var(--text);
     }
 
-    /* ========== CONTRAST PICKER ========== */
-    .contrast-box {
+    /* ========== PUNCH BOX ========== */
+    .punch-box {
       margin-top: 0.75rem;
-      margin-left: 2rem;
-      margin-right: 2rem;
       border: 1.5px solid #ddd;
       border-radius: 12px;
       overflow: hidden;
     }
 
-    .contrast-label {
-      font-size: 0.65rem;
+    .punch-title {
+      font-size: 0.85rem;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-align: center;
+      padding: 0.6rem 0 0.1rem;
+    }
+
+    .punch-subtitle {
+      font-size: 0.6rem;
+      font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
       text-align: center;
-      padding: 0.5rem 0 0.35rem;
-    }
-
-    .contrast-options {
-      display: flex;
-    }
-
-    .contrast-item {
-      flex: 1;
-      text-align: center;
-      padding: 0.4rem 0.5rem 0.6rem;
-    }
-
-    .contrast-item + .contrast-item {
-      border-left: 1.5px dashed #ddd;
-    }
-
-    .contrast-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .contrast-star {
-      color: #DAA520;
-      font-size: 1.15rem;
-      margin-right: 3px;
-    }
-
-    .contrast-hint {
-      font-size: 0.68rem;
-      color: var(--muted);
-      font-style: italic;
-      margin-top: 0.15rem;
+      padding-bottom: 0.35rem;
     }
 
     /* ========== CLASICO PRICING ========== */
@@ -219,24 +194,7 @@
       margin-top: 0.1rem;
     }
 
-    /* ========== TOPPINGS BOX ========== */
-    .toppings-box {
-      margin-top: 0.75rem;
-      border: 1.5px solid #ddd;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .toppings-title {
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      text-align: center;
-      padding: 0.5rem 0 0.35rem;
-    }
-
+    /* ========== TOPPINGS LIST ========== */
     .toppings-list {
       display: flex;
     }
@@ -368,8 +326,9 @@
         y doble capa de <em>papas crocantes</em> que envuelven todo.
         Personaliza tu combinaci&oacute;n con toppings frescos y crocantes que completan la experiencia del cine.
       </div>
-      <div class="toppings-box">
-        <div class="toppings-title">Elige 3 toppings</div>
+      <div class="punch-box">
+        <div class="punch-title">&#x1F4A5; Dale tu Punch</div>
+        <div class="punch-subtitle">Elige 3</div>
         <div class="toppings-list">
           <div class="topping-item topping-rec"><span class="topping-star">&#9733;</span>Jalape&ntilde;os</div>
           <div class="topping-item">Pepinillos</div>
@@ -399,23 +358,15 @@
       <div class="dog-desc">
         Perro premium estilo Seattle con <em>queso crema</em> generoso, salchicha glaseada
         en <em>BBQ Carolina Gold</em> y <em>le&ntilde;a</em>, <em>tocineta picada</em> crocante
-        y <em>cebolla crispy</em>. T&uacute; decides c&oacute;mo degustarlo.
+        y <em>cebolla crispy</em>. T&uacute; le das el punch final.
       </div>
-      <div class="contrast-box">
-        <div class="contrast-label">Elige tu contraste</div>
-        <div class="contrast-options">
-          <div class="contrast-item">
-            <div class="contrast-name"><span class="contrast-star">&#9733;</span>Pepinillos</div>
-            <div class="contrast-hint">crujiente y &aacute;cido</div>
-          </div>
-          <div class="contrast-item">
-            <div class="contrast-name">Jalape&ntilde;os</div>
-            <div class="contrast-hint">el toque picante</div>
-          </div>
-          <div class="contrast-item">
-            <div class="contrast-name">Pi&ntilde;a</div>
-            <div class="contrast-hint">dulce y tropical</div>
-          </div>
+      <div class="punch-box">
+        <div class="punch-title">&#x1F4A5; Dale tu Punch</div>
+        <div class="punch-subtitle">Elige 1</div>
+        <div class="toppings-list">
+          <div class="topping-item topping-rec"><span class="topping-star">&#9733;</span>Pepinillos</div>
+          <div class="topping-item">Jalape&ntilde;os</div>
+          <div class="topping-item">Pi&ntilde;a</div>
         </div>
       </div>
     </div>
@@ -429,9 +380,18 @@
       </div>
       <div class="dog-tagline" style="color: var(--fuego);">Dulce x Picante</div>
       <div class="dog-desc">
-        Doble capa de <em>Takis</em> que crujen desde la base hasta la corona, <em>salsa de pi&ntilde;a</em>
-        y <em>le&ntilde;a</em> sobre la salchicha, <em>SourCream</em> cremoso que refresca
-        y <em>trozos de pi&ntilde;a dulce</em> que rematan el contraste. Pica, refresca, cruje.
+        <em>Salsa de pi&ntilde;a</em> y <em>le&ntilde;a</em> sobre la salchicha,
+        <em>SourCream</em> cremoso que refresca y <em>trozos de pi&ntilde;a dulce</em>
+        que rematan el contraste. T&uacute; eliges el punch picante.
+      </div>
+      <div class="punch-box">
+        <div class="punch-title">&#x1F4A5; Dale tu Punch</div>
+        <div class="punch-subtitle">Elige 1</div>
+        <div class="toppings-list">
+          <div class="topping-item topping-rec"><span class="topping-star">&#9733;</span>Takis</div>
+          <div class="topping-item">Jalape&ntilde;os</div>
+          <div class="topping-item">Cebolla Encurtida</div>
+        </div>
       </div>
     </div>
 
@@ -445,23 +405,15 @@
       <div class="dog-tagline" style="color: var(--birria);">La Quesabirria Hecha Hot Dog</div>
       <div class="dog-desc">
         <em>Res birria</em> jugosa sobre salchicha, <em>le&ntilde;a</em> ahumada, <em>SourCream</em> cremoso,
-        <em>cebolla crispy</em> crocante y <em>cheddar</em> fundido hasta el pan. Solo falta tu toque final.
+        <em>papas cabello de &aacute;ngel</em> crocantes y <em>cheddar</em> fundido hasta el pan. Solo falta tu punch.
       </div>
-      <div class="contrast-box">
-        <div class="contrast-label">Elige tu contraste</div>
-        <div class="contrast-options">
-          <div class="contrast-item">
-            <div class="contrast-name"><span class="contrast-star">&#9733;</span>Cebolla Encurtida</div>
-            <div class="contrast-hint">frescura &aacute;cida</div>
-          </div>
-          <div class="contrast-item">
-            <div class="contrast-name">Pi&ntilde;a</div>
-            <div class="contrast-hint">dulzura que corta</div>
-          </div>
-          <div class="contrast-item">
-            <div class="contrast-name">Jalape&ntilde;os</div>
-            <div class="contrast-hint">el toque picante</div>
-          </div>
+      <div class="punch-box">
+        <div class="punch-title">&#x1F4A5; Dale tu Punch</div>
+        <div class="punch-subtitle">Elige 1</div>
+        <div class="toppings-list">
+          <div class="topping-item topping-rec"><span class="topping-star">&#9733;</span>Cebolla Encurtida</div>
+          <div class="topping-item">Pi&ntilde;a</div>
+          <div class="topping-item">Jalape&ntilde;os</div>
         </div>
       </div>
     </div>

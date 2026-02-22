@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Completa - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 25cm 35cm; margin: 0; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink: #F8BBD0;
+      --pink-deep: #EC407A;
+      --turquoise: #80CBC4;
+      --turquoise-deep: #26A69A;
+      --cream: #FFF3E0;
+      --coral: #FF8A65;
+      --coral-deep: #E64A19;
+      --white: #FFFFFF;
+      --text: #3E2723;
+      --text-light: #6D4C41;
+      --font-display: 'Pacifico', cursive;
+      --font-body: 'Poppins', sans-serif;
+      --grad-soda: linear-gradient(135deg, var(--pink) 0%, var(--coral) 50%, var(--turquoise) 100%);
+      --grad-candy: linear-gradient(90deg, var(--pink-deep) 0%, var(--coral) 50%, var(--turquoise-deep) 100%);
+    }
+
+    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+
+    body {
+      background:
+        radial-gradient(circle, var(--pink) 1.2px, transparent 1.2px),
+        radial-gradient(circle, var(--turquoise) 0.8px, transparent 0.8px);
+      background-size: 28px 28px, 28px 28px;
+      background-position: 0 0, 14px 14px;
+      background-color: #FFF8F0;
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.3;
+      width: 25cm;
+      min-height: 35cm;
+      margin: 0 auto;
+      padding: 0.3cm;
+    }
+
+    .card {
+      background: var(--white);
+      border: 3px solid var(--pink-deep);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow:
+        4px 4px 0 var(--pink),
+        8px 8px 0 var(--turquoise),
+        12px 12px 0 var(--coral);
+      min-height: calc(35cm - 0.6cm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== ZIG-ZAG BORDERS ===== */
+    .zigzag-top, .zigzag-bottom {
+      width: 100%;
+      height: 10px;
+      background:
+        linear-gradient(135deg, var(--cream) 33.33%, transparent 33.33%) 0 0 / 10px 10px,
+        linear-gradient(225deg, var(--cream) 33.33%, transparent 33.33%) 0 0 / 10px 10px;
+      background-position: top left;
+    }
+    .zigzag-bottom {
+      transform: rotate(180deg);
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      padding: 0.25cm 0.5cm 0.15cm;
+      text-align: center;
+      background: linear-gradient(180deg, #FFF0F3 0%, var(--white) 100%);
+      border-bottom: none;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 12px;
+      background:
+        linear-gradient(135deg, var(--pink) 25%, transparent 25%) -5px 0,
+        linear-gradient(225deg, var(--pink) 25%, transparent 25%) -5px 0,
+        linear-gradient(315deg, var(--pink) 25%, transparent 25%),
+        linear-gradient(45deg, var(--pink) 25%, transparent 25%);
+      background-size: 12px 12px;
+      background-color: var(--white);
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      z-index: 2;
+    }
+
+    .brand-arc { display: block; max-width: 220px; margin: 0 auto; }
+    .brand-arc text {
+      font-family: var(--font-display); font-size: 68px;
+      letter-spacing: 2px;
+      fill: var(--pink-deep);
+      stroke: none;
+      filter:
+        drop-shadow(2px 2px 0 var(--coral))
+        drop-shadow(4px 4px 0 var(--turquoise))
+        drop-shadow(6px 6px 0 rgba(0,0,0,0.1));
+    }
+
+    .presenta-arc { display: block; max-width: 140px; margin: -0.7rem auto 0; }
+    .presenta-arc text {
+      font-family: var(--font-body); font-weight: 700; font-size: 26px;
+      text-transform: uppercase; letter-spacing: 8px; fill: var(--turquoise-deep);
+    }
+
+    .brand-sub {
+      font-size: 0.48rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.2em; color: var(--text-light);
+    }
+
+    .menu-type {
+      display: inline-block; margin-top: 0.1rem; font-size: 0.4rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em; color: var(--white);
+      padding: 0.08rem 0.6rem; background: var(--grad-candy); border-radius: 100px;
+    }
+
+    /* ===== FLOW ===== */
+    .flow {
+      flex: 1;
+      padding: 0.3cm 0.35cm 0.1cm;
+    }
+
+    /* ===== TAG (ribbon style) ===== */
+    .tag {
+      display: inline-block;
+      font-size: 0.46rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--white);
+      background: var(--pink-deep);
+      padding: 0.08rem 0.5rem 0.08rem 0.4rem;
+      border-radius: 4px 100px 100px 4px;
+      margin-bottom: 0.1cm;
+      position: relative;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+    }
+
+    .tag::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 0;
+      border-top: 0.58rem solid var(--pink-deep);
+      border-bottom: 0.58rem solid var(--pink-deep);
+      border-left: 6px solid transparent;
+    }
+
+    /* ==========================================================
+       LATERAL LAYOUT: 3-column grid
+       ========================================================== */
+
+    .lateral {
+      display: grid;
+      grid-template-columns: 4.8cm 1fr 4.8cm;
+      gap: 0 0.2cm;
+      margin-bottom: 0.12cm;
+    }
+
+    .lateral .img-left,
+    .lateral .img-right {
+      overflow: hidden;
+      border-radius: 50px;
+      border: 3px solid var(--pink);
+    }
+
+    .lateral .img-left img,
+    .lateral .img-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Center text zone */
+    .center-zone {
+      display: flex;
+      flex-direction: column;
+      padding: 0.08cm 0.12cm;
+      justify-content: center;
+    }
+
+    .txt-left {
+      text-align: left;
+      padding-bottom: 0.1cm;
+      margin-bottom: 0.1cm;
+      border-bottom: 2px dashed var(--pink);
+    }
+
+    .txt-right {
+      text-align: right;
+    }
+
+    /* ===== TEXT ELEMENTS ===== */
+    .pname {
+      font-family: var(--font-display);
+      font-size: 1.2rem; font-weight: 400;
+      line-height: 1.1; letter-spacing: 0.01em;
+      color: var(--pink-deep);
+    }
+
+    .ptag {
+      font-size: 0.48rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--coral-deep); margin-top: 0.02rem;
+    }
+
+    .pprice {
+      font-size: 0.8rem; font-weight: 800; color: var(--pink-deep);
+    }
+
+    .pdesc {
+      font-size: 0.58rem; color: var(--text-light); line-height: 1.35; margin-top: 0.02rem;
+    }
+
+    .pdesc strong { font-weight: 700; color: var(--text); }
+
+    .price-row {
+      display: flex; gap: 0.5rem; align-items: baseline; margin-top: 0.02rem;
+    }
+
+    .txt-right .price-row {
+      justify-content: flex-end;
+    }
+
+    .price-opt { text-align: center; }
+    .price-opt .pprice { font-size: 0.75rem; }
+    .price-opt-label { font-size: 0.34rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); }
+
+    /* ===== PUNCH (horizontal: label LEFT, pills RIGHT) ===== */
+    .punch {
+      margin-top: 0.06cm;
+      background: #FFF0F3; border: 2px solid var(--pink);
+      border-radius: 100px; padding: 0.06cm 0.15cm;
+      box-shadow: 2px 2px 0 rgba(248,187,208,0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.15cm;
+    }
+
+    .punch-head {
+      font-size: 0.52rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.04em; white-space: nowrap; flex-shrink: 0;
+      line-height: 1.2;
+    }
+
+    .punch-hl {
+      background: var(--grad-candy);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .punch-ct {
+      font-weight: 600; font-size: 0.42rem; -webkit-text-fill-color: var(--text);
+      display: block;
+    }
+
+    .pills {
+      display: flex; flex-wrap: wrap; gap: 3px; flex: 1;
+    }
+
+    .txt-right .pills {
+      justify-content: flex-end;
+    }
+
+    .txt-right .punch {
+      flex-direction: row-reverse;
+    }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 0.46rem; font-weight: 700; color: var(--text);
+      background: var(--cream); border: 2px solid var(--coral);
+      border-radius: 100px; padding: 0.05rem 0.3rem;
+      box-shadow: 1px 1px 0 rgba(255,138,101,0.3);
+      transition: transform 0.15s;
+    }
+
+    .pill:nth-child(2n) {
+      background: #E0F2F1;
+      border-color: var(--turquoise-deep);
+      box-shadow: 1px 1px 0 rgba(128,203,196,0.3);
+    }
+
+    .pill:nth-child(3n) {
+      background: #FCE4EC;
+      border-color: var(--pink-deep);
+      box-shadow: 1px 1px 0 rgba(248,187,208,0.3);
+    }
+
+    .pill.rec::before {
+      content: '\2605'; color: var(--coral);
+      font-size: 0.5rem;
+    }
+
+    /* ===== SINGLE LATERAL (one image + one text, half width) ===== */
+    .lateral-single {
+      display: grid;
+      grid-template-columns: 5cm 1fr 5cm;
+      gap: 0;
+      margin-bottom: 0.15cm;
+    }
+
+    .lateral-single .img-left img,
+    .lateral-single .img-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lateral-single .img-left { border-radius: 50px 0 0 50px; overflow: hidden; border: 3px solid var(--pink); border-right: none; }
+    .lateral-single .img-left img { border-radius: 50px 0 0 50px; }
+    .lateral-single .img-right { border-radius: 0 50px 50px 0; overflow: hidden; border: 3px solid var(--pink); border-left: none; }
+    .lateral-single .img-right img { border-radius: 0 50px 50px 0; }
+
+    .lateral-single .center-zone {
+      display: flex;
+      flex-direction: column;
+      padding: 0.15cm 0.25cm;
+      justify-content: center;
+    }
+
+    /* ===== CATEGORY BLOCK ===== */
+    .cat-block {
+      display: flex;
+      gap: 0.25cm;
+      padding: 0.06cm 0;
+    }
+
+    .cat-block.flip { flex-direction: row-reverse; }
+
+    .cat-block img {
+      width: 3.5cm; height: 3.5cm;
+      border-radius: 50px; object-fit: cover; flex-shrink: 0;
+      border: 3px solid var(--turquoise);
+    }
+
+    .cat-list { flex: 1; min-width: 0; }
+
+    .cat-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.04cm 0;
+    }
+
+    .cat-item + .cat-item { border-top: 1.5px dashed var(--pink); }
+    .cat-item-info { flex: 1; min-width: 0; }
+    .cat-item-name { font-size: 0.62rem; font-weight: 700; color: var(--text); }
+    .cat-item-desc { font-size: 0.46rem; color: var(--text-light); line-height: 1.3; }
+    .cat-item-price { font-size: 0.62rem; font-weight: 800; color: var(--pink-deep); white-space: nowrap; margin-left: 0.2rem; }
+
+    /* ===== FLAT ROW ===== */
+    .flat {
+      display: flex; align-items: center; gap: 0.2cm; padding: 0.05cm 0;
+    }
+
+    .flat + .flat { border-top: 1.5px dashed var(--pink); }
+
+    .flat img, .flat .ph {
+      width: 1.1cm; height: 1.1cm; border-radius: 50px;
+      object-fit: cover; flex-shrink: 0;
+      border: 2px solid var(--turquoise);
+    }
+
+    .ph {
+      display: flex; align-items: center; justify-content: center;
+      background: #E0F2F1; font-size: 0.3rem; font-weight: 700; color: var(--turquoise-deep); text-transform: uppercase;
+    }
+
+    .flat .info { flex: 1; min-width: 0; }
+    .flat .fname { font-size: 0.62rem; font-weight: 700; color: var(--text); }
+    .flat .fdesc { font-size: 0.46rem; color: var(--text-light); line-height: 1.3; }
+    .flat .fprice { font-size: 0.62rem; font-weight: 800; color: var(--pink-deep); white-space: nowrap; }
+
+    .alitas-prices { display: flex; gap: 0.35rem; }
+    .alitas-opt { text-align: center; }
+    .alitas-opt-price { font-size: 0.62rem; font-weight: 800; color: var(--pink-deep); }
+    .alitas-opt-label { font-size: 0.34rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); }
+
+    /* ===== NACHOS & TACOS SECTION ===== */
+    .section-punch {
+      margin-bottom: 0.12cm;
+    }
+
+    /* Dale tu Punch strip */
+    .punch-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.12cm 0;
+      margin: 0.06cm 0 0.1cm;
+    }
+
+    .punch-strip-label {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 400;
+      background: var(--grad-candy);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .punch-strip .pill {
+      font-size: 0.52rem;
+      padding: 0.06rem 0.35rem;
+    }
+
+    .punch-strip-free {
+      display: inline-block;
+      font-size: 0.52rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--grad-candy);
+      padding: 0.08rem 0.45rem;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      box-shadow: 2px 2px 0 rgba(236,64,122,0.25);
+      animation: pulse-gratis 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse-gratis {
+      from { transform: scale(1); }
+      to { transform: scale(1.06); }
+    }
+
+    .punch-strip-extra {
+      font-size: 0.42rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    .punch-strip-note {
+      font-size: 0.42rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    /* ===== SNACKS 2-COL ===== */
+    .snacks-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.2cm;
+    }
+
+    .snack-col .snack-title {
+      font-family: var(--font-display);
+      font-size: 0.55rem; font-weight: 400;
+      color: var(--pink-deep);
+      margin-bottom: 0.04cm;
+    }
+
+    .snack-col img {
+      width: 100%; height: 2.8cm;
+      border-radius: 20px; object-fit: cover;
+      margin-bottom: 0.06cm;
+      border: 3px solid var(--turquoise);
+    }
+
+    .snack-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.03cm 0;
+    }
+
+    .snack-item + .snack-item { border-top: 1.5px dashed var(--pink); }
+
+    .snack-item-name { font-size: 0.56rem; font-weight: 700; color: var(--text); }
+    .snack-item-desc { font-size: 0.42rem; color: var(--text-light); line-height: 1.3; }
+    .snack-item-price { font-size: 0.56rem; font-weight: 800; color: var(--pink-deep); white-space: nowrap; margin-left: 0.15rem; }
+
+    /* ===== COMBO BANNER (ice cream parlor style) ===== */
+    .combo-banner {
+      display: flex;
+      align-items: center;
+      gap: 0.3cm;
+      padding: 0.14cm 0.3cm;
+      background: linear-gradient(135deg, #FCE4EC 0%, #E0F2F1 50%, #FFF3E0 100%);
+      border: 3px solid var(--pink-deep);
+      border-radius: 100px;
+      margin: 0.12cm 0;
+      color: var(--text);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .combo-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle, var(--pink) 1px, transparent 1px);
+      background-size: 18px 18px;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .combo-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .combo-info {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .combo-title {
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .combo-title span {
+      background: var(--grad-candy);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .combo-desc {
+      font-size: 0.46rem;
+      color: var(--text-light);
+      line-height: 1.3;
+    }
+
+    .combo-price-box {
+      text-align: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .combo-price-plus {
+      font-size: 0.36rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-light);
+    }
+
+    .combo-price-val {
+      font-size: 1rem;
+      font-weight: 800;
+      background: var(--grad-candy);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    /* ===== SEP ===== */
+    .sep {
+      border: none;
+      border-top: none;
+      margin: 0.08cm 0;
+      height: 8px;
+      background:
+        linear-gradient(135deg, var(--turquoise) 25%, transparent 25%) -5px 0,
+        linear-gradient(225deg, var(--turquoise) 25%, transparent 25%) -5px 0,
+        linear-gradient(315deg, var(--turquoise) 25%, transparent 25%),
+        linear-gradient(45deg, var(--turquoise) 25%, transparent 25%);
+      background-size: 10px 8px;
+      background-color: var(--white);
+    }
+
+    /* ===== SALSAS ===== */
+    .salsas {
+      padding: 0.1cm 0.35cm;
+      background: linear-gradient(90deg, #FCE4EC, #FFF3E0, #E0F2F1);
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+
+    .salsas-label {
+      font-family: var(--font-display);
+      font-size: 0.42rem; font-weight: 400;
+      color: var(--pink-deep); white-space: nowrap;
+    }
+    .salsas-list { font-size: 0.44rem; font-weight: 600; color: var(--text); }
+    .dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--coral); margin: 0 0.1rem; vertical-align: middle; }
+    .salsas-note { font-size: 0.34rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin-left: auto; white-space: nowrap; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 0.1cm 0.4cm; display: flex; justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, var(--pink-deep) 0%, var(--coral) 50%, var(--turquoise-deep) 100%);
+      color: var(--white); border-radius: 0 0 25px 25px;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 0.6rem; font-weight: 400; letter-spacing: 0.04em;
+    }
+    .footer-sub { font-size: 0.34rem; opacity: 0.8; }
+    .footer-badge {
+      font-size: 0.34rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 0.06rem 0.3rem;
+      background: rgba(255,255,255,0.25); border-radius: 100px; border: 1.5px solid rgba(255,255,255,0.5);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media screen and (max-width: 600px) {
+      body { width: auto; min-height: auto; padding: 0.5rem; }
+      .card { min-height: auto; }
+      .lateral { grid-template-columns: 2.5cm 1fr 2.5cm; }
+      .cat-block img { width: 2.5cm; height: 2.5cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <svg class="brand-arc" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc" d="M 30,110 Q 250,10 470,110" fill="none"/></defs>
+        <text><textPath href="#arc" startOffset="50%" text-anchor="middle">FANZINE</textPath></text>
+      </svg>
+      <svg class="presenta-arc" viewBox="0 0 340 40" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc2" d="M 20,38 Q 170,2 320,38" fill="none"/></defs>
+        <text><textPath href="#arc2" startOffset="50%" text-anchor="middle">PRESENTA</textPath></text>
+      </svg>
+      <div class="brand-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+      <div class="menu-type">Carta Completa</div>
+    </div>
+
+    <div class="flow">
+
+      <span class="tag">Hot Dogs</span>
+
+      <!-- PAIR 1: Zinema (LEFT) + Gold (RIGHT) — both images visible -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE001/foto_principal.png" alt="Zinema">
+        </div>
+        <div class="center-zone">
+          <div class="txt-left">
+            <div class="pname">Zinema</div>
+            <div class="ptag">Ahumado // Salado // Crocante</div>
+            <div class="pdesc">Salchicha americana en pan brioche dorado, <strong>salsa le&ntilde;a</strong> ahumada y doble capa de <strong>papas crocantes</strong>.</div>
+            <div class="price-row">
+              <div class="price-opt"><div class="pprice">$12.000</div><div class="price-opt-label">3 toppings</div></div>
+              <div class="price-opt"><div class="pprice">$14.000</div><div class="price-opt-label">con tocineta</div></div>
+            </div>
+            <div class="punch">
+              <div class="punch-head"><span class="punch-hl">Punch</span> <span class="punch-ct">Elige 3</span></div>
+              <div class="pills">
+                <span class="pill rec">Jalape&ntilde;os</span>
+                <span class="pill">Pepinillos</span>
+                <span class="pill rec">Cheddar</span>
+                <span class="pill">Ma&iacute;z</span>
+                <span class="pill">Cebolla</span>
+                <span class="pill rec">Pi&ntilde;a</span>
+              </div>
+            </div>
+          </div>
+          <div class="txt-right">
+            <div class="pname">Fanzine Gold</div>
+            <div class="ptag">Seattle Style</div>
+            <div class="pdesc">Perro premium con <strong>queso crema</strong>, glaseada en <strong>BBQ Carolina Gold</strong> y <strong>le&ntilde;a</strong>, <strong>tocineta</strong> crocante y <strong>cebolla crispy</strong>.</div>
+            <div class="pprice">$18.000</div>
+            <div class="punch">
+              <div class="punch-head"><span class="punch-hl">Punch</span> <span class="punch-ct">Elige 1</span></div>
+              <div class="pills">
+                <span class="pill rec">Pepinillos</span>
+                <span class="pill">Jalape&ntilde;os</span>
+                <span class="pill">Pi&ntilde;a</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE005/foto_principal.png" alt="Fanzine Gold">
+        </div>
+      </div>
+
+      <!-- PAIR 2: Tropical Fuego (LEFT) + Birria Fusion (RIGHT) -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE006/foto_principal.png" alt="Tropical Fuego">
+        </div>
+        <div class="center-zone">
+          <div class="txt-left">
+            <div class="pname">Tropical Fuego</div>
+            <div class="ptag">Dulce x Picante</div>
+            <div class="pdesc"><strong>Salsa de pi&ntilde;a</strong> y <strong>le&ntilde;a</strong> sobre la salchicha, <strong>SourCream</strong> cremoso y <strong>pi&ntilde;a dulce</strong> que rematan el contraste.</div>
+            <div class="pprice">$18.000</div>
+            <div class="punch">
+              <div class="punch-head"><span class="punch-hl">Punch</span> <span class="punch-ct">Elige 1</span></div>
+              <div class="pills">
+                <span class="pill rec">Takis</span>
+                <span class="pill">Jalape&ntilde;os</span>
+                <span class="pill">Cebolla Encurtida</span>
+              </div>
+            </div>
+          </div>
+          <div class="txt-right">
+            <div class="pname">Birria Fusi&oacute;n</div>
+            <div class="ptag">La Quesabirria Hecha Hot Dog</div>
+            <div class="pdesc"><strong>Res birria</strong> jugosa, <strong>le&ntilde;a</strong> ahumada, <strong>SourCream</strong>, <strong>papas cabello de &aacute;ngel</strong> crocantes y <strong>cheddar</strong> fundido.</div>
+            <div class="pprice">$18.000</div>
+            <div class="punch">
+              <div class="punch-head"><span class="punch-hl">Punch</span> <span class="punch-ct">Elige 1</span></div>
+              <div class="pills">
+                <span class="pill rec">Cebolla Encurtida</span>
+                <span class="pill">Pi&ntilde;a</span>
+                <span class="pill">Jalape&ntilde;os</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE004/foto_principal.png" alt="Birria Fusion">
+        </div>
+      </div>
+
+      <!-- COMBO BANNER -->
+      <div class="combo-banner">
+        <div class="combo-icon">&#127839;&#127870;</div>
+        <div class="combo-info">
+          <div class="combo-title"><span>Combo Hot Dog</span></div>
+          <div class="combo-desc">Cualquier hot dog + papas fritas + gaseosa 250ml</div>
+        </div>
+        <div class="combo-price-box">
+          <div class="combo-price-val">$25.000</div>
+        </div>
+      </div>
+
+      <hr class="sep">
+
+      <!-- PAPAS FRITAS (dentro de Hot Dogs) -->
+      <div class="flat">
+        <div class="info">
+          <div class="fname">Papas Fritas</div>
+          <div class="fdesc">Porci&oacute;n de papas fritas crocantes con sal y especias.</div>
+        </div>
+        <span class="fprice">$7.000</span>
+      </div>
+
+      <hr class="sep">
+
+      <!-- ============ NACHOS & TACOS ============ -->
+      <div class="section-punch">
+        <div style="display:flex;gap:0.2rem;margin-bottom:0.04cm;">
+          <span class="tag">Nachos</span>
+          <span class="tag">Tacos</span>
+        </div>
+        <div class="lateral" style="margin-bottom:0;">
+          <div class="img-left">
+            <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/NA001/foto_principal.png" alt="Nachos">
+          </div>
+          <div class="center-zone">
+            <div class="txt-left">
+              <div class="pname" style="font-size:1rem;">Nachos</div>
+              <div class="cat-item">
+                <div class="cat-item-info"><div class="cat-item-name">Birria</div><div class="cat-item-desc">Birria jugosa, cheddar fundido, guacamole, pico de gallo y dip.</div></div>
+                <span class="cat-item-price">$18.000</span>
+              </div>
+              <div class="cat-item">
+                <div class="cat-item-info"><div class="cat-item-name">Pibil</div><div class="cat-item-desc">Cochinita pibil, cheddar, cebolla encurtida, guacamole y SourCream.</div></div>
+                <span class="cat-item-price">$18.000</span>
+              </div>
+              <div class="cat-item">
+                <div class="cat-item-info"><div class="cat-item-name">Pollo Chipotle</div><div class="cat-item-desc">Pollo chipotle, cheddar fundido, guacamole y dip de SourCream.</div></div>
+                <span class="cat-item-price">$18.000</span>
+              </div>
+              <div class="cat-item">
+                <div class="cat-item-info"><div class="cat-item-name">SalchiNachos</div><div class="cat-item-desc">Salchicha en rodajas, cheddar fundido, guacamole y pico de gallo.</div></div>
+                <span class="cat-item-price">$15.000</span>
+              </div>
+            </div>
+            <div class="txt-right">
+              <div class="pname" style="font-size:1rem;">Tacos</div>
+              <div class="cat-item" style="justify-content:flex-end;">
+                <span class="cat-item-price" style="margin-left:0;margin-right:0.15rem;">$18.000</span>
+                <div class="cat-item-info" style="text-align:right;"><div class="cat-item-name">Birria</div><div class="cat-item-desc">3 tacos de res birria con queso doble crema en tortilla dorada. Con dip.</div></div>
+              </div>
+              <div class="cat-item" style="justify-content:flex-end;">
+                <span class="cat-item-price" style="margin-left:0;margin-right:0.15rem;">$18.000</span>
+                <div class="cat-item-info" style="text-align:right;"><div class="cat-item-name">Cochinita Pibil</div><div class="cat-item-desc">3 tacos de cochinita pibil con cebolla encurtida, queso y SourCream.</div></div>
+              </div>
+              <div class="cat-item" style="justify-content:flex-end;">
+                <span class="cat-item-price" style="margin-left:0;margin-right:0.15rem;">$18.000</span>
+                <div class="cat-item-info" style="text-align:right;"><div class="cat-item-name">Pollo Chipotle</div><div class="cat-item-desc">3 tacos de pollo chipotle con queso, cilantro y pico de gallo.</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="img-right">
+            <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/TA002/foto_principal.png" alt="Tacos">
+          </div>
+        </div>
+
+        <!-- DALE TU PUNCH — eye-catching topping strip -->
+        <div class="punch-strip">
+          <span class="punch-strip-label">Dale tu Punch</span>
+          <span class="pill">Pi&ntilde;a</span>
+          <span class="pill">Jalape&ntilde;os</span>
+          <span class="pill">Cheddar</span>
+          <span class="punch-strip-note">1&ordm;</span>
+          <span class="punch-strip-free">GRATIS</span>
+          <span class="punch-strip-extra">adicional +$1.500 c/u</span>
+        </div>
+      </div>
+
+      <hr class="sep">
+
+      <!-- ============ SNACKS: Corndogs + Chicanitas en 2 columnas ============ -->
+      <span class="tag">Snacks</span>
+      <div class="snacks-grid">
+        <div class="snack-col">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CD001/foto_principal.png" alt="Corndogs">
+          <div class="snack-title">Corndogs</div>
+          <div class="snack-item">
+            <div><div class="snack-item-name">Americano</div><div class="snack-item-desc">Salchicha en masa crujiente. Salsas y SourCream.</div></div>
+            <span class="snack-item-price">$12.000</span>
+          </div>
+          <div class="snack-item">
+            <div><div class="snack-item-name">De Queso</div><div class="snack-item-desc">Queso doble crema en masa dorada. Salsas y SourCream.</div></div>
+            <span class="snack-item-price">$14.000</span>
+          </div>
+        </div>
+        <div class="snack-col">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CH001/foto_principal.png" alt="Chicanitas">
+          <div class="snack-title">Chicanitas</div>
+          <div class="snack-item">
+            <div><div class="snack-item-name">Birria</div><div class="snack-item-desc">Tortilla frita, res birria, queso fundido y repollo.</div></div>
+            <span class="snack-item-price">$5.000</span>
+          </div>
+          <div class="snack-item">
+            <div><div class="snack-item-name">Pibil</div><div class="snack-item-desc">Cochinita pibil, queso y coleslaw.</div></div>
+            <span class="snack-item-price">$5.000</span>
+          </div>
+          <div class="snack-item">
+            <div><div class="snack-item-name">Pollo Chipotle</div><div class="snack-item-desc">Pollo chipotle, queso y repollo morado.</div></div>
+            <span class="snack-item-price">$5.000</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="sep">
+
+      <!-- ============ TEX-MEX: Alitas + Mac & Cheese + Pollo PopCorn ============ -->
+      <span class="tag">Tex-Mex</span>
+      <div class="flat">
+        <div class="ph">foto</div>
+        <div class="info">
+          <div class="fname">Alitas BBQ Gold</div>
+          <div class="fdesc">Alitas crujientes en salsa BBQ Carolina Gold. Incluye nachos y dip de SourCream.</div>
+        </div>
+        <div class="alitas-prices">
+          <div class="alitas-opt"><div class="alitas-opt-price">$17.000</div><div class="alitas-opt-label">8 pz</div></div>
+          <div class="alitas-opt"><div class="alitas-opt-price">$24.000</div><div class="alitas-opt-label">12 pz</div></div>
+        </div>
+      </div>
+      <div class="flat">
+        <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/MC001/foto_principal.png" alt="Mac &amp; Cheese">
+        <div class="info">
+          <div class="fname">Mac &amp; Cheese con Pollo</div>
+          <div class="fdesc">Macarrones con queso cheddar, tocineta y pollo frito crujiente.</div>
+        </div>
+        <span class="fprice">$22.000</span>
+      </div>
+      <div class="flat">
+        <div class="ph">foto</div>
+        <div class="info">
+          <div class="fname">Pollo PopCorn</div>
+          <div class="fdesc">Bocados de pechuga apanados, crujientes y jugosos. Con dip de SourCream.</div>
+        </div>
+        <span class="fprice">$14.000</span>
+      </div>
+
+    </div>
+
+    <!-- SALSAS -->
+    <div class="salsas">
+      <span class="salsas-label">Estaci&oacute;n de Salsas</span>
+      <span class="salsas-list">Tomate<span class="dot"></span>Mostaza<span class="dot"></span>Pi&ntilde;a<span class="dot"></span>Ma&iacute;z Dulce<span class="dot"></span>Salsa de la Casa</span>
+      <span class="salsas-note">Self-service en la barra</span>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div><div class="footer-brand">Fanzine</div><div class="footer-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div></div>
+      <div class="footer-badge">&copy; 2026</div>
+    </div>
+
+  </div>
+
+  <script>
+    // Live reload: polls for changes every 1s
+    (function(){
+      let last = '';
+      setInterval(async () => {
+        try {
+          const r = await fetch(location.href, {cache:'no-store'});
+          const t = await r.text();
+          if (last && t !== last) location.reload();
+          last = t;
+        } catch(e){}
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

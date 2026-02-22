@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Completa - FANZINE Cine &amp; Tex-Mex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 25cm 35cm; margin: 0; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #DC2626;
+      --coral: #F87171;
+      --pink: #FB7185;
+      --yellow: #FACC15;
+      --yellow-light: #FEF9C3;
+      --black: #0A0A0A;
+      --white: #fff;
+      --off-white: #FFFBEB;
+      --font: 'Space Grotesk', sans-serif;
+      --grad-h: linear-gradient(90deg, var(--red) 0%, var(--coral) 50%, var(--pink) 100%);
+    }
+
+    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+
+    body {
+      background: repeating-conic-gradient(var(--white) 0% 25%, #FECACA 0% 50%) 0 0 / 24px 24px;
+      color: var(--black);
+      font-family: var(--font);
+      line-height: 1.3;
+      width: 25cm;
+      min-height: 35cm;
+      margin: 0 auto;
+      padding: 0.3cm;
+    }
+
+    .card {
+      background: var(--white);
+      border: 3px solid var(--black);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 5px 5px 0 var(--black);
+      min-height: calc(35cm - 0.6cm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      padding: 0.2cm 0.5cm 0.1cm;
+      text-align: center;
+      border-bottom: 3px solid var(--black);
+    }
+
+    .brand-arc { display: block; max-width: 220px; margin: 0 auto; }
+    .brand-arc text {
+      font-family: var(--font); font-weight: 700; font-size: 72px;
+      text-transform: uppercase; letter-spacing: 4px;
+      fill: var(--red); stroke: var(--black); stroke-width: 5;
+      paint-order: stroke fill; filter: drop-shadow(3px 3px 0 var(--black));
+    }
+
+    .presenta-arc { display: block; max-width: 140px; margin: -0.9rem auto 0; }
+    .presenta-arc text {
+      font-family: var(--font); font-weight: 700; font-size: 26px;
+      text-transform: uppercase; letter-spacing: 8px; fill: var(--black);
+    }
+
+    .brand-sub { font-size: 0.48rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
+    .menu-type {
+      display: inline-block; margin-top: 0.1rem; font-size: 0.4rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em; color: var(--white);
+      padding: 0.06rem 0.5rem; background: var(--black); border-radius: 100px;
+    }
+
+    /* ===== FLOW ===== */
+    .flow {
+      flex: 1;
+      padding: 0.2cm 0.35cm 0.1cm;
+    }
+
+    /* ===== TAG ===== */
+    .tag {
+      display: inline-block;
+      font-size: 0.46rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--white); background: var(--black);
+      padding: 0.06rem 0.4rem; border-radius: 4px;
+      margin-bottom: 0.08cm;
+    }
+
+    /* ===== HOT DOGS GRID =====
+       Explicit grid where images span 2 rows,
+       so each image invades the neighbor's text space.
+
+       Layout for 4 dogs across ~6 rows:
+       Row 1: [Zinema-img]  [Zinema-txt]     ← img starts
+       Row 2: [Zinema-img]  [Gold-txt]       ← img still here, Gold text starts
+       Row 3: [Fuego-txt]   [Gold-img]       ← Gold img starts
+       Row 4: [Fuego-img]   [Gold-img]       ← both images
+       Row 5: [Fuego-img]   [Birria-txt]
+       Row 6: [Birria-txt2] [Birria-img]     ← wait, this gets complex
+
+       Simpler: use pairs. Each pair shares a 2-col grid where
+       the first dog's image spans into the second dog's row.
+    */
+
+    .dog-pair {
+      display: grid;
+      grid-template-columns: 4.5cm 1fr;
+      grid-template-rows: auto auto;
+      gap: 0 0.3cm;
+      margin-bottom: 0.1cm;
+    }
+
+    /* Flip: image column on right */
+    .dog-pair.flip {
+      grid-template-columns: 1fr 4.5cm;
+    }
+
+    .dog-pair .dog-img {
+      grid-row: 1 / 3;
+      border-radius: 14px;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* Normal: image in col 1 */
+    .dog-pair:not(.flip) .dog-img { grid-column: 1; }
+    .dog-pair:not(.flip) .dog-txt-a { grid-column: 2; grid-row: 1; }
+    .dog-pair:not(.flip) .dog-txt-b { grid-column: 2; grid-row: 2; }
+
+    /* Flipped: image in col 2 */
+    .dog-pair.flip .dog-img { grid-column: 2; }
+    .dog-pair.flip .dog-txt-a { grid-column: 1; grid-row: 1; }
+    .dog-pair.flip .dog-txt-b { grid-column: 1; grid-row: 2; }
+
+    .dog-txt-a, .dog-txt-b {
+      padding: 0.06cm 0;
+    }
+
+    .pname {
+      font-size: 1.3rem; font-weight: 700; text-transform: uppercase;
+      line-height: 1; letter-spacing: 0.01em;
+    }
+
+    .ptag {
+      font-size: 0.48rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--red); margin-top: 0.02rem;
+    }
+
+    .pprice {
+      font-size: 0.8rem; font-weight: 700; color: var(--red);
+    }
+
+    .pdesc {
+      font-size: 0.58rem; color: #444; line-height: 1.35; margin-top: 0.02rem;
+    }
+
+    .pdesc strong { font-weight: 600; color: var(--black); }
+
+    .price-row {
+      display: flex; gap: 0.5rem; align-items: baseline; margin-top: 0.02rem;
+    }
+
+    .price-opt { text-align: center; }
+    .price-opt .pprice { font-size: 0.75rem; }
+    .price-opt-label { font-size: 0.34rem; font-weight: 700; text-transform: uppercase; }
+
+    /* ===== PUNCH ===== */
+    .punch {
+      margin-top: 0.06cm;
+      background: var(--white); border: 2px solid var(--black);
+      border-radius: 10px; padding: 0.06cm 0.1cm;
+      position: relative; box-shadow: 1.5px 1.5px 0 var(--black);
+    }
+
+    .punch::before {
+      content: ''; position: absolute; top: -5px; left: 12px;
+      width: 8px; height: 8px; background: var(--white);
+      border: 2px solid var(--black); border-radius: 2px;
+      transform: rotate(45deg); z-index: -1;
+    }
+
+    .punch::after {
+      content: ''; position: absolute; top: 0; left: 10px;
+      width: 12px; height: 5px; background: var(--white); z-index: 0;
+    }
+
+    .punch-head {
+      position: relative; z-index: 1;
+      font-size: 0.46rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.04em; margin-bottom: 0.03cm;
+    }
+
+    .punch-hl {
+      background: var(--grad-h);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .punch-ct { font-weight: 600; font-size: 0.38rem; -webkit-text-fill-color: var(--black); }
+
+    .pills {
+      position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 2px;
+    }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 0.44rem; font-weight: 700; color: var(--black);
+      background: var(--off-white); border: 1.5px solid var(--black);
+      border-radius: 100px; padding: 0.04rem 0.25rem;
+      box-shadow: 1px 1px 0 var(--black);
+    }
+
+    .pill.rec::before {
+      content: '\2605'; color: var(--yellow);
+      -webkit-text-stroke: 0.5px var(--black); font-size: 0.48rem;
+    }
+
+    /* ===== CATEGORY BLOCK ===== */
+    .cat-block {
+      display: flex;
+      gap: 0.25cm;
+      padding: 0.06cm 0;
+    }
+
+    .cat-block.flip { flex-direction: row-reverse; }
+
+    .cat-block img {
+      width: 3.5cm; height: 3.5cm;
+      border-radius: 12px; object-fit: cover; flex-shrink: 0;
+    }
+
+    .cat-list { flex: 1; min-width: 0; }
+
+    .cat-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.04cm 0;
+    }
+
+    .cat-item + .cat-item { border-top: 1px dashed #ddd; }
+    .cat-item-info { flex: 1; min-width: 0; }
+    .cat-item-name { font-size: 0.62rem; font-weight: 700; }
+    .cat-item-desc { font-size: 0.46rem; color: #555; line-height: 1.3; }
+    .cat-item-price { font-size: 0.62rem; font-weight: 700; color: var(--red); white-space: nowrap; margin-left: 0.2rem; }
+
+    /* ===== FLAT ROW ===== */
+    .flat {
+      display: flex; align-items: center; gap: 0.2cm; padding: 0.05cm 0;
+    }
+
+    .flat + .flat { border-top: 1px dashed #ddd; }
+
+    .flat img, .flat .ph {
+      width: 1.1cm; height: 1.1cm; border-radius: 8px;
+      object-fit: cover; flex-shrink: 0;
+    }
+
+    .ph {
+      display: flex; align-items: center; justify-content: center;
+      background: #f0f0f0; font-size: 0.3rem; font-weight: 700; color: #bbb; text-transform: uppercase;
+    }
+
+    .flat .info { flex: 1; min-width: 0; }
+    .flat .fname { font-size: 0.62rem; font-weight: 700; }
+    .flat .fdesc { font-size: 0.46rem; color: #555; line-height: 1.3; }
+    .flat .fprice { font-size: 0.62rem; font-weight: 700; color: var(--red); white-space: nowrap; }
+
+    .alitas-prices { display: flex; gap: 0.35rem; }
+    .alitas-opt { text-align: center; }
+    .alitas-opt-price { font-size: 0.62rem; font-weight: 700; color: var(--red); }
+    .alitas-opt-label { font-size: 0.34rem; font-weight: 700; text-transform: uppercase; }
+
+    /* ===== SEP ===== */
+    .sep {
+      border: none; border-top: 2px solid var(--black); margin: 0.08cm 0;
+    }
+
+    /* ===== SALSAS ===== */
+    .salsas {
+      padding: 0.08cm 0.35cm; border-top: 3px solid var(--black);
+      background: var(--yellow-light); display: flex; align-items: center; gap: 0.35rem;
+    }
+
+    .salsas-label { font-size: 0.38rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+    .salsas-list { font-size: 0.44rem; font-weight: 600; }
+    .dot { display: inline-block; width: 3px; height: 3px; border-radius: 50%; background: var(--red); margin: 0 0.1rem; vertical-align: middle; }
+    .salsas-note { font-size: 0.34rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.5; margin-left: auto; white-space: nowrap; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 0.08cm 0.4cm; display: flex; justify-content: space-between;
+      align-items: center; border-top: 3px solid var(--black);
+      background: var(--black); color: var(--white); border-radius: 0 0 15px 15px;
+    }
+
+    .footer-brand { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+    .footer-sub { font-size: 0.34rem; opacity: 0.6; }
+    .footer-badge {
+      font-size: 0.34rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 0.06rem 0.3rem;
+      background: var(--grad-h); border-radius: 100px; border: 1.5px solid var(--white);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media screen and (max-width: 600px) {
+      body { width: auto; min-height: auto; padding: 0.5rem; }
+      .card { min-height: auto; }
+      .dog-pair { grid-template-columns: 3cm 1fr; }
+      .dog-pair.flip { grid-template-columns: 1fr 3cm; }
+      .cat-block img { width: 2.5cm; height: 2.5cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <svg class="brand-arc" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc" d="M 30,110 Q 250,10 470,110" fill="none"/></defs>
+        <text><textPath href="#arc" startOffset="50%" text-anchor="middle">FANZINE</textPath></text>
+      </svg>
+      <svg class="presenta-arc" viewBox="0 0 340 40" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc2" d="M 20,38 Q 170,2 320,38" fill="none"/></defs>
+        <text><textPath href="#arc2" startOffset="50%" text-anchor="middle">PRESENTA</textPath></text>
+      </svg>
+      <div class="brand-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;</div>
+      <div class="menu-type">Carta Completa</div>
+    </div>
+
+    <div class="flow">
+
+      <span class="tag">Hot Dogs</span>
+
+      <!--
+        PAIR 1: Zinema (img LEFT spans 2 rows) + Gold (text in row 2)
+        The image covers both Zinema's text AND Gold's text vertically.
+      -->
+      <div class="dog-pair">
+        <img class="dog-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE001/foto_principal.png" alt="Zinema">
+
+        <!-- Row 1: Zinema text -->
+        <div class="dog-txt-a">
+          <div class="pname">Zinema</div>
+          <div class="ptag">Ahumado // Salado // Crocante</div>
+          <div class="pdesc">Salchicha americana en pan brioche dorado, <strong>salsa le&ntilde;a</strong> ahumada y doble capa de <strong>papas crocantes</strong> que envuelven todo.</div>
+          <div class="price-row">
+            <div class="price-opt"><div class="pprice">$12.000</div><div class="price-opt-label">3 toppings</div></div>
+            <div class="price-opt"><div class="pprice">$14.000</div><div class="price-opt-label">con tocineta</div></div>
+          </div>
+          <div class="punch">
+            <div class="punch-head"><span class="punch-hl">Dale tu Punch</span> <span class="punch-ct">&mdash; Elige 3</span></div>
+            <div class="pills">
+              <span class="pill rec">Jalape&ntilde;os</span>
+              <span class="pill">Pepinillos</span>
+              <span class="pill rec">Cheddar</span>
+              <span class="pill">Ma&iacute;z</span>
+              <span class="pill">Cebolla</span>
+              <span class="pill rec">Pi&ntilde;a</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Gold text (image still covers this row) -->
+        <div class="dog-txt-b">
+          <div class="pname">Fanzine Gold</div>
+          <div class="ptag">Seattle Style</div>
+          <div class="pdesc">Perro premium con <strong>queso crema</strong> generoso, glaseada en <strong>BBQ Carolina Gold</strong> y <strong>le&ntilde;a</strong>, <strong>tocineta</strong> crocante y <strong>cebolla crispy</strong>.</div>
+          <div class="pprice">Precio especial</div>
+          <div class="punch">
+            <div class="punch-head"><span class="punch-hl">Dale tu Punch</span> <span class="punch-ct">&mdash; Elige 1</span></div>
+            <div class="pills">
+              <span class="pill rec">Pepinillos</span>
+              <span class="pill">Jalape&ntilde;os</span>
+              <span class="pill">Pi&ntilde;a</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--
+        PAIR 2: Fuego + Birria — image RIGHT spans 2 rows
+      -->
+      <div class="dog-pair flip">
+        <img class="dog-img" src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE006/foto_principal.png" alt="Tropical Fuego">
+
+        <!-- Row 1: Fuego text -->
+        <div class="dog-txt-a">
+          <div class="pname">Tropical Fuego</div>
+          <div class="ptag">Dulce x Picante</div>
+          <div class="pdesc"><strong>Salsa de pi&ntilde;a</strong> y <strong>le&ntilde;a</strong> sobre la salchicha, <strong>SourCream</strong> cremoso que refresca y <strong>pi&ntilde;a dulce</strong> que rematan el contraste.</div>
+          <div class="pprice">Precio especial</div>
+          <div class="punch">
+            <div class="punch-head"><span class="punch-hl">Dale tu Punch</span> <span class="punch-ct">&mdash; Elige 1</span></div>
+            <div class="pills">
+              <span class="pill rec">Takis</span>
+              <span class="pill">Jalape&ntilde;os</span>
+              <span class="pill">Cebolla Encurtida</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Birria text -->
+        <div class="dog-txt-b">
+          <div class="pname">Birria Fusi&oacute;n</div>
+          <div class="ptag">La Quesabirria Hecha Hot Dog</div>
+          <div class="pdesc"><strong>Res birria</strong> jugosa, <strong>le&ntilde;a</strong> ahumada, <strong>SourCream</strong>, <strong>papas cabello de &aacute;ngel</strong> crocantes y <strong>cheddar</strong> fundido hasta el pan.</div>
+          <div class="pprice">Precio especial</div>
+          <div class="punch">
+            <div class="punch-head"><span class="punch-hl">Dale tu Punch</span> <span class="punch-ct">&mdash; Elige 1</span></div>
+            <div class="pills">
+              <span class="pill rec">Cebolla Encurtida</span>
+              <span class="pill">Pi&ntilde;a</span>
+              <span class="pill">Jalape&ntilde;os</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="sep">
+
+      <!-- CORNDOGS + NACHOS share image space -->
+      <span class="tag">Corndogs</span>
+      <div class="cat-block flip">
+        <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CD001/foto_principal.png" alt="Corndogs">
+        <div class="cat-list">
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Corndog Americano</div><div class="cat-item-desc">Salchicha americana en masa crujiente. Con salsas y dip de SourCream.</div></div>
+            <span class="cat-item-price">$12.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Corndog de Queso</div><div class="cat-item-desc">Queso doble crema en masa crujiente y dorada. Con salsas y dip de SourCream.</div></div>
+            <span class="cat-item-price">$14.000</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="tag">Nachos</span>
+      <div class="cat-block">
+        <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/NA001/foto_principal.png" alt="Nachos">
+        <div class="cat-list">
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Nachos Birria</div><div class="cat-item-desc">Birria jugosa, cheddar fundido, guacamole, pico de gallo y dip de birria.</div></div>
+            <span class="cat-item-price">$18.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Nachos Pibil</div><div class="cat-item-desc">Cochinita pibil, cheddar fundido, cebolla encurtida, guacamole y SourCream.</div></div>
+            <span class="cat-item-price">$18.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Nachos Pollo Chipotle</div><div class="cat-item-desc">Pollo chipotle, cheddar fundido, guacamole y dip de SourCream.</div></div>
+            <span class="cat-item-price">$18.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">SalchiNachos</div><div class="cat-item-desc">Salchicha en rodajas, cheddar fundido, guacamole y pico de gallo.</div></div>
+            <span class="cat-item-price">$15.000</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="tag">Tacos</span>
+      <div class="cat-block flip">
+        <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/TA002/foto_principal.png" alt="Tacos">
+        <div class="cat-list">
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Tacos de Birria</div><div class="cat-item-desc">3 tacos de res birria con queso doble crema en tortilla dorada. Con dip de birria.</div></div>
+            <span class="cat-item-price">$18.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Tacos Cochinita Pibil</div><div class="cat-item-desc">3 tacos de cochinita pibil con cebolla encurtida, queso y SourCream.</div></div>
+            <span class="cat-item-price">$18.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Tacos Pollo Chipotle</div><div class="cat-item-desc">3 tacos de pollo chipotle con queso, cilantro y pico de gallo.</div></div>
+            <span class="cat-item-price">$18.000</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="tag">Chicanitas</span>
+      <div class="cat-block">
+        <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CH001/foto_principal.png" alt="Chicanitas">
+        <div class="cat-list">
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Chicanita Birria</div><div class="cat-item-desc">Tortilla frita rellena de res birria, queso fundido y repollo morado.</div></div>
+            <span class="cat-item-price">$5.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Chicanita Pibil</div><div class="cat-item-desc">Tortilla frita de cochinita pibil, queso y coleslaw.</div></div>
+            <span class="cat-item-price">$5.000</span>
+          </div>
+          <div class="cat-item">
+            <div class="cat-item-info"><div class="cat-item-name">Chicanita Pollo Chipotle</div><div class="cat-item-desc">Tortilla crujiente de pollo chipotle, queso y repollo morado.</div></div>
+            <span class="cat-item-price">$5.000</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="sep">
+
+      <span class="tag">Alitas</span>
+      <div class="flat">
+        <div class="ph">foto</div>
+        <div class="info">
+          <div class="fname">Alitas BBQ Gold</div>
+          <div class="fdesc">Alitas crujientes en salsa BBQ Carolina Gold. Incluye nachos y dip de SourCream.</div>
+        </div>
+        <div class="alitas-prices">
+          <div class="alitas-opt"><div class="alitas-opt-price">$17.000</div><div class="alitas-opt-label">8 pz</div></div>
+          <div class="alitas-opt"><div class="alitas-opt-price">$24.000</div><div class="alitas-opt-label">12 pz</div></div>
+        </div>
+      </div>
+
+      <span class="tag" style="margin-top:0.06cm;">Tex-Mex</span>
+      <div class="flat">
+        <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/MC001/foto_principal.png" alt="Mac &amp; Cheese">
+        <div class="info">
+          <div class="fname">Mac &amp; Cheese con Pollo</div>
+          <div class="fdesc">Macarrones con queso cheddar, tocineta y pollo frito crujiente.</div>
+        </div>
+        <span class="fprice">$22.000</span>
+      </div>
+      <div class="flat">
+        <div class="ph">foto</div>
+        <div class="info">
+          <div class="fname">Pollo PopCorn</div>
+          <div class="fdesc">Bocados de pechuga apanados, crujientes y jugosos. Con dip de SourCream.</div>
+        </div>
+        <span class="fprice">$14.000</span>
+      </div>
+
+    </div>
+
+    <!-- SALSAS -->
+    <div class="salsas">
+      <span class="salsas-label">Estaci&oacute;n de Salsas</span>
+      <span class="salsas-list">Tomate<span class="dot"></span>Mostaza<span class="dot"></span>Pi&ntilde;a<span class="dot"></span>Ma&iacute;z Dulce<span class="dot"></span>Salsa de la Casa</span>
+      <span class="salsas-note">Self-service en la barra</span>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div><div class="footer-brand">Fanzine</div><div class="footer-sub">Cine &amp; Tex-Mex &middot; Bogot&aacute;, Colombia</div></div>
+      <div class="footer-badge">&copy; 2026</div>
+    </div>
+
+  </div>
+
+</body>
+</html>
