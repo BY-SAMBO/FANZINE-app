@@ -487,6 +487,8 @@ export default function Ciclo3HubPage() {
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
+              { name: "V28 — Refactorizada", file: "carta-v28", desc: "CSS unificado, espaciado optimizado, sistema grid homogeneo", color: "#e63946", highlight: true },
+              { name: "V27 — Menu Completo", file: "carta-v27", desc: "Menu de produccion con precios finales, Tex-Mex, Snacks y Bebidas", color: "#14b8a6" },
               { name: "Carta Final", file: "carta", desc: "Menu limpio con toppings y contrastes", color: "#000" },
               { name: "V1 — Poster de Cine", file: "carta-v1", desc: "Oscuro, dramatico, estilo cinematografico", color: "#1a1a2e" },
               { name: "V2 — Minimalista", file: "carta-v2", desc: "Blanco, editorial, tipografia limpia", color: "#666" },
@@ -514,14 +516,14 @@ export default function Ciclo3HubPage() {
                 <div
                   className="overflow-hidden transition-transform duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5"
                   style={{
-                    border: "3px solid #000",
-                    boxShadow: "4px 4px 0 #000",
+                    border: `3px solid ${"highlight" in v && v.highlight ? "#e63946" : "#000"}`,
+                    boxShadow: `4px 4px 0 ${"highlight" in v && v.highlight ? "#e63946" : "#000"}`,
                     borderTop: `4px solid ${v.color}`,
                     background: "#fff",
                   }}
                 >
                   <div className="p-4">
-                    <h4 className="font-bold text-sm uppercase tracking-wider mb-1">{v.name}</h4>
+                    <h4 className="font-bold text-sm uppercase tracking-wider mb-1" style={{ color: "highlight" in v && v.highlight ? "#e63946" : undefined }}>{v.name}</h4>
                     <p className="text-[0.7rem] text-neutral-500">{v.desc}</p>
                   </div>
                 </div>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta v27 - FANZINE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 25cm 35cm; margin: 0; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #DC2626;
+      --yellow: #FACC15;
+      --black: #0A0A0A;
+      --white: #fff;
+      --off-white: #FFFBEB;
+      --font: 'Space Grotesk', sans-serif;
+    }
+
+    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+
+    body {
+      background: repeating-conic-gradient(var(--white) 0% 25%, #FECACA 0% 50%) 0 0 / 24px 24px;
+      color: var(--black);
+      font-family: var(--font);
+      line-height: 1.3;
+      width: 25cm;
+      min-height: 35cm;
+      margin: 0 auto;
+      padding: 0.3cm;
+    }
+
+    .card {
+      background: var(--white);
+      border: 3px solid var(--black);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 5px 5px 0 var(--black);
+      min-height: calc(35cm - 0.6cm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      padding: 0.1cm 0.5cm 0;
+      text-align: center;
+    }
+
+    .brand-arc { display: block; max-width: 300px; margin: 0 auto; }
+    .brand-arc text {
+      font-family: var(--font); font-weight: 700; font-size: 72px;
+      text-transform: uppercase; letter-spacing: 4px;
+      fill: var(--red); stroke: var(--black); stroke-width: 5;
+      paint-order: stroke fill; filter: drop-shadow(3px 3px 0 var(--black));
+    }
+
+    .presenta-arc { display: block; max-width: 190px; margin: -1.4rem auto -0.3rem; }
+    .presenta-arc text {
+      font-family: var(--font); font-weight: 700; font-size: 26px;
+      text-transform: uppercase; letter-spacing: 8px; fill: var(--black);
+    }
+
+    /* ===== FLOW ===== */
+    .flow {
+      flex: 1;
+      padding: 0.1cm 0.35cm 0.1cm;
+    }
+
+    /* ===== TAG ===== */
+    .tag {
+      display: inline-block;
+      font-size: 0.54rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--white); background: var(--black);
+      padding: 0.08rem 0.45rem; border-radius: 4px;
+      margin-bottom: 0.08cm;
+    }
+
+    /* ===== LATERAL ===== */
+    .lateral {
+      display: grid;
+      grid-template-columns: 4.8cm 1fr 4.8cm;
+      gap: 0 0.2cm;
+      margin-bottom: 0.12cm;
+    }
+
+    .lateral .img-left,
+    .lateral .img-right {
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    .lateral .img-left img,
+    .lateral .img-right img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      display: block;
+      border: 2px solid var(--black);
+      border-radius: 14px;
+    }
+
+    .center-zone {
+      display: flex;
+      flex-direction: column;
+      padding: 0.08cm 0.12cm;
+      justify-content: space-between;
+    }
+
+    .txt-left {
+      text-align: left;
+      padding-bottom: 0.1cm;
+      margin-bottom: 0.1cm;
+      border-bottom: 2px dashed #ddd;
+    }
+
+    .txt-right {
+      text-align: right;
+    }
+
+    /* ===== PRODUCT NAME — the hero ===== */
+    .pname {
+      font-size: 1.6rem; font-weight: 700; text-transform: uppercase;
+      line-height: 1; letter-spacing: 0.01em;
+    }
+
+    /* One-liner: key ingredients separated by middots */
+    .pname-sub {
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.03em; color: #555; margin-top: 0.06rem;
+      line-height: 1.3;
+    }
+
+    .pname-sub strong {
+      font-weight: 700; color: var(--black);
+    }
+
+    /* ===== PRICE ===== */
+    .pprice {
+      font-size: 1.15rem; font-weight: 700; color: var(--black);
+    }
+
+    .price-row {
+      display: flex; gap: 0.25rem; align-items: baseline; margin-top: 0.04rem; flex-wrap: wrap;
+    }
+
+    .txt-right .price-row { justify-content: flex-end; }
+
+    .price-label { font-size: 0.48rem; font-weight: 700; text-transform: uppercase; color: #888; }
+
+    .combo-tag {
+      font-size: 1.15rem; font-weight: 700; color: var(--red);
+      white-space: nowrap; margin-left: 0.3rem;
+    }
+
+    /* ===== PUNCH ===== */
+    .punch {
+      margin-top: 0.1cm;
+      background: #FAFAFA;
+      border: 2px solid var(--black);
+      border-radius: 10px;
+      padding: 0.15cm 0.18cm;
+    }
+
+    .punch-row {
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      margin-bottom: 0.12rem;
+    }
+
+    .punch-hl {
+      display: inline-block;
+      position: relative;
+      color: var(--white);
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      z-index: 2;
+      transform: rotate(-4deg);
+      padding: 0.38rem 0.52rem;
+      vertical-align: middle;
+    }
+
+    .punch-hl::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      clip-path: polygon(
+        50% 0%, 61% 12%, 76% 3%, 74% 20%, 97% 24%, 85% 38%,
+        100% 50%, 85% 62%, 97% 76%, 74% 80%, 76% 97%, 61% 88%,
+        50% 100%, 39% 88%, 24% 97%, 26% 80%, 3% 76%, 15% 62%,
+        0% 50%, 15% 38%, 3% 24%, 26% 20%, 24% 3%, 39% 12%
+      );
+      z-index: -1;
+      filter: drop-shadow(1.5px 1.5px 0 var(--black));
+    }
+
+    .punch-ct {
+      font-weight: 800; font-size: 0.78rem; text-transform: uppercase;
+      letter-spacing: 0.02em; color: var(--black);
+    }
+
+    .punch-extra {
+      font-size: 0.68rem; font-weight: 700; color: var(--red);
+      white-space: nowrap; margin-left: 0;
+    }
+
+    .pills {
+      display: flex; flex-wrap: wrap; gap: 4px;
+    }
+
+    .txt-right .pills { justify-content: flex-end; }
+    .txt-right .punch-row { justify-content: flex-end; }
+
+    /* Token — available (not yet picked) */
+    .pill {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 0.72rem; font-weight: 700; color: var(--black);
+      background: var(--white);
+      border: 2px dashed #bbb;
+      border-radius: 100px; padding: 0.14rem 0.42rem;
+      transition: none;
+    }
+
+    /* Token — recommended (feels pre-selected / lit up) */
+    .pill.rec {
+      background: var(--yellow);
+      border: 2px solid var(--black);
+      box-shadow: 1.5px 1.5px 0 var(--black);
+    }
+
+    .pill.rec::before {
+      content: '\2605'; color: var(--black);
+      font-size: 0.6rem;
+    }
+
+    /* ===== CAT ITEMS (nachos/tacos) ===== */
+    .cat-flavors {
+      display: flex; margin-top: 0.08cm;
+      justify-content: space-between;
+    }
+
+    .cat-flavor {
+      flex: 1;
+      text-align: center;
+    }
+
+    .cat-item-name {
+      font-size: 1rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.02em; line-height: 1.2;
+    }
+    .cat-item-price {
+      font-size: 1rem; font-weight: 700; color: var(--red);
+      white-space: nowrap;
+    }
+
+    /* ===== SNACKS 2-COL ===== */
+    .snacks-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.2cm;
+    }
+
+    .snack-col .snack-title {
+      font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--white); background: var(--black);
+      display: inline-block; padding: 0.06rem 0.35rem; border-radius: 4px;
+      margin-bottom: 0.06cm;
+    }
+
+    .snack-col img {
+      width: 100%; height: 2.8cm;
+      border-radius: 12px; object-fit: cover;
+      margin-bottom: 0.08cm;
+      border: 2px solid var(--black);
+    }
+
+    .snack-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.05cm 0;
+    }
+    .snack-item + .snack-item { border-top: 1.5px dashed #ddd; }
+    .snack-item-name {
+      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.01em;
+    }
+    .snack-item-desc {
+      font-size: 0.5rem; font-weight: 600; color: #777; line-height: 1.3;
+    }
+    .snack-item-price {
+      font-size: 0.82rem; font-weight: 700; color: var(--red);
+      white-space: nowrap; margin-left: 0.15rem;
+    }
+
+    /* ===== TEX-MEX 4-COL ===== */
+    .texmex-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0.2cm;
+    }
+
+    .texmex-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .texmex-col img {
+      width: 100%; height: 2.8cm;
+      border-radius: 12px; object-fit: cover;
+      margin-bottom: 0.08cm;
+      border: 2px solid var(--black);
+    }
+
+    .ph {
+      display: flex; align-items: center; justify-content: center;
+      background: #f0f0f0; font-size: 0.3rem; font-weight: 700; color: #bbb; text-transform: uppercase;
+      border-radius: 12px; border: 2px solid var(--black);
+    }
+
+    .texmex-name {
+      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.01em; line-height: 1.15;
+      flex: 1;
+    }
+    .texmex-price { font-size: 0.78rem; font-weight: 700; color: var(--red); margin-top: 0.04cm; }
+    .texmex-label { font-size: 0.46rem; font-weight: 700; text-transform: uppercase; color: #555; }
+    .texmex-prices { display: flex; gap: 0.3rem; margin-top: 0.04cm; }
+    .texmex-section-label {
+      font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--white); background: var(--black);
+      display: inline-block; padding: 0.06rem 0.35rem; border-radius: 4px;
+      margin-bottom: 0.1cm;
+    }
+    .texmex-bev {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 0.68rem; font-weight: 700; padding: 0.05cm 0;
+    }
+    .texmex-bev + .texmex-bev { border-top: 1.5px dashed #ddd; }
+
+    /* ===== SEP ===== */
+    .sep { border: none; border-top: 2px dashed #ccc; margin: 0.08cm 0; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 0.08cm 0.4cm; display: flex; justify-content: center;
+      align-items: center; border-top: 3px solid var(--black);
+      background: var(--black); color: var(--white); border-radius: 0 0 15px 15px;
+    }
+    .footer-brand { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; }
+
+    /* ===== RESPONSIVE ===== */
+    @media screen and (max-width: 600px) {
+      body { width: auto; min-height: auto; padding: 0.5rem; }
+      .card { min-height: auto; }
+      .lateral { grid-template-columns: 2.5cm 1fr 2.5cm; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <svg class="brand-arc" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc" d="M 30,110 Q 250,10 470,110" fill="none"/></defs>
+        <text><textPath href="#arc" startOffset="50%" text-anchor="middle">FANZINE</textPath></text>
+      </svg>
+      <svg class="presenta-arc" viewBox="0 0 340 40" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc2" d="M 20,38 Q 170,2 320,38" fill="none"/></defs>
+        <text><textPath href="#arc2" startOffset="50%" text-anchor="middle">PRESENTA</textPath></text>
+      </svg>
+    </div>
+
+    <div class="flow">
+
+      <span class="tag">Hot Dogs</span>
+
+      <!-- PAIR 1: Zinema (LEFT) + Gold (RIGHT) -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE001/foto_principal.png" alt="Zinema">
+        </div>
+        <div class="center-zone">
+          <div class="txt-left">
+            <div class="pname">&#x25C0; Zinema</div>
+            <div class="pname-sub">Arma tu perro &middot; <strong>Papas crocantes</strong> &middot; <strong>SourCream</strong> &middot; <strong>Salsa le&ntilde;a</strong></div>
+            <div class="punch">
+              <div class="punch-row">
+                <span class="punch-hl">Punch</span>
+                <span class="punch-ct">Elige 3</span>
+                <span class="punch-extra">+$1.500 c/u</span>
+              </div>
+              <div class="pills">
+                <span class="pill rec">Pi&ntilde;a</span>
+                <span class="pill rec">Jalape&ntilde;os</span>
+                <span class="pill rec">Cheddar</span>
+                <span class="pill">Pepinillos</span>
+                <span class="pill">Ma&iacute;z</span>
+                <span class="pill">Cebolla Encurtida</span>
+              </div>
+            </div>
+            <div class="price-row">
+              <span class="pprice">$14.000</span><span class="price-label">3 toppings</span>
+              <span class="pprice">$16.000</span><span class="price-label">con tocineta</span>
+              <span class="combo-tag">COMBO: $23.000</span>
+            </div>
+          </div>
+          <div class="txt-right">
+            <div class="pname">BBQ Bacon &#x25B6;</div>
+            <div class="pname-sub"><strong>Queso crema</strong> &middot; <strong>BBQ Gold</strong> &middot; <strong>Tocineta</strong> &middot; Cebolla crispy</div>
+            <div class="punch">
+              <div class="punch-row">
+                <span class="punch-hl">Punch</span>
+                <span class="punch-ct">Elige 1</span>
+                <span class="punch-extra">+$1.500 c/u</span>
+              </div>
+              <div class="pills">
+                <span class="pill rec">Pepinillos</span>
+                <span class="pill">Jalape&ntilde;os</span>
+                <span class="pill">Pi&ntilde;a</span>
+              </div>
+            </div>
+            <div class="price-row" style="justify-content:flex-end;">
+              <span class="pprice">$18.000</span>
+              <span class="combo-tag">COMBO: $25.000</span>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE005/foto_principal.png" alt="Fanzine Gold">
+        </div>
+      </div>
+
+      <!-- PAIR 2: Tropical Fuego (LEFT) + Birria Fusion (RIGHT) -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE006/foto_principal.png" alt="Tropical Fuego">
+        </div>
+        <div class="center-zone">
+          <div class="txt-left">
+            <div class="pname">&#x25C0; Tropical Fuego</div>
+            <div class="pname-sub"><strong>Salsa pi&ntilde;a</strong> &middot; <strong>SourCream</strong> &middot; Trozos de pi&ntilde;a dulce</div>
+            <div class="punch">
+              <div class="punch-row">
+                <span class="punch-hl">Punch</span>
+                <span class="punch-ct">Elige 1</span>
+                <span class="punch-extra">+$1.500 c/u</span>
+              </div>
+              <div class="pills">
+                <span class="pill rec">Takis Fuego</span>
+                <span class="pill">Jalape&ntilde;os</span>
+                <span class="pill">Cebolla Encurtida</span>
+              </div>
+            </div>
+            <div class="price-row">
+              <span class="pprice">$17.000</span>
+              <span class="combo-tag">COMBO: $24.000</span>
+            </div>
+          </div>
+          <div class="txt-right">
+            <div class="pname">Birria Fusi&oacute;n &#x25B6;</div>
+            <div class="pname-sub"><strong>Res birria</strong> &middot; <strong>Cheddar</strong> fundido &middot; <strong>Papas &aacute;ngel</strong> &middot; SourCream</div>
+            <div class="punch">
+              <div class="punch-row">
+                <span class="punch-hl">Punch</span>
+                <span class="punch-ct">Elige 1</span>
+                <span class="punch-extra">+$1.500 c/u</span>
+              </div>
+              <div class="pills">
+                <span class="pill rec">Cebolla Encurtida</span>
+                <span class="pill">Pi&ntilde;a</span>
+                <span class="pill">Jalape&ntilde;os</span>
+              </div>
+            </div>
+            <div class="price-row" style="justify-content:flex-end;">
+              <span class="pprice">$18.000</span>
+              <span class="combo-tag">COMBO: $25.000</span>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/PE004/foto_principal.png" alt="Birria Fusion">
+        </div>
+      </div>
+
+      <!-- ============ NACHOS & TACOS ============ -->
+      <span class="tag">Nachos &amp; Tacos</span>
+      <div class="lateral" style="margin-bottom:0.12cm;">
+        <div class="img-left">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/NA001/foto_principal.png" alt="Nachos">
+        </div>
+        <div class="center-zone">
+          <div class="pname" style="font-size:1.2rem;">&#x25C0; Nachos <span class="punch-hl">Punch</span></div>
+          <div class="cat-flavors">
+            <div class="cat-flavor">
+              <div class="cat-item-name">Cochinita Pibil</div>
+              <div class="cat-item-price">$20.000</div>
+            </div>
+            <div class="cat-flavor">
+              <div class="cat-item-name" style="font-size:1.1rem;">Birria</div>
+              <div class="cat-item-price" style="font-size:1.1rem;">$22.000</div>
+            </div>
+            <div class="cat-flavor">
+              <div class="cat-item-name">Pollo Chipotle</div>
+              <div class="cat-item-price">$20.000</div>
+            </div>
+          </div>
+          <hr class="sep" style="margin:0.08cm 0;border-top-style:dashed;border-color:#ccc;">
+          <div class="pname" style="font-size:1.2rem;text-align:right;"><span class="punch-hl">Punch</span> Tacos &#x25B6;</div>
+          <div class="cat-flavors">
+            <div class="cat-flavor">
+              <div class="cat-item-name">Cochinita Pibil</div>
+              <div class="cat-item-price">$20.000</div>
+            </div>
+            <div class="cat-flavor">
+              <div class="cat-item-name" style="font-size:1.1rem;">Birria</div>
+              <div class="cat-item-price" style="font-size:1.1rem;">$22.000</div>
+            </div>
+            <div class="cat-flavor">
+              <div class="cat-item-name">Pollo Chipotle</div>
+              <div class="cat-item-price">$20.000</div>
+            </div>
+          </div>
+          <div class="punch">
+            <div class="punch-row">
+              <span class="punch-hl">Punch</span>
+              <span class="punch-ct">Elige 1</span>
+              <span class="punch-extra">+$1.500 c/u</span>
+            </div>
+            <div class="pills">
+              <span class="pill">Pi&ntilde;a</span>
+              <span class="pill">Jalape&ntilde;os</span>
+              <span class="pill rec">Cheddar</span>
+              <span class="pill">Pepinillos</span>
+              <span class="pill">Ma&iacute;z</span>
+              <span class="pill">Cebolla Encurtida</span>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/TA002/foto_principal.png" alt="Tacos">
+        </div>
+      </div>
+
+      <!-- ============ TEX-MEX ============ -->
+      <span class="tag">Tex-Mex</span>
+      <div class="texmex-grid">
+        <div class="texmex-col">
+          <div class="ph" style="width:100%;height:2.8cm;">foto</div>
+          <div class="texmex-name">Alitas BBQ Gold</div>
+          <div class="texmex-prices">
+            <span class="texmex-price">$18.000 <span class="texmex-label">8 pz</span></span>
+            <span class="texmex-price">$25.000 <span class="texmex-label">12 pz</span></span>
+          </div>
+        </div>
+        <div class="texmex-col">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/MC001/foto_principal.png" alt="Mac &amp; Cheese">
+          <div class="texmex-name">Mac &amp; Cheese con Pollo</div>
+          <div class="texmex-price">$25.000</div>
+        </div>
+        <div class="texmex-col">
+          <div class="ph" style="width:100%;height:2.8cm;">foto</div>
+          <div class="texmex-name">Pollo PopCorn</div>
+          <div class="texmex-prices">
+            <span class="texmex-price">$18.000 <span class="texmex-label">8 pz</span></span>
+            <span class="texmex-price">$25.000 <span class="texmex-label">12 pz</span></span>
+          </div>
+        </div>
+        <div class="texmex-col">
+          <div class="texmex-section-label">Bebidas</div>
+          <div class="texmex-bev">Gaseosa Botella Peque&ntilde;a <span class="texmex-price" style="margin:0;">$3.500</span></div>
+          <div class="texmex-bev">Gaseosa Lata <span class="texmex-price" style="margin:0;">$4.500</span></div>
+          <div class="texmex-bev">Cooldrink <span class="texmex-price" style="margin:0;">$4.500</span></div>
+        </div>
+      </div>
+
+      <!-- ============ SNACKS ============ -->
+      <span class="tag">Snacks</span>
+      <div class="snacks-grid">
+        <div class="snack-col">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CD001/foto_principal.png" alt="Corndogs">
+          <div class="snack-title">Corndogs</div>
+          <div class="snack-item">
+            <span class="snack-item-name">Americano <span class="snack-item-desc">salchicha</span></span>
+            <span class="snack-item-price">$14.000</span>
+          </div>
+          <div class="snack-item">
+            <span class="snack-item-name">Mixto <span class="snack-item-desc">salchicha y queso</span></span>
+            <span class="snack-item-price">$15.000</span>
+          </div>
+          <div class="snack-item">
+            <span class="snack-item-name">De Queso</span>
+            <span class="snack-item-price">$16.000</span>
+          </div>
+        </div>
+        <div class="snack-col">
+          <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/CH001/foto_principal.png" alt="Chicanitas">
+          <div class="snack-title">Chicanitas</div>
+          <div class="snack-item">
+            <span class="snack-item-name">Birria</span>
+            <span class="snack-item-price">$7.000</span>
+          </div>
+          <div class="snack-item">
+            <span class="snack-item-name">Pibil</span>
+            <span class="snack-item-price">$6.000</span>
+          </div>
+          <div class="snack-item">
+            <span class="snack-item-name">Pollo Chipotle</span>
+            <span class="snack-item-price">$6.000</span>
+          </div>
+        </div>
+        <div class="snack-col">
+          <img src="https://kasblan.es/wp-content/uploads/2020/05/6014.-Patata-Rizada.jpg" alt="Papas Rizadas">
+          <div class="snack-title">Papas Rizadas</div>
+          <div class="snack-item">
+            <span class="snack-item-name">Personal <span class="snack-item-desc">130gr</span></span>
+            <span class="snack-item-price">$7.500</span>
+          </div>
+          <div class="snack-item">
+            <span class="snack-item-name">Agrandadas <span class="snack-item-desc">185gr</span></span>
+            <span class="snack-item-price">$10.000</span>
+          </div>
+          <div class="snack-item">
+            <span class="snack-item-name">Pareja <span class="snack-item-desc">260gr &middot; con cheddar</span></span>
+            <span class="snack-item-price">$14.000</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <span class="footer-brand">@fanzine.presenta</span>
+    </div>
+
+  </div>
+
+  <!-- Real-size toggle button -->
+  <button id="realSizeBtn" class="no-print" style="
+    position:fixed; bottom:1.2rem; right:1.2rem; z-index:9999;
+    background:#0A0A0A; color:#fff; border:none; border-radius:50%;
+    width:48px; height:48px; font-size:20px; cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,.35); display:flex;
+    align-items:center; justify-content:center;
+  " title="Tama&ntilde;o real">&#x1F50D;</button>
+
+  <script>
+    // Live reload
+    (function(){
+      let last = '';
+      setInterval(async () => {
+        try {
+          const r = await fetch(location.href, {cache:'no-store'});
+          const t = await r.text();
+          if (last && t !== last) location.reload();
+          last = t;
+        } catch(e){}
+      }, 1000);
+    })();
+
+    // Real-size toggle
+    (function(){
+      const btn = document.getElementById('realSizeBtn');
+      const body = document.body;
+      let locked = false;
+
+      btn.addEventListener('click', () => {
+        if (!locked) {
+          // 25cm card width in px: 1cm ≈ 37.8px → 25cm = 945px
+          const realW = 945;
+          const screenW = window.innerWidth;
+          const scale = screenW / realW;
+          body.style.transformOrigin = 'top center';
+          body.style.transform = `scale(${scale})`;
+          body.style.width = realW + 'px';
+          body.style.margin = '0 auto';
+          body.style.overflow = 'visible';
+          btn.innerHTML = '&#x2194;';
+          btn.title = 'Navegaci\u00f3n libre';
+          locked = true;
+        } else {
+          body.style.transform = '';
+          body.style.width = '';
+          body.style.transformOrigin = '';
+          btn.innerHTML = '&#x1F50D;';
+          btn.title = 'Tama\u00f1o real';
+          locked = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

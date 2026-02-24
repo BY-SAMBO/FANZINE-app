@@ -58,15 +58,15 @@ const ERAS: Era[] = [
     id: "lateral",
     label: "Layout Lateral",
     color: "#14b8a6",
-    range: "v18 – v22",
-    desc: "Grid 3-col con fotos laterales, punch gamificado, iteracion final",
+    range: "v18 – v22, v27 – v28",
+    desc: "Grid 3-col con fotos laterales, punch gamificado, desarrollo de menu completo",
   },
   {
     id: "estilos",
     label: "Estilos Alternativos",
     color: "#a855f7",
     range: "v23 – v26",
-    desc: "Heladeria, highway americana, vintage editorial, cards verticales",
+    desc: "Exploraciones esteticas derivadas — no desarrollo de menu (heladeria, highway, vintage, cards)",
   },
 ];
 
@@ -83,6 +83,38 @@ type Prototype = {
 };
 
 const PROTOTYPES: Prototype[] = [
+  {
+    version: "v28",
+    label: "Carta v28",
+    desc: "Refactorizacion: CSS unificado, espaciado optimizado, sistema grid homogeneo",
+    era: "lateral",
+    intent:
+      "Optimizacion de espacio y homogeneizacion del CSS. Unifica snacks y tex-mex bajo un sistema grid compartido (.section-grid). Reduce tamaños globalmente para aprovechar mejor los 25x35cm.",
+    changes:
+      "De v27: CSS refactorizado — variables compartidas (--border, --dash, --radius). Snacks y Tex-Mex usan mismas clases (.grid-col, .grid-item, .grid-title). Header comprimido (brand-arc 260px, presenta-arc 170px). Todos los tamaños reducidos ~8% (pname 1.5rem, pills 0.65rem, prices 1.05rem). Padding/margin uniformizados.",
+    layout:
+      "Grid lateral 4.6cm (antes 4.8cm). Secciones grid con modificadores .cols-3 y .cols-4. Imágenes 2.5cm (antes 2.8cm). Gaps uniformes 0.18cm.",
+    typography:
+      "Space Grotesk. Escala reducida: pname 1.5rem, pprice 1.05rem, pills 0.65rem, grid-item 0.72rem, bev 0.62rem. Tag 0.5rem.",
+    notable:
+      "Eliminacion de CSS duplicado (snack-* y texmex-* → grid-*). Variables CSS para border, dash, radius. Responsive actualizado para cols-4→cols-2. Footer comprimido. ~15% menos lineas CSS que v27.",
+  },
+  {
+    version: "v27",
+    label: "Carta v27",
+    desc: "Menu completo con precios finales, Tex-Mex, Snacks y Bebidas",
+    era: "lateral",
+    intent:
+      "Desarrollo completo del menu de produccion: todos los productos con precios, secciones Tex-Mex y Snacks expandidas, papas rizadas, corndogs y bebidas.",
+    changes:
+      "De v22: agrega secciones Tex-Mex (alitas, mac&cheese, pollo popcorn, bebidas) y Snacks (corndogs, chicanitas, papas rizadas). Precios finales en todos los productos. Nachos y Tacos con 3 sabores en columnas. Punch mas prominente. Combo como texto rojo inline.",
+    layout:
+      "Grid 3-col lateral (4.8cm img | 1fr text | 4.8cm img). Tex-Mex en grid 4-col. Snacks en grid 3-col. Nachos/Tacos con cat-flavors flex centrado.",
+    typography:
+      "Space Grotesk. Nombres 1.6rem. Punch-extra 0.68rem red bold. Combo tag 1.15rem red inline. Cat-item-name 1rem uppercase centrado.",
+    notable:
+      "Zinema con Tropical Punch default (Piña+Jalapeños+Cheddar). BBQ Bacon renombrado de Fanzine Gold. Papas rizadas con 3 tamaños. Corndogs con variante Mixto (salchicha+queso). Separadores dashed #ccc. Tex-Mex arriba de Snacks.",
+  },
   {
     version: "v26",
     label: "Carta v26",
@@ -684,9 +716,9 @@ export default function DisenoMenuPage() {
                           className="text-[0.6rem] px-2 py-0.5 font-bold uppercase tracking-wider"
                           style={{
                             backgroundColor:
-                              p.version === "v22" ? "#e63946" : "#f5f5f5",
-                            color: p.version === "v22" ? "#fff" : "#666",
-                            border: `2px solid ${p.version === "v22" ? "#e63946" : "#ddd"}`,
+                              p.version === "v28" ? "#e63946" : "#f5f5f5",
+                            color: p.version === "v28" ? "#fff" : "#666",
+                            border: `2px solid ${p.version === "v28" ? "#e63946" : "#ddd"}`,
                           }}
                         >
                           #{num}
@@ -709,7 +741,7 @@ export default function DisenoMenuPage() {
                           className="font-bold text-lg tracking-wide uppercase mt-2 hover:underline"
                           style={{
                             color:
-                              p.version === "v22" ? "#e63946" : "#0A0A0A",
+                              p.version === "v28" ? "#e63946" : "#0A0A0A",
                           }}
                         >
                           {p.label}
@@ -892,7 +924,7 @@ export default function DisenoMenuPage() {
                               className="absolute left-0 top-2 w-2.5 h-2.5 rounded-full -translate-x-1"
                               style={{
                                 backgroundColor:
-                                  p.version === "v22"
+                                  p.version === "v28"
                                     ? "#e63946"
                                     : era.color,
                                 border: "2px solid #fff",
@@ -913,14 +945,14 @@ export default function DisenoMenuPage() {
                                       className="text-[0.6rem] px-1.5 py-0.5 font-bold uppercase tracking-wider"
                                       style={{
                                         backgroundColor:
-                                          p.version === "v22"
+                                          p.version === "v28"
                                             ? "#e63946"
                                             : "#f5f5f5",
                                         color:
-                                          p.version === "v22"
+                                          p.version === "v28"
                                             ? "#fff"
                                             : "#666",
-                                        border: `1.5px solid ${p.version === "v22" ? "#e63946" : "#ddd"}`,
+                                        border: `1.5px solid ${p.version === "v28" ? "#e63946" : "#ddd"}`,
                                       }}
                                     >
                                       {p.version}
@@ -935,7 +967,7 @@ export default function DisenoMenuPage() {
                                         className="font-bold text-sm tracking-wide uppercase hover:underline"
                                         style={{
                                           color:
-                                            p.version === "v22"
+                                            p.version === "v28"
                                               ? "#e63946"
                                               : "#0A0A0A",
                                         }}
