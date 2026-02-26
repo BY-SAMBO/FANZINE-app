@@ -71,3 +71,39 @@ export interface PriceReport {
   diferencia: number;
   porcentaje: number;
 }
+
+// Carta readiness types
+
+export type CartaStatus = "listo" | "sin_foto" | "sin_fudo" | "sin_foto_fudo";
+
+export interface CartaReadinessItem {
+  id: string;
+  nombre: string;
+  precio_venta: number;
+  categoria_id: string;
+  categoria_nombre: string;
+  foto_principal: string | null;
+  fudo_id: string | null;
+  activo: boolean;
+  status: CartaStatus;
+}
+
+export interface CartaFudoOnly {
+  fudo_id: string;
+  code: string | null;
+  name: string;
+  price: number;
+  active: boolean;
+}
+
+export interface CartaReadinessData {
+  items: CartaReadinessItem[];
+  fudo_only: CartaFudoOnly[];
+  summary: {
+    total: number;
+    listos: number;
+    sin_foto: number;
+    sin_fudo: number;
+    fudo_only: number;
+  };
+}

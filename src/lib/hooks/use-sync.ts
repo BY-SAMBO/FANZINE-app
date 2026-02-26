@@ -1,12 +1,24 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { SyncComparisonResult, PriceReport } from "@/types/sync";
+import type {
+  SyncComparisonResult,
+  PriceReport,
+  CartaReadinessData,
+} from "@/types/sync";
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to fetch ${url}`);
   return res.json();
+}
+
+export function useCartaReadiness() {
+  return useQuery({
+    queryKey: ["sync-carta"],
+    queryFn: () => fetchJson<CartaReadinessData>("/api/sync/carta"),
+    staleTime: 30_000,
+  });
 }
 
 export function useSyncComparison() {
