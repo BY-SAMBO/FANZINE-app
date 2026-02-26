@@ -162,10 +162,9 @@ export function generateComanda(data: ComandaData): Uint8Array {
       parts.push(BOLD_OFF);
     }
 
-    // Toppings
-    if (toppings.length > 0) {
-      const names = toppings.map((t) => t.name).join(", ");
-      parts.push(text(`    + ${names}\n`));
+    // Toppings (one per line)
+    for (const mod of toppings) {
+      parts.push(text(`    + ${mod.name}\n`));
     }
 
     // Combo

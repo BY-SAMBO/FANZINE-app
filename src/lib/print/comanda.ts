@@ -127,10 +127,9 @@ export function generateComanda(data: ComandaData): Buffer {
       ticket += BOLD_OFF;
     }
 
-    // Toppings
-    if (toppings.length > 0) {
-      const names = toppings.map((t) => t.name).join(", ");
-      ticket += `    + ${names}\n`;
+    // Toppings (one per line)
+    for (const mod of toppings) {
+      ticket += `    + ${mod.name}\n`;
     }
 
     // Combo
