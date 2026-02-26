@@ -24,6 +24,11 @@ function isComboSubGroup(g: ModifierGroup): boolean {
   return lower.includes("acompañamiento") || lower.includes("bebida");
 }
 
+/** Clean premium option name for display: "Adición Tocineta" → "CON TOCINETA" */
+function upsellLabel(name: string): string {
+  return name.replace(/^adici[oó]n\s*/i, "con ");
+}
+
 interface ToppingPanelProps {
   onSend: (event: PosEvent) => void;
 }
@@ -186,7 +191,7 @@ export function ToppingPanel({ onSend }: ToppingPanelProps) {
                   )}
                 >
                   <span className="text-base lg:text-lg font-black uppercase tracking-wide leading-tight">
-                    {opt.name}
+                    {upsellLabel(opt.name)}
                   </span>
                   <span className="text-sm font-extrabold tabular-nums mt-1 bg-amber-900/10 px-2 py-0.5 rounded-full">
                     +${(opt.price ?? 0).toLocaleString()}

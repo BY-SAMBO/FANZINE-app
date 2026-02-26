@@ -190,71 +190,90 @@
 }
 
 /* ── POS Upsell marquee-lights button ── */
-@property --upsell-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
+
+/* Chase lights: 8 dots running around the border */
+@keyframes upsell-chase {
+  to { background-position: 200% 0, 100% 200%, 0% 100%, 0 0%; }
 }
 
-@keyframes upsell-spin {
-  to { --upsell-angle: 360deg; }
-}
-
-@keyframes upsell-glow {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.15); }
-}
-
-@keyframes upsell-nudge {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+@keyframes upsell-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+  50% { transform: scale(1.025); box-shadow: 0 0 20px 4px rgba(245,158,11,.35); }
 }
 
 .upsell-btn {
-  --border-w: 3px;
+  --dot: 6px;
+  --gap: 10px;
+  --speed: 1.2s;
   position: relative;
-  isolation: isolate;
-  border: none !important;
-  animation: upsell-spin 2.5s linear infinite, upsell-nudge 2s ease-in-out infinite, upsell-glow 2s ease-in-out infinite;
+  border: 3px solid #f59e0b !important;
+  animation: upsell-pulse 2s ease-in-out infinite;
+  background-origin: border-box;
 }
 
-/* Rotating conic-gradient border */
-.upsell-btn::before {
+/* Running dots on all 4 sides */
+.upsell-btn::before,
+.upsell-btn::after {
   content: "";
   position: absolute;
-  inset: calc(var(--border-w) * -1);
+  inset: -3px;
   border-radius: inherit;
-  padding: var(--border-w);
-  background: conic-gradient(
-    from var(--upsell-angle),
-    #fbbf24,
-    #f59e0b,
-    #fde68a,
-    #fffbeb,
-    #fde68a,
-    #f59e0b,
-    #fbbf24
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  z-index: -1;
+  pointer-events: none;
 }
 
-/* Active state: border goes red/hot */
-.upsell-btn-active::before {
-  background: conic-gradient(
-    from var(--upsell-angle),
-    #dc2626,
-    #f59e0b,
-    #fde68a,
-    #dc2626,
-    #f59e0b,
-    #fde68a,
-    #dc2626
-  );
+/* Top + Bottom running dots */
+.upsell-btn::before {
+  background:
+    repeating-linear-gradient(90deg,
+      #fffbeb var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 0 0 / 200% 3px no-repeat,
+    repeating-linear-gradient(90deg,
+      #fffbeb var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 100% 100% / 200% 3px no-repeat;
+  animation: upsell-chase-x var(--speed) linear infinite;
 }
 
+/* Left + Right running dots */
+.upsell-btn::after {
+  background:
+    repeating-linear-gradient(180deg,
+      #fffbeb var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 0 0 / 3px 200% no-repeat,
+    repeating-linear-gradient(180deg,
+      #fffbeb var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 100% 100% / 3px 200% no-repeat;
+  animation: upsell-chase-y var(--speed) linear infinite;
+}
+
+@keyframes upsell-chase-x {
+  to { background-position: -200% 0, 300% 100%; }
+}
+@keyframes upsell-chase-y {
+  to { background-position: 0 -200%, 100% 300%; }
+}
+
+/* Active state */
 .upsell-btn-active {
-  box-shadow: 0 0 16px rgba(245,158,11,.5), 0 0 32px rgba(245,158,11,.2);
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 20px rgba(220,38,38,.3), 0 0 40px rgba(245,158,11,.15);
+}
+
+.upsell-btn-active::before {
+  background:
+    repeating-linear-gradient(90deg,
+      #fef3c7 var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 0 0 / 200% 3px no-repeat,
+    repeating-linear-gradient(90deg,
+      #fef3c7 var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 100% 100% / 200% 3px no-repeat;
+}
+
+.upsell-btn-active::after {
+  background:
+    repeating-linear-gradient(180deg,
+      #fef3c7 var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 0 0 / 3px 200% no-repeat,
+    repeating-linear-gradient(180deg,
+      #fef3c7 var(--dot), transparent var(--dot), transparent var(--gap)
+    ) 100% 100% / 3px 200% no-repeat;
 }
