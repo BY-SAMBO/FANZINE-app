@@ -111,9 +111,9 @@ export function ToppingSelector({
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto px-8 py-6">
-        {/* Premium + Combo toggles */}
+        {/* Premium + Combo upsell toggles — marquee lights */}
         {(premiumGroups.length > 0 || comboToggleGroup) && (
-          <div className="mb-6 grid grid-cols-2 gap-3">
+          <div className="mb-6 grid grid-cols-2 gap-4">
             {premiumGroups.flatMap((group) =>
               group.options.map((opt) => {
                 const isActive = !!selected[opt.fudo_modifier_id];
@@ -123,21 +123,16 @@ export function ToppingSelector({
                     type="button"
                     onClick={() => onToggle(opt.fudo_modifier_id, !isActive)}
                     className={cn(
-                      "flex flex-col items-center justify-center gap-1 rounded-xl border-2 py-4 px-6 transition-all active:scale-95",
+                      "upsell-btn flex flex-col items-center justify-center gap-1.5 rounded-xl py-5 px-6 active:scale-95",
                       isActive
-                        ? "border-amber-500 bg-amber-400 text-amber-900 shadow-lg"
-                        : "border-amber-300 bg-amber-50 text-amber-800 hover:border-amber-400 hover:bg-amber-100"
+                        ? "upsell-btn-active bg-amber-400 text-amber-950"
+                        : "bg-gradient-to-b from-amber-50 to-amber-100 text-amber-900"
                     )}
                   >
-                    <span className="font-[family-name:var(--font-playfair)] text-lg font-bold">
-                      Con {opt.name}
+                    <span className="font-[family-name:var(--font-playfair)] text-xl font-bold">
+                      {opt.name}
                     </span>
-                    <span
-                      className={cn(
-                        "font-[family-name:var(--font-dm-mono)] text-sm font-bold",
-                        isActive ? "text-amber-700" : "text-amber-600"
-                      )}
-                    >
+                    <span className="font-[family-name:var(--font-dm-mono)] text-sm font-bold bg-amber-900/10 px-3 py-0.5 rounded-full">
                       +${(opt.price ?? 0).toLocaleString()}
                     </span>
                   </button>
@@ -154,21 +149,16 @@ export function ToppingSelector({
                     handleComboToggle(opt.fudo_modifier_id, !isActive)
                   }
                   className={cn(
-                    "flex flex-col items-center justify-center gap-1 rounded-xl border-2 py-4 px-6 transition-all active:scale-95",
+                    "upsell-btn flex flex-col items-center justify-center gap-1.5 rounded-xl py-5 px-6 active:scale-95",
                     isActive
-                      ? "border-amber-500 bg-amber-400 text-amber-900 shadow-lg"
-                      : "border-amber-300 bg-amber-50 text-amber-800 hover:border-amber-400 hover:bg-amber-100"
+                      ? "upsell-btn-active bg-amber-400 text-amber-950"
+                      : "bg-gradient-to-b from-amber-50 to-amber-100 text-amber-900"
                   )}
                 >
-                  <span className="font-[family-name:var(--font-playfair)] text-lg font-bold">
-                    Combo
+                  <span className="font-[family-name:var(--font-playfair)] text-xl font-bold">
+                    COMBO
                   </span>
-                  <span
-                    className={cn(
-                      "font-[family-name:var(--font-dm-mono)] text-sm font-bold",
-                      isActive ? "text-amber-700" : "text-amber-600"
-                    )}
-                  >
+                  <span className="font-[family-name:var(--font-dm-mono)] text-sm font-bold bg-amber-900/10 px-3 py-0.5 rounded-full">
                     +${(opt.price ?? 0).toLocaleString()}
                   </span>
                 </button>

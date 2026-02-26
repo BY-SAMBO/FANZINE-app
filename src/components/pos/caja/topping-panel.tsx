@@ -166,9 +166,9 @@ export function ToppingPanel({ onSend }: ToppingPanelProps) {
         </div>
       </div>
 
-      {/* Premium + Combo toggles */}
+      {/* Premium + Combo upsell toggles — marquee lights */}
       {(premiumGroups.length > 0 || comboToggleGroup) && (
-        <div className="flex gap-2 mb-3 shrink-0">
+        <div className="flex gap-3 mb-3 shrink-0">
           {premiumGroups.flatMap((group) =>
             group.options.map((opt) => {
               const isActive = !!selected[opt.fudo_modifier_id];
@@ -179,21 +179,16 @@ export function ToppingPanel({ onSend }: ToppingPanelProps) {
                     handleToggle(opt.fudo_modifier_id, !isActive)
                   }
                   className={cn(
-                    "flex-1 flex flex-col items-center justify-center rounded-xl border-2 py-3 px-4 transition-all active:scale-95 min-h-[60px]",
+                    "upsell-btn flex-1 flex flex-col items-center justify-center rounded-xl py-4 px-4 cursor-pointer min-h-[72px]",
                     isActive
-                      ? "border-amber-500 bg-amber-400 text-amber-900 shadow-md"
-                      : "border-amber-300 bg-amber-50 text-amber-800 hover:border-amber-400 hover:bg-amber-100"
+                      ? "upsell-btn-active bg-amber-400 text-amber-950"
+                      : "bg-gradient-to-b from-amber-50 to-amber-100 text-amber-900"
                   )}
                 >
-                  <span className="text-sm lg:text-base font-extrabold uppercase leading-tight">
-                    Con {opt.name}
+                  <span className="text-base lg:text-lg font-black uppercase tracking-wide leading-tight">
+                    {opt.name}
                   </span>
-                  <span
-                    className={cn(
-                      "text-xs font-bold tabular-nums mt-0.5",
-                      isActive ? "text-amber-700" : "text-amber-600"
-                    )}
-                  >
+                  <span className="text-sm font-extrabold tabular-nums mt-1 bg-amber-900/10 px-2 py-0.5 rounded-full">
                     +${(opt.price ?? 0).toLocaleString()}
                   </span>
                 </button>
@@ -209,21 +204,16 @@ export function ToppingPanel({ onSend }: ToppingPanelProps) {
                   handleComboToggle(opt.fudo_modifier_id, !isActive)
                 }
                 className={cn(
-                  "flex-1 flex flex-col items-center justify-center rounded-xl border-2 py-3 px-4 transition-all active:scale-95 min-h-[60px]",
+                  "upsell-btn flex-1 flex flex-col items-center justify-center rounded-xl py-4 px-4 cursor-pointer min-h-[72px]",
                   isActive
-                    ? "border-amber-500 bg-amber-400 text-amber-900 shadow-md"
-                    : "border-amber-300 bg-amber-50 text-amber-800 hover:border-amber-400 hover:bg-amber-100"
+                    ? "upsell-btn-active bg-amber-400 text-amber-950"
+                    : "bg-gradient-to-b from-amber-50 to-amber-100 text-amber-900"
                 )}
               >
-                <span className="text-sm lg:text-base font-extrabold uppercase leading-tight">
-                  Combo
+                <span className="text-base lg:text-lg font-black uppercase tracking-wide leading-tight">
+                  COMBO
                 </span>
-                <span
-                  className={cn(
-                    "text-xs font-bold tabular-nums mt-0.5",
-                    isActive ? "text-amber-700" : "text-amber-600"
-                  )}
-                >
+                <span className="text-sm font-extrabold tabular-nums mt-1 bg-amber-900/10 px-2 py-0.5 rounded-full">
                   +${(opt.price ?? 0).toLocaleString()}
                 </span>
               </button>
