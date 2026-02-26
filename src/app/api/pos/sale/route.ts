@@ -5,15 +5,18 @@ import {
   addFudoItem,
   addFudoSubitem,
   addFudoPayment,
+  confirmFudoItem,
+  confirmFudoSale,
   closeFudoSale,
   getAllFudoPaymentMethods,
 } from "@/lib/fudo/pos-client";
 import { handleApiError, AppError } from "@/lib/utils/errors";
-import type { OrderItem, SaleType, PaymentMethod } from "@/types/pos";
+import type { OrderItem, SaleType, SaleMode, PaymentMethod } from "@/types/pos";
 
 interface SaleRequest {
   items: OrderItem[];
   sale_type: SaleType;
+  sale_mode?: SaleMode;
   payment_method: PaymentMethod;
   total: number;
 }
@@ -107,6 +110,8 @@ export async function POST(request: Request) {
       sale_id: sale.id,
     });
 
+    const fudoItemIds: string[] = [];
+
     const [paymentMethodId] = await Promise.all([
       getPaymentMethodId(body.payment_method),
       // Process all items in parallel
@@ -121,6 +126,7 @@ export async function POST(request: Request) {
           item.fudo_product_id,
           item.quantity
         );
+        fudoItemIds.push(fudoItem.id);
 
         // Add subitems for this item in parallel
         const validMods = item.modifiers.filter(
@@ -161,21 +167,37 @@ export async function POST(request: Request) {
       })),
     ]);
 
-    // 3. Add payment
-    step = "add_payment";
-    console.log("[POS Sale] Step 3: Adding payment", {
-      sale_id: sale.id,
-      payment_method_id: paymentMethodId,
-      amount: body.total,
-    });
-    await addFudoPayment(sale.id, paymentMethodId, body.total);
+    const saleMode = body.sale_mode ?? "instant";
 
-    // 4. Close sale
-    step = "close_sale";
-    console.log("[POS Sale] Step 4: Closing sale", sale.id);
-    await closeFudoSale(sale.id);
+    if (saleMode === "instant") {
+      // 3. Add payment
+      step = "add_payment";
+      console.log("[POS Sale] Step 3: Adding payment", {
+        sale_id: sale.id,
+        payment_method_id: paymentMethodId,
+        amount: body.total,
+      });
+      await addFudoPayment(sale.id, paymentMethodId, body.total);
+
+      // 4. Close sale
+      step = "close_sale";
+      console.log("[POS Sale] Step 4: Closing sale", sale.id);
+      await closeFudoSale(sale.id);
+    } else {
+      // Comanda: transition sale + items to IN-COURSE to trigger comanda print
+      step = "confirm_sale";
+      console.log("[POS Sale] Mode comanda — confirming sale + items (PENDING → IN-COURSE)", sale.id);
+      await confirmFudoSale(sale.id);
+
+      // Confirm all items in parallel
+      step = "confirm_items";
+      console.log("[POS Sale] Confirming items:", fudoItemIds);
+      await Promise.all(fudoItemIds.map((itemId) => confirmFudoItem(itemId)));
+
+    }
 
     // 5. Log locally (fire-and-forget — don't block response)
+    step = "log_sale";
     console.log("[POS Sale] Step 5: Logging sale", sale.id);
     supabase
       .from("pos_sales_log")
@@ -187,17 +209,19 @@ export async function POST(request: Request) {
         payment_method: body.payment_method,
         cashier_id: user.id,
         cashier_name: profile.nombre,
-        closed_at: new Date().toISOString(),
+        sale_status: saleMode === "comanda" ? "open" : "closed",
+        closed_at: saleMode === "instant" ? new Date().toISOString() : null,
       })
       .then(({ error: logError }) => {
         if (logError) console.error("Error logging sale:", logError);
       });
 
-    console.log("[POS Sale] Complete!", { fudo_sale_id: sale.id });
+    console.log("[POS Sale] Complete!", { fudo_sale_id: sale.id, mode: saleMode });
 
     return NextResponse.json({
       success: true,
       fudo_sale_id: sale.id,
+      cashier_name: saleMode === "comanda" ? profile.nombre : undefined,
       warnings: warnings.length > 0 ? warnings : undefined,
     });
   } catch (error) {

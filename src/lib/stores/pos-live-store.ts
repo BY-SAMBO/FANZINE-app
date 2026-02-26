@@ -195,6 +195,7 @@ export const usePosStore = create<PosState>((set, get) => ({
             fudo_modifier_id: opt.fudo_modifier_id,
             modifier_group_fudo_id: opt.modifier_group_fudo_id,
             topping_product_fudo_id: opt.topping_product_fudo_id,
+            group_name: group.name,
             name: opt.name,
             price: opt.price,
             quantity: qty,

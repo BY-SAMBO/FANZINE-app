@@ -143,6 +143,40 @@ export async function addFudoPayment(
   return res.data;
 }
 
+export async function confirmFudoItem(itemId: string): Promise<FudoItem> {
+  const res = await fudoFetch<FudoJsonApiResponse<FudoItem>>(
+    `${FUDO_CONFIG.endpoints.items}/${itemId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({
+        data: {
+          type: "Item",
+          id: itemId,
+          attributes: { status: "IN-COURSE" },
+        },
+      }),
+    }
+  );
+  return res.data;
+}
+
+export async function confirmFudoSale(saleId: string): Promise<FudoSale> {
+  const res = await fudoFetch<FudoJsonApiResponse<FudoSale>>(
+    `${FUDO_CONFIG.endpoints.sales}/${saleId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({
+        data: {
+          type: "Sale",
+          id: saleId,
+          attributes: { saleState: "IN-COURSE" },
+        },
+      }),
+    }
+  );
+  return res.data;
+}
+
 export async function closeFudoSale(saleId: string): Promise<FudoSale> {
   const res = await fudoFetch<FudoJsonApiResponse<FudoSale>>(
     `${FUDO_CONFIG.endpoints.sales}/${saleId}`,

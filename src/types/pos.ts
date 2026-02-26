@@ -2,6 +2,8 @@
 
 export type SaleType = "TAKEAWAY" | "DINE_IN";
 
+export type SaleMode = "instant" | "comanda";
+
 export type PaymentMethod = "cash" | "card" | "nequi" | "daviplata" | "llaves";
 
 export type OrderStatus = "building" | "paying" | "submitted" | "error";
@@ -10,6 +12,7 @@ export interface OrderModifier {
   fudo_modifier_id: string;
   modifier_group_fudo_id: string;
   topping_product_fudo_id: string;
+  group_name: string;
   name: string;
   price: number;
   quantity: number;

@@ -1,11 +1,11 @@
 "use client";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getPosProducts,
   getProductModifiers,
 } from "@/lib/services/pos-service";
-import type { OrderItem, SaleType, PaymentMethod } from "@/types/pos";
+import type { OrderItem, SaleType, SaleMode, PaymentMethod } from "@/types/pos";
 
 export function usePosProducts() {
   return useQuery({
@@ -27,6 +27,7 @@ export function useProductModifiers(productFudoId: string | null) {
 interface SubmitOrderPayload {
   items: OrderItem[];
   sale_type: SaleType;
+  sale_mode?: SaleMode;
   payment_method: PaymentMethod;
   total: number;
 }
@@ -76,11 +77,38 @@ export function useOrderHistory() {
       const { data, error } = await supabase
         .from("pos_sales_log")
         .select("*")
-        .order("closed_at", { ascending: false })
+        .order("created_at", { ascending: false })
         .limit(50);
       if (error) throw error;
       return data;
     },
     staleTime: 30_000, // 30s — refresh on re-open
+  });
+}
+
+export function useCloseSale() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: {
+      fudo_sale_id: string;
+      payment_method: string;
+      total: number;
+    }) => {
+      const res = await fetch("/api/pos/sale/close", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const err = await res
+          .json()
+          .catch(() => ({ error: "Error desconocido" }));
+        throw new Error(err.error || `Error ${res.status}`);
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pos-order-history"] });
+    },
   });
 }

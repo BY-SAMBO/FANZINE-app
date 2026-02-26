@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { useOrderHistory } from "@/lib/hooks/use-pos";
+import { useOrderHistory, useCloseSale } from "@/lib/hooks/use-pos";
+import type { PaymentMethod } from "@/types/pos";
+import { cn } from "@/lib/utils";
 
 interface SaleItem {
   name: string;
@@ -19,6 +21,14 @@ const METHOD_SHORT: Record<string, string> = {
   llaves: "Llav",
 };
 
+const CLOSE_METHODS: { value: PaymentMethod; label: string }[] = [
+  { value: "cash", label: "Efvo" },
+  { value: "card", label: "Tarj" },
+  { value: "nequi", label: "Nequi" },
+  { value: "daviplata", label: "Davi" },
+  { value: "llaves", label: "Llav" },
+];
+
 interface MiniHistoryProps {
   highlightId?: string | null;
   onOpenFull?: () => void;
@@ -27,6 +37,8 @@ interface MiniHistoryProps {
 export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
   const { data: orders } = useOrderHistory();
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [closeMethod, setCloseMethod] = useState<PaymentMethod>("cash");
+  const closeSale = useCloseSale();
 
   const recent = orders?.slice(0, 8) ?? [];
 
@@ -58,6 +70,7 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
         {recent.map((order) => {
           const isExpanded = expandedId === order.id;
           const isHighlighted = highlightId === order.fudo_sale_id;
+          const isOpen = order.sale_status === "open";
           const items = (order.items || []) as SaleItem[];
           const date = order.closed_at
             ? new Date(order.closed_at)
@@ -82,12 +95,19 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
                   <span className="text-gray-400 tabular-nums shrink-0">
                     {time}
                   </span>
+                  {isOpen && (
+                    <span className="shrink-0 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700 rounded animate-pulse">
+                      Abierta
+                    </span>
+                  )}
                   <span className="font-extrabold text-gray-900 tabular-nums shrink-0">
                     ${Number(order.total).toLocaleString()}
                   </span>
-                  <span className="text-gray-400 font-semibold uppercase text-[10px] truncate">
-                    {METHOD_SHORT[order.payment_method] || order.payment_method}
-                  </span>
+                  {!isOpen && (
+                    <span className="text-gray-400 font-semibold uppercase text-[10px] truncate">
+                      {METHOD_SHORT[order.payment_method] || order.payment_method}
+                    </span>
+                  )}
                   <span className="ml-auto shrink-0">
                     {isExpanded ? (
                       <ChevronUp className="w-3 h-3 text-gray-300" />
@@ -98,7 +118,7 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
                 </div>
               </button>
 
-              {isExpanded && items.length > 0 && (
+              {isExpanded && (
                 <div className="px-3 pb-1.5 space-y-0.5">
                   {items.map((item, idx) => (
                     <div
@@ -113,6 +133,45 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
                       </span>
                     </div>
                   ))}
+                  {isOpen && (
+                    <div className="mt-1.5 space-y-1.5">
+                      {/* Payment method selector */}
+                      <div className="flex gap-1">
+                        {CLOSE_METHODS.map((pm) => (
+                          <button
+                            key={pm.value}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCloseMethod(pm.value);
+                            }}
+                            className={cn(
+                              "flex-1 py-1 text-[9px] font-bold uppercase tracking-wider border rounded transition-all",
+                              closeMethod === pm.value
+                                ? "bg-green-600 text-white border-green-600"
+                                : "text-gray-400 border-gray-200 hover:border-gray-400"
+                            )}
+                          >
+                            {pm.label}
+                          </button>
+                        ))}
+                      </div>
+                      {/* Close button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          closeSale.mutate({
+                            fudo_sale_id: order.fudo_sale_id,
+                            payment_method: closeMethod,
+                            total: Number(order.total),
+                          });
+                        }}
+                        disabled={closeSale.isPending}
+                        className="w-full py-1.5 text-[10px] font-bold uppercase tracking-wider bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 transition-colors"
+                      >
+                        {closeSale.isPending ? "Cerrando..." : "Cerrar y cobrar"}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

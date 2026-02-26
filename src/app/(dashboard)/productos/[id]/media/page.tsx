@@ -4,6 +4,7 @@ import { use } from "react";
 import { useProduct } from "@/lib/hooks/use-product";
 import { PhotoUploader } from "@/components/media/photo-uploader";
 import { PhotoGallery } from "@/components/media/photo-gallery";
+import { AIGeneratePanel } from "@/components/media/ai-generate-panel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -43,6 +44,14 @@ export default function ProductoMediaPage({
       </div>
 
       <PhotoUploader productId={product.id} />
+
+      <AIGeneratePanel
+        productId={product.id}
+        productName={product.nombre}
+        promptIa={product.prompt_ia}
+        mainPhoto={product.foto_principal}
+        gallery={product.galeria}
+      />
 
       <PhotoGallery
         productId={product.id}

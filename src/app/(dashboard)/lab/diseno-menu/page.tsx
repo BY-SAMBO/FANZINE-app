@@ -58,7 +58,7 @@ const ERAS: Era[] = [
     id: "lateral",
     label: "Layout Lateral",
     color: "#14b8a6",
-    range: "v18 – v22, v27 – v28",
+    range: "v18 – v22, v27 – v30",
     desc: "Grid 3-col con fotos laterales, punch gamificado, desarrollo de menu completo",
   },
   {
@@ -83,6 +83,38 @@ type Prototype = {
 };
 
 const PROTOTYPES: Prototype[] = [
+  {
+    version: "v30",
+    label: "Carta v30",
+    desc: "Merge v28 + v29-paola: layout lateral 3-col, legend bar comunicativa, starburst punch, CSS unificado",
+    era: "lateral",
+    intent:
+      "Merge de v28 (CSS unificado, Space Grotesk, grid homogeneo) con v29-paola (comunicacion al cliente, legend bar hero/secondary, badges). Layout lateral evoluciona a 3-col simetrico (5.8cm|1fr|5.8cm). Combo explainer detallado. Carta de produccion final.",
+    changes:
+      "De v28: adopta legend bar hero/secondary de v29-paola con starburst punch (clip-path polygon, rotate -4deg). Topping label con flecha CSS ::after. Badges (best seller, nuevo, spicy, veg) de v29-paola. Combo explainer detallado ('Gaseosa + Crispetas o Papas'). Tag-explainer en vez de combo-explainer. Layout lateral 3-col simetrico (5.8cm|1fr|5.8cm, antes 4.6cm). Bebidas simplificadas (flex row, sin fondo negro). De v29-paola: mantiene Space Grotesk (no Dela Gothic), CSS variables unificadas, section-grid compartido.",
+    layout:
+      "Lateral 3-col simetrico: 5.8cm img-left | 1fr center-zone | 5.8cm img-right. Center-zone con txt-left/txt-right (2 productos por fila). Nachos/Tacos en lateral con cat-flavors centrados. Section-grid cols-3 para tex-mex y snacks.",
+    typography:
+      "Space Grotesk (de v28). Pname 1.5rem, pname-sub 0.58rem, pprice 1.05rem, pills 0.65rem. Legend 0.48rem, hero-text 0.38rem, secondary 0.4rem, punch 0.58rem starburst. Tag 0.5rem, tag-explainer 0.44rem.",
+    notable:
+      "Merge exitoso de dos ramas: v28 (sistema tecnico CSS) + v29-paola (comunicacion al cliente). Legend bar combina starburst visual con jerarquia informativa. Layout lateral simetrico es nuevo (5.8cm vs 4.6cm). Primer menu con live-reload script integrado.",
+  },
+  {
+    version: "v29-paola",
+    label: "Carta v29 (Paola)",
+    desc: "Iteracion de Paola sobre v28: foco en comunicacion al cliente, legend bar explicativa, badges informativos",
+    era: "lateral",
+    intent:
+      "Iteracion de Paola sobre v28 con foco en estandares de comunicacion al cliente: legend bar con jerarquia hero/secondary para que el cliente entienda el menu rapidamente, badges (mas pedido, nuevo, picante, vegetal), combo explainer visible, y tipografia display impactante.",
+    changes:
+      "De v28: cambia header a Dela Gothic One (display font) + Inter body (18px). Legend bar rediseñada con jerarquia: Toppings punch + 'Personaliza tu plato' + Recomendado + Combo. Agrega badges informativos (best seller, nuevo, spicy, veg). Product cards en grid vertical 4.6cm|1fr (no lateral 3-col). Brand-arc mas grande (300px).",
+    layout:
+      "Grid vertical 2-col (4.6cm img | 1fr info) con alternancia .flip. Dual-section 2-col para nachos/tacos. Snacks-grid y texmex-grid como clases independientes (no unificadas). Brand-arc 300px. Presenta-arc 190px.",
+    typography:
+      "Dela Gothic One header (72px). Inter body (18px). Pname 24px bold. Pdesc 14px. Legend 13px. Punch-label 12px. Tag 16px. Combo explainer 13px.",
+    notable:
+      "Primera iteracion por colaboradora externa (Paola). Prioriza comunicacion clara al cliente: legend bar explicativa, badges de estado, combo tag prominente, descripciones detalladas. Base conceptual para la legend bar y badges que v30 adopta.",
+  },
   {
     version: "v28",
     label: "Carta v28",
@@ -716,9 +748,9 @@ export default function DisenoMenuPage() {
                           className="text-[0.6rem] px-2 py-0.5 font-bold uppercase tracking-wider"
                           style={{
                             backgroundColor:
-                              p.version === "v28" ? "#e63946" : "#f5f5f5",
-                            color: p.version === "v28" ? "#fff" : "#666",
-                            border: `2px solid ${p.version === "v28" ? "#e63946" : "#ddd"}`,
+                              p.version === "v30" ? "#e63946" : "#f5f5f5",
+                            color: p.version === "v30" ? "#fff" : "#666",
+                            border: `2px solid ${p.version === "v30" ? "#e63946" : "#ddd"}`,
                           }}
                         >
                           #{num}
@@ -741,7 +773,7 @@ export default function DisenoMenuPage() {
                           className="font-bold text-lg tracking-wide uppercase mt-2 hover:underline"
                           style={{
                             color:
-                              p.version === "v28" ? "#e63946" : "#0A0A0A",
+                              p.version === "v30" ? "#e63946" : "#0A0A0A",
                           }}
                         >
                           {p.label}
@@ -924,7 +956,7 @@ export default function DisenoMenuPage() {
                               className="absolute left-0 top-2 w-2.5 h-2.5 rounded-full -translate-x-1"
                               style={{
                                 backgroundColor:
-                                  p.version === "v28"
+                                  p.version === "v30"
                                     ? "#e63946"
                                     : era.color,
                                 border: "2px solid #fff",
@@ -945,14 +977,14 @@ export default function DisenoMenuPage() {
                                       className="text-[0.6rem] px-1.5 py-0.5 font-bold uppercase tracking-wider"
                                       style={{
                                         backgroundColor:
-                                          p.version === "v28"
+                                          p.version === "v30"
                                             ? "#e63946"
                                             : "#f5f5f5",
                                         color:
-                                          p.version === "v28"
+                                          p.version === "v30"
                                             ? "#fff"
                                             : "#666",
-                                        border: `1.5px solid ${p.version === "v28" ? "#e63946" : "#ddd"}`,
+                                        border: `1.5px solid ${p.version === "v30" ? "#e63946" : "#ddd"}`,
                                       }}
                                     >
                                       {p.version}
@@ -967,7 +999,7 @@ export default function DisenoMenuPage() {
                                         className="font-bold text-sm tracking-wide uppercase hover:underline"
                                         style={{
                                           color:
-                                            p.version === "v28"
+                                            p.version === "v30"
                                               ? "#e63946"
                                               : "#0A0A0A",
                                         }}

@@ -42,6 +42,7 @@ export function ProductForm({ product }: ProductFormProps) {
     descripcion_corta: product.descripcion_corta || "",
     descripcion_delivery: product.descripcion_delivery || "",
     descripcion_larga: product.descripcion_larga || "",
+    prompt_ia: product.prompt_ia || "",
   });
 
   function updateField<K extends keyof typeof form>(
@@ -64,6 +65,7 @@ export function ProductForm({ product }: ProductFormProps) {
           descripcion_corta: form.descripcion_corta || null,
           descripcion_delivery: form.descripcion_delivery || null,
           descripcion_larga: form.descripcion_larga || null,
+          prompt_ia: form.prompt_ia || null,
         },
       });
 
@@ -246,6 +248,18 @@ export function ProductForm({ product }: ProductFormProps) {
                 updateField("descripcion_larga", e.target.value)
               }
               rows={4}
+            />
+          </div>
+          <div>
+            <label className="text-xs font-bold uppercase text-black/40 tracking-wider block mb-2">
+              Prompt IA{" "}
+              <span className="text-[10px] text-black/30">para generacion de imagenes</span>
+            </label>
+            <Textarea
+              value={form.prompt_ia}
+              onChange={(e) => updateField("prompt_ia", e.target.value)}
+              rows={4}
+              placeholder="High-resolution food photography of..."
             />
           </div>
         </div>
