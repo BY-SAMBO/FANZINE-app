@@ -43,13 +43,16 @@ const CENTER = bytes(ESC, 0x61, 0x01);
 const LEFT = bytes(ESC, 0x61, 0x00);
 const BOLD_ON = bytes(ESC, 0x45, 0x01);
 const BOLD_OFF = bytes(ESC, 0x45, 0x00);
-const DOUBLE_HEIGHT = bytes(GS, 0x21, 0x01);
+const DOUBLE_HEIGHT = bytes(GS, 0x21, 0x01);   // 1x width, 2x height
+const DOUBLE_WIDTH = bytes(GS, 0x21, 0x10);    // 2x width, 1x height
+const DOUBLE_SIZE = bytes(GS, 0x21, 0x11);     // 2x width, 2x height
 const NORMAL_SIZE = bytes(GS, 0x21, 0x00);
 const FEED_3 = bytes(ESC, 0x64, 0x03);
 const CUT = bytes(GS, 0x56, 0x00);
 const LF = bytes(0x0a);
 
 const COL_WIDTH = 48;
+const COL_WIDTH_DOUBLE = 24; // half columns when using 2x width
 
 export interface ComandaModifier {
   name: string;
@@ -81,8 +84,9 @@ function line(char: string): Uint8Array {
   return text(char.repeat(COL_WIDTH) + "\n");
 }
 
-function columns(left: string, right: string): Uint8Array {
-  const gap = COL_WIDTH - left.length - right.length;
+function columns(left: string, right: string, wide = false): Uint8Array {
+  const w = wide ? COL_WIDTH_DOUBLE : COL_WIDTH;
+  const gap = w - left.length - right.length;
   if (gap < 1) return text(left + " " + right + "\n");
   return text(left + " ".repeat(gap) + right + "\n");
 }
@@ -119,13 +123,19 @@ export function generateComanda(data: ComandaData): Uint8Array {
   parts.push(CENTER);
   parts.push(line("="));
   parts.push(BOLD_ON);
-  parts.push(text("C O M A N D A\n"));
+  parts.push(DOUBLE_SIZE);
+  parts.push(text("COMANDA\n"));
+  parts.push(NORMAL_SIZE);
   parts.push(BOLD_OFF);
   parts.push(line("="));
 
-  // Sale info
+  // Sale info (double width for visibility)
   parts.push(LEFT);
-  parts.push(columns(`#${data.sale_id}`, saleTypeLabel(data.sale_type)));
+  parts.push(DOUBLE_WIDTH);
+  parts.push(BOLD_ON);
+  parts.push(columns(`#${data.sale_id}`, saleTypeLabel(data.sale_type), true));
+  parts.push(BOLD_OFF);
+  parts.push(NORMAL_SIZE);
   parts.push(text(timestamp() + "\n"));
   parts.push(LF);
 
@@ -134,13 +144,17 @@ export function generateComanda(data: ComandaData): Uint8Array {
   for (const item of data.items) {
     const qty = `${item.quantity}x`;
     const price = formatCOP(item.price * item.quantity);
+
+    // Item name: double height + bold for max visibility
     parts.push(BOLD_ON);
+    parts.push(DOUBLE_HEIGHT);
     parts.push(columns(` ${qty} ${item.name}`, price));
+    parts.push(NORMAL_SIZE);
     parts.push(BOLD_OFF);
 
     // Classify modifiers by group
     const toppings: ComandaModifier[] = [];
-    const combo: ComandaModifier[] = []; // combo toggle + sub-selections
+    const combo: ComandaModifier[] = [];
     const premium: ComandaModifier[] = [];
 
     for (const mod of item.modifiers) {
@@ -154,38 +168,54 @@ export function generateComanda(data: ComandaData): Uint8Array {
       }
     }
 
-    // Premium (e.g. Tocineta)
+    // Premium (e.g. Tocineta) — double height
     for (const mod of premium) {
       const modPrice = formatCOP(mod.price * mod.quantity);
       parts.push(BOLD_ON);
-      parts.push(columns(`    >> ${mod.name}`, modPrice));
+      parts.push(DOUBLE_HEIGHT);
+      parts.push(columns(`  >> ${mod.name}`, modPrice));
+      parts.push(NORMAL_SIZE);
       parts.push(BOLD_OFF);
     }
 
-    // Toppings (one per line)
-    for (const mod of toppings) {
-      parts.push(text(`    + ${mod.name}\n`));
+    // Toppings (one per line) — double height for readability
+    if (toppings.length > 0) {
+      parts.push(DOUBLE_HEIGHT);
+      for (const mod of toppings) {
+        parts.push(text(`  + ${mod.name}\n`));
+      }
+      parts.push(NORMAL_SIZE);
     }
 
-    // Combo
+    // Combo — double height
     if (combo.length > 0) {
       const comboToggle = combo.find((c) => c.price > 0);
       const comboSubs = combo.filter((c) => c.price === 0);
       if (comboToggle) {
         parts.push(BOLD_ON);
-        parts.push(columns(`    ** COMBO`, formatCOP(comboToggle.price)));
+        parts.push(DOUBLE_HEIGHT);
+        parts.push(columns(`  ** COMBO`, formatCOP(comboToggle.price)));
+        parts.push(NORMAL_SIZE);
         parts.push(BOLD_OFF);
       }
-      for (const sub of comboSubs) {
-        parts.push(text(`       - ${sub.name}\n`));
+      if (comboSubs.length > 0) {
+        parts.push(DOUBLE_HEIGHT);
+        for (const sub of comboSubs) {
+          parts.push(text(`     - ${sub.name}\n`));
+        }
+        parts.push(NORMAL_SIZE);
       }
     }
+
+    parts.push(LF);
   }
   parts.push(line("-"));
 
-  // Total
+  // Total — double size for maximum visibility
   parts.push(BOLD_ON);
-  parts.push(columns("TOTAL", formatCOP(data.total)));
+  parts.push(DOUBLE_SIZE);
+  parts.push(columns("TOTAL", formatCOP(data.total), true));
+  parts.push(NORMAL_SIZE);
   parts.push(BOLD_OFF);
   parts.push(line("-"));
 
