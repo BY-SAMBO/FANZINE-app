@@ -1,15 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { useOrderHistory } from "@/lib/hooks/use-pos";
-
-interface SaleItem {
-  name: string;
-  price: number;
-  quantity: number;
-  modifiers?: { name: string; price: number; quantity: number }[];
-}
+import { SaleDetailDialog } from "@/components/pos/caja/sale-detail-dialog";
 
 const METHOD_SHORT: Record<string, string> = {
   cash: "Efvo",
@@ -26,9 +19,10 @@ interface MiniHistoryProps {
 
 export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
   const { data: orders } = useOrderHistory();
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
   const recent = orders?.slice(0, 8) ?? [];
+  const selectedOrder = recent.find((o) => o.id === selectedOrderId) ?? null;
 
   if (recent.length === 0) {
     return (
@@ -56,9 +50,7 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
 
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         {recent.map((order) => {
-          const isExpanded = expandedId === order.id;
           const isHighlighted = highlightId === order.fudo_sale_id;
-          const items = (order.items || []) as SaleItem[];
           const date = order.closed_at
             ? new Date(order.closed_at)
             : new Date(order.created_at);
@@ -70,12 +62,10 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
           return (
             <div
               key={order.id}
-              className={
-                isHighlighted ? "animate-sale-success" : ""
-              }
+              className={isHighlighted ? "animate-sale-success" : ""}
             >
               <button
-                onClick={() => setExpandedId(isExpanded ? null : order.id)}
+                onClick={() => setSelectedOrderId(order.id)}
                 className="w-full text-left px-3 py-1.5 hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center gap-2 text-[11px]">
@@ -88,37 +78,20 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
                   <span className="text-gray-400 font-semibold uppercase text-[10px] truncate">
                     {METHOD_SHORT[order.payment_method] || order.payment_method}
                   </span>
-                  <span className="ml-auto shrink-0">
-                    {isExpanded ? (
-                      <ChevronUp className="w-3 h-3 text-gray-300" />
-                    ) : (
-                      <ChevronDown className="w-3 h-3 text-gray-300" />
-                    )}
-                  </span>
                 </div>
               </button>
-
-              {isExpanded && items.length > 0 && (
-                <div className="px-3 pb-1.5 space-y-0.5">
-                  {items.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="flex justify-between text-[10px] text-gray-500 pl-2"
-                    >
-                      <span className="truncate">
-                        {item.quantity}x {item.name}
-                      </span>
-                      <span className="tabular-nums font-semibold shrink-0 ml-1">
-                        ${(item.price * item.quantity).toLocaleString()}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           );
         })}
       </div>
+
+      {/* Sale detail popup */}
+      {selectedOrder && (
+        <SaleDetailDialog
+          order={selectedOrder}
+          onClose={() => setSelectedOrderId(null)}
+        />
+      )}
     </div>
   );
 }

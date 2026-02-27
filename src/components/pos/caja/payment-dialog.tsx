@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePosStore } from "@/lib/stores/pos-store";
 import { useSubmitOrder } from "@/lib/hooks/use-pos";
-import { useThermalPrinter } from "@/lib/hooks/use-thermal-printer";
+import { usePrinterStore } from "@/lib/stores/printer-store";
 import { generateComanda } from "@/lib/print/comanda-esc";
 import type { PaymentMethod, SaleMode, PosEvent } from "@/types/pos";
 import { cn } from "@/lib/utils";
@@ -29,7 +29,7 @@ export function PaymentDialog({ open, onClose, onSend, onSaleSuccess }: PaymentD
   const clearOrder = usePosStore((s) => s.clearOrder);
   const setStatus = usePosStore((s) => s.setStatus);
   const submitOrder = useSubmitOrder();
-  const printer = useThermalPrinter();
+  const printer = usePrinterStore();
 
   if (!open) return null;
 

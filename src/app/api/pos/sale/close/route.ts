@@ -5,7 +5,9 @@ import {
   closeFudoSale,
   getAllFudoPaymentMethods,
 } from "@/lib/fudo/pos-client";
-import { handleApiError, AppError } from "@/lib/utils/errors";
+import { fudoFetch } from "@/lib/fudo/client";
+import { FUDO_CONFIG } from "@/lib/fudo/config";
+import { handleApiError, AppError, FudoApiError } from "@/lib/utils/errors";
 import type { PaymentMethod } from "@/types/pos";
 
 interface CloseRequest {
@@ -94,20 +96,59 @@ export async function POST(request: Request) {
       payment_method_id: paymentMethodId,
       amount: body.total,
     });
-    await addFudoPayment(body.fudo_sale_id, paymentMethodId, body.total);
 
-    // 3. Close sale in Fudo
-    step = "close_sale";
-    console.log("[POS Close] Closing sale", body.fudo_sale_id);
-    await closeFudoSale(body.fudo_sale_id);
+    let alreadyClosed = false;
+    try {
+      await addFudoPayment(body.fudo_sale_id, paymentMethodId, body.total);
+    } catch (err) {
+      // If Fudo returns 422, the sale may have been closed/cancelled directly in Fudo
+      if (err instanceof FudoApiError && err.fudoStatus === 422) {
+        console.warn(
+          "[POS Close] Fudo 422 on addPayment — checking sale state in Fudo"
+        );
+        try {
+          const saleRes = await fudoFetch<{
+            data: { attributes: { saleState: string } };
+          }>(`${FUDO_CONFIG.endpoints.sales}/${body.fudo_sale_id}`);
+          const fudoState = saleRes.data.attributes.saleState;
+          console.log("[POS Close] Fudo sale state:", fudoState);
+
+          if (fudoState === "CLOSED" || fudoState === "CANCELLED") {
+            alreadyClosed = true;
+          } else {
+            // Sale exists but is in an unexpected state — re-throw original error
+            throw err;
+          }
+        } catch (fetchErr) {
+          // If we can't even fetch the sale, re-throw the original 422
+          if (fetchErr === err) throw err;
+          if (fetchErr instanceof FudoApiError && fetchErr.fudoStatus === 404) {
+            // Sale doesn't exist in Fudo — treat as already gone
+            alreadyClosed = true;
+          } else {
+            throw err;
+          }
+        }
+      } else {
+        throw err;
+      }
+    }
+
+    if (!alreadyClosed) {
+      // 3. Close sale in Fudo
+      step = "close_sale";
+      console.log("[POS Close] Closing sale", body.fudo_sale_id);
+      await closeFudoSale(body.fudo_sale_id);
+    }
 
     // 4. Update local log
     step = "update_log";
+    const localStatus = alreadyClosed ? "cancelled" : "closed";
     const { error: updateError } = await supabase
       .from("pos_sales_log")
       .update({
-        sale_status: "closed",
-        payment_method: body.payment_method,
+        sale_status: localStatus,
+        payment_method: alreadyClosed ? "none" : body.payment_method,
         closed_at: new Date().toISOString(),
       })
       .eq("fudo_sale_id", body.fudo_sale_id);
@@ -116,9 +157,16 @@ export async function POST(request: Request) {
       console.error("[POS Close] Error updating log:", updateError);
     }
 
-    console.log("[POS Close] Complete!", body.fudo_sale_id);
+    console.log(
+      "[POS Close] Complete!",
+      body.fudo_sale_id,
+      alreadyClosed ? "(was already closed/cancelled in Fudo)" : ""
+    );
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      already_closed: alreadyClosed,
+    });
   } catch (error) {
     console.error(`[POS Close] Failed at step: ${step}`, error);
     if (error instanceof Error && "fudoResponse" in error) {

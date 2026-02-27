@@ -103,7 +103,10 @@ export function useCloseSale() {
         const err = await res
           .json()
           .catch(() => ({ error: "Error desconocido" }));
-        throw new Error(err.error || `Error ${res.status}`);
+        const fudoDetail = err.fudo_response
+          ? ` | Fudo: ${typeof err.fudo_response === "string" ? err.fudo_response : JSON.stringify(err.fudo_response)}`
+          : "";
+        throw new Error((err.error || `Error ${res.status}`) + fudoDetail);
       }
       return res.json();
     },

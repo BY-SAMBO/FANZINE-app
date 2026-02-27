@@ -3,7 +3,8 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { usePosProducts, useProductModifiers, useSyncModifiers, useOrderHistory } from "@/lib/hooks/use-pos";
 import { usePosStore } from "@/lib/stores/pos-store";
-import { Search } from "lucide-react";
+import { usePrinterStore } from "@/lib/stores/printer-store";
+import { Search, Printer } from "lucide-react";
 import { usePosChannel } from "@/lib/hooks/use-pos-channel";
 import { useCategories } from "@/lib/hooks/use-products";
 import { CategorySidebar, FAVORITES_ID } from "@/components/pos/caja/category-sidebar";
@@ -24,6 +25,17 @@ export default function CajaPage() {
   const [pendingModifierProduct, setPendingModifierProduct] = useState<string | null>(null);
   const [highlightSaleId, setHighlightSaleId] = useState<string | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout>>(null);
+
+  // Global printer connection
+  const printerConnected = usePrinterStore((s) => s.connected);
+  const printerIsSupported = usePrinterStore((s) => s.isSupported);
+  const printerConnect = usePrinterStore((s) => s.connect);
+  const printerAutoReconnect = usePrinterStore((s) => s.autoReconnect);
+
+  // Auto-reconnect printer on POS entry
+  useEffect(() => {
+    printerAutoReconnect();
+  }, [printerAutoReconnect]);
 
   const { data: products, isLoading: productsLoading, refetch: refetchProducts } = usePosProducts();
   const { refetch: refetchHistory } = useOrderHistory();
@@ -205,6 +217,19 @@ export default function CajaPage() {
             />
           </div>
         </div>
+
+        {/* Printer banner */}
+        {printerIsSupported && !printerConnected && (
+          <div className="mx-3 lg:mx-4 mb-1">
+            <button
+              onClick={printerConnect}
+              className="w-full flex items-center justify-center gap-2 py-2 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800 text-xs font-bold uppercase tracking-wider hover:bg-yellow-100 transition-colors"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              Conectar impresora
+            </button>
+          </div>
+        )}
 
         {/* Product grid OR topping panel (full takeover) */}
         {toppingSelection ? (
