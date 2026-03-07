@@ -62,7 +62,7 @@
       /* Fonts */
       --font-main: 'Space Grotesk', sans-serif;
       --font-heading: 'Space Grotesk', sans-serif;
-      --font-tag: 'Pixelify Sans', sans-serif;
+      --font-tag: 'Silkscreen', sans-serif;
       --font-small: 'Space Grotesk', sans-serif;
 
       --pattern-pad: 0.5cm;
@@ -70,8 +70,6 @@
 
     html[data-fonts="pixelify"] { --font-tag: 'Pixelify Sans', sans-serif; }
     html[data-fonts="press-start"] { --font-tag: 'Press Start 2P', cursive; }
-    html[data-fonts="silkscreen"] { --font-tag: 'Silkscreen', sans-serif; }
-    html[data-fonts="silkscreen"] .tag { font-size: 1.8rem; }
     html[data-fonts="dotgothic"] { --font-tag: 'DotGothic16', sans-serif; }
     html[data-fonts="handjet"] { --font-tag: 'Handjet', sans-serif; }
     html[data-fonts="jersey"] { --font-tag: 'Jersey 25', sans-serif; }
@@ -211,7 +209,7 @@
     .tag {
       display: block; text-align: center;
       font-family: var(--font-tag);
-      font-size: 1.65rem; font-weight: 700; text-transform: uppercase;
+      font-size: 1.8rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--red);
       padding: 0; margin-bottom: 0;
@@ -880,10 +878,9 @@
   <div class="font-toggle no-print" id="fontToggle">
     <span class="font-toggle-label">FONT</span>
     <select id="fontSelect" onchange="selectFont(this.value)">
-      <option value="original">Original</option>
+      <option value="original">Silkscreen</option>
       <option value="pixelify">Pixelify Sans</option>
       <option value="press-start">Press Start 2P</option>
-      <option value="silkscreen">Silkscreen</option>
       <option value="dotgothic">DotGothic16</option>
       <option value="handjet">Handjet</option>
       <option value="jersey">Jersey 25</option>
@@ -953,10 +950,10 @@
       document.documentElement.setAttribute('data-fonts', mode);
       localStorage.setItem(FONT_STORAGE_KEY, mode);
     }
-    const VALID_FONTS = ['original','pixelify','press-start','silkscreen','dotgothic','handjet','jersey','bungee','russo'];
+    const VALID_FONTS = ['original','pixelify','press-start','dotgothic','handjet','jersey','bungee','russo'];
     (function() {
       let saved = localStorage.getItem(FONT_STORAGE_KEY) || 'original';
-      if (!VALID_FONTS.includes(saved)) { saved = 'pixelify'; localStorage.setItem(FONT_STORAGE_KEY, saved); }
+      if (!VALID_FONTS.includes(saved)) { saved = 'original'; localStorage.setItem(FONT_STORAGE_KEY, saved); }
       document.documentElement.setAttribute('data-fonts', saved);
       const sel = document.getElementById('fontSelect');
       if (sel) sel.value = saved;
