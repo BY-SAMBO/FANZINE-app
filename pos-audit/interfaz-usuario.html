@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interfaz de Usuario - Auditoria POS FANZINE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --card: #1a1b2e;
+    --card-border: #2a2b3e;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --red: #DC2626;
+    --red-bg: rgba(220,38,38,0.12);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245,158,11,0.12);
+    --blue: #3B82F6;
+    --blue-bg: rgba(59,130,246,0.12);
+    --green: #22C55E;
+    --green-bg: rgba(34,197,94,0.12);
+    --radius: 12px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  nav {
+    background: #13141f; border-bottom: 1px solid var(--card-border);
+    padding: 0 1.5rem; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1rem;
+    overflow-x: auto; white-space: nowrap; padding: .75rem 0;
+  }
+  .nav-brand { font-weight: 700; font-size: 1rem; color: var(--red); margin-right: 1rem; flex-shrink: 0; }
+  .nav-link {
+    color: var(--text-muted); font-size: .85rem;
+    padding: .35rem .75rem; border-radius: 6px; transition: all .2s;
+  }
+  .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,.06); text-decoration: none; }
+  .nav-link.active { border-bottom: 2px solid var(--red); }
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page-header {
+    margin-bottom: 2.5rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .page-header h1 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: .5rem; }
+  .page-header h1 span { color: var(--red); }
+  .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  .card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: #fff; }
+  .card h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 .5rem; color: #fff; }
+  .card p { color: var(--text-muted); margin-bottom: .75rem; }
+
+  .badge {
+    display: inline-block; padding: .2rem .6rem; border-radius: 20px;
+    font-size: .75rem; font-weight: 600; text-transform: uppercase;
+  }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(220,38,38,0.3); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+
+  /* COMPONENT MAP */
+  .comp-tree {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: .82rem; color: var(--text-muted);
+    background: #13141f; border-radius: 10px;
+    padding: 1.25rem 1.5rem; margin: 1rem 0;
+    overflow-x: auto; line-height: 1.8;
+  }
+  .comp-tree .root { color: var(--red); font-weight: 700; }
+  .comp-tree .screen { color: var(--blue); font-weight: 600; }
+  .comp-tree .component { color: var(--green); }
+  .comp-tree .shared { color: var(--amber); }
+
+  /* SCREEN CARDS */
+  .screen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1rem; margin: 1rem 0; }
+  .screen-card {
+    background: #232440; border: 1px solid var(--card-border);
+    border-radius: 10px; padding: 1.25rem; border-top: 3px solid var(--blue);
+  }
+  .screen-card h4 { font-size: 1rem; color: #fff; margin-bottom: .25rem; }
+  .screen-card .path { font-size: .75rem; color: var(--text-muted); font-family: monospace; margin-bottom: .75rem; }
+  .screen-card p { font-size: .88rem; color: var(--text-muted); margin: 0; }
+
+  /* UX PROBLEMS */
+  .ux-problem {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .ux-problem:last-child { border-bottom: none; }
+  .ux-indicator {
+    width: 8px; height: 8px; border-radius: 50%; margin-top: .5rem; flex-shrink: 0;
+  }
+  .ux-indicator.critical { background: var(--red); box-shadow: 0 0 8px rgba(220,38,38,0.5); }
+  .ux-indicator.important { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+  .ux-indicator.improvement { background: var(--blue); box-shadow: 0 0 8px rgba(59,130,246,0.5); }
+  .ux-problem h4 { font-size: .95rem; color: #fff; margin-bottom: .25rem; }
+  .ux-problem p { font-size: .85rem; color: var(--text-muted); margin: 0; }
+
+  /* MOCKUP */
+  .mockup {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: .72rem; color: var(--text-muted);
+    background: #13141f; border-radius: 10px;
+    padding: 1rem 1.25rem; margin: 1rem 0;
+    overflow-x: auto; line-height: 1.6; white-space: pre;
+  }
+  .mockup .label {
+    display: block; font-family: -apple-system, sans-serif;
+    font-size: .8rem; font-weight: 600; margin-bottom: .5rem;
+    color: var(--text-muted);
+  }
+  .mockup-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+
+  /* DUPLICATION */
+  .dup-visual {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: .75rem;
+    align-items: center; margin: 1rem 0;
+  }
+  .dup-box {
+    background: #232440; border-radius: 10px; padding: 1rem;
+    border: 1px solid var(--card-border); text-align: center;
+  }
+  .dup-box h5 { font-size: .85rem; color: #fff; margin-bottom: .5rem; }
+  .dup-overlap {
+    background: var(--red-bg); border: 1px dashed rgba(220,38,38,0.4);
+    border-radius: 6px; padding: .5rem; margin-top: .5rem;
+    font-size: .75rem; color: var(--red);
+  }
+  .dup-arrow { font-size: 1.5rem; color: var(--red); text-align: center; }
+
+  .a11y-item {
+    display: flex; gap: .75rem; align-items: center;
+    padding: .6rem 0; border-bottom: 1px solid rgba(255,255,255,.04);
+    font-size: .9rem; color: var(--text-muted);
+  }
+  .a11y-status {
+    width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; font-weight: 700;
+  }
+  .a11y-fail { background: var(--red-bg); color: var(--red); }
+  .a11y-warn { background: var(--amber-bg); color: var(--amber); }
+
+  footer {
+    text-align: center; padding: 2rem 1.5rem;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted); font-size: .8rem; margin-top: 3rem;
+  }
+
+  @media (max-width: 700px) {
+    .container { padding: 1.25rem 1rem; }
+    .screen-grid { grid-template-columns: 1fr; }
+    .mockup-pair { grid-template-columns: 1fr; }
+    .dup-visual { grid-template-columns: 1fr; }
+    .dup-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">FANZINE POS</span>
+    <a href="index.html" class="nav-link">Resumen</a>
+    <a href="estado-y-datos.html" class="nav-link">Estado y Datos</a>
+    <a href="interfaz-usuario.html" class="nav-link active">Interfaz</a>
+    <a href="api-y-backend.html" class="nav-link">API y Backend</a>
+    <a href="sincronizacion.html" class="nav-link">Sincronizacion</a>
+    <a href="plan-reconstruccion.html" class="nav-link">Plan</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <h1>Interfaz de <span>Usuario</span></h1>
+    <p>Las pantallas que usan el cajero y el cliente: que funciona bien, que necesita mejorar, y como se organiza todo visualmente.</p>
+  </div>
+
+  <!-- COMPONENT MAP -->
+  <div class="card">
+    <h2>Mapa de componentes</h2>
+    <p>Asi esta organizado el sistema visualmente. Cada linea es una pieza de la interfaz:</p>
+
+    <div class="comp-tree">
+<span class="root">POS FANZINE</span>
+  |
+  +-- <span class="screen">/pos/caja</span> (Pantalla del cajero)
+  |     +-- <span class="component">CategoriasTabs</span> .......... pestanas de categorias
+  |     +-- <span class="component">ProductGrid</span> ............. cuadricula de productos
+  |     +-- <span class="component">OrderPanel</span> .............. panel de pedido actual
+  |     |     +-- <span class="component">OrderItemRow</span> ........ fila de cada producto
+  |     |     +-- <span class="shared">ToppingSelector</span> ..... selector de toppings *
+  |     +-- <span class="component">CheckoutBar</span> ............ barra de cobro
+  |     +-- <span class="component">PaymentModal</span> ........... dialogo de pago
+  |
+  +-- <span class="screen">/pos/cliente</span> (Pantalla del cliente)
+  |     +-- <span class="component">IdleScreen</span> ............. pantalla de espera
+  |     +-- <span class="shared">ToppingSelector</span> .......... selector de toppings *
+  |     +-- <span class="component">ThankYouScreen</span> ........ pantalla de gracias
+  |
+  +-- <span class="screen">/pos/bares</span> (Pedidos delivery)
+  |     +-- <span class="component">BarSelector</span> ............ selector de destino
+  |     +-- <span class="component">ProductGrid</span> ............. cuadricula (duplicada)
+  |     +-- <span class="component">OrderPanel</span> .............. panel de pedido (duplicado)
+  |     |     +-- <span class="shared">ToppingSelector</span> ..... selector de toppings *
+  |     +-- <span class="component">CheckoutBar</span> ............ barra de cobro (duplicada)
+  |
+  +-- <span class="screen">/pos/seguimiento</span> (Seguimiento delivery)
+        +-- <span class="component">OrderTracker</span> ........... seguimiento en tiempo real
+        +-- <span class="component">StatusTimeline</span> ......... linea de tiempo
+
+<span class="shared">* ToppingSelector aparece 3 veces con codigo casi identico</span></div>
+
+    <p>
+      El asterisco (*) marca el componente de toppings, que esta copiado en 3 lugares diferentes.
+      Cualquier cambio hay que hacerlo 3 veces.
+    </p>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="card">
+    <h2>Las 4 pantallas del POS</h2>
+
+    <div class="screen-grid">
+      <div class="screen-card">
+        <h4>La Caja</h4>
+        <div class="path">/pos/caja</div>
+        <p>La pantalla principal del cajero. Aqui se arma el pedido: se eligen categorias, se agregan productos, se seleccionan toppings y se cobra. Es como la registradora moderna del restaurante.</p>
+      </div>
+      <div class="screen-card">
+        <h4>Pantalla del Cliente</h4>
+        <div class="path">/pos/cliente</div>
+        <p>Lo que ve el cliente en la segunda pantalla. Cuando no hay pedido muestra la marca, cuando hay productos muestra las opciones de toppings, y al final muestra un "gracias".</p>
+      </div>
+      <div class="screen-card">
+        <h4>Pedidos a Bares</h4>
+        <div class="path">/pos/bares</div>
+        <p>Igual que la caja, pero para pedidos de delivery a bares. Tiene un campo extra para seleccionar el bar de destino. El 70% del codigo es identico a la caja.</p>
+      </div>
+      <div class="screen-card">
+        <h4>Seguimiento</h4>
+        <div class="path">/pos/seguimiento</div>
+        <p>Muestra el estado de los pedidos de delivery en tiempo real. Permite ver que pedidos estan pendientes, en camino o entregados.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UX PROBLEMS -->
+  <div class="card">
+    <h2>Problemas de experiencia de usuario</h2>
+    <p>Estos son los problemas que afectan la experiencia diaria del cajero y del cliente:</p>
+
+    <div class="ux-problem">
+      <div class="ux-indicator critical"></div>
+      <div>
+        <h4>No hay confirmacion antes de borrar el pedido</h4>
+        <p>Si el cajero toca accidentalmente el boton de limpiar, se borra todo el pedido sin preguntar. Es como si el mesero pudiera tirar la comanda a la basura con un solo toque accidental. Deberia preguntar "Esta seguro?" antes de borrar.</p>
+      </div>
+    </div>
+
+    <div class="ux-problem">
+      <div class="ux-indicator important"></div>
+      <div>
+        <h4>Botones muy pequenos para pantalla tactil</h4>
+        <p>Algunos botones tienen menos de 44x44 pixeles, que es el tamano minimo recomendado para pantallas tactiles. En el ritmo rapido de una cocina, es facil tocar el boton equivocado. Los botones de toppings son especialmente pequenos.</p>
+      </div>
+    </div>
+
+    <div class="ux-problem">
+      <div class="ux-indicator important"></div>
+      <div>
+        <h4>No funciona en celular ni tablet</h4>
+        <p>Las pantallas fueron disenadas para monitores grandes (1920px). En una tablet de 10" o un celular, los elementos se sobreponen, el texto se corta, y algunos botones quedan fuera de la pantalla. Si algun dia se necesita tomar un pedido desde una tablet, no sera posible.</p>
+      </div>
+    </div>
+
+    <div class="ux-problem">
+      <div class="ux-indicator important"></div>
+      <div>
+        <h4>Metodo de pago habilitado cuando no deberia</h4>
+        <p>El selector de metodo de pago esta activo desde el inicio, incluso cuando no hay productos en el pedido. Esto puede confundir porque sugiere que se puede cobrar un pedido vacio.</p>
+      </div>
+    </div>
+
+    <div class="ux-problem">
+      <div class="ux-indicator important"></div>
+      <div>
+        <h4>Sin retroalimentacion al usuario</h4>
+        <p>Muchas acciones pasan en silencio. Cuando se agrega un producto no hay animacion ni sonido. Cuando se envia a Fudo no hay indicador de carga. Cuando falla algo, no siempre se muestra un error claro. El usuario no sabe si el sistema esta procesando o si se trabo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUPLICATED CODE -->
+  <div class="card">
+    <h2>Codigo duplicado: el mismo trabajo 3 veces</h2>
+    <p>
+      El componente de toppings (que permite elegir extras como queso, tocineta, etc.) esta escrito
+      3 veces de forma casi identica en el sistema:
+    </p>
+
+    <div class="dup-visual">
+      <div class="dup-box">
+        <h5>Caja</h5>
+        <div>Toppings en la pantalla del cajero</div>
+        <div class="dup-overlap">~120 lineas de codigo</div>
+      </div>
+      <div class="dup-arrow">=</div>
+      <div class="dup-box">
+        <h5>Cliente</h5>
+        <div>Toppings en la pantalla del cliente</div>
+        <div class="dup-overlap">~115 lineas de codigo</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-bottom: 1rem;">
+      <div class="dup-arrow" style="display:inline-block;">=</div>
+    </div>
+    <div class="dup-box" style="max-width: 300px; margin: 0 auto;">
+      <h5>Delivery (Bares)</h5>
+      <div>Toppings en pedidos a bares</div>
+      <div class="dup-overlap">~120 lineas de codigo</div>
+    </div>
+
+    <p style="margin-top: 1.5rem;">
+      <strong style="color: #fff;">Que implica esto?</strong> Si se necesita agregar un nuevo topping, hay que editar
+      3 archivos. Si se corrige un error en uno y se olvida en otro, los toppings funcionan
+      diferente en cada pantalla. La solucion es crear <strong>un solo componente compartido</strong>.
+    </p>
+  </div>
+
+  <!-- MOCKUPS -->
+  <div class="card">
+    <h2>Estado actual vs. Mejora propuesta</h2>
+    <p>Representacion simplificada de la pantalla de caja, mostrando como es ahora y como deberia ser:</p>
+
+    <div class="mockup-pair">
+      <div>
+        <div class="mockup"><span class="label">ACTUAL - Pantalla de Caja</span>
++------------------------------------------+
+| [Cat1] [Cat2] [Cat3] [Cat4] [Cat5]  ... |
++------------------------------------------+
+| +------+ +------+ +------+ | PEDIDO    |
+| |Prod1 | |Prod2 | |Prod3 | |           |
+| |$25k  | |$18k  | |$22k  | | Hamb x1  |
+| +------+ +------+ +------+ | Papa x2  |
+| +------+ +------+ +------+ |           |
+| |Prod4 | |Prod5 | |Prod6 | |           |
+| |$15k  | |$20k  | |$30k  | |           |
+| +------+ +------+ +------+ |           |
+|                             |           |
+|                             | Total:    |
+|                             |  $61,000  |
++-----------------------------+-----------+
+| [Metodo pago: v] [LIMPIAR] [  COBRAR ] |
++------------------------------------------+
+                   ^                  ^
+            sin confirmar      siempre activo
+            al limpiar         (aun sin items)</div>
+      </div>
+      <div>
+        <div class="mockup"><span class="label">MEJORADO - Pantalla de Caja</span>
++------------------------------------------+
+| [Cat1] [Cat2] [Cat3] [Cat4] [Cat5]  ... |
++------------------------------------------+
+| +------+ +------+ +------+ | PEDIDO    |
+| |Prod1 | |Prod2 | |Prod3 | |           |
+| |$25k  | |$18k  | |$22k  | | Hamb x1  |
+| | +ADD | | +ADD | | +ADD | |  +queso   |
+| +------+ +------+ +------+ | Papa x2  |
+| +------+ +------+ +------+ |           |
+| |Prod4 | |Prod5 | |Prod6 | | [Quitar] |
+| |$15k  | |$20k  | |$30k  | |           |
+| | +ADD | | +ADD | | +ADD | |           |
+| +------+ +------+ +------+ | Total:    |
+|                             |  $64,000  |
++-----------------------------+-----------+
+|                  [LIMPIAR?] [  COBRAR ] |
++------------------------------------------+
+          Confirmacion ^       ^ Deshabilitado
+           "Seguro?"          si no hay items</div>
+      </div>
+    </div>
+
+    <p><strong style="color:#fff;">Cambios clave:</strong></p>
+    <ul style="color: var(--text-muted); padding-left: 1.5rem;">
+      <li>Boton de limpiar pide confirmacion</li>
+      <li>Boton de cobrar deshabilitado si no hay productos</li>
+      <li>Selector de metodo de pago solo aparece al cobrar</li>
+      <li>Botones mas grandes con area tactil adecuada</li>
+      <li>Toppings se muestran junto al producto correspondiente</li>
+    </ul>
+  </div>
+
+  <!-- ACCESSIBILITY -->
+  <div class="card">
+    <h2>Accesibilidad</h2>
+    <p>La accesibilidad asegura que el sistema sea usable para todas las personas. Estos son los puntos evaluados:</p>
+
+    <div class="a11y-item">
+      <div class="a11y-status a11y-fail">X</div>
+      <div>Contraste de texto insuficiente en algunos botones (texto gris claro sobre fondo oscuro)</div>
+    </div>
+    <div class="a11y-item">
+      <div class="a11y-status a11y-fail">X</div>
+      <div>Botones sin etiquetas de texto accesible (los lectores de pantalla no saben que hacen)</div>
+    </div>
+    <div class="a11y-item">
+      <div class="a11y-status a11y-fail">X</div>
+      <div>No se puede navegar usando solo el teclado (Tab y Enter)</div>
+    </div>
+    <div class="a11y-item">
+      <div class="a11y-status a11y-warn">!</div>
+      <div>Tamano de fuente fijo (no se adapta a preferencias del usuario)</div>
+    </div>
+    <div class="a11y-item">
+      <div class="a11y-status a11y-warn">!</div>
+      <div>Areas tactiles menores a 44x44px en varios botones</div>
+    </div>
+    <div class="a11y-item">
+      <div class="a11y-status a11y-fail">X</div>
+      <div>Sin indicadores de foco visible al navegar con teclado</div>
+    </div>
+
+    <p style="margin-top: 1rem;">
+      <strong style="color: #fff;">Por que importa:</strong> Aunque el POS lo usa principalmente el cajero, mejorar
+      la accesibilidad beneficia a todos. Botones mas grandes y mejor contraste reducen errores incluso
+      para personas sin discapacidades, especialmente en ambientes oscuros como el del restaurante.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  Generado por Claude Code &mdash; 28 de febrero, 2026
+</footer>
+
+</body>
+</html>

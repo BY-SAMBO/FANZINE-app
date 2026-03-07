@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carta v30 - FANZINE</title>
+  <title>Carta v33 - FANZINE</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    @page { size: 25cm 35cm; margin: 0; }
+    @page { size: 22.5cm 36cm; margin: 0; }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -26,14 +26,18 @@
     @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
 
     body {
-      background: repeating-conic-gradient(var(--white) 0% 25%, #FECACA 0% 50%) 0 0 / 24px 24px;
+      background: var(--black);
       color: var(--black);
       font-family: var(--font);
       line-height: 1.3;
-      width: 25cm;
-      min-height: 35cm;
-      margin: 0 auto;
-      padding: 0.3cm;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pattern-wrap {
+      background: repeating-conic-gradient(var(--white) 0% 25%, #DC2626 0% 50%) 0 0 / 24px 24px;
+      padding: 0.5cm;
+      display: inline-block;
     }
 
     .card {
@@ -41,8 +45,7 @@
       border: 3px solid var(--black);
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 5px 5px 0 var(--black);
-      min-height: calc(35cm - 0.6cm);
+      width: 25cm;
       display: flex;
       flex-direction: column;
     }
@@ -73,12 +76,12 @@
       justify-content: center;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.06cm 0.3cm;
-      margin: 0.02cm 0.3cm 0.02cm;
+      padding: 0.06cm 0.2cm;
+      margin: 0.02cm 0.15cm 0.02cm;
       background: var(--gray-light);
       border: var(--border);
       border-radius: 8px;
-      font-size: 0.48rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -97,7 +100,7 @@
       padding: 0 0.3rem;
     }
     .legend-hero-text {
-      font-size: 0.38rem;
+      font-size: 0.62rem;
       font-weight: 600;
       color: var(--black);
       letter-spacing: 0.03em;
@@ -108,7 +111,7 @@
       align-items: center;
       gap: 3px;
       opacity: 0.7;
-      font-size: 0.4rem;
+      font-size: 0.65rem;
     }
 
     .legend-punch-group {
@@ -119,7 +122,7 @@
     .legend-topping-label {
       background: var(--black);
       color: var(--white);
-      font-size: 0.42rem;
+      font-size: 0.68rem;
       font-weight: 700;
       padding: 0.1rem 0.75rem 0.1rem 0.24rem;
       border-radius: 100px 0 0 100px;
@@ -147,7 +150,7 @@
       position: relative;
       color: var(--white);
       text-transform: uppercase;
-      font-size: 0.58rem;
+      font-size: 0.72rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       line-height: 1;
@@ -183,28 +186,35 @@
     /* ===== FLOW ===== */
     .flow {
       flex: 1;
-      padding: 0.04cm 0.3cm 0.04cm;
+      padding: 0.04cm 0 0.04cm;
+    }
+    .flow > .tag,
+    .flow > .tag-explainer,
+    .flow > .section-grid,
+    .flow > hr {
+      margin-left: 0.2cm;
+      margin-right: 0.2cm;
     }
 
     /* ===== TAG ===== */
     .tag {
       display: inline-block;
-      font-size: 0.5rem; font-weight: 700; text-transform: uppercase;
+      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.14em; color: var(--white); background: var(--black);
-      padding: 0.06rem 0.4rem; border-radius: 4px;
-      margin-bottom: 0.03cm;
+      padding: 0.1rem 0.5rem; border-radius: 4px;
+      margin-bottom: 0.02cm;
     }
 
     /* ===== ARTISAN EXPLAINER (from v29-paola) ===== */
     .tag-explainer {
       display: inline-block;
-      font-size: 0.44rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: var(--red);
       background: #FEF2F2;
       border: 1.5px solid var(--red);
       border-radius: 4px;
-      padding: 0.04rem 0.35rem;
+      padding: 0.08rem 0.45rem;
       margin-left: 0.2rem;
       text-transform: uppercase;
       letter-spacing: 0.03em;
@@ -214,7 +224,7 @@
     /* ===== PRODUCT BADGES (from v29-paola, styled in v28) ===== */
     .badge-best {
       display: inline-block;
-      font-size: 0.42rem; font-weight: 700;
+      font-size: 0.68rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.04em;
       color: var(--black); background: var(--yellow);
       border: 1.5px solid var(--black);
@@ -225,7 +235,7 @@
 
     .badge-new {
       display: inline-block;
-      font-size: 0.42rem; font-weight: 700;
+      font-size: 0.68rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.04em;
       color: var(--white); background: var(--red);
       border: 1.5px solid var(--black);
@@ -236,14 +246,14 @@
 
     .badge-spicy {
       display: inline-block;
-      font-size: 0.72rem;
+      font-size: 0.88rem;
       margin-left: 0.08rem;
       vertical-align: middle;
     }
 
     .badge-veg {
       display: inline-block;
-      font-size: 0.38rem; font-weight: 700;
+      font-size: 0.62rem; font-weight: 700;
       color: var(--green); background: #DCFCE7;
       border: 1.5px solid var(--green);
       padding: 0.03rem 0.2rem; border-radius: 4px;
@@ -254,9 +264,11 @@
     /* ===== LATERAL (hot dogs / nachos-tacos) ===== */
     .lateral {
       display: grid;
-      grid-template-columns: 5.4cm 1fr 5.4cm;
-      gap: 0 0.15cm;
-      margin-bottom: 0.06cm;
+      grid-template-columns: 6cm 1fr 6cm;
+      gap: 0 0.1cm;
+      margin-bottom: 0.02cm;
+      margin-left: 0;
+      margin-right: 0;
     }
 
     .lateral .img-left,
@@ -265,28 +277,32 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 2;
     }
 
     .lateral .img-left img,
     .lateral .img-right img {
-      width: 100%;
+      width: 130%;
       height: auto;
       max-height: 100%;
       object-fit: contain;
       display: block;
     }
+    .lateral .img-left {
+      transform: scaleX(-1);
+    }
 
     .center-zone {
       display: flex;
       flex-direction: column;
-      padding: 0.03cm 0.1cm;
+      padding: 0.01cm 0.18cm;
       justify-content: space-between;
     }
 
     .txt-left {
       text-align: left;
-      padding-bottom: 0.04cm;
-      margin-bottom: 0.04cm;
+      padding-bottom: 0.02cm;
+      margin-bottom: 0.02cm;
       border-bottom: var(--dash);
     }
 
@@ -296,14 +312,14 @@
 
     /* ===== PRODUCT NAME ===== */
     .pname {
-      font-size: 1.5rem; font-weight: 700; text-transform: uppercase;
+      font-size: 2rem; font-weight: 700; text-transform: uppercase;
       line-height: 1; letter-spacing: 0.01em;
     }
 
     .pname-sub {
-      font-size: 0.58rem; font-weight: 600;
+      font-size: 0.85rem; font-weight: 600;
       letter-spacing: 0.03em; color: #555; margin-top: 0.04rem;
-      line-height: 1.25;
+      line-height: 1.2;
     }
 
     .pname-sub strong {
@@ -314,28 +330,85 @@
       font-weight: 800; color: var(--red);
     }
 
+    /* ===== H — Category blocks ===== */
+    .uni-block {
+      border: var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 0.06cm;
+    }
+    .uni-block-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.05rem 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+    .uni-block-name {
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .uni-block-desc {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ccc;
+    }
+    .uni-block-desc strong { color: var(--white); font-weight: 700; }
+    .uni-block-desc .plus-topping { color: var(--yellow); font-weight: 800; }
+    .uni-block-ingredients {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
+      padding: 0.06rem 0.4rem;
+      background: var(--gray-light);
+      border-bottom: var(--dash);
+    }
+    .uni-block-flavors {
+      display: flex;
+      justify-content: space-around;
+      padding: 0.1rem 0.25rem;
+      gap: 0.1rem;
+    }
+    .uni-flavor { flex: 1; text-align: center; }
+    .uni-flavor-label {
+      font-size: 0.95rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.2;
+    }
+    .uni-flavor-price {
+      font-size: 0.95rem; font-weight: 800; color: var(--red);
+    }
+    .uni-block-extra {
+      font-size: 0.9rem; font-weight: 700; color: #555;
+      text-align: center; padding: 0.12rem;
+      background: var(--gray-light); border-top: var(--dash);
+    }
+
     /* ===== PRICE ===== */
     .pprice {
-      font-size: 1.05rem; font-weight: 700; color: var(--black);
+      font-size: 1.55rem; font-weight: 700; color: var(--black);
     }
 
     .price-row {
-      display: flex; gap: 0.2rem; align-items: baseline; margin-top: 0.03rem; flex-wrap: wrap;
+      display: flex; gap: 0.15rem; align-items: baseline; margin-top: 0.01rem; flex-wrap: wrap;
     }
 
     .txt-right .price-row { justify-content: flex-end; }
 
-    .price-label { font-size: 0.44rem; font-weight: 700; text-transform: uppercase; color: #888; }
+    .price-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: #888; }
 
     .combo-tag {
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      font-size: 0.62rem; font-weight: 800;
+      font-size: 0.9rem; font-weight: 800;
       color: var(--white);
       background: var(--red);
-      padding: 0.18rem 0.55rem;
-      border-radius: 8px;
+      padding: 0.15rem 0.55rem;
+      border-radius: 6px;
       white-space: nowrap;
       margin-left: 0.15rem;
       border: 2px solid var(--black);
@@ -349,19 +422,19 @@
 
     /* ===== PUNCH ===== */
     .punch {
-      margin-top: 0.04cm;
+      margin-top: 0.02cm;
       background: #FAFAFA;
       border: var(--border);
-      border-radius: 8px;
-      padding: 0.08cm 0.15cm;
+      border-radius: 6px;
+      padding: 0.04cm 0.12cm;
     }
 
     .punch-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.18rem;
-      margin-bottom: 0.08rem;
+      gap: 0.12rem;
+      margin-bottom: 0.04rem;
     }
     .punch-row-main {
       display: flex;
@@ -378,9 +451,9 @@
     .punch-topping-label {
       background: var(--black);
       color: var(--white);
-      font-size: 0.48rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      padding: 0.12rem 0.82rem 0.12rem 0.28rem;
+      padding: 0.08rem 0.72rem 0.08rem 0.22rem;
       border-radius: 100px 0 0 100px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -406,13 +479,13 @@
       position: relative;
       color: var(--white);
       text-transform: uppercase;
-      font-size: 0.52rem;
+      font-size: 0.9rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       line-height: 1;
       z-index: 3;
       transform: rotate(-4deg);
-      padding: 0.32rem 0.52rem;
+      padding: 0.26rem 0.44rem;
       vertical-align: middle;
     }
 
@@ -432,17 +505,17 @@
     }
 
     .punch-ct {
-      font-weight: 800; font-size: 0.7rem; text-transform: uppercase;
+      font-weight: 800; font-size: 0.95rem; text-transform: uppercase;
       letter-spacing: 0.02em; color: var(--black);
     }
 
     .punch-extra {
-      font-size: 0.62rem; font-weight: 700; color: var(--red);
+      font-size: 0.82rem; font-weight: 700; color: var(--red);
       white-space: nowrap;
     }
 
     .pills {
-      display: flex; flex-wrap: wrap; gap: 3px;
+      display: flex; flex-wrap: wrap; gap: 2px;
     }
 
     .txt-right .pills { justify-content: flex-end; }
@@ -450,22 +523,22 @@
     .txt-right .punch-row-main { flex-direction: row-reverse; }
 
     .pill {
-      display: inline-flex; align-items: center; gap: 2px;
-      font-size: 0.65rem; font-weight: 700; color: var(--black);
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 0.88rem; font-weight: 700; color: var(--black);
       background: var(--white);
-      border: 2px dashed #bbb;
-      border-radius: 100px; padding: 0.1rem 0.36rem;
+      border: 1.5px dashed #bbb;
+      border-radius: 100px; padding: 0.08rem 0.35rem;
     }
 
     .pill.rec {
       background: var(--yellow);
-      border: 2px solid var(--black);
-      box-shadow: 1.5px 1.5px 0 var(--black);
+      border: 1.5px solid var(--black);
+      box-shadow: 1px 1px 0 var(--black);
     }
 
     .pill.rec::before {
       content: '\2605'; color: var(--black);
-      font-size: 0.52rem;
+      font-size: 0.82rem;
     }
 
     /* ===== NACHOS/TACOS FLAVORS ===== */
@@ -480,18 +553,18 @@
     }
 
     .cat-item-name {
-      font-size: 0.88rem; font-weight: 700; text-transform: uppercase;
+      font-size: 1.3rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.02em; line-height: 1.2;
     }
     .cat-item-price {
-      font-size: 0.88rem; font-weight: 700; color: var(--red);
+      font-size: 1.3rem; font-weight: 700; color: var(--red);
       white-space: nowrap;
     }
 
     /* ===== GRID SECTION (shared: tex-mex + snacks) ===== */
     .section-grid {
       display: grid;
-      gap: 0.12cm;
+      gap: 0.08cm;
     }
 
     .section-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -503,45 +576,45 @@
     }
 
     .grid-col img {
-      width: 100%; height: 2.8cm;
+      width: 100%; height: 2.4cm;
       border-radius: var(--radius); object-fit: cover;
       margin-bottom: 0.04cm;
       border: var(--border);
     }
 
     .grid-col .ph {
-      width: 100%; height: 2.8cm;
+      width: 100%; height: 2.4cm;
       display: flex; align-items: center; justify-content: center;
-      background: #f0f0f0; font-size: 0.3rem; font-weight: 700; color: #bbb;
+      background: #f0f0f0; font-size: 0.56rem; font-weight: 700; color: #bbb;
       text-transform: uppercase;
       border-radius: var(--radius); border: var(--border);
       margin-bottom: 0.06cm;
     }
 
     .grid-title {
-      font-size: 0.52rem; font-weight: 700; text-transform: uppercase;
+      font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.1em; color: var(--white); background: var(--black);
-      display: inline-block; padding: 0.04rem 0.3rem; border-radius: 4px;
+      display: inline-block; padding: 0.06rem 0.4rem; border-radius: 4px;
       margin-bottom: 0.04cm;
     }
 
     .grid-product-name {
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      font-size: 1.05rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.01em; line-height: 1.15;
       flex: 1;
     }
 
     .grid-product-desc {
-      font-size: 0.44rem; font-weight: 600; color: var(--gray); line-height: 1.2;
+      font-size: 0.85rem; font-weight: 600; color: var(--gray); line-height: 1.2;
       margin-top: 0.02rem;
     }
 
     .grid-price {
-      font-size: 0.72rem; font-weight: 700; color: var(--red); margin-top: 0.03cm;
+      font-size: 1.05rem; font-weight: 700; color: var(--red); margin-top: 0.04cm;
     }
 
     .grid-price-label {
-      font-size: 0.42rem; font-weight: 700; text-transform: uppercase; color: #555;
+      font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: #555;
     }
 
     .grid-prices {
@@ -555,21 +628,21 @@
     .grid-item + .grid-item { border-top: var(--dash); }
 
     .grid-item-name {
-      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      font-size: 1.05rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.01em;
     }
     .grid-item-desc {
-      font-size: 0.44rem; font-weight: 600; color: var(--gray); line-height: 1.2;
+      font-size: 0.85rem; font-weight: 600; color: var(--gray); line-height: 1.2;
     }
     .grid-item-price {
-      font-size: 0.72rem; font-weight: 700; color: var(--red);
+      font-size: 1.05rem; font-weight: 700; color: var(--red);
       white-space: nowrap; margin-left: 0.12rem;
     }
 
     /* ===== BEBIDAS SECTION — retro soda fountain ===== */
     .bebidas-section {
-      padding: 0.04cm 0.3cm 0;
-      margin-top: 0.08cm;
+      padding: 0.02cm 0.15cm 0;
+      margin-top: 0.04cm;
     }
 
     .bebidas-header {
@@ -577,19 +650,19 @@
       align-items: center;
       justify-content: center;
       gap: 0.25rem;
-      margin-bottom: 0.1cm;
+      margin-bottom: 0.04cm;
     }
 
     .bebidas-header .tag {
       background: var(--black); color: var(--white);
-      margin-bottom: 0; font-size: 0.65rem;
-      padding: 0.08rem 0.55rem;
+      margin-bottom: 0; font-size: 1rem;
+      padding: 0.1rem 0.6rem;
       border-radius: 100px;
       letter-spacing: 0.06em;
     }
 
     .bebidas-subtitle {
-      font-size: 0.5rem; font-weight: 700;
+      font-size: 0.82rem; font-weight: 700;
       color: var(--black); letter-spacing: 0.04em;
       text-transform: uppercase;
     }
@@ -608,13 +681,13 @@
     }
 
     .bev-name {
-      font-size: 0.62rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--black);
     }
 
     .bev-price {
-      font-size: 0.62rem; font-weight: 800; color: var(--red);
+      font-size: 0.95rem; font-weight: 800; color: var(--red);
       white-space: nowrap;
     }
 
@@ -627,7 +700,7 @@
       align-items: center; border-top: 3px solid var(--black);
       background: var(--black); color: var(--white); border-radius: 0 0 15px 15px;
     }
-    .footer-brand { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em; }
+    .footer-brand { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; }
 
     /* ===== RESPONSIVE ===== */
     @media screen and (max-width: 600px) {
@@ -642,6 +715,7 @@
 </head>
 <body>
 
+  <div class="pattern-wrap">
   <div class="card">
 
     <!-- HEADER -->
@@ -656,23 +730,15 @@
       </svg>
     </div>
 
-    <!-- LEGEND BAR (from v29-paola, styled in v28 aesthetic with starburst) -->
+    <!-- LEGEND BAR -->
     <div class="legend-bar">
       <div class="legend-hero">
         <span class="legend-punch-group"><span class="legend-topping-label">Toppings</span><span class="legend-punch">Punch</span></span>
         <span class="legend-hero-text">= Personaliza tu plato</span>
       </div>
       <div class="legend-secondary">
-        <span class="legend-swatch sw-rec"></span>
-        <span>&#9733; Recomendado</span>
-      </div>
-      <div class="legend-secondary">
-        <span class="legend-swatch sw-opt"></span>
-        <span>Opci&oacute;n</span>
-      </div>
-      <div class="legend-secondary">
         <span style="font-weight:700;color:var(--red);">COMBO</span>
-        <span>= Gaseosa en botella + Crispetas personales o Papas a la francesa</span>
+        <span>= Gaseosa + Crispetas o Papas</span>
       </div>
     </div>
 
@@ -680,17 +746,17 @@
 
       <!-- ============ HOT DOGS ============ -->
       <span class="tag">Hot Dogs</span>
-      <span class="tag-explainer">Todos en pan artesanal con salchicha premium</span>
+      <span class="tag-explainer">Todos en pan artesanal con salchicha americana</span>
 
       <!-- PAIR 1: Zinema (LEFT) + BBQ Bacon (RIGHT) -->
       <div class="lateral">
         <div class="img-left">
-          <img src="zinema.png" alt="Zinema" style="border:none;">
+          <img src="zinema.png" alt="Zinema" style="border:none; transform: translate(-13px, -84px) scale(1.15);">
         </div>
         <div class="center-zone">
           <div class="txt-left">
-            <div class="pname">Zinema</div>
-            <div class="pname-sub">Arma tu perro &middot; <strong>Papas crocantes</strong> &middot; <strong>SourCream</strong> &middot; <strong>Salsa le&ntilde;a</strong> &middot; <span class="plus-topping">+ 3 toppings</span></div>
+            <div class="pname">Zinema <span style="font-size:0.45em;font-weight:600;text-transform:none;letter-spacing:0;">Arma tu perro</span></div>
+            <div class="pname-sub"><strong>Papas crocantes</strong> &middot; <strong>Queso cheddar</strong> &middot; <strong>SourCream</strong> &middot; <strong>Salsa le&ntilde;a</strong> &middot; <span class="plus-topping">+ 3 toppings</span></div>
             <div class="punch">
               <div class="punch-row">
                 <span class="punch-row-main"><span class="punch-group"><span class="punch-topping-label">Toppings</span><span class="punch-hl">Punch</span></span>
@@ -700,10 +766,11 @@
               <div class="pills">
                 <span class="pill rec">Pi&ntilde;a</span>
                 <span class="pill rec">Jalape&ntilde;os</span>
-                <span class="pill rec">Cheddar</span>
                 <span class="pill">Pepinillos</span>
                 <span class="pill">Ma&iacute;z</span>
                 <span class="pill">Cebolla Encurtida</span>
+                <span class="pill rec">Pico de Gallo</span>
+                <span class="pill">Queso Coste&ntilde;o</span>
               </div>
             </div>
             <div class="price-row">
@@ -734,14 +801,14 @@
           </div>
         </div>
         <div class="img-right">
-          <img src="bbq-bacon.png" alt="BBQ Bacon" style="border:none;">
+          <img src="bbq-bacon.png" alt="BBQ Bacon" style="border:none; transform: translate(-15px, 86px) scale(1.20);">
         </div>
       </div>
 
       <!-- PAIR 2: Tropical Fuego (LEFT) + Birria Fusion (RIGHT) -->
       <div class="lateral">
         <div class="img-left">
-          <img src="tropical-fuego.png" alt="Tropical Fuego" style="border:none;">
+          <img src="tropical-fuego.png" alt="Tropical Fuego" style="border:none; transform: translate(-8px, -111px) scale(1.35);">
         </div>
         <div class="center-zone">
           <div class="txt-left">
@@ -786,66 +853,96 @@
           </div>
         </div>
         <div class="img-right">
-          <img src="birria-fusion.png" alt="Birria Fusion" style="border:none;">
+          <img src="birria-fusion.png" alt="Birria Fusion" style="border:none; transform: translate(-11px, 50px) scale(1.15);">
         </div>
       </div>
 
-      <!-- ============ NACHOS & TACOS ============ -->
-      <span class="tag">Nachos &amp; Tacos</span>
+      <!-- ============ NACHOS · TACOS · PAPAS ============ -->
+      <span class="tag">Nachos &middot; Tacos &middot; Papas</span>
       <div class="lateral">
         <div class="img-left">
-          <img src="nachos.png" alt="Nachos" style="border:none;">
+          <img src="nachos.png" alt="Nachos" style="border:none; transform: translate(-5px, -143px) scale(1.05);">
         </div>
-        <div class="center-zone">
-          <div class="pname" style="font-size:1.15rem;">Nachos <span class="punch-group"><span class="punch-topping-label">Toppings</span><span class="punch-hl">Punch</span></span></div>
-          <div class="cat-flavors">
-            <div class="cat-flavor">
-              <div class="cat-item-name">Cochinita Pibil</div>
-              <div class="cat-item-price">$20.000</div>
+        <div class="center-zone" style="justify-content:center;gap:0.04cm;">
+          <!-- NACHOS -->
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Nachos</span>
+              <span class="uni-block-name" style="font-size:0.68rem;font-weight:600;color:#ccc;margin-left:auto;"><span class="plus-topping" style="color:var(--yellow);">+ 3 toppings</span></span>
             </div>
-            <div class="cat-flavor">
-              <div class="cat-item-name" style="font-size:1rem;">Birria</div>
-              <div class="cat-item-price" style="font-size:1rem;">$22.000</div>
-            </div>
-            <div class="cat-flavor">
-              <div class="cat-item-name">Pollo Chipotle</div>
-              <div class="cat-item-price">$20.000</div>
+            <div class="uni-block-ingredients">Guacamole, SourCream, Pico de Gallo y Cheddar</div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$20.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$22.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$20.000</div></div>
             </div>
           </div>
-          <hr class="sep">
-          <div class="pname" style="font-size:1.15rem;text-align:right;"><span class="punch-group"><span class="punch-topping-label">Toppings</span><span class="punch-hl">Punch</span></span> Tacos</div>
-          <div class="cat-flavors">
-            <div class="cat-flavor">
-              <div class="cat-item-name">Cochinita Pibil</div>
-              <div class="cat-item-price">$20.000</div>
+          <!-- TACOS -->
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Tacos</span>
+              <span class="uni-block-name" style="font-size:0.68rem;font-weight:600;color:#ccc;margin-left:auto;"><span class="plus-topping" style="color:var(--yellow);">+ 3 toppings</span></span>
             </div>
-            <div class="cat-flavor">
-              <div class="cat-item-name" style="font-size:1rem;">Birria</div>
-              <div class="cat-item-price" style="font-size:1rem;">$22.000</div>
-            </div>
-            <div class="cat-flavor">
-              <div class="cat-item-name">Pollo Chipotle</div>
-              <div class="cat-item-price">$20.000</div>
+            <div class="uni-block-ingredients">3 unidades con queso cheddar</div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$20.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$22.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$20.000</div></div>
             </div>
           </div>
+          <!-- PAPAS CARGADAS -->
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Papas Cargadas</span>
+              <span class="uni-block-name" style="font-size:0.68rem;font-weight:600;color:#ccc;margin-left:auto;"><span class="plus-topping" style="color:var(--yellow);">+ 3 toppings</span></span>
+            </div>
+            <div class="uni-block-ingredients">Guacamole, SourCream, Pico de Gallo y Cheddar</div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$23.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$23.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Salchipapa</div><div class="uni-flavor-price">$24.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$25.000</div></div>
+            </div>
+          </div>
+          <!-- PUNCH COMPARTIDO -->
           <div class="punch">
             <div class="punch-row">
               <span class="punch-row-main"><span class="punch-group"><span class="punch-topping-label">Toppings</span><span class="punch-hl">Punch</span></span>
-              <span class="punch-ct">Toppings Nachos &amp; Tacos &middot; Elige 1</span></span>
+              <span class="punch-ct">Elige 3</span></span>
               <span class="punch-extra">ADICIONAL $1.500</span>
             </div>
             <div class="pills">
-              <span class="pill">Pi&ntilde;a</span>
-              <span class="pill">Jalape&ntilde;os</span>
-              <span class="pill rec">Cheddar</span>
-              <span class="pill">Pepinillos</span>
+              <span class="pill rec">Pi&ntilde;a</span>
+              <span class="pill rec">Jalape&ntilde;os</span>
+              <span class="pill rec">Pepinillos</span>
+              <span class="pill">Cheddar</span>
               <span class="pill">Ma&iacute;z</span>
               <span class="pill">Cebolla Encurtida</span>
             </div>
           </div>
+          <!-- PAPAS FRANCESAS -->
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Papas Francesas</span>
+            </div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor">
+                <div class="uni-flavor-label">Personal</div>
+                <div class="uni-flavor-price">$7.500</div>
+              </div>
+              <div class="uni-flavor">
+                <div class="uni-flavor-label">Agrandadas</div>
+                <div class="uni-flavor-price">$10.000</div>
+              </div>
+              <div class="uni-flavor">
+                <div class="uni-flavor-label">Pareja</div>
+                <div class="uni-flavor-price">$14.000</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="img-right">
-          <img src="tacos.png" alt="Tacos" style="border:none;">
+          <img src="tacos.png" alt="Tacos" style="border:none; transform: translate(2px, -77px) scale(1.00);">
         </div>
       </div>
 
@@ -863,7 +960,7 @@
         </div>
         <div class="grid-col">
           <img src="https://gkorrgndppfindultvkn.supabase.co/storage/v1/object/public/product-images/MC001/foto_principal.png" alt="Mac &amp; Cheese">
-          <div class="grid-product-name">Mac &amp; Cheese con Pollo</div>
+          <div class="grid-product-name">Macarrones con Queso y Pollo</div>
           <div class="grid-product-desc">Macarrones cremosos con cheddar, tocineta y pollo frito.</div>
           <div class="grid-price">$25.000</div>
         </div>
@@ -880,7 +977,7 @@
 
       <!-- ============ SNACKS ============ -->
       <span class="tag">Snacks</span>
-      <div class="section-grid cols-3">
+      <div class="section-grid" style="grid-template-columns: 1fr 1fr 1fr;">
         <div class="grid-col">
           <img src="corndog.png" alt="Corndogs" style="border:none;">
           <div class="grid-title">Corndogs</div>
@@ -932,54 +1029,23 @@
           </div>
         </div>
         <div class="grid-col">
-          <img src="https://kasblan.es/wp-content/uploads/2020/05/6014.-Patata-Rizada.jpg" alt="Papas Francesas">
-          <div class="grid-title">Papas Francesas</div>
+          <div class="ph">foto</div>
+          <div class="grid-title">Bebidas</div>
           <div class="grid-item">
-            <div>
-              <span class="grid-item-name">Personal</span>
-              <div class="grid-item-desc">130gr</div>
-            </div>
-            <span class="grid-item-price">$7.500</span>
+            <span class="grid-item-name">Gaseosa Peque&ntilde;a</span>
+            <span class="grid-item-price">$3.500</span>
           </div>
           <div class="grid-item">
-            <div>
-              <span class="grid-item-name">Agrandadas</span>
-              <div class="grid-item-desc">185gr</div>
-            </div>
-            <span class="grid-item-price">$10.000</span>
+            <span class="grid-item-name">Gaseosa Lata</span>
+            <span class="grid-item-price">$4.500</span>
           </div>
           <div class="grid-item">
-            <div>
-              <span class="grid-item-name">Pareja</span>
-              <div class="grid-item-desc">260gr &middot; con cheddar</div>
-            </div>
-            <span class="grid-item-price">$14.000</span>
+            <span class="grid-item-name">Cooldrink</span>
+            <span class="grid-item-price">$4.500</span>
           </div>
         </div>
       </div>
 
-    </div>
-
-    <!-- ============ BEBIDAS — retro soda fountain cards ============ -->
-    <div class="bebidas-section">
-      <div class="bebidas-header">
-        <span class="tag" style="background:var(--black);color:var(--white);margin-bottom:0;">Bebidas</span>
-        <span class="bebidas-subtitle">Acompa&ntilde;a tu pedido</span>
-      </div>
-      <div class="bebidas-grid">
-        <div class="bev-item">
-          <span class="bev-name">Gaseosa Peque&ntilde;a</span>
-          <span class="bev-price">$3.500</span>
-        </div>
-        <div class="bev-item">
-          <span class="bev-name">Gaseosa Lata</span>
-          <span class="bev-price">$4.500</span>
-        </div>
-        <div class="bev-item">
-          <span class="bev-name">Cooldrink</span>
-          <span class="bev-price">$4.500</span>
-        </div>
-      </div>
     </div>
 
     <!-- FOOTER -->
@@ -988,15 +1054,16 @@
     </div>
 
   </div>
+  </div>
 
-  <!-- Real-size toggle button -->
-  <button id="realSizeBtn" class="no-print" style="
+  <!-- Fullscreen 1:1 button -->
+  <button id="fullscreenBtn" class="no-print" style="
     position:fixed; bottom:1.2rem; right:1.2rem; z-index:9999;
     background:#0A0A0A; color:#fff; border:none; border-radius:50%;
-    width:48px; height:48px; font-size:20px; cursor:pointer;
+    width:48px; height:48px; font-size:22px; cursor:pointer;
     box-shadow:0 2px 10px rgba(0,0,0,.35); display:flex;
     align-items:center; justify-content:center;
-  " title="Tama&ntilde;o real">&#x1F50D;</button>
+  " title="Pantalla completa 1:1">&#x26F6;</button>
 
   <script>
     // Live reload
@@ -1012,34 +1079,237 @@
       }, 1000);
     })();
 
-    // Real-size toggle
+    // Fullscreen 1:1 fit
     (function(){
-      const btn = document.getElementById('realSizeBtn');
-      const body = document.body;
-      let locked = false;
+      const btn = document.getElementById('fullscreenBtn');
+      const wrap = document.querySelector('.pattern-wrap');
+      let active = false;
 
-      btn.addEventListener('click', () => {
-        if (!locked) {
-          const realW = 945;
-          const screenW = window.innerWidth;
-          const scale = screenW / realW;
-          body.style.transformOrigin = 'top center';
-          body.style.transform = `scale(${scale})`;
-          body.style.width = realW + 'px';
-          body.style.margin = '0 auto';
-          body.style.overflow = 'visible';
-          btn.innerHTML = '&#x2194;';
-          btn.title = 'Navegaci\u00f3n libre';
-          locked = true;
+      btn.addEventListener('click', async () => {
+        if (!active) {
+          try { await document.documentElement.requestFullscreen(); } catch(e){}
+
+          setTimeout(() => {
+            const screenW = window.innerWidth;
+            const screenH = window.innerHeight;
+            const wrapW = wrap.offsetWidth;
+            const wrapH = wrap.offsetHeight;
+            const scale = Math.min(screenW / wrapW, screenH / wrapH);
+
+            document.body.style.background = '#000';
+            document.body.style.margin = '0';
+            document.body.style.overflow = 'hidden';
+            wrap.style.transform = `scale(${scale})`;
+            wrap.style.transformOrigin = 'top left';
+            wrap.style.position = 'fixed';
+            wrap.style.top = ((screenH - wrapH * scale) / 2) + 'px';
+            wrap.style.left = ((screenW - wrapW * scale) / 2) + 'px';
+
+            btn.innerHTML = '&#x2716;';
+            btn.title = 'Salir';
+            active = true;
+          }, 200);
         } else {
-          body.style.transform = '';
-          body.style.width = '';
-          body.style.transformOrigin = '';
-          btn.innerHTML = '&#x1F50D;';
-          btn.title = 'Tama\u00f1o real';
-          locked = false;
+          if (document.fullscreenElement) {
+            try { await document.exitFullscreen(); } catch(e){}
+          }
+          document.body.style.cssText = '';
+          wrap.style.cssText = '';
+          btn.innerHTML = '&#x26F6;';
+          btn.title = 'Pantalla completa 1:1';
+          active = false;
         }
       });
+
+      document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement && active) {
+          document.body.style.cssText = '';
+          wrap.style.cssText = '';
+          btn.innerHTML = '&#x26F6;';
+          btn.title = 'Pantalla completa 1:1';
+          active = false;
+        }
+      });
+    })();
+  </script>
+
+  <!-- Image position editor -->
+  <div id="imgEditorBar" class="no-print" style="
+    position:fixed; top:0; left:0; right:0; z-index:10000;
+    background:rgba(0,0,0,0.9); color:#fff; font-family:monospace;
+    font-size:12px; padding:6px 12px; display:flex; align-items:center;
+    gap:12px; display:none;
+  ">
+    <span style="font-weight:bold;color:#FACC15;">IMG EDITOR</span>
+    <span id="imgEditorInfo" style="flex:1;color:#aaa;">Click an image to select. Drag to move, scroll to scale.</span>
+    <button onclick="imgEditor.resetSelected()" style="background:#DC2626;color:#fff;border:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:11px;">Reset</button>
+    <button onclick="imgEditor.resetAll()" style="background:#991b1b;color:#fff;border:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:11px;">Reset All</button>
+    <button onclick="imgEditor.showExport()" style="background:#16A34A;color:#fff;border:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:11px;">Export</button>
+    <button onclick="imgEditor.toggle()" style="background:#555;color:#fff;border:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:11px;">Close</button>
+  </div>
+  <div id="imgExportPanel" class="no-print" style="
+    display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    z-index:10001; background:#111; border:2px solid #FACC15; border-radius:12px;
+    padding:16px; width:90%; max-width:600px; max-height:80vh;
+    font-family:monospace; color:#fff;
+  ">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <span style="font-weight:bold;color:#FACC15;">Image Transforms — copy &amp; paste this to Claude</span>
+      <button onclick="imgEditor.hideExport()" style="background:#555;color:#fff;border:none;padding:2px 8px;border-radius:4px;cursor:pointer;">✕</button>
+    </div>
+    <textarea id="imgExportText" readonly style="
+      width:100%; height:300px; background:#1a1a1a; color:#4ade80; border:1px solid #333;
+      border-radius:6px; padding:10px; font-family:monospace; font-size:12px;
+      resize:vertical; white-space:pre;
+    "></textarea>
+    <button onclick="imgEditor.copyExport()" style="margin-top:8px;background:#16A34A;color:#fff;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;">Copy to clipboard</button>
+    <span id="imgCopyConfirm" style="margin-left:10px;color:#4ade80;font-size:12px;display:none;">Copied!</span>
+  </div>
+  <button id="imgEditorToggle" class="no-print" onclick="imgEditor.toggle()" style="
+    position:fixed; bottom:1.2rem; left:1.2rem; z-index:9999;
+    background:#0A0A0A; color:#fff; border:none; border-radius:50%;
+    width:48px; height:48px; font-size:18px; cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,.35); display:flex;
+    align-items:center; justify-content:center;
+  " title="Edit image positions">&#9998;</button>
+
+  <script>
+    const imgEditor = (() => {
+      const STORAGE_KEY = 'carta-v33-img-transforms';
+      let editing = false, selected = null, dragging = false;
+      let startX, startY, origX, origY;
+
+      const getImgs = () => [...document.querySelectorAll('.card img')];
+      const getId = img => img.alt || img.src.split('/').pop();
+      const load = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; } };
+      const save = data => localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+      function isFlipped(img) {
+        return !!img.closest('.img-left');
+      }
+
+      function applyOne(img) {
+        const d = (load())[getId(img)] || {x:0,y:0,s:1};
+        // Flip is handled by the container, image only gets translate+scale
+        img.style.transform = `translate(${d.x||0}px, ${d.y||0}px) scale(${d.s||1})`;
+      }
+
+      function applyAll() { getImgs().forEach(applyOne); }
+
+      function select(img) {
+        if (selected) selected.style.outline = '';
+        selected = img;
+        img.style.outline = '3px solid #FACC15';
+        updateInfo();
+      }
+
+      function updateInfo() {
+        if (!selected) return;
+        const d = (load())[getId(selected)] || {x:0,y:0,s:1};
+        document.getElementById('imgEditorInfo').textContent = `[${getId(selected)}] x:${Math.round(d.x)} y:${Math.round(d.y)} scale:${d.s.toFixed(2)}`;
+      }
+
+      document.addEventListener('mousedown', e => {
+        if (!editing || e.button !== 0) return;
+        const img = e.target.closest('img');
+        if (!img || !getImgs().includes(img)) return;
+        e.preventDefault();
+        select(img);
+        dragging = true;
+        startX = e.clientX; startY = e.clientY;
+        const d = (load())[getId(img)] || {x:0,y:0,s:1};
+        origX = d.x||0; origY = d.y||0;
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (!dragging || !selected) return;
+        e.preventDefault();
+        const data = load(), id = getId(selected);
+        if (!data[id]) data[id] = {x:0,y:0,s:1};
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        // If image is inside a flipped container, negate X so drag direction matches mouse
+        const flip = isFlipped(selected) ? -1 : 1;
+        data[id].x = origX + (dx * flip);
+        data[id].y = origY + dy;
+        save(data); applyOne(selected); updateInfo();
+      });
+
+      document.addEventListener('mouseup', () => { dragging = false; });
+
+      document.addEventListener('wheel', e => {
+        if (!editing || !selected) return;
+        e.preventDefault();
+        const data = load(), id = getId(selected);
+        if (!data[id]) data[id] = {x:0,y:0,s:1};
+        data[id].s = Math.max(0.3, Math.min(3, (data[id].s||1) + (e.deltaY > 0 ? -0.05 : 0.05)));
+        save(data); applyOne(selected); updateInfo();
+      }, {passive:false});
+
+      function toggle() {
+        editing = !editing;
+        document.getElementById('imgEditorBar').style.display = editing ? 'flex' : 'none';
+        if (!editing && selected) { selected.style.outline = ''; selected = null; }
+        getImgs().forEach(img => {
+          img.style.cursor = editing ? 'grab' : '';
+          img.style.position = editing ? 'relative' : '';
+          img.style.zIndex = editing ? '999' : '';
+        });
+      }
+
+      function resetSelected() {
+        if (!selected) return;
+        const data = load(); delete data[getId(selected)]; save(data);
+        selected.style.transform = '';
+        updateInfo();
+      }
+
+      function resetAll() {
+        localStorage.removeItem(STORAGE_KEY);
+        getImgs().forEach(img => { img.style.transform = ''; });
+        if (selected) updateInfo();
+      }
+
+      function showExport() {
+        const data = load();
+        const imgs = getImgs();
+        let text = 'IMAGE TRANSFORMS for carta-v33.html\n';
+        text += '====================================\n\n';
+        imgs.forEach(img => {
+          const id = getId(img);
+          const d = data[id];
+          if (!d) return;
+          const src = img.getAttribute('src');
+          const flipped = !!img.closest('.img-left');
+          const tx = Math.round(d.x), ty = Math.round(d.y), sc = d.s.toFixed(2);
+          const transformVal = `translate(${tx}px, ${ty}px) scale(${sc})`;
+          text += `Image: "${id}" (src="${src}")\n`;
+          text += `  Position: x=${tx}px, y=${ty}px, scale=${sc}\n`;
+          text += `  Side: ${flipped ? 'LEFT (flipped)' : 'RIGHT'}\n`;
+          text += `  Apply: style="transform: ${transformVal};"\n\n`;
+        });
+        if (Object.keys(data).length === 0) {
+          text += '(No images have been moved yet)\n';
+        }
+        document.getElementById('imgExportText').value = text;
+        document.getElementById('imgExportPanel').style.display = 'block';
+      }
+
+      function hideExport() {
+        document.getElementById('imgExportPanel').style.display = 'none';
+      }
+
+      function copyExport() {
+        const ta = document.getElementById('imgExportText');
+        ta.select();
+        document.execCommand('copy');
+        const confirm = document.getElementById('imgCopyConfirm');
+        confirm.style.display = 'inline';
+        setTimeout(() => { confirm.style.display = 'none'; }, 2000);
+      }
+
+      applyAll();
+      return { toggle, resetSelected, resetAll, showExport, hideExport, copyExport };
     })();
   </script>
 </body>

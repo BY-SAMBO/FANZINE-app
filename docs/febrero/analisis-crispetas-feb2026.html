@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analisis Crispetas - Febrero 2026</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0f0f0f; color:#e0e0e0; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; padding:24px; line-height:1.5; }
+  h1 { font-size:28px; font-weight:700; margin-bottom:6px; color:#f59e0b; }
+  h2 { font-size:20px; font-weight:600; margin:32px 0 16px; color:#fbbf24; border-bottom:1px solid #333; padding-bottom:8px; }
+  h3 { font-size:16px; font-weight:600; margin:20px 0 10px; color:#d4d4d4; }
+  .subtitle { color:#888; font-size:14px; margin-bottom:24px; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:32px; }
+  .kpi { background:#1a1a1a; border-radius:12px; padding:20px; border:1px solid #2a2a2a; }
+  .kpi .label { font-size:12px; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+  .kpi .value { font-size:28px; font-weight:700; color:#f59e0b; }
+  .kpi .sub { font-size:12px; color:#666; margin-top:4px; }
+  .card { background:#1a1a1a; border-radius:12px; padding:20px; border:1px solid #2a2a2a; margin-bottom:20px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; padding:10px 12px; background:#222; color:#aaa; font-weight:600; text-transform:uppercase; font-size:11px; letter-spacing:0.5px; border-bottom:2px solid #333; }
+  td { padding:8px 12px; border-bottom:1px solid #222; }
+  tr:hover td { background:#1f1f1f; }
+  .right { text-align:right; }
+  .bar-cell { width:30%; }
+  .highlight { color:#f59e0b; font-weight:600; }
+  .matrix-table th, .matrix-table td { text-align:center; padding:10px; }
+  .matrix-table td { font-size:13px; }
+  .matrix-val { font-weight:600; color:#f59e0b; }
+  .matrix-sub { font-size:11px; color:#888; }
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:768px) { .grid-2 { grid-template-columns:1fr; } }
+  .tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+  .tag-sal { background:#2563eb22; color:#60a5fa; }
+  .tag-caramelo { background:#f59e0b22; color:#fbbf24; }
+  .tag-mixtas { background:#10b98122; color:#34d399; }
+  .tag-personal { background:#8b5cf622; color:#a78bfa; }
+  .tag-mediana { background:#f59e0b22; color:#fbbf24; }
+  .tag-familiar { background:#ef444422; color:#f87171; }
+  .insight { background:#f59e0b11; border-left:3px solid #f59e0b; padding:12px 16px; border-radius:0 8px 8px 0; margin:12px 0; font-size:13px; color:#ccc; }
+  .pct-bar-container { display:flex; height:24px; border-radius:6px; overflow:hidden; margin:8px 0; }
+  .pct-bar-segment { display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#000; }
+  .narrative { background:#1a1a1a; border-radius:12px; padding:24px 28px; border:1px solid #2a2a2a; margin-bottom:24px; font-size:14px; line-height:1.75; color:#ccc; }
+  .narrative p { margin-bottom:14px; }
+  .narrative strong { color:#e0e0e0; }
+  .narrative .num { color:#f59e0b; font-weight:600; }
+  .section-insight { background:#1e293b; border-left:3px solid #60a5fa; padding:14px 18px; border-radius:0 8px 8px 0; margin:14px 0; font-size:13px; line-height:1.7; color:#bbb; }
+  .section-insight strong { color:#93c5fd; }
+  .opp-card { background:#052e16; border:1px solid #166534; border-radius:10px; padding:18px; margin-bottom:12px; }
+  .opp-card h4 { color:#4ade80; font-size:14px; margin-bottom:6px; }
+  .opp-card p { font-size:13px; color:#a7f3d0; line-height:1.6; margin:0; }
+  .opp-card .impact { font-size:12px; color:#86efac; margin-top:6px; font-weight:600; }
+  .alert-card { background:#1c0a0a; border:1px solid #7f1d1d; border-radius:10px; padding:18px; margin-bottom:12px; }
+  .alert-card h4 { color:#fca5a5; font-size:14px; margin-bottom:6px; }
+  .alert-card p { font-size:13px; color:#fecaca; line-height:1.6; margin:0; }
+  .conclusion { background:#1a1a2e; border:1px solid #312e81; border-radius:12px; padding:24px 28px; margin-top:32px; }
+  .conclusion h3 { color:#a78bfa; font-size:18px; margin-bottom:12px; }
+  .conclusion p { font-size:14px; line-height:1.75; color:#c4b5fd; margin-bottom:12px; }
+  .conclusion ul { padding-left:20px; margin-bottom:12px; }
+  .conclusion li { font-size:13px; line-height:1.7; color:#c4b5fd; margin-bottom:6px; }
+</style>
+</head>
+<body>
+
+<h1>CRISPETAS - Analisis de Ventas</h1>
+<p class="subtitle">Febrero 2026 | Cine & Tex-Mex Fanzine | 354 transacciones con crispetas de 721 totales</p>
+
+<!-- KPIs -->
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="label">Revenue Crispetas</div>
+    <div class="value">$2.901.000</div>
+    <div class="sub">31.2% del total $9.305.506</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Unidades Vendidas</div>
+    <div class="value">456</div>
+    <div class="sub">354 transacciones</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Revenue por Unidad</div>
+    <div class="value">$6.362</div>
+    <div class="sub">Precio promedio ponderado</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Ticket Promedio</div>
+    <div class="value">$11.449</div>
+    <div class="sub">Tickets que incluyen crispetas</div>
+  </div>
+  <div class="kpi">
+    <div class="label">% Crispetas en Ticket</div>
+    <div class="value">93.0%</div>
+    <div class="sub">Mediana: 100.0% | Solo crispetas: 256</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Penetracion</div>
+    <div class="value">49.1%</div>
+    <div class="sub">354 de 721 ventas</div>
+  </div>
+</div>
+
+<!-- Executive Summary -->
+<h2>Resumen Ejecutivo</h2>
+<div class="narrative">
+<p>
+Las crispetas son <strong>el pilar financiero de Fanzine</strong>, generando <span class="num">$2.901.000</span> en febrero 2026, lo que representa el <span class="num">31.2%</span> del revenue total del negocio. De las 721 ventas del mes, <span class="num">354</span> incluyeron al menos una crispeta — una penetracion del <span class="num">49.1%</span>, es decir, practicamente <strong>1 de cada 2 clientes compra crispetas</strong>.
+</p>
+<p>
+El negocio de crispetas se estructura en 3 sabores (Sal, Caramelo, Mixtas) y 3 tamanos (Personal, Mediana, Familiar), mas Minipancakes como producto atipico. En terminos de <strong>volumen</strong>, el tamano Personal domina por su bajo precio de entrada (desde $2.000), pero el <strong>revenue se concentra en los tamanos Mediana y Familiar</strong>, que aunque venden menos unidades, aportan significativamente mas por su precio premium. Esto revela un patron clasico de "piramide invertida" donde el ingreso real viene de los tamanos mas grandes.
+</p>
+<p>
+El sabor Sal es el mas popular en unidades, coherente con el contexto de cine donde las crispetas de sal son el snack clasico. Sin embargo, el sabor Caramelo compite fuertemente en revenue gracias a su <strong>premium de precio del 100.0%</strong> sobre Sal en el mismo tamano. Las Mixtas ocupan un espacio intermedio que merece atencion por su potencial de captura de indecisos.
+</p>
+<p>
+En cuanto a la temporalidad, las crispetas muestran un patron claramente ligado a las funciones de cine: los fines de semana generan un revenue promedio diario de <span class="num">$157.125</span> vs <span class="num">$82.200</span> entre semana. Las 3 horas pico concentran el <span class="num">53.5%</span> del revenue, indicando una alta concentracion operativa que requiere preparacion especifica.
+</p>
+<p>
+El analisis de cross-sell muestra que las crispetas funcionan como <strong>ancla de ticket</strong>: las transacciones que incluyen crispetas tambien incluyen frecuentemente bebidas, helados y comida salada, sugiriendo que son parte de un "combo de cine" informal. Sin embargo, las crispetas representan solo el <span class="num">93.0%</span> promedio del ticket total (mediana: 100.0%), lo que indica amplio espacio para que otros productos eleven el ticket.
+</p>
+</div>
+
+<!-- Ranking by Revenue -->
+<h2>Ranking de Productos por Revenue</h2>
+<div class="card">
+<table>
+<thead><tr><th>#</th><th>Producto</th><th class="right">Precio</th><th class="right">Unidades</th><th class="right">Revenue</th><th class="right">%</th><th class="bar-cell">Proporcion</th></tr></thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><strong>Crispetas Mediana MIXTAS</strong></td>
+  <td class="right">$11.000</td>
+  <td class="right">73</td>
+  <td class="right highlight">$803.000</td>
+  <td class="right">27.7%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:100%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2</td>
+  <td><strong>Crispetas Personal MIXTAS</strong></td>
+  <td class="right">$3.000</td>
+  <td class="right">135</td>
+  <td class="right highlight">$573.000</td>
+  <td class="right">19.8%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:71%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>3</td>
+  <td><strong>Crispetas Familiar MIXTAS</strong></td>
+  <td class="right">$17.000</td>
+  <td class="right">25</td>
+  <td class="right highlight">$493.000</td>
+  <td class="right">17.0%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:61%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>4</td>
+  <td><strong>Crispetas Personal CARAMELO</strong></td>
+  <td class="right">$4.000</td>
+  <td class="right">93</td>
+  <td class="right highlight">$444.000</td>
+  <td class="right">15.3%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:55%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>5</td>
+  <td><strong>Crispetas Personal SAL</strong></td>
+  <td class="right">$2.000</td>
+  <td class="right">106</td>
+  <td class="right highlight">$300.000</td>
+  <td class="right">10.3%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:37%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>6</td>
+  <td><strong>Crispetas Mediana CARAMELO</strong></td>
+  <td class="right">$14.000</td>
+  <td class="right">9</td>
+  <td class="right highlight">$126.000</td>
+  <td class="right">4.3%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:16%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>7</td>
+  <td><strong>Crispetas Mediana SAL</strong></td>
+  <td class="right">$8.000</td>
+  <td class="right">11</td>
+  <td class="right highlight">$88.000</td>
+  <td class="right">3.0%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:11%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>8</td>
+  <td><strong>Crispetas Familiar CARAMELO</strong></td>
+  <td class="right">$20.000</td>
+  <td class="right">3</td>
+  <td class="right highlight">$60.000</td>
+  <td class="right">2.1%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:7%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>9</td>
+  <td><strong>Crispetas Familiar SAL</strong></td>
+  <td class="right">$14.000</td>
+  <td class="right">1</td>
+  <td class="right highlight">$14.000</td>
+  <td class="right">0.5%</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:2%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Ranking by Units -->
+<h2>Ranking de Productos por Unidades</h2>
+<div class="card">
+<table>
+<thead><tr><th>#</th><th>Producto</th><th class="right">Unidades</th><th class="right">Revenue</th><th class="right">Rev/Unidad</th><th class="bar-cell">Proporcion</th></tr></thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><strong>Crispetas Personal MIXTAS</strong></td>
+  <td class="right highlight">135</td>
+  <td class="right">$573.000</td>
+  <td class="right">$4.244</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:100%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2</td>
+  <td><strong>Crispetas Personal SAL</strong></td>
+  <td class="right highlight">106</td>
+  <td class="right">$300.000</td>
+  <td class="right">$2.830</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:79%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>3</td>
+  <td><strong>Crispetas Personal CARAMELO</strong></td>
+  <td class="right highlight">93</td>
+  <td class="right">$444.000</td>
+  <td class="right">$4.774</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:69%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>4</td>
+  <td><strong>Crispetas Mediana MIXTAS</strong></td>
+  <td class="right highlight">73</td>
+  <td class="right">$803.000</td>
+  <td class="right">$11.000</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:54%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>5</td>
+  <td><strong>Crispetas Familiar MIXTAS</strong></td>
+  <td class="right highlight">25</td>
+  <td class="right">$493.000</td>
+  <td class="right">$19.720</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:19%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>6</td>
+  <td><strong>Crispetas Mediana SAL</strong></td>
+  <td class="right highlight">11</td>
+  <td class="right">$88.000</td>
+  <td class="right">$8.000</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:8%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>7</td>
+  <td><strong>Crispetas Mediana CARAMELO</strong></td>
+  <td class="right highlight">9</td>
+  <td class="right">$126.000</td>
+  <td class="right">$14.000</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:7%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>8</td>
+  <td><strong>Crispetas Familiar CARAMELO</strong></td>
+  <td class="right highlight">3</td>
+  <td class="right">$60.000</td>
+  <td class="right">$20.000</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:2%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>9</td>
+  <td><strong>Crispetas Familiar SAL</strong></td>
+  <td class="right highlight">1</td>
+  <td class="right">$14.000</td>
+  <td class="right">$14.000</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:1%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section-insight">
+<strong>Lectura de los rankings:</strong> El ranking por revenue y por unidades cuenta historias diferentes. Los productos que lideran en unidades (probablemente los tamanos Personal por su precio accesible de $2.000-$4.000) no necesariamente lideran en revenue. Esto es clave: cada crispeta Personal vendida a $2.000 necesita 6 ventas de Personal SAL para igualar el revenue de una sola Mediana. El revenue por unidad (Rev/Unidad) en la tabla de unidades muestra la eficiencia real de cada producto — los tamanos Familiar son los mas eficientes en generar ingreso por transaccion.
+</div>
+
+<!-- Size Analysis -->
+<h2>Analisis por Tamano</h2>
+<div class="card">
+<p style="color:#888;font-size:12px;margin-bottom:12px;">Excluye Minipancakes (no tienen tamano comparable)</p>
+<div class="pct-bar-container">
+<div class="pct-bar-segment" style="width:45.39813857290589%;background:#a78bfa">Personal 45.4%</div><div class="pct-bar-segment" style="width:35.05687693898656%;background:#fbbf24">Mediana 35.1%</div><div class="pct-bar-segment" style="width:19.54498448810755%;background:#f87171">Familiar 19.5%</div>
+</div>
+<table style="margin-top:12px;">
+<thead><tr><th>Tamano</th><th class="right">Unidades</th><th class="right">% Uds</th><th class="right">Revenue</th><th class="right">% Rev</th><th class="right">Rev/Unidad</th></tr></thead>
+<tbody>
+<tr>
+  <td><span class="tag tag-personal">Personal</span></td>
+  <td class="right">334</td>
+  <td class="right">73.2%</td>
+  <td class="right highlight">$1.317.000</td>
+  <td class="right">45.4%</td>
+  <td class="right">$3.943</td>
+</tr><tr>
+  <td><span class="tag tag-mediana">Mediana</span></td>
+  <td class="right">93</td>
+  <td class="right">20.4%</td>
+  <td class="right highlight">$1.017.000</td>
+  <td class="right">35.1%</td>
+  <td class="right">$10.935</td>
+</tr><tr>
+  <td><span class="tag tag-familiar">Familiar</span></td>
+  <td class="right">29</td>
+  <td class="right">6.4%</td>
+  <td class="right highlight">$567.000</td>
+  <td class="right">19.5%</td>
+  <td class="right">$19.552</td>
+</tr>
+
+</tbody>
+</table>
+<div class="insight">
+    <strong>Tamano dominante en unidades:</strong> Personal (334 uds, 73.2%)<br>
+    <strong>Tamano dominante en revenue:</strong> Personal ($1.317.000, 45.4%)
+  </div>
+</div>
+
+<div class="section-insight">
+<strong>Interpretacion del tamano:</strong> La dominancia en unidades del tamano Personal es esperable — es el punto de entrada mas barato y atractivo para clientes que "solo quieren algo pequeno". Pero esta dinamica tiene un costo oculto: cada Personal ocupa tiempo de preparacion y espacio en la barra, generando solo $3.943 promedio. El tamano Mediana y Familiar, aunque mueven menos volumen, generan un revenue por unidad 177.3% y 395.8% mayor respectivamente. <strong>La oportunidad de upsell del Personal a Mediana es la palanca mas directa para crecer en revenue sin aumentar transacciones.</strong>
+</div>
+
+<!-- Flavor Analysis -->
+<h2>Analisis por Sabor</h2>
+<div class="card">
+<p style="color:#888;font-size:12px;margin-bottom:12px;">Excluye Minipancakes</p>
+<div class="pct-bar-container">
+<div class="pct-bar-segment" style="width:13.857290589451912%;background:#60a5fa">Sal 13.9%</div><div class="pct-bar-segment" style="width:21.71664943123061%;background:#fbbf24">Caramelo 21.7%</div><div class="pct-bar-segment" style="width:64.42605997931747%;background:#34d399">Mixtas 64.4%</div>
+</div>
+<table style="margin-top:12px;">
+<thead><tr><th>Sabor</th><th class="right">Unidades</th><th class="right">% Uds</th><th class="right">Revenue</th><th class="right">% Rev</th><th class="right">Rev/Unidad</th></tr></thead>
+<tbody>
+<tr>
+  <td><span class="tag tag-sal">Sal</span></td>
+  <td class="right">118</td>
+  <td class="right">25.9%</td>
+  <td class="right highlight">$402.000</td>
+  <td class="right">13.9%</td>
+  <td class="right">$3.407</td>
+</tr><tr>
+  <td><span class="tag tag-caramelo">Caramelo</span></td>
+  <td class="right">105</td>
+  <td class="right">23.0%</td>
+  <td class="right highlight">$630.000</td>
+  <td class="right">21.7%</td>
+  <td class="right">$6.000</td>
+</tr><tr>
+  <td><span class="tag tag-mixtas">Mixtas</span></td>
+  <td class="right">233</td>
+  <td class="right">51.1%</td>
+  <td class="right highlight">$1.869.000</td>
+  <td class="right">64.4%</td>
+  <td class="right">$8.021</td>
+</tr>
+</tbody>
+</table>
+<div class="insight">
+    <strong>Sabor dominante en unidades:</strong> Mixtas (233 uds, 51.1%)<br>
+    <strong>Sabor dominante en revenue:</strong> Mixtas ($1.869.000, 64.4%)
+  </div>
+</div>
+
+<div class="section-insight">
+<strong>Interpretacion de sabores:</strong> El mercado de sabores muestra <strong>concentracion moderada</strong> (HHI: 3811). Sal tiene 25.9%, Caramelo 23.0% y Mixtas 51.1%. Hay espacio para equilibrar mejor la distribucion. El sabor Caramelo es particularmente interesante porque cobra un premium significativo vs Sal ($4.000 vs $2.000 en Personal), capturando a clientes dispuestos a pagar mas por una experiencia dulce — esto hace del Caramelo un sabor <strong>high-value</strong> mas alla de su volumen.
+</div>
+
+<!-- Matrix Size x Flavor -->
+<h2>Matriz Tamano x Sabor</h2>
+<div class="card">
+<table class="matrix-table">
+<thead>
+<tr>
+  <th></th>
+  <th><span class="tag tag-sal">Sal</span></th><th><span class="tag tag-caramelo">Caramelo</span></th><th><span class="tag tag-mixtas">Mixtas</span></th>
+  <th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><span class="tag tag-personal">Personal</span></td>
+  <td><div class="matrix-val">$300.000</div><div class="matrix-sub">106 uds</div></td><td><div class="matrix-val">$444.000</div><div class="matrix-sub">93 uds</div></td><td><div class="matrix-val">$573.000</div><div class="matrix-sub">135 uds</div></td>
+  <td><div class="matrix-val">$1.317.000</div><div class="matrix-sub">334 uds</div></td>
+</tr><tr>
+  <td><span class="tag tag-mediana">Mediana</span></td>
+  <td><div class="matrix-val">$88.000</div><div class="matrix-sub">11 uds</div></td><td><div class="matrix-val">$126.000</div><div class="matrix-sub">9 uds</div></td><td><div class="matrix-val">$803.000</div><div class="matrix-sub">73 uds</div></td>
+  <td><div class="matrix-val">$1.017.000</div><div class="matrix-sub">93 uds</div></td>
+</tr><tr>
+  <td><span class="tag tag-familiar">Familiar</span></td>
+  <td><div class="matrix-val">$14.000</div><div class="matrix-sub">1 uds</div></td><td><div class="matrix-val">$60.000</div><div class="matrix-sub">3 uds</div></td><td><div class="matrix-val">$493.000</div><div class="matrix-sub">25 uds</div></td>
+  <td><div class="matrix-val">$567.000</div><div class="matrix-sub">29 uds</div></td>
+</tr>
+<tr style="border-top:2px solid #444;">
+  <td><strong>Total</strong></td>
+  <td><div class="matrix-val">$402.000</div><div class="matrix-sub">118 uds</div></td><td><div class="matrix-val">$630.000</div><div class="matrix-sub">105 uds</div></td><td><div class="matrix-val">$1.869.000</div><div class="matrix-sub">233 uds</div></td>
+  <td><div class="matrix-val">$2.901.000</div><div class="matrix-sub">456 uds</div></td>
+</tr>
+</tbody>
+</table>
+<div class="insight">
+    <strong>Combinacion top en revenue:</strong> Mediana Mixtas ($803.000)<br>
+    <strong>Combinacion top en unidades:</strong> Personal Mixtas (135 uds)
+  </div>
+</div>
+
+<div class="section-insight">
+<strong>Lectura de la matriz:</strong> La tabla cruzada tamano x sabor revela las 9 combinaciones posibles y permite identificar los "heroes" y los "oportunidades". Las celdas con mayor revenue son las que deberian recibir prioridad en inventario y visibilidad en el menu. Las celdas con bajo volumen pero precio alto (como Familiar Caramelo a $20.000) representan oportunidades de upsell: cada unidad adicional vendida tiene alto impacto en revenue. Considere destacar estas combinaciones premium en el menu o en la pantalla del POS.
+</div>
+
+<!-- Hour Distribution -->
+<h2>Distribucion por Hora</h2>
+<div class="card">
+<table>
+<thead><tr><th>Hora</th><th class="right">Uds</th><th class="right">Revenue</th><th class="right">Txns</th><th class="bar-cell">Revenue</th></tr></thead>
+<tbody>
+<tr>
+  <td>07:00 - 08:00</td>
+  <td class="right">3</td>
+  <td class="right highlight">$12.000</td>
+  <td class="right">2</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:2%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>08:00 - 09:00</td>
+  <td class="right">27</td>
+  <td class="right highlight">$141.000</td>
+  <td class="right">22</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:24%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>09:00 - 10:00</td>
+  <td class="right">25</td>
+  <td class="right highlight">$135.000</td>
+  <td class="right">23</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:23%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>10:00 - 11:00</td>
+  <td class="right">45</td>
+  <td class="right highlight">$260.000</td>
+  <td class="right">35</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:45%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>11:00 - 12:00</td>
+  <td class="right">48</td>
+  <td class="right highlight">$296.000</td>
+  <td class="right">37</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:51%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>12:00 - 13:00</td>
+  <td class="right">98</td>
+  <td class="right highlight">$575.000</td>
+  <td class="right">72</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:99%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>13:00 - 14:00</td>
+  <td class="right">84</td>
+  <td class="right highlight">$581.000</td>
+  <td class="right">62</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:100%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>14:00 - 15:00</td>
+  <td class="right">57</td>
+  <td class="right highlight">$395.000</td>
+  <td class="right">46</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:68%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>15:00 - 16:00</td>
+  <td class="right">47</td>
+  <td class="right highlight">$324.000</td>
+  <td class="right">39</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:56%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>16:00 - 17:00</td>
+  <td class="right">21</td>
+  <td class="right highlight">$171.000</td>
+  <td class="right">15</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:29%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>17:00 - 18:00</td>
+  <td class="right">1</td>
+  <td class="right highlight">$11.000</td>
+  <td class="right">1</td>
+  <td class="bar-cell"><div style="background:#f59e0b;height:18px;width:2%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+<div class="insight"><strong>Hora pico:</strong> 13:00 con $581.000 y 84 unidades</div>
+</div>
+
+<div class="section-insight">
+<strong>Patron horario:</strong> La concentracion del 53.5% del revenue en solo 3 horas (13:00, 12:00, 14:00) indica que la operacion de crispetas necesita estar <strong>al maximo de capacidad</strong> en estas franjas. Si hay filas o demoras durante las horas pico, se pierde revenue directo. Recomendacion: asegurar que la maquina de crispetas y el personal esten listos <strong>30 minutos antes</strong> de la hora pico, con lotes pre-preparados de los sabores mas populares.
+</div>
+
+<!-- Day of Week -->
+<h2>Distribucion por Dia de Semana</h2>
+<div class="card">
+<table>
+<thead><tr><th>Dia</th><th class="right">Uds</th><th class="right">Revenue</th><th class="right">Txns</th><th class="bar-cell">Revenue</th></tr></thead>
+<tbody>
+<tr>
+  <td>Domingo</td>
+  <td class="right">79</td>
+  <td class="right highlight">$528.000</td>
+  <td class="right">61</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:72%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Lunes</td>
+  <td class="right">43</td>
+  <td class="right highlight">$204.000</td>
+  <td class="right">38</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:28%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Martes</td>
+  <td class="right">33</td>
+  <td class="right highlight">$217.000</td>
+  <td class="right">29</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:30%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Miércoles</td>
+  <td class="right">67</td>
+  <td class="right highlight">$367.000</td>
+  <td class="right">47</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:50%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Jueves</td>
+  <td class="right">75</td>
+  <td class="right highlight">$394.000</td>
+  <td class="right">58</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:54%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Viernes</td>
+  <td class="right">72</td>
+  <td class="right highlight">$462.000</td>
+  <td class="right">51</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:63%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Sábado</td>
+  <td class="right">87</td>
+  <td class="right highlight">$729.000</td>
+  <td class="right">70</td>
+  <td class="bar-cell"><div style="background:#60a5fa;height:18px;width:100%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+<div class="insight"><strong>Dia top:</strong> Sábado con $729.000 y 87 unidades en 70 transacciones</div>
+</div>
+
+<div class="section-insight">
+<strong>Patron semanal:</strong> Los fines de semana (sabado y domingo) generan un revenue promedio diario de <strong>$157.125</strong> vs <strong>$82.200</strong> entre semana — una diferencia de 91.1% mas los fines de semana. Esto esta directamente correlacionado con la afluencia de cine: los fines de semana mas gente va al cine y las crispetas son el snack natural. Los dias de menor venta entre semana podrian aprovecharse para promociones "2x1 en crispetas" o descuentos que estimulen la compra impulsiva.
+</div>
+
+<!-- Daily Trend -->
+<h2>Tendencia Diaria - Febrero 2026</h2>
+<div class="card">
+<table>
+<thead><tr><th>Fecha</th><th class="right">Uds</th><th class="right">Revenue</th><th class="right">Txns</th><th class="bar-cell">Revenue</th></tr></thead>
+<tbody>
+<tr>
+  <td>2026-02-01 <span style="color:#666">(Domingo)</span></td>
+  <td class="right">19</td>
+  <td class="right highlight">$136.000</td>
+  <td class="right">12</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:56%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-02 <span style="color:#666">(Lunes)</span></td>
+  <td class="right">10</td>
+  <td class="right highlight">$44.000</td>
+  <td class="right">8</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:18%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-03 <span style="color:#666">(Martes)</span></td>
+  <td class="right">3</td>
+  <td class="right highlight">$19.000</td>
+  <td class="right">2</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:8%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-04 <span style="color:#666">(Miércoles)</span></td>
+  <td class="right">16</td>
+  <td class="right highlight">$100.000</td>
+  <td class="right">11</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:41%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-05 <span style="color:#666">(Jueves)</span></td>
+  <td class="right">14</td>
+  <td class="right highlight">$67.000</td>
+  <td class="right">12</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:28%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-06 <span style="color:#666">(Viernes)</span></td>
+  <td class="right">23</td>
+  <td class="right highlight">$207.000</td>
+  <td class="right">14</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:86%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-07 <span style="color:#666">(Sábado)</span></td>
+  <td class="right">15</td>
+  <td class="right highlight">$130.000</td>
+  <td class="right">11</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:54%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-08 <span style="color:#666">(Domingo)</span></td>
+  <td class="right">23</td>
+  <td class="right highlight">$139.000</td>
+  <td class="right">18</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:57%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-09 <span style="color:#666">(Lunes)</span></td>
+  <td class="right">9</td>
+  <td class="right highlight">$63.000</td>
+  <td class="right">9</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:26%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-10 <span style="color:#666">(Martes)</span></td>
+  <td class="right">13</td>
+  <td class="right highlight">$64.000</td>
+  <td class="right">12</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:26%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-11 <span style="color:#666">(Miércoles)</span></td>
+  <td class="right">16</td>
+  <td class="right highlight">$84.000</td>
+  <td class="right">11</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:35%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-12 <span style="color:#666">(Jueves)</span></td>
+  <td class="right">19</td>
+  <td class="right highlight">$131.000</td>
+  <td class="right">15</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:54%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-13 <span style="color:#666">(Viernes)</span></td>
+  <td class="right">13</td>
+  <td class="right highlight">$62.000</td>
+  <td class="right">11</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:26%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-14 <span style="color:#666">(Sábado)</span></td>
+  <td class="right">23</td>
+  <td class="right highlight">$157.000</td>
+  <td class="right">19</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:65%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-15 <span style="color:#666">(Domingo)</span></td>
+  <td class="right">15</td>
+  <td class="right highlight">$123.000</td>
+  <td class="right">13</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:51%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-16 <span style="color:#666">(Lunes)</span></td>
+  <td class="right">9</td>
+  <td class="right highlight">$37.000</td>
+  <td class="right">8</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:15%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-17 <span style="color:#666">(Martes)</span></td>
+  <td class="right">5</td>
+  <td class="right highlight">$43.000</td>
+  <td class="right">5</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:18%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-18 <span style="color:#666">(Miércoles)</span></td>
+  <td class="right">17</td>
+  <td class="right highlight">$80.000</td>
+  <td class="right">11</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:33%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-19 <span style="color:#666">(Jueves)</span></td>
+  <td class="right">24</td>
+  <td class="right highlight">$104.000</td>
+  <td class="right">19</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:43%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-20 <span style="color:#666">(Viernes)</span></td>
+  <td class="right">15</td>
+  <td class="right highlight">$83.000</td>
+  <td class="right">11</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:34%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-21 <span style="color:#666">(Sábado)</span></td>
+  <td class="right">22</td>
+  <td class="right highlight">$200.000</td>
+  <td class="right">18</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:83%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-22 <span style="color:#666">(Domingo)</span></td>
+  <td class="right">22</td>
+  <td class="right highlight">$130.000</td>
+  <td class="right">18</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:54%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-23 <span style="color:#666">(Lunes)</span></td>
+  <td class="right">15</td>
+  <td class="right highlight">$60.000</td>
+  <td class="right">13</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:25%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-24 <span style="color:#666">(Martes)</span></td>
+  <td class="right">12</td>
+  <td class="right highlight">$91.000</td>
+  <td class="right">10</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:38%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-25 <span style="color:#666">(Miércoles)</span></td>
+  <td class="right">18</td>
+  <td class="right highlight">$103.000</td>
+  <td class="right">14</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:43%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-26 <span style="color:#666">(Jueves)</span></td>
+  <td class="right">18</td>
+  <td class="right highlight">$92.000</td>
+  <td class="right">12</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:38%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-27 <span style="color:#666">(Viernes)</span></td>
+  <td class="right">21</td>
+  <td class="right highlight">$110.000</td>
+  <td class="right">15</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:45%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2026-02-28 <span style="color:#666">(Sábado)</span></td>
+  <td class="right">27</td>
+  <td class="right highlight">$242.000</td>
+  <td class="right">22</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:100%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+<div class="insight">
+    <strong>Mejor dia:</strong> 2026-02-28 con $242.000 (27 uds)<br>
+    <strong>Dia mas bajo (con ventas):</strong> 2026-02-03 con $19.000
+  </div>
+</div>
+
+<!-- Weekly Trend -->
+<h2>Tendencia Semanal</h2>
+<div class="card">
+<table>
+<thead><tr><th>Semana</th><th class="right">Uds</th><th class="right">Revenue</th><th class="right">Txns</th><th class="bar-cell">Revenue</th></tr></thead>
+<tbody>
+<tr>
+  <td>Semana 6</td>
+  <td class="right">85</td>
+  <td class="right highlight">$573.000</td>
+  <td class="right">59</td>
+  <td class="bar-cell"><div style="background:#a78bfa;height:18px;width:73%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Semana 7</td>
+  <td class="right">108</td>
+  <td class="right highlight">$673.000</td>
+  <td class="right">87</td>
+  <td class="bar-cell"><div style="background:#a78bfa;height:18px;width:86%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Semana 8</td>
+  <td class="right">108</td>
+  <td class="right highlight">$627.000</td>
+  <td class="right">86</td>
+  <td class="bar-cell"><div style="background:#a78bfa;height:18px;width:80%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Semana 9</td>
+  <td class="right">128</td>
+  <td class="right highlight">$786.000</td>
+  <td class="right">100</td>
+  <td class="bar-cell"><div style="background:#a78bfa;height:18px;width:100%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>Semana 10</td>
+  <td class="right">27</td>
+  <td class="right highlight">$242.000</td>
+  <td class="right">22</td>
+  <td class="bar-cell"><div style="background:#a78bfa;height:18px;width:31%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section-insight">
+<strong>Tendencias temporales:</strong> Todos los dias de febrero tuvieron ventas de crispetas, lo que confirma la consistencia del producto. La tendencia semanal permite evaluar si hay crecimiento, estabilidad o declinacion a lo largo del mes. Busque si las ultimas semanas muestran una tendencia al alza (posible estacionalidad positiva) o a la baja (posible fatiga del producto o competencia).
+</div>
+
+<!-- Cross-sell -->
+<h2>Cross-sell: Categorias Companeras</h2>
+<div class="card">
+<p style="color:#888;font-size:12px;margin-bottom:12px;">En 354 transacciones con crispetas, ¿que otras categorias aparecen?</p>
+<table>
+<thead><tr><th>#</th><th>Categoria</th><th class="right">Apariciones</th><th class="right">% Txns</th><th class="right">Revenue Asociado</th><th class="bar-cell">Frecuencia</th></tr></thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td><strong>Helados</strong></td>
+  <td class="right">53</td>
+  <td class="right">15.0%</td>
+  <td class="right highlight">$372.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:100%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>2</td>
+  <td><strong>Perro</strong></td>
+  <td class="right">29</td>
+  <td class="right">8.2%</td>
+  <td class="right highlight">$696.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:55%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>3</td>
+  <td><strong>Bebidas</strong></td>
+  <td class="right">28</td>
+  <td class="right">7.9%</td>
+  <td class="right highlight">$200.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:53%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>4</td>
+  <td><strong>TEX MEX</strong></td>
+  <td class="right">10</td>
+  <td class="right">2.8%</td>
+  <td class="right highlight">$174.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:19%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>5</td>
+  <td><strong>Chicanitas</strong></td>
+  <td class="right">8</td>
+  <td class="right">2.3%</td>
+  <td class="right highlight">$100.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:15%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>6</td>
+  <td><strong>Nachos</strong></td>
+  <td class="right">6</td>
+  <td class="right">1.7%</td>
+  <td class="right highlight">$144.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:11%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>7</td>
+  <td><strong>Tacos</strong></td>
+  <td class="right">5</td>
+  <td class="right">1.4%</td>
+  <td class="right highlight">$90.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:9%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>8</td>
+  <td><strong>Papas Fritas</strong></td>
+  <td class="right">2</td>
+  <td class="right">0.6%</td>
+  <td class="right highlight">$15.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:4%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td>9</td>
+  <td><strong>ADICIONALES</strong></td>
+  <td class="right">1</td>
+  <td class="right">0.3%</td>
+  <td class="right highlight">$4.000</td>
+  <td class="bar-cell"><div style="background:#f472b6;height:18px;width:2%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+<div class="insight"><strong>Categoria mas frecuente con crispetas:</strong> Helados (presente en 15.0% de las transacciones con crispetas)</div>
+</div>
+
+<div class="section-insight">
+<strong>Lectura del cross-sell:</strong> Las categorias companeras revelan el <strong>contexto de consumo</strong> de las crispetas. Helados aparece en el 15.0% de las transacciones con crispetas, lo que sugiere un patron de compra conjunto fuerte. Las categorias con alta co-ocurrencia son candidatas naturales para <strong>combos</strong>: un "Combo Cine" (crispeta + bebida) o un "Combo Familiar" (crispeta familiar + bebidas) podria formalizar este patron y aumentar el ticket promedio. Actualmente, 256 transacciones (72.3%) son <strong>solo crispetas</strong> — clientes que no compraron nada mas y representan una oportunidad de cross-sell perdida.
+</div>
+
+<!-- Upsell Analysis -->
+<h2>Upsell: Distribucion de Tamanos por Transaccion</h2>
+<div class="card">
+<p style="color:#888;font-size:12px;margin-bottom:12px;">De las 354 transacciones con crispetas, ¿que tamano compraron?</p>
+<table>
+<thead><tr><th>Tipo</th><th class="right">Transacciones</th><th class="right">%</th><th class="bar-cell">Proporcion</th></tr></thead>
+<tbody>
+<tr>
+  <td><strong>Solo Personal</strong></td>
+  <td class="right">237</td>
+  <td class="right">66.9%</td>
+  <td class="bar-cell"><div style="background:#a78bfa;height:18px;width:67%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td><strong>Solo Mediana</strong></td>
+  <td class="right">77</td>
+  <td class="right">21.8%</td>
+  <td class="bar-cell"><div style="background:#fbbf24;height:18px;width:22%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td><strong>Solo Familiar</strong></td>
+  <td class="right">24</td>
+  <td class="right">6.8%</td>
+  <td class="bar-cell"><div style="background:#f87171;height:18px;width:7%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td><strong>Tamanos mixtos</strong></td>
+  <td class="right">16</td>
+  <td class="right">4.5%</td>
+  <td class="bar-cell"><div style="background:#34d399;height:18px;width:5%;border-radius:3px;min-width:2px;"></div></td>
+</tr><tr>
+  <td><strong>Solo Minipancakes</strong></td>
+  <td class="right">0</td>
+  <td class="right">0.0%</td>
+  <td class="bar-cell"><div style="background:#888;height:18px;width:0%;border-radius:3px;min-width:2px;"></div></td>
+</tr>
+</tbody>
+</table>
+<div class="insight">
+  <strong>Oportunidad de upsell:</strong> 237 transacciones compraron solo Personal.
+  Si el 66.9% de compradores de Personal subieran a Mediana, el revenue adicional seria significativo.
+</div>
+</div>
+
+<!-- Revenue per unit -->
+<h2>Revenue por Unidad por Producto</h2>
+<div class="card">
+<table>
+<thead><tr><th>Producto</th><th class="right">Precio Lista</th><th class="right">Rev/Unidad Real</th><th class="right">Uds</th><th class="right">Revenue Total</th></tr></thead>
+<tbody>
+<tr>
+  <td><strong>Crispetas Mediana MIXTAS</strong></td>
+  <td class="right">$11.000</td>
+  <td class="right highlight">$11.000</td>
+  <td class="right">73</td>
+  <td class="right">$803.000</td>
+</tr><tr>
+  <td><strong>Crispetas Personal MIXTAS</strong></td>
+  <td class="right">$3.000</td>
+  <td class="right highlight">$4.244</td>
+  <td class="right">135</td>
+  <td class="right">$573.000</td>
+</tr><tr>
+  <td><strong>Crispetas Familiar MIXTAS</strong></td>
+  <td class="right">$17.000</td>
+  <td class="right highlight">$19.720</td>
+  <td class="right">25</td>
+  <td class="right">$493.000</td>
+</tr><tr>
+  <td><strong>Crispetas Personal CARAMELO</strong></td>
+  <td class="right">$4.000</td>
+  <td class="right highlight">$4.774</td>
+  <td class="right">93</td>
+  <td class="right">$444.000</td>
+</tr><tr>
+  <td><strong>Crispetas Personal SAL</strong></td>
+  <td class="right">$2.000</td>
+  <td class="right highlight">$2.830</td>
+  <td class="right">106</td>
+  <td class="right">$300.000</td>
+</tr><tr>
+  <td><strong>Crispetas Mediana CARAMELO</strong></td>
+  <td class="right">$14.000</td>
+  <td class="right highlight">$14.000</td>
+  <td class="right">9</td>
+  <td class="right">$126.000</td>
+</tr><tr>
+  <td><strong>Crispetas Mediana SAL</strong></td>
+  <td class="right">$8.000</td>
+  <td class="right highlight">$8.000</td>
+  <td class="right">11</td>
+  <td class="right">$88.000</td>
+</tr><tr>
+  <td><strong>Crispetas Familiar CARAMELO</strong></td>
+  <td class="right">$20.000</td>
+  <td class="right highlight">$20.000</td>
+  <td class="right">3</td>
+  <td class="right">$60.000</td>
+</tr><tr>
+  <td><strong>Crispetas Familiar SAL</strong></td>
+  <td class="right">$14.000</td>
+  <td class="right highlight">$14.000</td>
+  <td class="right">1</td>
+  <td class="right">$14.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Opportunities -->
+<h2>Oportunidades de Crecimiento</h2>
+
+<div class="opp-card">
+<h4>1. Programa de Upsell Sistematico: Personal a Mediana</h4>
+<p>
+237 transacciones (66.9%) compraron solo tamano Personal. El diferencial de precio entre Personal y Mediana es significativo (ej: Sal $2.000 vs $8.000). Implementar un protocolo de upsell en caja: "¿Por solo $6.000 mas llevas la Mediana que es 4 veces mas grande?" podria migrar facilmente el 15-20% de estas ventas.
+</p>
+<div class="impact">Impacto estimado (20% migracion): +$467.090 revenue mensual adicional</div>
+</div>
+
+<div class="opp-card">
+<h4>2. Combo Crispetas + Bebida</h4>
+<p>
+Las Bebidas ya aparecen en el 7.9% de transacciones con crispetas. Formalizar este patron con un combo "Cine Pack" (Crispeta Mediana + Bebida) a un precio atractivo podria: (a) aumentar el tamano promedio de crispeta vendida, (b) aumentar las ventas de bebidas, y (c) simplificar la decision del cliente. El precio del combo debe ser ligeramente menor que la compra por separado, pero priorizar la Mediana sobre la Personal.
+</p>
+<div class="impact">Impacto: mayor ticket promedio + mejor experiencia de compra</div>
+</div>
+
+<div class="opp-card">
+<h4>3. Capturar los 256 Tickets "Solo Crispetas"</h4>
+<p>
+72.3% de las transacciones con crispetas NO incluyen ningun otro producto. Estos clientes ya estan en la fila — se les puede ofrecer una bebida, un helado, o un postre como complemento. Una estrategia de "sugerencia automatica" en el POS (pantalla del cliente mostrando "Agrega una bebida por solo $4.000") podria convertir el 10-15% de estos tickets.
+</p>
+<div class="impact">Impacto: +31 tickets con cross-sell adicional mensual</div>
+</div>
+
+<div class="opp-card">
+<h4>4. Promover Sabor Caramelo como Opcion Premium</h4>
+<p>
+El Caramelo cobra un premium del 100.0% sobre Sal en el mismo tamano, y los clientes lo pagan. Mejorar la visibilidad del Caramelo en el menu (listarlo primero o con destaque visual) y en la pantalla POS podria migrar clientes indecisos hacia esta opcion de mayor margen. Tambien considerar un "Caramelo Especial" con toppings (chispas de chocolate, etc.) a un precio aun mas premium.
+</p>
+<div class="impact">Impacto: mayor revenue por unidad sin aumentar volumen</div>
+</div>
+
+<div class="opp-card">
+<h4>5. Optimizar Operacion en Horas Pico</h4>
+<p>
+El 53.5% del revenue se concentra en 3 horas. Pre-preparar lotes de crispetas (especialmente de los sabores/tamanos mas vendidos) 30 minutos antes del pico asegura que no se pierdan ventas por tiempos de espera. Tambien considerar una segunda estacion de servicio o un flujo express durante horas pico.
+</p>
+<div class="impact">Impacto: reduccion de tiempo de espera + captura de ventas perdidas</div>
+</div>
+
+<!-- Alerts -->
+<h2>Alertas y Puntos de Atencion</h2>
+
+<div class="alert-card">
+<h4>Alta Dependencia de Crispetas</h4>
+<p>
+Con el 31.2% del revenue total, Fanzine depende fuertemente de las crispetas. Cualquier problema operativo (maquina averiada, falta de maiz, problema de proveedor) tendria un impacto desproporcionado en el revenue. Se recomienda: (a) tener repuestos criticos de la maquina de crispetas, (b) mantener inventario de seguridad de maiz y caramelo, y (c) diversificar la oferta de snacks para reducir la concentracion.
+</p>
+</div>
+
+<div class="alert-card">
+<h4>Tamano Personal como "Trampa de Volumen"</h4>
+<p>
+El tamano Personal genera alto volumen pero bajo revenue por unidad ($3.943 promedio). Si no se maneja activamente el upsell, existe riesgo de que cada vez mas clientes se queden en el Personal, especialmente si hay presion economica. Monitorear mensualmente la proporcion Personal vs Mediana/Familiar es clave — si la participacion de Personal crece, el revenue total podria caer incluso con el mismo numero de unidades.
+</p>
+</div>
+
+<div class="alert-card">
+<h4>Concentracion Temporal Extrema</h4>
+<p>
+La alta concentracion en fines de semana y horas pico especificas significa que la capacidad de produccion se satura en momentos puntuales. Si la demanda crece (ej: una pelicula taquillera), existe riesgo de no poder atender a todos los clientes, generando filas y abandono. Evaluar si la infraestructura actual puede manejar un aumento del 30% en la demanda pico.
+</p>
+</div>
+
+
+
+<div class="alert-card">
+<h4>Promedio de 1.3 Unidades por Transaccion</h4>
+<p>
+Las transacciones con crispetas promedian 1.3 unidades. Esto significa que la gran mayoria de clientes compra solo 1 crispeta. Considerar promociones 'segunda crispeta con descuento' o paquetes para grupos familiares para aumentar unidades por ticket.
+</p>
+</div>
+
+<!-- Conclusions -->
+<div class="conclusion">
+<h3>Conclusiones</h3>
+<p>
+Las crispetas son el <strong>motor principal de revenue</strong> de Fanzine, representando casi un tercio de las ventas totales. El negocio tiene una base solida con alta penetracion (49.1%) y un portafolio diversificado en tamanos y sabores.
+</p>
+<p>Las 5 acciones prioritarias para marzo 2026 son:</p>
+<ul>
+<li><strong>Implementar protocolo de upsell en caja</strong> — migrar al menos 15% de compras Personal a Mediana (impacto estimado: +$467.090/mes)</li>
+<li><strong>Crear combo "Cine Pack"</strong> — Crispeta Mediana + Bebida a precio combo, capturando el patron natural de cross-sell</li>
+<li><strong>Agregar sugerencia automatica en POS</strong> para clientes con tickets de solo crispetas, ofreciendo bebida o helado</li>
+<li><strong>Destacar Caramelo y Familiar</strong> en menu y POS como opciones premium — son los de mayor margen</li>
+<li><strong>Preparar operacion pre-pico</strong> — tener lotes listos 30 min antes de horas pico para evitar cuellos de botella</li>
+</ul>
+<p>
+El seguimiento mensual debe enfocarse en: (a) evolucion del mix de tamanos (alerta si Personal crece), (b) revenue por unidad promedio, (c) penetracion de crispetas sobre total de ventas, y (d) efectividad de las acciones de upsell medida como migracion de tamano.
+</p>
+</div>
+
+<!-- Footer -->
+<div style="margin-top:40px;padding:20px;text-align:center;color:#555;font-size:12px;border-top:1px solid #222;">
+  Generado automaticamente | Datos: Fudo POS via Supabase | Febrero 2026 | FANZINE App Analytics
+</div>
+
+</body>
+</html>

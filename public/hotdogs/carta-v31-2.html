@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta v31-2 - FANZINE - Variaciones de Comunicacion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #DC2626;
+      --yellow: #FACC15;
+      --black: #0A0A0A;
+      --white: #fff;
+      --gray: #777;
+      --gray-light: #F5F5F5;
+      --green: #16A34A;
+      --border: 2px solid var(--black);
+      --dash: 1.5px dashed #ddd;
+      --radius: 12px;
+      --font: 'Space Grotesk', sans-serif;
+    }
+
+    body {
+      background: #f0f0f0;
+      color: var(--black);
+      font-family: var(--font);
+      line-height: 1.3;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 2rem;
+    }
+
+    /* ===== VARIATION SECTION ===== */
+    .variation {
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      background: var(--white);
+      border: 3px solid var(--black);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 4px 4px 0 var(--black);
+    }
+
+    .var-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .var-label {
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .var-philosophy {
+      font-size: 0.7rem;
+      font-weight: 500;
+      opacity: 0.7;
+      text-align: right;
+      max-width: 55%;
+    }
+
+    .var-body {
+      padding: 1rem 1.2rem;
+    }
+
+    .var-rec {
+      background: var(--yellow);
+      border: 2px solid var(--black);
+      border-radius: 6px;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: inline-block;
+      box-shadow: 2px 2px 0 var(--black);
+    }
+
+    /* ===== DOG CARD (simulates carta slot) ===== */
+    .dog {
+      border: var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      margin-bottom: 0.7rem;
+      position: relative;
+    }
+
+    .dog:last-child { margin-bottom: 0; }
+
+    .dog-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+
+    .dog-badge-spicy { font-size: 1rem; }
+
+    .dog-badge-best {
+      display: inline-block;
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      background: var(--yellow);
+      border: 1.5px solid var(--black);
+      padding: 0.06rem 0.3rem;
+      border-radius: 4px;
+      margin-left: 0.2rem;
+      vertical-align: middle;
+      box-shadow: 1px 1px 0 var(--black);
+    }
+
+    /* ===== VARIATION A ===== */
+    .sub-a {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #555;
+      margin-top: 0.2rem;
+      line-height: 1.3;
+    }
+    .sub-a strong { font-weight: 700; color: var(--black); }
+    .sub-a .fresh { font-weight: 700; color: var(--black); }
+    .sub-a .plus-topping { font-weight: 800; color: var(--red); }
+
+    .punch-box-a {
+      margin-top: 0.4rem;
+      background: #FAFAFA;
+      border: var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 0.6rem;
+    }
+    .punch-box-a .punch-title {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+    }
+    .punch-box-a .punch-title .elige { color: var(--red); }
+
+    /* ===== VARIATION B ===== */
+    .sub-b {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #555;
+      margin-top: 0.2rem;
+      line-height: 1.3;
+    }
+    .sub-b strong { font-weight: 700; color: var(--black); }
+    .sub-b .punch-inline {
+      font-weight: 800;
+      color: var(--red);
+    }
+    .sub-b .fresh { color: var(--green); font-weight: 700; }
+
+    .pills-b {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 0.3rem;
+    }
+
+    /* ===== VARIATION C ===== */
+    .sub-c {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #555;
+      margin-top: 0.2rem;
+      line-height: 1.3;
+    }
+    .sub-c strong { font-weight: 700; color: var(--black); }
+
+    .punch-c {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #999;
+      margin-top: 0.25rem;
+    }
+    .punch-c .star { color: var(--black); font-weight: 700; }
+
+    /* ===== VARIATION D ===== */
+    .sub-d-hero {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-top: 0.15rem;
+      line-height: 1.3;
+    }
+    .sub-d-hero .fresh { color: var(--green); }
+
+    .sub-d-detail {
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: #999;
+      margin-top: 0.08rem;
+    }
+
+    .punch-d {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #666;
+    }
+    .punch-d .label {
+      font-weight: 800;
+      color: var(--black);
+      text-transform: uppercase;
+      font-size: 0.6rem;
+    }
+
+    /* ===== SHARED PILLS ===== */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--black);
+      background: var(--white);
+      border: 1.5px dashed #bbb;
+      border-radius: 100px;
+      padding: 0.1rem 0.4rem;
+    }
+
+    .pill.rec {
+      background: var(--yellow);
+      border: 1.5px solid var(--black);
+      box-shadow: 1px 1px 0 var(--black);
+    }
+
+    .pill.rec::before {
+      content: '\2605';
+      color: var(--black);
+      font-size: 0.6rem;
+    }
+
+    /* ===== PRICE ROW ===== */
+    .price-row {
+      display: flex;
+      gap: 0.3rem;
+      align-items: baseline;
+      margin-top: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    .pprice {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--black);
+    }
+
+    .price-label {
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #888;
+    }
+
+    .combo-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--white);
+      background: var(--red);
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      border: 2px solid var(--black);
+      box-shadow: 2px 2px 0 var(--black);
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== NOTES ===== */
+    .var-notes {
+      margin-top: 0.8rem;
+      padding-top: 0.6rem;
+      border-top: var(--dash);
+    }
+
+    .note-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+      font-size: 0.72rem;
+    }
+
+    .note-label {
+      font-weight: 700;
+      color: var(--green);
+      white-space: nowrap;
+    }
+
+    .note-label.con { color: var(--red); }
+
+    .note-text {
+      color: #666;
+    }
+    /* ===== UNIFICATION STYLES ===== */
+    .uni-tag {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--white); background: var(--black);
+      padding: 0.1rem 0.5rem; border-radius: 4px;
+    }
+
+    .uni-explainer {
+      font-size: 0.6rem; font-weight: 700; color: var(--red);
+      background: #FEF2F2; border: 1.5px solid var(--red);
+      border-radius: 4px; padding: 0.08rem 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+
+    .uni-note {
+      font-size: 0.65rem; font-weight: 700; color: #555;
+      text-align: center; margin-top: 0.3rem;
+    }
+
+    /* F — Table */
+    .uni-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+    .uni-table thead tr {
+      background: var(--black);
+      color: var(--white);
+    }
+    .uni-table th {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.3rem 0.5rem;
+      font-size: 0.65rem;
+    }
+    .uni-th-sabor { text-align: left; }
+    .uni-table th:not(.uni-th-sabor) { text-align: center; }
+    .uni-table td { padding: 0.3rem 0.5rem; }
+    .uni-table tbody tr { border-bottom: var(--dash); }
+    .uni-table tbody tr:last-child { border-bottom: none; }
+    .uni-sabor { font-weight: 700; text-transform: uppercase; }
+    .uni-price { text-align: center; font-weight: 700; color: var(--red); }
+    .uni-na { color: #ccc; }
+    .uni-row-extra { background: var(--gray-light); }
+
+    /* G — Flavor rows with format pills */
+    .uni-flavor-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.35rem 0;
+      border-bottom: var(--dash);
+    }
+    .uni-flavor-name {
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase;
+    }
+    .uni-format-pills {
+      display: flex; gap: 4px;
+    }
+    .uni-format-pill {
+      font-size: 0.6rem; font-weight: 600;
+      background: var(--gray-light);
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      padding: 0.15rem 0.4rem;
+      color: #555;
+    }
+    .uni-format-pill strong {
+      color: var(--red); font-weight: 800;
+    }
+
+    /* H — Category blocks */
+    .uni-block {
+      border: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 0.4rem;
+    }
+    .uni-block:last-of-type { margin-bottom: 0; }
+    .uni-block-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.3rem 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .uni-block-name {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .uni-block-desc {
+      font-size: 0.55rem;
+      font-weight: 600;
+      color: #ccc;
+    }
+    .uni-block-desc strong {
+      color: var(--white);
+      font-weight: 700;
+    }
+    .uni-block-desc .plus-topping {
+      color: var(--yellow);
+      font-weight: 800;
+    }
+    .uni-block-flavors {
+      display: flex;
+      justify-content: space-around;
+      padding: 0.3rem 0.4rem;
+      gap: 0.2rem;
+    }
+    .uni-flavor {
+      flex: 1;
+      text-align: center;
+    }
+    .uni-flavor-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+    .uni-flavor-price {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--red);
+    }
+    .uni-block-extra {
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: #555;
+      text-align: center;
+      padding: 0.2rem;
+      background: var(--gray-light);
+      border-top: var(--dash);
+    }
+
+    /* H — Three columns (legacy) */
+    .uni-cols-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.4rem;
+    }
+    .uni-col {
+      border: var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .uni-col-header {
+      background: var(--black);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.25rem 0.4rem;
+      text-align: center;
+    }
+    .uni-col-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      border-bottom: var(--dash);
+    }
+    .uni-col-item:last-of-type { border-bottom: none; }
+    .uni-col-price {
+      font-weight: 800;
+      color: var(--red);
+      white-space: nowrap;
+    }
+    .uni-col-extra {
+      font-size: 0.55rem;
+      font-weight: 700;
+      color: #555;
+      text-align: center;
+      padding: 0.15rem;
+      background: var(--gray-light);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Carta v31-2 — Variaciones</h1>
+  <p class="subtitle">Estrategia de comunicacion de ingredientes y toppings por perro</p>
+
+  <!-- ============================================ -->
+  <!-- VARIACION A -->
+  <!-- ============================================ -->
+  <div class="variation">
+    <div class="var-header">
+      <span class="var-label">A — Ingredientes honestos + Punch igual</span>
+      <span class="var-philosophy">Minimo cambio. Solo corregir ingredientes segun C3.</span>
+    </div>
+    <div class="var-body">
+
+      <div class="dog">
+        <div class="dog-name">Zinema</div>
+        <div class="sub-a">Arma tu perro &middot; <strong>Papas crocantes</strong> &middot; <strong>SourCream</strong> &middot; <strong>Salsa le&ntilde;a</strong></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 3</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Pi&ntilde;a</span>
+            <span class="pill rec">Jalape&ntilde;os</span>
+            <span class="pill rec">Cheddar</span>
+            <span class="pill">Pepinillos</span>
+            <span class="pill">Ma&iacute;z</span>
+            <span class="pill">Cebolla Enc.</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$14.000</span><span class="price-label">3 toppings</span>
+          <span class="pprice">$16.000</span><span class="price-label">con tocineta</span>
+          <span class="combo-tag">COMBO $23.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">BBQ Bacon</div>
+        <div class="sub-a"><strong>Tocineta</strong> &middot; <strong>Queso crema</strong> &middot; <strong>BBQ Gold</strong> &middot; <span class="fresh">Cebolla crispy</span></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 1</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Pepinillos</span>
+            <span class="pill">Jalape&ntilde;os</span>
+            <span class="pill">Pi&ntilde;a</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">Tropical Fuego <span class="dog-badge-spicy">&#127798;&#65039;</span></div>
+        <div class="sub-a"><strong>Salsa pi&ntilde;a-habanero</strong> &middot; <strong>SourCream</strong> &middot; <span class="fresh">Pi&ntilde;a fresca</span></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 1</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Takis Fuego</span>
+            <span class="pill">Jalape&ntilde;os</span>
+            <span class="pill">Cebolla Enc.</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$17.000</span>
+          <span class="combo-tag">COMBO $24.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name"><span class="dog-badge-best">&#9733; Mas pedido</span> Birria Fusi&oacute;n</div>
+        <div class="sub-a"><strong>Res birria</strong> &middot; <strong>Cheddar fundido</strong> &middot; <strong>Papas &aacute;ngel</strong> &middot; <span class="fresh">Cilantro fresco</span></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 1</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Cebolla Enc.</span>
+            <span class="pill">Pi&ntilde;a</span>
+            <span class="pill">Jalape&ntilde;os</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Minimo cambio visual. Birria gana cilantro, Tropical gana "pina fresca"</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">El verde en el ultimo ingrediente senala frescura sin explicarlo</span></div>
+        <div class="note-row"><span class="note-label con">CON</span><span class="note-text">El Punch sigue ocupando mucho espacio, parece add-on en vez de parte del perro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- VARIACION B -->
+  <!-- ============================================ -->
+  <div class="variation">
+    <div class="var-header">
+      <span class="var-label">B — Capas visibles + Punch integrado</span>
+      <span class="var-philosophy">pname-sub = orden de construccion. Punch inline.</span>
+    </div>
+    <div class="var-body">
+
+      <div class="dog">
+        <div class="dog-name">Zinema</div>
+        <div class="sub-b"><strong>Papas crocantes</strong> &middot; <strong>SourCream</strong> &middot; <strong>Salsa le&ntilde;a</strong> &middot; <span class="punch-inline">+ Elige 3 toppings</span></div>
+        <div class="pills-b">
+          <span class="pill rec">Pi&ntilde;a</span>
+          <span class="pill rec">Jalape&ntilde;os</span>
+          <span class="pill rec">Cheddar</span>
+          <span class="pill">Pepinillos</span>
+          <span class="pill">Ma&iacute;z</span>
+          <span class="pill">Cebolla Enc.</span>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$14.000</span><span class="price-label">3 toppings</span>
+          <span class="pprice">$16.000</span><span class="price-label">con tocineta</span>
+          <span class="combo-tag">COMBO $23.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">BBQ Bacon</div>
+        <div class="sub-b"><strong>Queso crema</strong> &middot; <strong>BBQ Gold</strong> &middot; <strong>Tocineta</strong> &middot; Cebolla crispy &middot; <span class="punch-inline">+ Elige 1</span></div>
+        <div class="pills-b">
+          <span class="pill rec">Pepinillos</span>
+          <span class="pill">Jalape&ntilde;os</span>
+          <span class="pill">Pi&ntilde;a</span>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">Tropical Fuego <span class="dog-badge-spicy">&#127798;&#65039;</span></div>
+        <div class="sub-b"><strong>Salsa pi&ntilde;a-habanero</strong> &middot; <strong>SourCream</strong> &middot; <span class="punch-inline">+ Elige 1</span> &middot; <span class="fresh">Pi&ntilde;a fresca</span></div>
+        <div class="pills-b">
+          <span class="pill rec">Takis Fuego</span>
+          <span class="pill">Jalape&ntilde;os</span>
+          <span class="pill">Cebolla Enc.</span>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$17.000</span>
+          <span class="combo-tag">COMBO $24.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name"><span class="dog-badge-best">&#9733; Mas pedido</span> Birria Fusi&oacute;n</div>
+        <div class="sub-b"><strong>Res birria</strong> &middot; <strong>Cheddar</strong> &middot; <strong>Papas &aacute;ngel</strong> &middot; <span class="punch-inline">+ Elige 1</span> &middot; <span class="fresh">Cilantro fresco</span></div>
+        <div class="pills-b">
+          <span class="pill rec">Cebolla Enc.</span>
+          <span class="pill">Pi&ntilde;a</span>
+          <span class="pill">Jalape&ntilde;os</span>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Se lee como historia: base > medio > punch > garnish</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Tropical y Birria muestran que hay garnish fijo DESPUES del punch</span></div>
+        <div class="note-row"><span class="note-label con">CON</span><span class="note-text">"Elige 1" en el pname-sub puede confundir si no mira las pills</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- VARIACION C -->
+  <!-- ============================================ -->
+  <div class="variation">
+    <div class="var-header">
+      <span class="var-label">C — Solo identidad + Punch discreto</span>
+      <span class="var-philosophy">2-3 ingredientes que hacen UNICO al perro. Punch minimo.</span>
+    </div>
+    <div class="var-body">
+
+      <div class="dog">
+        <div class="dog-name">Zinema</div>
+        <div class="sub-c"><strong>Arma tu perro</strong> con 3 toppings + papas crocantes</div>
+        <div class="punch-c">Pi&ntilde;a<span class="star">&#9733;</span> &middot; Jalape&ntilde;os<span class="star">&#9733;</span> &middot; Cheddar<span class="star">&#9733;</span> &middot; Pepinillos &middot; Ma&iacute;z &middot; Cebolla Enc.</div>
+        <div class="price-row">
+          <span class="pprice">$14.000</span><span class="price-label">3 toppings</span>
+          <span class="pprice">$16.000</span><span class="price-label">con tocineta</span>
+          <span class="combo-tag">COMBO $23.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">BBQ Bacon</div>
+        <div class="sub-c"><strong>Tocineta</strong> &middot; <strong>BBQ Gold</strong> &middot; <strong>Queso crema</strong></div>
+        <div class="punch-c">+ Elige 1: Pepinillos<span class="star">&#9733;</span> &middot; Jalape&ntilde;os &middot; Pi&ntilde;a</div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">Tropical Fuego <span class="dog-badge-spicy">&#127798;&#65039;</span></div>
+        <div class="sub-c"><strong>Salsa pi&ntilde;a-habanero</strong> &middot; <strong>Pi&ntilde;a fresca</strong></div>
+        <div class="punch-c">+ Elige 1: Takis Fuego<span class="star">&#9733;</span> &middot; Jalape&ntilde;os &middot; Cebolla Enc.</div>
+        <div class="price-row">
+          <span class="pprice">$17.000</span>
+          <span class="combo-tag">COMBO $24.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name"><span class="dog-badge-best">&#9733; Mas pedido</span> Birria Fusi&oacute;n</div>
+        <div class="sub-c"><strong>Res birria</strong> &middot; <strong>Cheddar fundido</strong> &middot; <strong>Cilantro fresco</strong></div>
+        <div class="punch-c">+ Elige 1: Cebolla Enc.<span class="star">&#9733;</span> &middot; Pi&ntilde;a &middot; Jalape&ntilde;os</div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Maximo impacto de identidad. Cada perro se diferencia al instante</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Mucho mas limpio, mas espacio en carta</span></div>
+        <div class="note-row"><span class="note-label con">CON</span><span class="note-text">Se pierden ingredientes (SourCream, Papas angel) — el cliente no sabe que vienen</span></div>
+        <div class="note-row"><span class="note-label con">CON</span><span class="note-text">Punch muy discreto, puede pasar desapercibido</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- VARIACION D (recomendada) -->
+  <!-- ============================================ -->
+  <div class="variation" style="border-color: var(--red); box-shadow: 4px 4px 0 var(--red);">
+    <div class="var-header" style="background: var(--red);">
+      <span class="var-label">D — Hero + Detalle <span class="var-rec">Recomendada</span></span>
+      <span class="var-philosophy">Linea hero (lo que seduce) + detalle (lo que incluye). Punch liviano.</span>
+    </div>
+    <div class="var-body">
+
+      <div class="dog">
+        <div class="dog-name">Zinema</div>
+        <div class="sub-d-hero">Arma tu perro &middot; Elige 3 toppings</div>
+        <div class="sub-d-detail">con papas crocantes, SourCream y salsa le&ntilde;a</div>
+        <div class="punch-d">
+          <span class="label">Elige 3:</span>
+          <div class="pills">
+            <span class="pill rec">Pi&ntilde;a</span>
+            <span class="pill rec">Jalape&ntilde;os</span>
+            <span class="pill rec">Cheddar</span>
+            <span class="pill">Pepinillos</span>
+            <span class="pill">Ma&iacute;z</span>
+            <span class="pill">Cebolla Enc.</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$14.000</span><span class="price-label">3 toppings</span>
+          <span class="pprice">$16.000</span><span class="price-label">con tocineta</span>
+          <span class="combo-tag">COMBO $23.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">BBQ Bacon</div>
+        <div class="sub-d-hero">Tocineta crujiente &middot; <span class="fresh">BBQ Gold</span></div>
+        <div class="sub-d-detail">con queso crema y cebolla crispy</div>
+        <div class="punch-d">
+          <span class="label">Elige 1:</span>
+          <div class="pills">
+            <span class="pill rec">Pepinillos</span>
+            <span class="pill">Jalape&ntilde;os</span>
+            <span class="pill">Pi&ntilde;a</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">Tropical Fuego <span class="dog-badge-spicy">&#127798;&#65039;</span></div>
+        <div class="sub-d-hero"><span class="fresh">Pi&ntilde;a fresca</span> &middot; Salsa pi&ntilde;a-habanero</div>
+        <div class="sub-d-detail">con SourCream</div>
+        <div class="punch-d">
+          <span class="label">Elige 1:</span>
+          <div class="pills">
+            <span class="pill rec">Takis Fuego</span>
+            <span class="pill">Jalape&ntilde;os</span>
+            <span class="pill">Cebolla Enc.</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$17.000</span>
+          <span class="combo-tag">COMBO $24.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name"><span class="dog-badge-best">&#9733; Mas pedido</span> Birria Fusi&oacute;n</div>
+        <div class="sub-d-hero">Res birria &middot; Cheddar fundido &middot; <span class="fresh">Cilantro fresco</span></div>
+        <div class="sub-d-detail">con papas &aacute;ngel y SourCream</div>
+        <div class="punch-d">
+          <span class="label">Elige 1:</span>
+          <div class="pills">
+            <span class="pill rec">Cebolla Enc.</span>
+            <span class="pill">Pi&ntilde;a</span>
+            <span class="pill">Jalape&ntilde;os</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Cada perro se diferencia al primer vistazo: hero = lo que seduce</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">La regla de frescura se aplica: hero termina con ingrediente de color (verde)</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">El Punch no domina — es complemento, no protagonista</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Nada se pierde: detalle gris dice "con papas angel y SourCream"</span></div>
+        <div class="note-row"><span class="note-label con">CON</span><span class="note-text">Dos lineas de texto pueden ocupar mas espacio vertical</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- VARIACION E -->
+  <!-- ============================================ -->
+  <div class="variation" style="border-color: var(--green); box-shadow: 4px 4px 0 var(--green);">
+    <div class="var-header" style="background: var(--green);">
+      <span class="var-label">E — Ingredientes directos + Punch completo</span>
+      <span class="var-philosophy">Todos los ingredientes visibles. Punch intacto. Garnish final explicito.</span>
+    </div>
+    <div class="var-body">
+
+      <div class="dog">
+        <div class="dog-name">Zinema</div>
+        <div class="sub-a">Arma tu perro &middot; <strong>Papas crocantes</strong> &middot; <strong>SourCream</strong> &middot; <strong>Salsa le&ntilde;a</strong> &middot; <span class="plus-topping">+ 3 toppings</span></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 3</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Pi&ntilde;a</span>
+            <span class="pill rec">Jalape&ntilde;os</span>
+            <span class="pill rec">Cheddar</span>
+            <span class="pill">Pepinillos</span>
+            <span class="pill">Ma&iacute;z</span>
+            <span class="pill">Cebolla Enc.</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$14.000</span><span class="price-label">3 toppings</span>
+          <span class="pprice">$16.000</span><span class="price-label">con tocineta</span>
+          <span class="combo-tag">COMBO $23.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">BBQ Bacon</div>
+        <div class="sub-a"><strong>Tocineta</strong> &middot; <strong>Queso crema</strong> &middot; <strong>BBQ Gold</strong> &middot; <strong>Cebolla crispy</strong> &middot; <span class="plus-topping">+ 1 topping</span></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 1</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Pepinillos</span>
+            <span class="pill">Jalape&ntilde;os</span>
+            <span class="pill">Pi&ntilde;a</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name">Tropical Fuego <span class="dog-badge-spicy">&#127798;&#65039;</span></div>
+        <div class="sub-a"><strong>Salsa pi&ntilde;a-habanero</strong> &middot; <strong>SourCream</strong> &middot; <strong>Pi&ntilde;a fresca</strong> &middot; <span class="plus-topping">+ 1 topping</span></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 1</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Takis Fuego</span>
+            <span class="pill">Jalape&ntilde;os</span>
+            <span class="pill">Cebolla Enc.</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$17.000</span>
+          <span class="combo-tag">COMBO $24.000</span>
+        </div>
+      </div>
+
+      <div class="dog">
+        <div class="dog-name"><span class="dog-badge-best">&#9733; Mas pedido</span> Birria Fusi&oacute;n</div>
+        <div class="sub-a"><strong>Res birria</strong> &middot; <strong>Cheddar fundido</strong> &middot; <strong>Papas &aacute;ngel</strong> &middot; <strong>Cilantro fresco</strong> &middot; <span class="plus-topping">+ 1 topping</span></div>
+        <div class="punch-box-a">
+          <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 1</span> &middot; Adicional $1.500</div>
+          <div class="pills">
+            <span class="pill rec">Cebolla Enc.</span>
+            <span class="pill">Pi&ntilde;a</span>
+            <span class="pill">Jalape&ntilde;os</span>
+          </div>
+        </div>
+        <div class="price-row">
+          <span class="pprice">$18.000</span>
+          <span class="combo-tag">COMBO $25.000</span>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Ingredientes C3 corregidos: cilantro en Birria, pina fresca en Tropical</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Punch intacto con starburst — comunica la dinamica visualmente</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">"+ 1 topping" en rojo al final del pname-sub es explicito: incluye un topping</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Todo el texto de ingredientes en negro, solo el "+ X topping" en rojo destaca</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h1 style="margin-top:3rem;">Nachos · Tacos · Papas — Unificacion</h1>
+  <p class="subtitle">Los tres comparten sabores y Punch. Como unificarlos en un solo modulo.</p>
+
+  <!-- ============================================ -->
+  <!-- UNIFICACION F — Tabla de sabores con columnas por formato -->
+  <!-- ============================================ -->
+  <div class="variation" style="border-color: #7C3AED; box-shadow: 4px 4px 0 #7C3AED;">
+    <div class="var-header" style="background: #7C3AED;">
+      <span class="var-label">F — Tabla unificada por sabor</span>
+      <span class="var-philosophy">Un sabor por fila, precio por formato en columnas.</span>
+    </div>
+    <div class="var-body">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <span class="uni-tag">Nachos · Tacos · Papas Cargadas</span>
+        <span class="uni-explainer">Guacamole, SourCream, Pico de Gallo y Cheddar</span>
+      </div>
+
+      <table class="uni-table">
+        <thead>
+          <tr>
+            <th class="uni-th-sabor">Sabor</th>
+            <th>Nachos</th>
+            <th>Tacos</th>
+            <th>Papas Cargadas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="uni-sabor">Cerdo Pibil</td>
+            <td class="uni-price">$20.000</td>
+            <td class="uni-price">$20.000</td>
+            <td class="uni-price">$20.000</td>
+          </tr>
+          <tr>
+            <td class="uni-sabor">Birria de Res</td>
+            <td class="uni-price">$22.000</td>
+            <td class="uni-price">$22.000</td>
+            <td class="uni-price">$22.000</td>
+          </tr>
+          <tr>
+            <td class="uni-sabor">Pollo Chipotle</td>
+            <td class="uni-price">$20.000</td>
+            <td class="uni-price">$20.000</td>
+            <td class="uni-price">$20.000</td>
+          </tr>
+          <tr class="uni-row-extra">
+            <td class="uni-sabor">Salchipapa</td>
+            <td class="uni-price uni-na">—</td>
+            <td class="uni-price uni-na">—</td>
+            <td class="uni-price">$6.000</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="uni-note">+$6.000 con salchicha en cualquier papa cargada</div>
+
+      <div class="punch-box-a" style="margin-top:0.5rem;">
+        <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 3</span> &middot; Adicional $1.500</div>
+        <div class="pills">
+          <span class="pill">Pi&ntilde;a</span>
+          <span class="pill">Jalape&ntilde;os</span>
+          <span class="pill rec">Cheddar</span>
+          <span class="pill">Pepinillos</span>
+          <span class="pill">Ma&iacute;z</span>
+          <span class="pill">Cebolla Enc.</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+        <div style="flex:1;text-align:center;border:var(--border);border-radius:8px;padding:0.4rem;">
+          <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;color:var(--gray);margin-bottom:0.1rem;">Papas Francesas</div>
+          <div style="display:flex;justify-content:center;gap:0.8rem;">
+            <div><span style="font-weight:700;font-size:0.75rem;">Personal</span><br><span style="font-size:0.55rem;color:var(--gray);">130gr</span><br><span style="font-weight:700;color:var(--red);">$7.500</span></div>
+            <div><span style="font-weight:700;font-size:0.75rem;">Agrandadas</span><br><span style="font-size:0.55rem;color:var(--gray);">185gr</span><br><span style="font-weight:700;color:var(--red);">$10.000</span></div>
+            <div><span style="font-weight:700;font-size:0.75rem;">Pareja</span><br><span style="font-size:0.55rem;color:var(--gray);">260gr · cheddar</span><br><span style="font-weight:700;color:var(--red);">$14.000</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Un solo vistazo: sabor × formato. Elimina repeticion de sabores 3 veces</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Punch compartido una sola vez al final</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Papas francesas como modulo aparte, no mezclado con cargadas</span></div>
+        <div class="note-row"><span class="note-label con">CON</span><span class="note-text">Tabla puede sentirse menos "divertida" que el layout lateral con fotos</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- UNIFICACION G — Sabores como filas, formatos como pills -->
+  <!-- ============================================ -->
+  <div class="variation">
+    <div class="var-header">
+      <span class="var-label">G — Sabores con precios por formato inline</span>
+      <span class="var-philosophy">Cada sabor es una fila. Los formatos son tags de precio.</span>
+    </div>
+    <div class="var-body">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <span class="uni-tag">Nachos · Tacos · Papas Cargadas</span>
+        <span class="uni-explainer">Guacamole, SourCream, Pico de Gallo y Cheddar</span>
+      </div>
+
+      <div class="uni-flavor-row">
+        <div class="uni-flavor-name">Cerdo Pibil</div>
+        <div class="uni-format-pills">
+          <span class="uni-format-pill">Nachos <strong>$20.000</strong></span>
+          <span class="uni-format-pill">Tacos <strong>$20.000</strong></span>
+          <span class="uni-format-pill">Papas <strong>$20.000</strong></span>
+        </div>
+      </div>
+      <div class="uni-flavor-row">
+        <div class="uni-flavor-name">Birria de Res</div>
+        <div class="uni-format-pills">
+          <span class="uni-format-pill">Nachos <strong>$22.000</strong></span>
+          <span class="uni-format-pill">Tacos <strong>$22.000</strong></span>
+          <span class="uni-format-pill">Papas <strong>$22.000</strong></span>
+        </div>
+      </div>
+      <div class="uni-flavor-row">
+        <div class="uni-flavor-name">Pollo Chipotle</div>
+        <div class="uni-format-pills">
+          <span class="uni-format-pill">Nachos <strong>$20.000</strong></span>
+          <span class="uni-format-pill">Tacos <strong>$20.000</strong></span>
+          <span class="uni-format-pill">Papas <strong>$20.000</strong></span>
+        </div>
+      </div>
+      <div class="uni-flavor-row" style="border-bottom:none;">
+        <div class="uni-flavor-name">Salchipapa</div>
+        <div class="uni-format-pills">
+          <span class="uni-format-pill" style="opacity:0.3;">Nachos —</span>
+          <span class="uni-format-pill" style="opacity:0.3;">Tacos —</span>
+          <span class="uni-format-pill">Papas <strong>$6.000</strong></span>
+        </div>
+      </div>
+      <div class="uni-note">+$6.000 con salchicha en cualquier papa cargada</div>
+
+      <div class="punch-box-a" style="margin-top:0.5rem;">
+        <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 3</span> &middot; Adicional $1.500</div>
+        <div class="pills">
+          <span class="pill">Pi&ntilde;a</span>
+          <span class="pill">Jalape&ntilde;os</span>
+          <span class="pill rec">Cheddar</span>
+          <span class="pill">Pepinillos</span>
+          <span class="pill">Ma&iacute;z</span>
+          <span class="pill">Cebolla Enc.</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+        <div style="flex:1;text-align:center;border:var(--border);border-radius:8px;padding:0.4rem;">
+          <div style="font-size:0.6rem;font-weight:700;text-transform:uppercase;color:var(--gray);margin-bottom:0.1rem;">Papas Francesas</div>
+          <div style="display:flex;justify-content:center;gap:0.8rem;">
+            <div><span style="font-weight:700;font-size:0.75rem;">Personal</span><br><span style="font-size:0.55rem;color:var(--gray);">130gr</span><br><span style="font-weight:700;color:var(--red);">$7.500</span></div>
+            <div><span style="font-weight:700;font-size:0.75rem;">Agrandadas</span><br><span style="font-size:0.55rem;color:var(--gray);">185gr</span><br><span style="font-weight:700;color:var(--red);">$10.000</span></div>
+            <div><span style="font-weight:700;font-size:0.75rem;">Pareja</span><br><span style="font-size:0.55rem;color:var(--gray);">260gr · cheddar</span><br><span style="font-weight:700;color:var(--red);">$14.000</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">El sabor es protagonista, los formatos son secundarios</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Facil de escanear: "quiero Birria" > veo los 3 formatos al lado</span></div>
+        <div class="note-row"><span class="note-label con">CON</span><span class="note-text">Mas ancho, puede no caber bien en el centro de un layout lateral</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- UNIFICACION H — Bloques separados por categoria, mismas reglas -->
+  <!-- ============================================ -->
+  <div class="variation" style="border-color: var(--red); box-shadow: 4px 4px 0 var(--red);">
+    <div class="var-header" style="background: var(--red);">
+      <span class="var-label">H — Bloques claros por categoria <span class="var-rec">Recomendada</span></span>
+      <span class="var-philosophy">Cada categoria con identidad propia. Mismos sabores, mismas reglas, Punch compartido.</span>
+    </div>
+    <div class="var-body">
+
+      <!-- NACHOS -->
+      <div class="uni-block">
+        <div class="uni-block-header">
+          <span class="uni-block-name">Nachos</span>
+          <span class="uni-block-desc"><strong>Guacamole</strong> &middot; <strong>SourCream</strong> &middot; <strong>Pico de Gallo</strong> &middot; <strong>Cheddar</strong> &middot; <span class="plus-topping">+ 3 toppings</span></span>
+        </div>
+        <div class="uni-block-flavors">
+          <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$20.000</div></div>
+          <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$22.000</div></div>
+          <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$20.000</div></div>
+        </div>
+      </div>
+
+      <!-- TACOS -->
+      <div class="uni-block">
+        <div class="uni-block-header">
+          <span class="uni-block-name">Tacos</span>
+          <span class="uni-block-desc"><strong>Guacamole</strong> &middot; <strong>SourCream</strong> &middot; <strong>Pico de Gallo</strong> &middot; <strong>Cheddar</strong> &middot; <span class="plus-topping">+ 3 toppings</span></span>
+        </div>
+        <div class="uni-block-flavors">
+          <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$20.000</div></div>
+          <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$22.000</div></div>
+          <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$20.000</div></div>
+        </div>
+      </div>
+
+      <!-- PAPAS CARGADAS -->
+      <div class="uni-block">
+        <div class="uni-block-header">
+          <span class="uni-block-name">Papas Cargadas</span>
+          <span class="uni-block-desc"><strong>Guacamole</strong> &middot; <strong>SourCream</strong> &middot; <strong>Pico de Gallo</strong> &middot; <strong>Cheddar</strong> &middot; <span class="plus-topping">+ 3 toppings</span></span>
+        </div>
+        <div class="uni-block-flavors">
+          <div class="uni-flavor"><div class="uni-flavor-label">Salchipapa</div><div class="uni-flavor-price">$6.000</div></div>
+          <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$20.000</div></div>
+          <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$22.000</div></div>
+          <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$20.000</div></div>
+        </div>
+        <div class="uni-block-extra">+$6.000 con salchicha en cualquier sabor</div>
+      </div>
+
+      <!-- PUNCH COMPARTIDO -->
+      <div class="punch-box-a" style="margin-top:0.5rem;">
+        <div class="punch-title">Toppings Punch &middot; <span class="elige">Elige 3</span> &middot; Adicional $1.500</div>
+        <div class="pills">
+          <span class="pill">Pi&ntilde;a</span>
+          <span class="pill">Jalape&ntilde;os</span>
+          <span class="pill rec">Cheddar</span>
+          <span class="pill">Pepinillos</span>
+          <span class="pill">Ma&iacute;z</span>
+          <span class="pill">Cebolla Enc.</span>
+        </div>
+      </div>
+
+      <!-- PAPAS FRANCESAS -->
+      <div class="uni-block" style="margin-top:0.5rem;">
+        <div class="uni-block-header">
+          <span class="uni-block-name">Papas Francesas</span>
+        </div>
+        <div class="uni-block-items" style="display:flex;justify-content:space-around;">
+          <div style="text-align:center;">
+            <div style="font-weight:700;font-size:0.78rem;">Personal</div>
+            <div style="font-size:0.55rem;color:var(--gray);">130gr</div>
+            <div style="font-weight:800;color:var(--red);">$7.500</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-weight:700;font-size:0.78rem;">Agrandadas</div>
+            <div style="font-size:0.55rem;color:var(--gray);">185gr</div>
+            <div style="font-weight:800;color:var(--red);">$10.000</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-weight:700;font-size:0.78rem;">Pareja</div>
+            <div style="font-size:0.55rem;color:var(--gray);">260gr &middot; con cheddar</div>
+            <div style="font-weight:800;color:var(--red);">$14.000</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="var-notes">
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Cada categoria tiene su bloque con nombre grande y claro</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Mismas reglas: ingredientes en negro, + 3 toppings en rojo</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Punch compartido una sola vez — no se repite 3 veces</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Papas Cargadas muestra Salchipapa como sabor propio</span></div>
+        <div class="note-row"><span class="note-label">PRO</span><span class="note-text">Papas Francesas separadas, sin mezclar con cargadas</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Live reload
+    (function(){
+      let last = '';
+      setInterval(async () => {
+        try {
+          const r = await fetch(location.href, {cache:'no-store'});
+          const t = await r.text();
+          if (last && t !== last) location.reload();
+          last = t;
+        } catch(e){}
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

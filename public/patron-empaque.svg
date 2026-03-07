@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PATRÓN PIXEL ART - Empaque Cine & Tex-Mex
+  Superficie: 600mm x 800mm (60cm x 80cm)
+  Grilla pixel: 5mm (cada "pixel" = 5mm x 5mm)
+  Elementos: entre 1cm y 2cm (2x2 a 4x4 pixeles)
+  Impresión: 1 tinta (negro sobre blanco)
+
+  SISTEMA DE COORDENADAS:
+  - 1 unidad SVG = 1mm
+  - Grilla de 5mm = cada cuadro es 5x5 unidades
+  - Elemento mínimo: 2x2 pixeles = 10x10mm = 1cm
+  - Elemento máximo: 4x4 pixeles = 20x20mm = 2cm
+  - Tile de repetición: 60x60mm (12x12 pixeles)
+
+  CAPAS (de abajo hacia arriba):
+  1. fondo-blanco      — base blanca
+  2. grilla-cuadros    — cuadros al 50% opacidad (guía de diseño)
+  3. grilla-lineas     — líneas negras con tiles blancos
+  4. patron-principal  — elementos pixel art
+
+  PARA AJUSTAR:
+  - Tamaño de cuadro: cambiar width/height en #pat-cuadros
+  - Opacidad cuadros: cambiar opacity en g#capa-cuadros
+  - Tamaño tile líneas: cambiar width/height en #pat-lineas
+  - Grosor línea: cambiar stroke-width en #pat-lineas
+  - Ocultar capa: display="none" en el <g> correspondiente
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="600mm" height="800mm"
+     viewBox="0 0 600 800">
+
+  <defs>
+    <!--
+      ========================================
+      FONDO 1: CUADROS (checkerboard)
+      Tamaño cuadro: 5x5mm (1 pixel)
+      Para cambiar tamaño, modificar width/height
+      del pattern Y del rect interior.
+      ========================================
+    -->
+    <pattern id="pat-cuadros"
+             x="0" y="0"
+             width="10" height="10"
+             patternUnits="userSpaceOnUse">
+      <!-- Fondo del par: blanco implícito -->
+      <!-- Cuadro negro arriba-izq -->
+      <rect x="0" y="0" width="5" height="5" fill="black"/>
+      <!-- Cuadro negro abajo-der -->
+      <rect x="5" y="5" width="5" height="5" fill="black"/>
+    </pattern>
+
+    <!--
+      ========================================
+      FONDO 2: TILES CON LÍNEA
+      Grilla de líneas negras con interior blanco.
+      Tamaño tile: 10x10mm (2 pixeles)
+      stroke-width: 0.5mm
+      ========================================
+    -->
+    <pattern id="pat-lineas"
+             x="0" y="0"
+             width="10" height="10"
+             patternUnits="userSpaceOnUse">
+      <!-- Tile blanco con borde negro -->
+      <rect x="0" y="0" width="10" height="10"
+            fill="white" stroke="black" stroke-width="0.5"/>
+    </pattern>
+
+    <!--
+      ========================================
+      PIXEL HELPER: cuadrado de 5x5mm
+      Uso: <use href="#px" x="COL*5" y="ROW*5"/>
+      ========================================
+    -->
+    <rect id="px" width="5" height="5" fill="black"/>
+
+    <!--
+      ========================================
+      ELEMENTOS INDIVIDUALES
+      Cada elemento se define en su propia grilla local.
+      Coordenadas = columna*5, fila*5
+      ========================================
+    -->
+
+    <!-- ELEMENTO A: Cruz simple (2x2cm = 4x4 pixeles) -->
+    <g id="el-cruz">
+      <!--
+        Grilla 4x4:
+        . X X .
+        X X X X
+        X X X X
+        . X X .
+      -->
+      <use href="#px" x="5"  y="0"/>
+      <use href="#px" x="10" y="0"/>
+      <use href="#px" x="0"  y="5"/>
+      <use href="#px" x="5"  y="5"/>
+      <use href="#px" x="10" y="5"/>
+      <use href="#px" x="15" y="5"/>
+      <use href="#px" x="0"  y="10"/>
+      <use href="#px" x="5"  y="10"/>
+      <use href="#px" x="10" y="10"/>
+      <use href="#px" x="15" y="10"/>
+      <use href="#px" x="5"  y="15"/>
+      <use href="#px" x="10" y="15"/>
+    </g>
+
+    <!-- ELEMENTO B: Diamante (1.5x1.5cm = 3x3 pixeles) -->
+    <g id="el-diamante">
+      <!--
+        Grilla 3x3:
+        . X .
+        X X X
+        . X .
+      -->
+      <use href="#px" x="5"  y="0"/>
+      <use href="#px" x="0"  y="5"/>
+      <use href="#px" x="5"  y="5"/>
+      <use href="#px" x="10" y="5"/>
+      <use href="#px" x="5"  y="10"/>
+    </g>
+
+    <!-- ELEMENTO C: Punto (1x1cm = 2x2 pixeles) -->
+    <g id="el-punto">
+      <!--
+        Grilla 2x2:
+        X X
+        X X
+      -->
+      <use href="#px" x="0" y="0"/>
+      <use href="#px" x="5" y="0"/>
+      <use href="#px" x="0" y="5"/>
+      <use href="#px" x="5" y="5"/>
+    </g>
+
+    <!--
+      ========================================
+      TILE DE REPETICIÓN
+      Tamaño: 60x60mm (12x12 pixeles)
+      Aquí se componen los elementos en el tile.
+      ========================================
+    -->
+    <g id="tile">
+      <use href="#el-cruz" x="0" y="0"/>
+      <use href="#el-diamante" x="35" y="5"/>
+      <use href="#el-punto" x="10" y="35"/>
+      <use href="#el-diamante" x="30" y="35"/>
+      <use href="#el-punto" x="25" y="25"/>
+    </g>
+
+    <!--
+      ========================================
+      PATRÓN DE REPETICIÓN PRINCIPAL
+      ========================================
+    -->
+    <pattern id="patron-principal"
+             x="0" y="0"
+             width="60" height="60"
+             patternUnits="userSpaceOnUse">
+      <use href="#tile"/>
+    </pattern>
+  </defs>
+
+  <!-- ============ CAPA 1: FONDO BLANCO ============ -->
+  <rect width="600" height="800" fill="white"/>
+
+  <!--
+    ============ CAPA 2: CUADROS (checkerboard) ============
+    opacity="0.5" → 50% transparencia
+    Para ocultar: display="none"
+    Para cambiar opacidad: modificar opacity (0.0 a 1.0)
+  -->
+  <g id="capa-cuadros" opacity="0.5" display="none">
+    <rect width="600" height="800" fill="url(#pat-cuadros)"/>
+  </g>
+
+  <!--
+    ============ CAPA 3: TILES LÍNEA ============
+    Líneas negras, tiles blancos.
+    Para ocultar: display="none"
+  -->
+  <g id="capa-lineas" display="none">
+    <rect width="600" height="800" fill="url(#pat-lineas)"/>
+  </g>
+
+  <!--
+    ============ CAPA 4: PATRÓN PIXEL ART ============
+    Los elementos del diseño final.
+    Para ocultar: display="none"
+  -->
+  <g id="capa-patron">
+    <rect width="600" height="800" fill="url(#patron-principal)"/>
+  </g>
+
+</svg>

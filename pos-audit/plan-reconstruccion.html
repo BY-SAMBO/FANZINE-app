@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Reconstruccion del POS - Auditoria POS FANZINE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --card: #1a1b2e;
+    --card-border: #2a2b3e;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --red: #DC2626;
+    --red-bg: rgba(220,38,38,0.12);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245,158,11,0.12);
+    --blue: #3B82F6;
+    --blue-bg: rgba(59,130,246,0.12);
+    --green: #22C55E;
+    --green-bg: rgba(34,197,94,0.12);
+    --purple: #A855F7;
+    --purple-bg: rgba(168,85,247,0.12);
+    --cyan: #06B6D4;
+    --cyan-bg: rgba(6,182,212,0.12);
+    --radius: 12px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  nav {
+    background: #13141f; border-bottom: 1px solid var(--card-border);
+    padding: 0 1.5rem; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1rem;
+    overflow-x: auto; white-space: nowrap; padding: .75rem 0;
+  }
+  .nav-brand { font-weight: 700; font-size: 1rem; color: var(--red); margin-right: 1rem; flex-shrink: 0; }
+  .nav-link {
+    color: var(--text-muted); font-size: .85rem;
+    padding: .35rem .75rem; border-radius: 6px; transition: all .2s;
+  }
+  .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,.06); text-decoration: none; }
+  .nav-link.active { border-bottom: 2px solid var(--red); }
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page-header {
+    margin-bottom: 2.5rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .page-header h1 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: .5rem; }
+  .page-header h1 span { color: var(--red); }
+  .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  .card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: #fff; }
+  .card p { color: var(--text-muted); margin-bottom: .75rem; }
+
+  .badge {
+    display: inline-block; padding: .2rem .6rem; border-radius: 20px;
+    font-size: .75rem; font-weight: 600; text-transform: uppercase;
+  }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(220,38,38,0.3); }
+
+  /* SUMMARY BAR */
+  .summary-bar {
+    display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+    margin: 1.5rem 0;
+  }
+  .summary-item {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 10px; padding: 1rem 1.5rem; text-align: center;
+    min-width: 140px; flex: 1;
+  }
+  .summary-item .si-value { font-size: 1.8rem; font-weight: 800; color: #fff; }
+  .summary-item .si-label { font-size: .8rem; color: var(--text-muted); }
+
+  /* PHASE */
+  .phase {
+    border-radius: var(--radius); margin-bottom: 2rem;
+    border: 1px solid var(--card-border); overflow: hidden;
+  }
+  .phase-header {
+    padding: 1.25rem 1.5rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;
+  }
+  .phase-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 800; color: #fff; flex-shrink: 0;
+  }
+  .phase-info { flex-grow: 1; }
+  .phase-info h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: .15rem; }
+  .phase-info .phase-time { font-size: .85rem; }
+  .phase-body {
+    padding: 0 1.5rem 1.5rem;
+    background: var(--card);
+  }
+  .phase-body p { color: var(--text-muted); margin-bottom: 1rem; font-size: .92rem; }
+
+  /* PHASE COLORS */
+  .phase-0 .phase-header { background: linear-gradient(135deg, rgba(220,38,38,0.15), var(--card)); }
+  .phase-0 .phase-num { background: var(--red); }
+  .phase-0 .phase-time { color: var(--red); }
+  .phase-1 .phase-header { background: linear-gradient(135deg, rgba(245,158,11,0.15), var(--card)); }
+  .phase-1 .phase-num { background: var(--amber); }
+  .phase-1 .phase-time { color: var(--amber); }
+  .phase-2 .phase-header { background: linear-gradient(135deg, rgba(168,85,247,0.15), var(--card)); }
+  .phase-2 .phase-num { background: var(--purple); }
+  .phase-2 .phase-time { color: var(--purple); }
+  .phase-3 .phase-header { background: linear-gradient(135deg, rgba(59,130,246,0.15), var(--card)); }
+  .phase-3 .phase-num { background: var(--blue); }
+  .phase-3 .phase-time { color: var(--blue); }
+  .phase-4 .phase-header { background: linear-gradient(135deg, rgba(34,197,94,0.15), var(--card)); }
+  .phase-4 .phase-num { background: var(--green); }
+  .phase-4 .phase-time { color: var(--green); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; padding: 0; margin: 0; }
+  .checklist li {
+    display: flex; gap: .75rem; align-items: flex-start;
+    padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,.04);
+    font-size: .9rem; color: var(--text-muted);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 20px; height: 20px; border: 2px solid var(--card-border);
+    border-radius: 4px; flex-shrink: 0; margin-top: .1rem;
+  }
+  .checklist li strong { color: #fff; font-weight: 500; }
+
+  /* GANTT */
+  .gantt { margin: 1.5rem 0; overflow-x: auto; }
+  .gantt-table { width: 100%; min-width: 600px; border-collapse: collapse; }
+  .gantt-table th {
+    font-size: .7rem; color: var(--text-muted); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .04em;
+    padding: .5rem; text-align: center;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .gantt-table th:first-child { text-align: left; width: 160px; }
+  .gantt-table td {
+    padding: .4rem .25rem; vertical-align: middle;
+    border-bottom: 1px solid rgba(255,255,255,.03);
+  }
+  .gantt-table td:first-child {
+    font-size: .82rem; color: #fff; font-weight: 500;
+    padding-left: .5rem;
+  }
+  .gantt-bar {
+    height: 24px; border-radius: 4px; position: relative;
+  }
+  .gantt-bar span {
+    position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+    font-size: .7rem; font-weight: 600; color: #fff;
+    white-space: nowrap;
+  }
+  .g-red { background: linear-gradient(90deg, var(--red), #ef4444); }
+  .g-amber { background: linear-gradient(90deg, var(--amber), #f59e0b); }
+  .g-purple { background: linear-gradient(90deg, var(--purple), #a855f7); }
+  .g-blue { background: linear-gradient(90deg, var(--blue), #3b82f6); }
+  .g-green { background: linear-gradient(90deg, var(--green), #22c55e); }
+
+  /* WEEK COLUMN GRID */
+  .week-cell { position: relative; }
+  .week-cell::before {
+    content: ''; position: absolute; left: 0; top: -8px; bottom: -8px;
+    width: 1px; background: rgba(255,255,255,.04);
+  }
+
+  /* IMPACT */
+  .impact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .impact-card {
+    background: #232440; border-radius: 10px; padding: 1.25rem;
+    border: 1px solid var(--card-border); text-align: center;
+  }
+  .impact-card h4 { font-size: .9rem; color: #fff; margin-bottom: .5rem; }
+  .impact-before { color: var(--red); font-size: 1.3rem; font-weight: 800; }
+  .impact-after { color: var(--green); font-size: 1.3rem; font-weight: 800; }
+  .impact-arrow { color: var(--text-muted); margin: .25rem 0; font-size: .9rem; }
+
+  footer {
+    text-align: center; padding: 2rem 1.5rem;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted); font-size: .8rem; margin-top: 3rem;
+  }
+
+  @media (max-width: 700px) {
+    .container { padding: 1.25rem 1rem; }
+    .summary-bar { flex-direction: column; }
+    .impact-grid { grid-template-columns: 1fr; }
+    .phase-header { padding: 1rem; }
+    .phase-body { padding: 0 1rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">FANZINE POS</span>
+    <a href="index.html" class="nav-link">Resumen</a>
+    <a href="estado-y-datos.html" class="nav-link">Estado y Datos</a>
+    <a href="interfaz-usuario.html" class="nav-link">Interfaz</a>
+    <a href="api-y-backend.html" class="nav-link">API y Backend</a>
+    <a href="sincronizacion.html" class="nav-link">Sincronizacion</a>
+    <a href="plan-reconstruccion.html" class="nav-link active">Plan</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <h1>Plan de <span>Reconstruccion</span> del POS</h1>
+    <p>El plan paso a paso para resolver todos los problemas encontrados en la auditoria, organizado en 5 fases con tiempos estimados.</p>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-bar">
+    <div class="summary-item">
+      <div class="si-value">5</div>
+      <div class="si-label">Fases de trabajo</div>
+    </div>
+    <div class="summary-item">
+      <div class="si-value">11-18</div>
+      <div class="si-label">Dias estimados</div>
+    </div>
+    <div class="summary-item">
+      <div class="si-value">19</div>
+      <div class="si-label">Problemas a resolver</div>
+    </div>
+    <div class="summary-item">
+      <div class="si-value">6.5 &rarr; 9</div>
+      <div class="si-label">Score esperado</div>
+    </div>
+  </div>
+
+  <!-- PHASE 0 -->
+  <div class="phase phase-0">
+    <div class="phase-header">
+      <div class="phase-num">0</div>
+      <div class="phase-info">
+        <h3>Limpieza</h3>
+        <div class="phase-time">1-2 dias &mdash; Prioridad maxima</div>
+      </div>
+      <span class="badge badge-red">Urgente</span>
+    </div>
+    <div class="phase-body">
+      <p>
+        Lo primero es limpiar lo que puede causar problemas inmediatos. Como cuando en la cocina
+        primero se limpia la plancha antes de cocinar. Estos cambios son rapidos y reducen el riesgo
+        de errores en el dia a dia.
+      </p>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Eliminar el archivo duplicado pos-live-store.ts</strong><br>Borrar el archivo que no se usa para evitar confusion. Toma 5 minutos.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Corregir asignacion de toppings al producto incorrecto</strong><br>Anclar la seleccion de toppings al producto especifico usando un ID unico, no la posicion en la lista.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Agregar confirmacion antes de limpiar pedido</strong><br>Mostrar un dialogo "Esta seguro que desea borrar el pedido?" antes de limpiar. Previene perdida accidental.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Crear migraciones para tablas faltantes</strong><br>Documentar las tablas pos_modifier_cache y pos_sales_log en migraciones para que se puedan recrear automaticamente.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase phase-1">
+    <div class="phase-header">
+      <div class="phase-num">1</div>
+      <div class="phase-info">
+        <h3>Fundacion</h3>
+        <div class="phase-time">3-5 dias &mdash; Base solida para el futuro</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <p>
+        Construir una base solida sobre la que se pueda mejorar. Es como reforzar los cimientos del
+        restaurante antes de remodelar. Estos cambios eliminan la duplicacion de codigo y establecen
+        un flujo de pedido mas claro.
+      </p>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Extraer logica compartida de stores</strong><br>Crear un "store base" que tenga toda la logica comun de pedidos (agregar/quitar productos, toppings, cobro). Caja y delivery lo usaran sin duplicar codigo.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Crear componente compartido de toppings</strong><br>Un solo componente de toppings que se use en las 3 pantallas (caja, cliente, delivery). Cambios en uno se reflejan en todos.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Agregar maquina de estados para el pedido</strong><br>Definir estados claros: vacio &rarr; armando &rarr; toppings &rarr; cobro &rarr; enviado &rarr; impreso. El sistema no permitira saltar pasos.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Agregar manejo de errores robusto</strong><br>Cada paso del proceso de venta debe tener un manejo claro de errores: que pasa si falla, como se recupera, y que se le muestra al cajero.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Agregar validacion antes de enviar a Fudo</strong><br>Verificar que todos los productos tengan ID de Fudo, que los precios sean validos, y que el metodo de pago sea correcto antes de intentar la venta.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase phase-2">
+    <div class="phase-header">
+      <div class="phase-num">2</div>
+      <div class="phase-info">
+        <h3>Comunicacion</h3>
+        <div class="phase-time">2-3 dias &mdash; Pantallas que no se pierden</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <p>
+        Mejorar la comunicacion entre las pantallas del cajero y del cliente. Actualmente, si se pierde
+        la conexion, las pantallas se desincronizan. Despues de esta fase, se reconectaran solas.
+      </p>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Agregar reconexion automatica</strong><br>Si la conexion se cae, el sistema debe intentar reconectarse automaticamente cada 3 segundos. Cuando se reconecte, sincronizar el estado completo.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Agregar cola de mensajes</strong><br>Si un mensaje no se puede enviar, guardarlo y enviarlo cuando vuelva la conexion. Los mensajes no se pierden.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Mostrar indicador de desconexion</strong><br>Cuando las pantallas pierdan contacto, mostrar un banner visible: "Conexion perdida - Reconectando..." para que el cajero sepa.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Optimizar tamano de mensajes</strong><br>Enviar solo los cambios (deltas) en vez del pedido completo. Reduce el trafico y la latencia.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase phase-3">
+    <div class="phase-header">
+      <div class="phase-num">3</div>
+      <div class="phase-info">
+        <h3>UX / UI</h3>
+        <div class="phase-time">3-5 dias &mdash; Facil de usar, dificil de equivocarse</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <p>
+        Hacer que el sistema sea mas facil de usar y mas dificil de cometer errores. Como redisenar
+        la cocina para que los utensilios mas usados esten mas cerca.
+      </p>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Layout responsive</strong><br>Hacer que las pantallas funcionen en monitores grandes, tablets y celulares. El layout se adapta al tamano de la pantalla.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Mejor retroalimentacion al usuario</strong><br>Animaciones al agregar productos, indicadores de carga al procesar, mensajes de exito y error claros y visibles.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Mejoras de accesibilidad</strong><br>Mejor contraste, botones mas grandes (minimo 44x44px), etiquetas para lectores de pantalla, navegacion por teclado.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Desactivar controles cuando no aplican</strong><br>Metodo de pago deshabilitado si no hay productos. Boton de cobrar deshabilitado si el pedido esta vacio. Prevenir acciones que no tienen sentido.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Soporte movil para casos de emergencia</strong><br>Permitir tomar un pedido desde el celular si la computadora principal falla. No sera la experiencia principal, pero funcionara.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase phase-4">
+    <div class="phase-header">
+      <div class="phase-num">4</div>
+      <div class="phase-info">
+        <h3>Robustez</h3>
+        <div class="phase-time">2-3 dias &mdash; Que nada se pierda</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <p>
+        Asegurar que el sistema sea resistente a fallos. Que si algo sale mal, se recupere solo
+        y no se pierda informacion. Como instalar un generador de respaldo en el restaurante.
+      </p>
+      <ul class="checklist">
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Cola de impresion con persistencia</strong><br>Si la impresora falla, los tickets se guardan y se reimprimen automaticamente cuando la impresora vuelva. Nunca se pierde un ticket.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Claves de idempotencia</strong><br>Si el sistema envia la misma venta dos veces a Fudo (por un error de red), Fudo la rechaza como duplicada en vez de crearla doble.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Validacion pre-vuelo</strong><br>Antes de enviar a Fudo, verificar que la conexion funcione, que los productos existan, y que los precios sean correctos. Avisar al cajero si algo no cuadra.</div>
+        </li>
+        <li>
+          <div class="check-box"></div>
+          <div><strong>Auto-sincronizacion del cache de toppings</strong><br>Refrescar automaticamente los toppings disponibles cada dia, o cuando se detecten cambios en Fudo. Sin intervencion manual.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GANTT -->
+  <div class="card">
+    <h2>Linea de tiempo visual</h2>
+    <p>Vista general de las 5 fases distribuidas en semanas. Los tiempos son estimados y pueden variar:</p>
+
+    <div class="gantt">
+      <table class="gantt-table">
+        <thead>
+          <tr>
+            <th>Fase</th>
+            <th class="week-cell">Sem 1</th>
+            <th class="week-cell">Sem 2</th>
+            <th class="week-cell">Sem 3</th>
+            <th class="week-cell">Sem 4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0. Limpieza</td>
+            <td class="week-cell">
+              <div class="gantt-bar g-red" style="width: 45%;"><span>1-2 dias</span></div>
+            </td>
+            <td class="week-cell"></td>
+            <td class="week-cell"></td>
+            <td class="week-cell"></td>
+          </tr>
+          <tr>
+            <td>1. Fundacion</td>
+            <td class="week-cell">
+              <div class="gantt-bar g-amber" style="width: 55%; margin-left: 45%;"></div>
+            </td>
+            <td class="week-cell">
+              <div class="gantt-bar g-amber" style="width: 60%;"><span>3-5 dias</span></div>
+            </td>
+            <td class="week-cell"></td>
+            <td class="week-cell"></td>
+          </tr>
+          <tr>
+            <td>2. Comunicacion</td>
+            <td class="week-cell"></td>
+            <td class="week-cell">
+              <div class="gantt-bar g-purple" style="width: 50%; margin-left: 50%;"></div>
+            </td>
+            <td class="week-cell">
+              <div class="gantt-bar g-purple" style="width: 30%;"><span>2-3 dias</span></div>
+            </td>
+            <td class="week-cell"></td>
+          </tr>
+          <tr>
+            <td>3. UX / UI</td>
+            <td class="week-cell"></td>
+            <td class="week-cell"></td>
+            <td class="week-cell">
+              <div class="gantt-bar g-blue" style="width: 70%; margin-left: 30%;"><span>3-5 dias</span></div>
+            </td>
+            <td class="week-cell">
+              <div class="gantt-bar g-blue" style="width: 40%;"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>4. Robustez</td>
+            <td class="week-cell"></td>
+            <td class="week-cell"></td>
+            <td class="week-cell"></td>
+            <td class="week-cell">
+              <div class="gantt-bar g-green" style="width: 60%; margin-left: 40%;"><span>2-3 dias</span></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="text-align: center; margin-top: .5rem;">
+      <strong style="color: #fff;">Tiempo total estimado: 11-18 dias habiles</strong>
+      <br><span style="font-size: .85rem;">Aproximadamente 3-4 semanas de trabajo</span>
+    </p>
+  </div>
+
+  <!-- EXPECTED IMPACT -->
+  <div class="card">
+    <h2>Impacto esperado</h2>
+    <p>Asi se espera que mejore cada area del sistema despues de completar todas las fases:</p>
+
+    <div class="impact-grid">
+      <div class="impact-card">
+        <h4>Confiabilidad</h4>
+        <div class="impact-before">6/10</div>
+        <div class="impact-arrow">se convierte en</div>
+        <div class="impact-after">9/10</div>
+      </div>
+      <div class="impact-card">
+        <h4>Facilidad de uso</h4>
+        <div class="impact-before">7/10</div>
+        <div class="impact-arrow">se convierte en</div>
+        <div class="impact-after">9/10</div>
+      </div>
+      <div class="impact-card">
+        <h4>Mantenibilidad</h4>
+        <div class="impact-before">4/10</div>
+        <div class="impact-arrow">se convierte en</div>
+        <div class="impact-after">8/10</div>
+      </div>
+      <div class="impact-card">
+        <h4>Score general</h4>
+        <div class="impact-before">6.5/10</div>
+        <div class="impact-arrow">se convierte en</div>
+        <div class="impact-after">9/10</div>
+      </div>
+    </div>
+
+    <p style="text-align: center; margin-top: .5rem;">
+      El mayor impacto se vera en la <strong style="color: #fff;">mantenibilidad</strong> (que tan facil es hacer cambios sin romper algo)
+      porque se elimina la duplicacion de codigo y se establece un flujo claro.
+    </p>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="card" style="border-color: rgba(220,38,38,0.3); border-width: 2px;">
+    <h2 style="color: var(--red);">Siguientes pasos</h2>
+    <p>Para comenzar la reconstruccion, se recomienda:</p>
+    <ol style="color: var(--text-muted); padding-left: 1.5rem; margin-bottom: 1rem;">
+      <li style="margin-bottom: .75rem;">
+        <strong style="color: #fff;">Iniciar la Fase 0 inmediatamente.</strong>
+        Los 4 items de limpieza se pueden completar en 1-2 dias y eliminan los riesgos mas criticos.
+      </li>
+      <li style="margin-bottom: .75rem;">
+        <strong style="color: #fff;">Planificar la Fase 1 para la siguiente semana.</strong>
+        Requiere mas tiempo pero establece la base para todas las mejoras futuras.
+      </li>
+      <li style="margin-bottom: .75rem;">
+        <strong style="color: #fff;">Evaluar prioridades entre Fases 2-4.</strong>
+        Dependiendo de las necesidades del restaurante, se puede ajustar el orden.
+        Si las desconexiones son frecuentes, priorizar la Fase 2. Si la interfaz causa mas problemas, priorizar la Fase 3.
+      </li>
+    </ol>
+    <p>
+      Cada fase es independiente una vez completada la Fase 1. Se puede avanzar en el orden
+      que tenga mas sentido para el negocio.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  Generado por Claude Code &mdash; 28 de febrero, 2026
+</footer>
+
+</body>
+</html>

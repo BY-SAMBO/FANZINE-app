@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helados - Analisis Febrero 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0f0f0f; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 28px; margin-bottom: 6px; color: #fff; }
+  h2 { font-size: 20px; margin: 40px 0 16px; color: #f59e0b; border-bottom: 1px solid #333; padding-bottom: 8px; }
+  h3 { font-size: 16px; color: #ccc; margin-bottom: 10px; }
+  .subtitle { color: #888; font-size: 14px; margin-bottom: 24px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .kpi { background: #1a1a1a; border-radius: 12px; padding: 18px; border: 1px solid #2a2a2a; }
+  .kpi .value { font-size: 26px; font-weight: 700; color: #f59e0b; }
+  .kpi .label { font-size: 11px; color: #888; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card { background: #1a1a1a; border-radius: 12px; padding: 20px; border: 1px solid #2a2a2a; margin-bottom: 16px; }
+  .insight { background: #1a1a1a; border-left: 3px solid #f59e0b; border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 12px 0 20px; line-height: 1.7; font-size: 14px; color: #ccc; }
+  .insight strong { color: #f59e0b; }
+  .insight em { color: #e0e0e0; font-style: normal; font-weight: 500; }
+  .exec-summary { background: linear-gradient(135deg, #1a1a1a 0%, #1f1a10 100%); border: 1px solid #f59e0b33; border-radius: 12px; padding: 24px; margin-bottom: 24px; line-height: 1.8; font-size: 15px; color: #d4d4d4; }
+  .exec-summary p { margin-bottom: 12px; }
+  .exec-summary strong { color: #f59e0b; }
+  .opp-card { background: #0f1f0f; border: 1px solid #10b98133; border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+  .opp-card h4 { color: #10b981; margin-bottom: 8px; font-size: 15px; }
+  .opp-card p { line-height: 1.7; font-size: 14px; color: #ccc; }
+  .alert-card { background: #1f0f0f; border: 1px solid #ef444433; border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+  .alert-card h4 { color: #ef4444; margin-bottom: 8px; font-size: 15px; }
+  .alert-card p { line-height: 1.7; font-size: 14px; color: #ccc; }
+  .conclusion { background: linear-gradient(135deg, #1a1a1a 0%, #101a2a 100%); border: 1px solid #3b82f633; border-radius: 12px; padding: 24px; margin: 20px 0; line-height: 1.8; font-size: 15px; color: #d4d4d4; }
+  .conclusion p { margin-bottom: 12px; }
+  .conclusion strong { color: #3b82f6; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; padding: 10px 12px; color: #888; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #333; }
+  td { padding: 10px 12px; border-bottom: 1px solid #1f1f1f; }
+  tr:hover td { background: #222; }
+  .bar-cell { width: 28%; }
+  .right { text-align: right; }
+  .highlight { color: #f59e0b; font-weight: 600; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+  .tag-gold { background: #f59e0b22; color: #f59e0b; }
+  .tag-green { background: #10b98122; color: #10b981; }
+  .tag-blue { background: #3b82f622; color: #3b82f6; }
+  .tag-pink { background: #ec489922; color: #ec4899; }
+  .small { font-size: 12px; color: #666; }
+  .divider { border: none; border-top: 1px solid #222; margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<h1>HELADOS - Analisis de Ventas</h1>
+<p class="subtitle">Cine & Tex-Mex | Febrero 2026 | 240 transacciones con helado de 721 totales</p>
+
+<!-- RESUMEN EJECUTIVO -->
+<h2>Resumen Ejecutivo</h2>
+<div class="exec-summary">
+  <p>La categoria de <strong>Helados</strong> genero <strong>$1.592.000</strong> en febrero 2026, representando el <strong>17.1%</strong> del revenue total del negocio ($9.305.506). Se vendieron <strong>471 unidades</strong> en <strong>240 transacciones</strong>, lo que convierte a Helados en una de las categorias con mayor frecuencia de compra: 1 de cada 3 transacciones incluye al menos un helado.</p>
+
+  <p>El producto estrella por volumen es <strong>Cono mixto</strong> con 235 unidades, mientras que <strong>Cono mixto</strong> lidera en revenue con $705.000. El mix esta dominado por los <strong>Conos</strong>, que representan el 83.5% del revenue de helados y el 91.9% de las unidades.</p>
+
+  <p>Un dato critico: el <strong>80.4%</strong> del ticket promedio en transacciones con helado corresponde a helados, y el <strong>71.3%</strong> de estas transacciones son compras exclusivas de helado (sin otros productos principales). Esto indica que los helados funcionan predominantemente como <strong>compra independiente</strong>, no como complemento de una comida. El ticket promedio de helado es de apenas <strong>$6.633</strong>, sugiriendo una oportunidad significativa de cross-sell.</p>
+
+  <p>El horario pico de helados se concentra en las <strong>12:00 - 13:00</strong> hrs. Los fines de semana generan en promedio $293.333 por dia vs $178.000 entre semana, un <strong>65% mas</strong>.</p>
+
+  <p>La tendencia fue <strong>positiva</strong> durante el mes: la segunda mitad de febrero genero $882.000 vs $710.000 de la primera mitad, un crecimiento del 24%.</p>
+</div>
+
+<!-- KPIs -->
+<h2>KPIs Principales</h2>
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="value">$1.592.000</div>
+    <div class="label">Revenue Helados</div>
+  </div>
+  <div class="kpi">
+    <div class="value">17.1%</div>
+    <div class="label">% del Total ($9.305.506)</div>
+  </div>
+  <div class="kpi">
+    <div class="value">471</div>
+    <div class="label">Unidades Vendidas</div>
+  </div>
+  <div class="kpi">
+    <div class="value">$6.633</div>
+    <div class="label">Ticket Promedio Helado</div>
+  </div>
+  <div class="kpi">
+    <div class="value">$3.380</div>
+    <div class="label">Precio Prom / Unidad</div>
+  </div>
+  <div class="kpi">
+    <div class="value">240</div>
+    <div class="label">Transacciones</div>
+  </div>
+  <div class="kpi">
+    <div class="value">7</div>
+    <div class="label">Productos Activos</div>
+  </div>
+  <div class="kpi">
+    <div class="value">71.3%</div>
+    <div class="label">Compras Solo Helado</div>
+  </div>
+</div>
+
+<!-- Ranking por Revenue -->
+<h2>Ranking de Productos por Revenue</h2>
+<div class="card">
+<table>
+  <tr><th>#</th><th>Producto</th><th class="right">Revenue</th><th class="right">Uds</th><th class="right">%Rev</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td class="highlight">1</td>
+    <td>Cono mixto</td>
+    <td class="right">$705.000</td>
+    <td class="right">235</td>
+    <td class="right">44.3%</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">2</td>
+    <td>Cono Vainilla</td>
+    <td class="right">$462.000</td>
+    <td class="right">152</td>
+    <td class="right">29.0%</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:66%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">3</td>
+    <td>Cono Chocolate</td>
+    <td class="right">$162.000</td>
+    <td class="right">46</td>
+    <td class="right">10.2%</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:23%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">4</td>
+    <td>Sundae</td>
+    <td class="right">$108.000</td>
+    <td class="right">12</td>
+    <td class="right">6.8%</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:15%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">5</td>
+    <td>Galleta RedVelvet</td>
+    <td class="right">$76.000</td>
+    <td class="right">15</td>
+    <td class="right">4.8%</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:11%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">6</td>
+    <td>Galleta chocolate</td>
+    <td class="right">$64.000</td>
+    <td class="right">10</td>
+    <td class="right">4.0%</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:9%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">7</td>
+    <td>Sandwich de helado</td>
+    <td class="right">$15.000</td>
+    <td class="right">1</td>
+    <td class="right">0.9%</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:2%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> Cono mixto lidera en revenue con $705.000 (44.3%), pero tambien lidera en unidades. Los productos de mayor valor unitario (Sundae, Sandwich de helado) representan una oportunidad para aumentar el ticket promedio a traves de promocion activa. Los conos a $3,000 son el producto de entrada y generan alto volumen pero bajo revenue por unidad.
+</div>
+
+<!-- Ranking por Unidades -->
+<h2>Ranking de Productos por Unidades</h2>
+<div class="card">
+<table>
+  <tr><th>#</th><th>Producto</th><th class="right">Unidades</th><th class="right">Revenue</th><th class="right">%Uds</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td class="highlight">1</td>
+    <td>Cono mixto</td>
+    <td class="right">235</td>
+    <td class="right">$705.000</td>
+    <td class="right">49.9%</td>
+    <td class="bar-cell"><div style="background:#3b82f6;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">2</td>
+    <td>Cono Vainilla</td>
+    <td class="right">152</td>
+    <td class="right">$462.000</td>
+    <td class="right">32.3%</td>
+    <td class="bar-cell"><div style="background:#3b82f6;height:18px;border-radius:4px;width:65%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">3</td>
+    <td>Cono Chocolate</td>
+    <td class="right">46</td>
+    <td class="right">$162.000</td>
+    <td class="right">9.8%</td>
+    <td class="bar-cell"><div style="background:#3b82f6;height:18px;border-radius:4px;width:20%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">4</td>
+    <td>Galleta RedVelvet</td>
+    <td class="right">15</td>
+    <td class="right">$76.000</td>
+    <td class="right">3.2%</td>
+    <td class="bar-cell"><div style="background:#3b82f6;height:18px;border-radius:4px;width:6%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">5</td>
+    <td>Sundae</td>
+    <td class="right">12</td>
+    <td class="right">$108.000</td>
+    <td class="right">2.5%</td>
+    <td class="bar-cell"><div style="background:#3b82f6;height:18px;border-radius:4px;width:5%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">6</td>
+    <td>Galleta chocolate</td>
+    <td class="right">10</td>
+    <td class="right">$64.000</td>
+    <td class="right">2.1%</td>
+    <td class="bar-cell"><div style="background:#3b82f6;height:18px;border-radius:4px;width:4%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">7</td>
+    <td>Sandwich de helado</td>
+    <td class="right">1</td>
+    <td class="right">$15.000</td>
+    <td class="right">0.2%</td>
+    <td class="bar-cell"><div style="background:#3b82f6;height:18px;border-radius:4px;width:0%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> Los 3 conos (Vainilla, Chocolate, Mixto) suman 433 unidades (91.9% del total). Esto confirma que el helado de cono es el formato preferido del cliente. Sin embargo, a $3,000 por unidad, tienen el revenue por unidad mas bajo de toda la categoria.
+</div>
+
+<!-- Mix -->
+<h2>Analisis de Mix: Conos vs Galletas vs Sundae vs Sandwich</h2>
+<div class="card">
+<table>
+  <tr><th>Grupo</th><th class="right">Revenue</th><th class="right">% Rev</th><th class="right">Uds</th><th class="right">% Uds</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td><span class="tag tag-gold">Conos</span></td>
+    <td class="right">$1.329.000</td>
+    <td class="right">83.5%</td>
+    <td class="right">433</td>
+    <td class="right">91.9%</td>
+    <td class="bar-cell"><div style="background:#10b981;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td><span class="tag tag-green">Galletas</span></td>
+    <td class="right">$140.000</td>
+    <td class="right">8.8%</td>
+    <td class="right">25</td>
+    <td class="right">5.3%</td>
+    <td class="bar-cell"><div style="background:#10b981;height:18px;border-radius:4px;width:11%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td><span class="tag tag-blue">Sundae</span></td>
+    <td class="right">$108.000</td>
+    <td class="right">6.8%</td>
+    <td class="right">12</td>
+    <td class="right">2.5%</td>
+    <td class="bar-cell"><div style="background:#10b981;height:18px;border-radius:4px;width:8%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td><span class="tag tag-pink">Sandwich</span></td>
+    <td class="right">$15.000</td>
+    <td class="right">0.9%</td>
+    <td class="right">1</td>
+    <td class="right">0.2%</td>
+    <td class="bar-cell"><div style="background:#10b981;height:18px;border-radius:4px;width:1%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> Existe un desbalance importante entre volumen y revenue. Los <em>Conos</em> dominan en unidades (91.9%) pero generan un revenue por unidad de solo $3.069. En contraste, el <em>Sandwich de helado</em> a $15,000 genera $15.000 con solo 1 unidades (0.2% del volumen pero 0.9% del revenue). El Sundae a $9,000 es el punto medio: buen volumen (12 uds) con revenue significativo ($108.000). Migrar aunque sea un 10% de las ventas de conos hacia Sundae o Sandwich tendria un impacto notable en el revenue.
+</div>
+
+<!-- Distribucion por Hora -->
+<h2>Distribucion por Hora del Dia</h2>
+<div class="card">
+<table>
+  <tr><th>Hora</th><th class="right">Revenue</th><th class="right">Uds</th><th class="right">Txns</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td>07:00 - 08:00</td>
+    <td class="right">$6.000</td>
+    <td class="right">2</td>
+    <td class="right">1</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:2%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>08:00 - 09:00</td>
+    <td class="right">$142.000</td>
+    <td class="right">43</td>
+    <td class="right">23</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:38%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>09:00 - 10:00</td>
+    <td class="right">$242.000</td>
+    <td class="right">73</td>
+    <td class="right">31</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:65%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>10:00 - 11:00</td>
+    <td class="right">$237.000</td>
+    <td class="right">71</td>
+    <td class="right">36</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:64%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>11:00 - 12:00</td>
+    <td class="right">$330.000</td>
+    <td class="right">91</td>
+    <td class="right">47</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:89%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>12:00 - 13:00</td>
+    <td class="right">$371.000</td>
+    <td class="right">112</td>
+    <td class="right">58</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>13:00 - 14:00</td>
+    <td class="right">$131.000</td>
+    <td class="right">41</td>
+    <td class="right">23</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:35%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>14:00 - 15:00</td>
+    <td class="right">$102.000</td>
+    <td class="right">28</td>
+    <td class="right">14</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:27%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>15:00 - 16:00</td>
+    <td class="right">$4.000</td>
+    <td class="right">1</td>
+    <td class="right">1</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:1%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>16:00 - 17:00</td>
+    <td class="right">$27.000</td>
+    <td class="right">9</td>
+    <td class="right">6</td>
+    <td class="bar-cell"><div style="background:#f59e0b;height:18px;border-radius:4px;width:7%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> La hora pico de helados es <em>12:00</em> con $371.000 en revenue y 112 unidades. Le sigue las 11:00 con $330.000. La ventana de mayor venta de helados es entre las 08:00 y las 13:00. Las horas tempranas y nocturnas tienen minimo movimiento, lo cual es esperado para una categoria de impulso como helados.
+</div>
+
+<!-- Distribucion por Dia de Semana -->
+<h2>Distribucion por Dia de Semana</h2>
+<div class="card">
+<table>
+  <tr><th>Dia</th><th class="right">Revenue</th><th class="right">Uds</th><th class="right">Txns</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td>Domingo</td>
+    <td class="right">$357.000</td>
+    <td class="right">103</td>
+    <td class="right">45</td>
+    <td class="bar-cell"><div style="background:#8b5cf6;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Lunes</td>
+    <td class="right">$106.000</td>
+    <td class="right">32</td>
+    <td class="right">20</td>
+    <td class="bar-cell"><div style="background:#8b5cf6;height:18px;border-radius:4px;width:30%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Martes</td>
+    <td class="right">$138.000</td>
+    <td class="right">45</td>
+    <td class="right">25</td>
+    <td class="bar-cell"><div style="background:#8b5cf6;height:18px;border-radius:4px;width:39%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Miercoles</td>
+    <td class="right">$214.000</td>
+    <td class="right">66</td>
+    <td class="right">38</td>
+    <td class="bar-cell"><div style="background:#8b5cf6;height:18px;border-radius:4px;width:60%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Jueves</td>
+    <td class="right">$254.000</td>
+    <td class="right">69</td>
+    <td class="right">37</td>
+    <td class="bar-cell"><div style="background:#8b5cf6;height:18px;border-radius:4px;width:71%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Viernes</td>
+    <td class="right">$170.000</td>
+    <td class="right">49</td>
+    <td class="right">27</td>
+    <td class="bar-cell"><div style="background:#8b5cf6;height:18px;border-radius:4px;width:48%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Sabado</td>
+    <td class="right">$353.000</td>
+    <td class="right">107</td>
+    <td class="right">48</td>
+    <td class="bar-cell"><div style="background:#8b5cf6;height:18px;border-radius:4px;width:99%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> <em>Domingo</em> es el dia mas fuerte para helados con $357.000 y 103 unidades. El dia mas debil es <em>Lunes</em> con solo $106.000. En promedio, un dia de fin de semana (Vie-Sab-Dom) genera <em>$293.333</em> vs <em>$178.000</em> de un dia entre semana. Esto confirma que el helado tiene un componente de 'plan de fin de semana' significativo.
+</div>
+
+<!-- Tendencia Diaria -->
+<h2>Tendencia Diaria - Febrero 2026</h2>
+<div class="card" style="max-height:500px;overflow-y:auto">
+<table>
+  <tr><th>Fecha</th><th class="right">Revenue</th><th class="right">Uds</th><th class="right">Txns</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td>02-01 <span class="small">Domingo</span></td>
+    <td class="right">$99.000</td>
+    <td class="right">25</td>
+    <td class="right">9</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:63%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-02 <span class="small">Lunes</span></td>
+    <td class="right">$24.000</td>
+    <td class="right">8</td>
+    <td class="right">5</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:15%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-03 <span class="small">Martes</span></td>
+    <td class="right">$51.000</td>
+    <td class="right">17</td>
+    <td class="right">10</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:32%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-04 <span class="small">Miercoles</span></td>
+    <td class="right">$48.000</td>
+    <td class="right">14</td>
+    <td class="right">11</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:31%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-05 <span class="small">Jueves</span></td>
+    <td class="right">$42.000</td>
+    <td class="right">14</td>
+    <td class="right">9</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:27%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-06 <span class="small">Viernes</span></td>
+    <td class="right">$27.000</td>
+    <td class="right">9</td>
+    <td class="right">4</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:17%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-07 <span class="small">Sabado</span></td>
+    <td class="right">$58.000</td>
+    <td class="right">19</td>
+    <td class="right">12</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:37%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-08 <span class="small">Domingo</span></td>
+    <td class="right">$93.000</td>
+    <td class="right">25</td>
+    <td class="right">13</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:59%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-09 <span class="small">Lunes</span></td>
+    <td class="right">$46.000</td>
+    <td class="right">12</td>
+    <td class="right">8</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:29%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-10 <span class="small">Martes</span></td>
+    <td class="right">$23.000</td>
+    <td class="right">7</td>
+    <td class="right">3</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:15%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-11 <span class="small">Miercoles</span></td>
+    <td class="right">$43.000</td>
+    <td class="right">11</td>
+    <td class="right">5</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:27%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-12 <span class="small">Jueves</span></td>
+    <td class="right">$47.000</td>
+    <td class="right">15</td>
+    <td class="right">7</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:30%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-13 <span class="small">Viernes</span></td>
+    <td class="right">$19.000</td>
+    <td class="right">6</td>
+    <td class="right">5</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:12%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-14 <span class="small">Sabado</span></td>
+    <td class="right">$90.000</td>
+    <td class="right">30</td>
+    <td class="right">14</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:57%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-15 <span class="small">Domingo</span></td>
+    <td class="right">$93.000</td>
+    <td class="right">29</td>
+    <td class="right">14</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:59%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-16 <span class="small">Lunes</span></td>
+    <td class="right">$18.000</td>
+    <td class="right">6</td>
+    <td class="right">3</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:11%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-17 <span class="small">Martes</span></td>
+    <td class="right">$37.000</td>
+    <td class="right">12</td>
+    <td class="right">8</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:24%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-18 <span class="small">Miercoles</span></td>
+    <td class="right">$66.000</td>
+    <td class="right">22</td>
+    <td class="right">11</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:42%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-19 <span class="small">Jueves</span></td>
+    <td class="right">$53.000</td>
+    <td class="right">15</td>
+    <td class="right">9</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:34%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-20 <span class="small">Viernes</span></td>
+    <td class="right">$54.000</td>
+    <td class="right">18</td>
+    <td class="right">10</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:34%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-21 <span class="small">Sabado</span></td>
+    <td class="right">$48.000</td>
+    <td class="right">16</td>
+    <td class="right">8</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:31%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-22 <span class="small">Domingo</span></td>
+    <td class="right">$72.000</td>
+    <td class="right">24</td>
+    <td class="right">9</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:46%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-23 <span class="small">Lunes</span></td>
+    <td class="right">$18.000</td>
+    <td class="right">6</td>
+    <td class="right">4</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:11%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-24 <span class="small">Martes</span></td>
+    <td class="right">$27.000</td>
+    <td class="right">9</td>
+    <td class="right">4</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:17%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-25 <span class="small">Miercoles</span></td>
+    <td class="right">$57.000</td>
+    <td class="right">19</td>
+    <td class="right">11</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:36%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-26 <span class="small">Jueves</span></td>
+    <td class="right">$112.000</td>
+    <td class="right">25</td>
+    <td class="right">12</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:71%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-27 <span class="small">Viernes</span></td>
+    <td class="right">$70.000</td>
+    <td class="right">16</td>
+    <td class="right">8</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:45%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>02-28 <span class="small">Sabado</span></td>
+    <td class="right">$157.000</td>
+    <td class="right">42</td>
+    <td class="right">14</td>
+    <td class="bar-cell"><div style="background:#ec4899;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> El mejor dia del mes fue <em>02-28</em> con $157.000 (42 uds). El dia con menor venta registrada fue <em>02-16</em> con $18.000. No hubo dias sin ventas de helado, buena consistencia. La segunda quincena fue mas fuerte ($882.000 vs $710.000), indicando tendencia positiva.
+</div>
+
+<!-- Tendencia Semanal -->
+<h2>Tendencia Semanal</h2>
+<div class="card">
+<table>
+  <tr><th>Semana</th><th class="right">Revenue</th><th class="right">Uds</th><th class="right">Txns</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td>Semana 6</td>
+    <td class="right">$291.000</td>
+    <td class="right">87</td>
+    <td class="right">48</td>
+    <td class="bar-cell"><div style="background:#06b6d4;height:18px;border-radius:4px;width:71%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Semana 7</td>
+    <td class="right">$329.000</td>
+    <td class="right">95</td>
+    <td class="right">53</td>
+    <td class="bar-cell"><div style="background:#06b6d4;height:18px;border-radius:4px;width:80%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Semana 8</td>
+    <td class="right">$411.000</td>
+    <td class="right">132</td>
+    <td class="right">69</td>
+    <td class="bar-cell"><div style="background:#06b6d4;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Semana 9</td>
+    <td class="right">$404.000</td>
+    <td class="right">115</td>
+    <td class="right">56</td>
+    <td class="bar-cell"><div style="background:#06b6d4;height:18px;border-radius:4px;width:98%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td>Semana 10</td>
+    <td class="right">$157.000</td>
+    <td class="right">42</td>
+    <td class="right">14</td>
+    <td class="bar-cell"><div style="background:#06b6d4;height:18px;border-radius:4px;width:38%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> La mejor semana fue la <em>Semana 8</em> con $411.000. La mas baja fue la <em>Semana 10</em> con $157.000. La variacion semanal va de $157.000 a $411.000, una diferencia de 162%. Esta variabilidad sugiere que factores externos (clima, peliculas en cartelera, eventos) impactan las ventas de helados semana a semana.
+</div>
+
+<!-- Cross-sell -->
+<h2>Cross-Sell: Categorias Companion</h2>
+<p class="subtitle" style="margin-top:-8px">En las 240 transacciones con helado, estas son las otras categorias que se compraron junto:</p>
+<div class="card">
+<table>
+  <tr><th>#</th><th>Categoria</th><th class="right">Uds</th><th class="right">Revenue</th><th class="bar-cell"></th></tr>
+  <tr>
+    <td class="highlight">1</td>
+    <td>Crispetas</td>
+    <td class="right">61</td>
+    <td class="right">$317.000</td>
+    <td class="bar-cell"><div style="background:#14b8a6;height:18px;border-radius:4px;width:100%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">2</td>
+    <td>Perro</td>
+    <td class="right">17</td>
+    <td class="right">$249.000</td>
+    <td class="bar-cell"><div style="background:#14b8a6;height:18px;border-radius:4px;width:28%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">3</td>
+    <td>Bebidas</td>
+    <td class="right">9</td>
+    <td class="right">$44.000</td>
+    <td class="bar-cell"><div style="background:#14b8a6;height:18px;border-radius:4px;width:15%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">4</td>
+    <td>Nachos</td>
+    <td class="right">4</td>
+    <td class="right">$72.000</td>
+    <td class="bar-cell"><div style="background:#14b8a6;height:18px;border-radius:4px;width:7%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">5</td>
+    <td>Tacos</td>
+    <td class="right">3</td>
+    <td class="right">$90.000</td>
+    <td class="bar-cell"><div style="background:#14b8a6;height:18px;border-radius:4px;width:5%;min-width:2px;"></div></td>
+  </tr><tr>
+    <td class="highlight">6</td>
+    <td>TEX MEX</td>
+    <td class="right">2</td>
+    <td class="right">$34.000</td>
+    <td class="bar-cell"><div style="background:#14b8a6;height:18px;border-radius:4px;width:3%;min-width:2px;"></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> La categoria companion #1 es <em>Crispetas</em> con 61 unidades en transacciones con helado. Sin embargo, el dato mas relevante es que el <strong>71.3% de las transacciones con helado NO incluyen ningun otro producto principal</strong>. Esto significa que la gran mayoria de clientes de helado solo compran helado. La oportunidad de cross-sell es enorme: si se lograra que apenas un 15-20% de esos compradores de "solo helado" agregaran una bebida o unas crispetas, el ticket promedio podria subir significativamente.
+</div>
+
+<!-- % Helado del ticket -->
+<h2>Helado como % del Ticket Total</h2>
+<div class="card">
+  <p style="font-size:16px;">En promedio, los helados representan el <span class="highlight" style="font-size:28px;">80.4%</span> del ticket total en transacciones que incluyen helado.</p>
+  <p class="small" style="margin-top:8px;">Basado en 240 transacciones. Ticket promedio total con helado: $9.808 vs sin helado: $14.452.</p>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> Un 80.4% es excepcionalmente alto, confirmando que la mayoria de las compras de helado son compras <em>standalone</em>. El ticket promedio de una transaccion con helado es $9.808, significativamente menor que el ticket sin helado de $14.452. Esto deprime el ticket promedio general. Para mejorar esta metrica, considerar combos como "Helado + Bebida" o "Postre despues de comida" con descuento.
+</div>
+
+<!-- Horas pico comparadas -->
+<h2>Horas Pico: Helados vs General</h2>
+<div class="grid-2">
+  <div class="card">
+    <h3 style="color:#f59e0b;margin-bottom:12px;font-size:14px;">TOP 5 HORAS - HELADOS</h3>
+    <table>
+      <tr><th>Hora</th><th class="right">Revenue</th><th class="right">Txns</th></tr>
+      <tr>
+        <td>12:00</td>
+        <td class="right">$371.000</td>
+        <td class="right">58</td>
+      </tr><tr>
+        <td>11:00</td>
+        <td class="right">$330.000</td>
+        <td class="right">47</td>
+      </tr><tr>
+        <td>09:00</td>
+        <td class="right">$242.000</td>
+        <td class="right">31</td>
+      </tr><tr>
+        <td>10:00</td>
+        <td class="right">$237.000</td>
+        <td class="right">36</td>
+      </tr><tr>
+        <td>08:00</td>
+        <td class="right">$142.000</td>
+        <td class="right">23</td>
+      </tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3 style="color:#3b82f6;margin-bottom:12px;font-size:14px;">TOP 5 HORAS - GENERAL</h3>
+    <table>
+      <tr><th>Hora</th><th class="right">Revenue</th><th class="right">Txns</th></tr>
+      <tr>
+        <td>14:00</td>
+        <td class="right">$2.032.500</td>
+        <td class="right">106</td>
+      </tr><tr>
+        <td>13:00</td>
+        <td class="right">$1.397.500</td>
+        <td class="right">102</td>
+      </tr><tr>
+        <td>12:00</td>
+        <td class="right">$1.393.002</td>
+        <td class="right">132</td>
+      </tr><tr>
+        <td>15:00</td>
+        <td class="right">$944.000</td>
+        <td class="right">61</td>
+      </tr><tr>
+        <td>11:00</td>
+        <td class="right">$825.004</td>
+        <td class="right">89</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="insight">
+  <strong>Insight:</strong> Las horas 12:00, 11:00 coinciden como pico tanto para helados como para el negocio general. Esto indica que el flujo general de clientes impulsa las ventas de helado. Hay horas pico generales donde los helados no aparecen con fuerza, lo que representa una oportunidad de captura: promover helados activamente durante las horas de mayor trafico podria incrementar la penetracion.
+</div>
+
+<hr class="divider">
+
+<!-- OPORTUNIDADES -->
+<h2 style="color:#10b981;">Oportunidades</h2>
+
+<div class="opp-card">
+  <h4>1. Combos de helado + bebida/crispeta</h4>
+  <p>Con 71.3% de transacciones siendo solo helado, hay un potencial enorme para crear combos. Un "Combo Helado": Cono + CoolDrink por $6,000 (vs $7,000 separados) podria incrementar el ticket promedio de $6.633 a $8,000-10,000 y posicionar helado como acompanante habitual.</p>
+</div>
+
+<div class="opp-card">
+  <h4>2. Promover Sundae y Sandwich de Helado</h4>
+  <p>El Sandwich de helado genera $15.000 por unidad vs $3,000 de un cono. El Sundae a $9,000 es 3x el precio de un cono. Con solo 13 unidades combinadas de Sundae+Sandwich vs 433 conos, hay espacio para migrar ventas hacia arriba. Sugerencia: exhibir fotos atractivas de Sundae y Sandwich en la pantalla de cliente, o que el cajero haga upsell activo.</p>
+</div>
+
+<div class="opp-card">
+  <h4>3. Cubiertas/toppings de helado como upsell</h4>
+  <p>Los adicionales de helado (AD. HELADOS) como "Cubierta Galleta Oreo" a $1,000 y "Cubierta Galleta Red Velvet" a $1,000 son un upsell facil de $1,000 adicional por transaccion. Si se aplicara al 30% de las 240 transacciones, serian +$72.000 mensuales adicionales con margen muy alto.</p>
+</div>
+
+<div class="opp-card">
+  <h4>4. Helado como postre post-comida</h4>
+  <p>Actualmente las transacciones con helado raramente incluyen comida principal. Crear una promo "Postre" (agregar un cono por $2,000 en cualquier combo de comida) podria capturar a los clientes de Tex-Mex que actualmente no compran helado. 481 transacciones al mes son potenciales compradores.</p>
+</div>
+
+<div class="opp-card">
+  <h4>5. Promociones entre semana</h4>
+  <p>Con ventas de fin de semana 65% mayores que entre semana, una promo "2x1 Conos" en dias de baja demanda (como Lunes) podria equilibrar la demanda y traer trafico adicional.</p>
+</div>
+
+<hr class="divider">
+
+<!-- ALERTAS -->
+<h2 style="color:#ef4444;">Alertas y Problemas Detectados</h2>
+
+<div class="alert-card">
+  <h4>Ticket promedio muy bajo</h4>
+  <p>El ticket promedio de helado de $6.633 es considerablemente bajo. Esto se debe a que los conos de $3,000 dominan el mix (91.9% de unidades). El precio promedio por unidad de helado vendida es $3.380. Si no se diversifica el mix, el revenue por transaccion seguira siendo bajo.</p>
+</div>
+
+<div class="alert-card">
+  <h4>Compras aisladas de helado (71.3% solo helado)</h4>
+  <p>La gran mayoria de clientes que compran helado no compran nada mas. Esto puede indicar que: (a) son clientes de paso que solo quieren algo rapido, (b) no se les ofrece nada mas, o (c) no perciben el helado como parte de la experiencia del cine. Cualquiera de estas causas puede trabajarse con combos, sugerencia activa del cajero, y ubicacion estrategica del helado.</p>
+</div>
+
+
+
+<div class="alert-card">
+  <h4>Producto "Galleta almendras" con posible bajo rendimiento</h4>
+  <p>Galleta almendras no registro ventas en febrero. Evaluar si vale la pena mantenerla en menu o reemplazarla por un sabor mas popular. El espacio en menu tiene costo de oportunidad.</p>
+</div>
+
+<hr class="divider">
+
+<!-- CONCLUSIONES -->
+<h2 style="color:#3b82f6;">Conclusiones</h2>
+<div class="conclusion">
+  <p><strong>Helados es una categoria de alto volumen y baja monetizacion.</strong> Con 471 unidades y presencia en 240 transacciones (33.3% del total), tiene excelente penetracion. Pero el revenue de $1.592.000 (17.1% del total) no refleja ese volumen, debido al dominio de conos de bajo precio.</p>
+
+  <p><strong>La oportunidad principal no esta en vender mas helados, sino en vender MEJOR.</strong> Las tres palancas clave son: (1) migrar mix hacia Sundae/Sandwich (+revenue por unidad), (2) activar cross-sell con combos (+items por transaccion), y (3) promover cubiertas/toppings de helado (+upsell incremental).</p>
+
+  <p><strong>Si se lograra un incremento del 30% en ticket promedio de helado</strong> (de $6.633 a ~$8.623), el revenue mensual subiria de $1.592.000 a ~$2.069.600, un incremento de +$477.600 mensuales. Este objetivo es alcanzable con las medidas propuestas.</p>
+</div>
+
+<p style="text-align:center;color:#555;margin-top:40px;font-size:12px;">Generado automaticamente | Datos: Fudo POS | Febrero 2026 | Cine & Tex-Mex</p>
+
+</body>
+</html>

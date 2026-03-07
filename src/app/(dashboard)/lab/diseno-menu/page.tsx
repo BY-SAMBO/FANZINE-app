@@ -68,6 +68,13 @@ const ERAS: Era[] = [
     range: "v23 – v26",
     desc: "Exploraciones esteticas derivadas — no desarrollo de menu (heladeria, highway, vintage, cards)",
   },
+  {
+    id: "c3digital",
+    label: "C3 & Digital",
+    color: "#f43f5e",
+    range: "v31 – v35",
+    desc: "Sistema C3 final: ingredientes corregidos, pname-sub + plus-topping rojo, combo pricing, imagenes AI-gen, variantes de comunicacion",
+  },
 ];
 
 type Prototype = {
@@ -83,6 +90,182 @@ type Prototype = {
 };
 
 const PROTOTYPES: Prototype[] = [
+  {
+    version: "v35",
+    label: "Carta v35",
+    desc: "Imagenes AI-gen por perro, badge-spicy SVG, combo pricing consolidado, image transforms afinados",
+    era: "c3digital",
+    intent:
+      "Incorporacion de imagenes generadas por IA (zinema-gen.png, bbq-bacon-gen.png, tropical-fuego-gen.png, birria-fusion-gen.png) con transforms individuales por producto para encuadre optimo. Combo pricing unificado a $25.000 para todos los perros. Badge de picante SVG inline en Tropical Fuego. Zinema recibe subtext 'Arma tu perro' dentro del nombre.",
+    changes:
+      "De v34: reemplaza fotos reales por AI-gen con transform scale/translate por perro. badge-spicy SVG (flame icon) en Tropical Fuego. arma-sub subtext dentro de .uni-block-name de Zinema. Combo normalizado a $25.000 (antes $23-25k variables). Precios de sabores actualizados (Birria de Res $22.000 nachos/tacos, $25.000 papas cargadas).",
+    layout:
+      "Identico a v34: lateral 3-col, uni-block, legend bar. Sin cambios estructurales — solo refinamiento de imagenes y pricing.",
+    typography:
+      "Space Grotesk. Sin cambios tipograficos respecto a v34.",
+    notable:
+      "Primera version con imagenes 100% AI-generated. Transform scale 1.35–1.60 por producto. badge-spicy con SVG flame path inline. arma-sub como sub-label dentro del nombre.",
+  },
+  {
+    version: "v35-b",
+    label: "Carta v35-b (Pixel Diner)",
+    desc: "Variante Pixel Diner con badge '+Adicional $1.500' inline en pname-sub",
+    era: "c3digital",
+    intent:
+      "Explorar comunicacion del costo adicional de toppings directamente en el ingrediente line, sin depender de la legend bar. 'Pixel Diner' como subtitulo de marca experimental.",
+    changes:
+      "De v35: agrega clase .adicional-1up con badge inline despues del plus-topping ('+ 1 topping +Adicional $1.500'). Subtitulo 'Pixel Diner' en header. Resto identico a v35.",
+    layout:
+      "Identico a v35.",
+    typography:
+      "Agrega .adicional-1up: font-size pequeño, color gris, badge inline junto a plus-topping.",
+    notable:
+      "Propuesta para hacer el costo adicional mas visible sin layer extra. Badge sticky junto al topping count. Subtitulo 'Pixel Diner' como nombre de linea de producto.",
+  },
+  {
+    version: "v35-c",
+    label: "Carta v35-c (Pixel Diner)",
+    desc: "Variante Pixel Diner con reordenamiento de imagen/texto en pares de perros",
+    era: "c3digital",
+    intent:
+      "Ajuste de ritmo visual: intercambia posicion de imagen y texto en el primer par (Zinema img pasa a la derecha) para variar la alternancia visual.",
+    changes:
+      "De v35-b: Zinema cambia de img-left a img-right (texto-left / img-right). Mantiene badge .adicional-1up. Menos lineas que v35-b (1051 vs 1079). Subtitulo 'Pixel Diner' en header.",
+    layout:
+      "Lateral 3-col con alternancia ajustada: Zinema img-right, BBQ Bacon img-right, Tropical Fuego img-right, Birria img-right — exploracion de ritmo distinto.",
+    typography:
+      "Identica a v35-b.",
+    notable:
+      "Exploracion de ritmo alternante distinto al estandar. Compacta mas que v35-b (menor numero de lineas). Mantiene sistema C3 completo.",
+  },
+  {
+    version: "v34",
+    label: "Carta v34",
+    desc: "Combo pricing integrado: uni-flavor.combo-key amarillo/negro por perro",
+    era: "c3digital",
+    intent:
+      "Incorporar el precio de combo como flavor adicional dentro del bloque de cada perro. uni-flavor.combo-key usa fondo negro + precio amarillo para diferenciarse visualmente de los sabores regulares. Comentario 'CARTA DIGITAL' en header del CSS documenta intencion de uso en pantalla.",
+    changes:
+      "De v33: agrega .uni-flavor.combo-key (background negro, label blanco, precio amarillo). combo-tag class para badge inline. Precios de combo por perro ($23-25k). Sin cambios en pname-sub ni ingredientes. Elimina image-edit overlay del CSS.",
+    layout:
+      "Identico a v33: lateral 3-col, uni-block con starburst punch, legend bar.",
+    typography:
+      "Space Grotesk. .uni-flavor.combo-key: label blanco 0.55rem, precio amarillo 0.95rem. .combo-tag: badge rojo inline.",
+    notable:
+      "Primera version con combo pricing visible en carta. Precios diferenciados por perro (Zinema $23k, BBQ/Tropical/Birria $24-25k). Layout oscuro del combo-key contrasta con flavors regulares.",
+  },
+  {
+    version: "v33",
+    label: "Carta v33",
+    desc: "Image editor integrado: drag/scale/flip con boton lapiz, sin cambios de menu",
+    era: "c3digital",
+    intent:
+      "Agregar herramienta de posicionamiento de imagenes directamente en la carta. Boton lapiz (bottom-left) activa modo edicion con drag libre, scale con rueda, flip horizontal. Permite ajustar encuadres sin tocar CSS manualmente.",
+    changes:
+      "De v31: incorpora el image editor de v31-2 al flujo principal. Boton pencil (bottom-left, position:fixed). Drag/scale/flip por imagen. Cursor grab en modo edicion. Sin cambios en contenido del menu.",
+    layout:
+      "Identico a v31. Image editor como overlay tool no-destructivo.",
+    typography:
+      "Identica a v31.",
+    notable:
+      "Herramienta de produccion integrada: editor de imagenes drag/scale/flip con boton pencil. Posiciones guardadas en transform CSS. Primero en incluir esta herramienta en la rama principal (v31-2 la tenia pero era solo lab de variaciones).",
+  },
+  {
+    version: "v32c",
+    label: "Carta v32c",
+    desc: "Legend bar simplificada como fuente unica de verdad para toppings, sin uni-block",
+    era: "c3digital",
+    intent:
+      "Alternativa a v32a/b: usar la legend bar expandida como unico punto de comunicacion de toppings, eliminando los bloques uni-block de punch por perro. pname-sub limpio sin plus-topping rojo.",
+    changes:
+      "De v32: mantiene la legend bar expandida. Elimina uni-block/starburst. pname-sub vuelve a version sin plus-topping. Nachos/Tacos/Papas Cargadas en bloques compactos. 1005 lineas (mas liviana que v32a/b).",
+    layout:
+      "Lateral 3-col sin uni-block. Legend bar como unico comunicador de toppings. Bloques nachos/tacos/papas mas compactos.",
+    typography:
+      "Space Grotesk. pname-sub sin plus-topping. Menos clases CSS que v32a/b.",
+    notable:
+      "Apuesta maximalista en la legend bar. Elimina la redundancia de comunicar toppings dos veces (legend + por perro). Mas limpio visualmente pero menos claro para el cliente.",
+  },
+  {
+    version: "v32b",
+    label: "Carta v32b",
+    desc: "Expansion de v32a: nachos/tacos/papas con uni-block propio y sabores integrados",
+    era: "c3digital",
+    intent:
+      "Extender el sistema uni-block a las categorias secundarias (nachos, tacos, papas cargadas). Cada categoria tiene su propio bloque con imagen, ingredientes base y lista de sabores como uni-flavors.",
+    changes:
+      "De v32a: nachos, tacos y papas cargadas pasan de cat-flavor grid horizontal a uni-block completo con imagen, ingredientes y flavors verticales. Mayor altura de la carta (1327 lineas). Legend bar mantenida.",
+    layout:
+      "Lateral 3-col. uni-block para TODOS los productos incluyendo nachos/tacos/papas. Carta mas alta y densa.",
+    typography:
+      "Identica a v32a.",
+    notable:
+      "Version mas completa del sistema uni-block — todos los productos (perros + nachos + tacos + papas) con el mismo tratamiento visual. Alta fidelidad de informacion.",
+  },
+  {
+    version: "v32a",
+    label: "Carta v32a",
+    desc: "Retorno al sistema v31 con legend bar + pname-sub plus-topping, rama principal",
+    era: "c3digital",
+    intent:
+      "Fusion del sistema de comunicacion aprobado en v31 (ingredientes en negro + plus-topping rojo) con la legend bar de v32. Descarta el toppings-bar global de v32 y retoma starburst punch por perro.",
+    changes:
+      "De v32: descarta toppings-bar global. Recupera uni-block con starburst punch por perro de v31. Agrega legend bar de v30. pname-sub con .plus-topping rojo. 1151 lineas (mas que v32 original).",
+    layout:
+      "Lateral 3-col con legend bar + uni-block + starburst punch. Cat-flavors horizontal para nachos/tacos.",
+    typography:
+      "Space Grotesk con .plus-topping red como v31.",
+    notable:
+      "Reconciliacion de dos ramas: toma lo mejor de v31 (plus-topping) + v32 (legend bar expandida). Base solida para v33+.",
+  },
+  {
+    version: "v32",
+    label: "Carta v32",
+    desc: "Toppings-bar global — barra unica 'Personaliza tu plato' reemplaza punch por perro",
+    era: "c3digital",
+    intent:
+      "Experimento radical: en vez de comunicar los toppings dentro de cada perro, una sola barra global al tope de la seccion explica el sistema. Cada perro pierde su bloque de punch individual.",
+    changes:
+      "De v31: elimina uni-block/starburst punch por perro. Agrega .toppings-bar global con titulo 'Personaliza tu plato', badge '1–3', y explicacion '+Adicional $1.500'. pname-sub sin plus-topping. 902 lineas (la mas compacta de la era C3).",
+    layout:
+      "Lateral 3-col sin punch individual. toppings-bar como header de seccion de perros. Cat-flavors en 1fr flex.",
+    typography:
+      "Space Grotesk. toppings-bar-title 1rem bold, toppings-bar-punch starburst 1.2rem, toppings-bar-extra 0.75rem.",
+    notable:
+      "La carta mas corta de la era C3 (902 lineas). Apuesta por la barra global que no prospera — la comunicacion es menos clara por perro. Sirve de referencia negativa para confirmar el sistema punch individual.",
+  },
+  {
+    version: "v31-2",
+    label: "Carta v31-2 (Variaciones Lab)",
+    desc: "Documento de laboratorio: 5 variaciones A-E para hot dogs + 3 variaciones F-H para nachos/tacos",
+    era: "c3digital",
+    intent:
+      "Lab de decisiones de comunicacion: 5 variaciones de como mostrar ingredientes y punch en hot dogs (A=minimo, B=construccion inline, C=solo identidad, D=dos niveles hero/detalle, E=directo+rojo) y 3 para categorias secundarias (F=tabla, G=sabores como filas, H=bloques separados por categoria). Incluye anotaciones PRO/CON por variacion.",
+    changes:
+      "Nuevo archivo independiente. No es iteracion de v31 — es documento de evaluacion. 1219 lineas. Image editor drag/scale incluido. Variacion E y H elegidas como resultado.",
+    layout:
+      "Documento multi-seccion: cada variacion es una version completa de la carta con anotaciones. No es para produccion.",
+    typography:
+      "Agrega tipografia de anotacion: .var-philosophy, .note-row, .note-label con colores PRO/CON.",
+    notable:
+      "Unico archivo 'meta-carta' — muestra el proceso de decision. Variacion E elegida para hot dogs (ingredientes directo + plus-topping rojo). Variacion H elegida para nachos/tacos/papas (bloques separados por categoria). Image editor integrado.",
+  },
+  {
+    version: "v31",
+    label: "Carta v31",
+    desc: "Sistema C3 aplicado: ingredientes corregidos, plus-topping rojo, pname-sub variacion E",
+    era: "c3digital",
+    intent:
+      "Aplicar el sistema de comunicacion C3 aprobado: pname-sub muestra ingredientes en negro bold + 'plus-topping' en rojo al final. Correcciones de receta: Tropical Fuego recupera Pina fresca, Birria Fusion incorpora Cilantro fresco (nuevo C3), BBQ Bacon reordena Tocineta al inicio.",
+    changes:
+      "De v30: nuevo CSS .plus-topping (font-weight 800, color var(--red)). pname-sub de cada perro actualizado con ingredientes C3 correctos. Zinema: Papas crocantes·Queso cheddar·SourCream·Salsa leña·+3 toppings. BBQ Bacon: Tocineta·Queso crema·BBQ Gold·Cebolla crispy·+1 topping. Tropical Fuego: Tocineta·Salsa piña·SourCream·Piña fresca·+1 topping. Birria Fusion: Res birria·Cheddar fundido·Papas ángel·Cilantro fresco·+1 topping.",
+    layout:
+      "Identico a v30: lateral 3-col simetrico 5.8cm, legend bar, starburst punch. Sin cambios estructurales.",
+    typography:
+      "Space Grotesk. Agrega .plus-topping: font-weight 800, color var(--red). Resto identico a v30.",
+    notable:
+      "Primera version con el sistema C3 completo en produccion. 'Cilantro fresco' entra como garnish fijo de Birria Fusion. 'Piña fresca' reemplaza 'Trozos de piña dulce'. 'Salsa piña' reemplaza 'Salsa piña-habanero'. Tocineta sube a primer ingrediente en BBQ Bacon.",
+  },
   {
     version: "v30",
     label: "Carta v30",

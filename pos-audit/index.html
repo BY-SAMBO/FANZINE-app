@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auditoria POS FANZINE - Resumen Ejecutivo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --card: #1a1b2e;
+    --card-border: #2a2b3e;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --red: #DC2626;
+    --red-bg: rgba(220,38,38,0.12);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245,158,11,0.12);
+    --blue: #3B82F6;
+    --blue-bg: rgba(59,130,246,0.12);
+    --green: #22C55E;
+    --green-bg: rgba(34,197,94,0.12);
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  nav {
+    background: #13141f;
+    border-bottom: 1px solid var(--card-border);
+    padding: 0 1.5rem;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1rem;
+    overflow-x: auto; white-space: nowrap;
+    padding: .75rem 0;
+  }
+  .nav-brand {
+    font-weight: 700; font-size: 1rem; color: var(--red);
+    margin-right: 1rem; flex-shrink: 0;
+  }
+  .nav-link {
+    color: var(--text-muted); font-size: .85rem;
+    padding: .35rem .75rem; border-radius: 6px;
+    transition: all .2s;
+  }
+  .nav-link:hover, .nav-link.active {
+    color: #fff; background: rgba(255,255,255,.06);
+    text-decoration: none;
+  }
+  .nav-link.active { border-bottom: 2px solid var(--red); }
+
+  /* LAYOUT */
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* HERO */
+  .hero {
+    text-align: center; padding: 3rem 1.5rem;
+    background: linear-gradient(135deg, #1a1b2e 0%, #0f1117 100%);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .hero h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800; margin-bottom: .5rem;
+  }
+  .hero h1 span { color: var(--red); }
+  .hero .subtitle {
+    color: var(--text-muted); font-size: 1.05rem;
+  }
+  .hero .date {
+    display: inline-block; margin-top: 1rem;
+    background: var(--card); border: 1px solid var(--card-border);
+    padding: .35rem 1rem; border-radius: 20px;
+    font-size: .85rem; color: var(--text-muted);
+  }
+
+  /* STATS GRID */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin: 2rem 0; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1.5rem;
+    text-align: center;
+  }
+  .stat-number {
+    font-size: 2.2rem; font-weight: 800; color: #fff;
+  }
+  .stat-label {
+    color: var(--text-muted); font-size: .85rem; margin-top: .25rem;
+  }
+
+  /* GAUGE */
+  .gauge-section {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 2rem;
+    text-align: center; margin: 2rem 0;
+  }
+  .gauge-section h2 { font-size: 1.3rem; margin-bottom: 1.5rem; }
+  .gauge-wrap { display: inline-block; position: relative; width: 200px; height: 110px; overflow: hidden; }
+  .gauge-bg, .gauge-fill {
+    width: 200px; height: 200px; border-radius: 50%;
+    border: 18px solid transparent; position: absolute; top: 0; left: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  }
+  .gauge-bg { border-top-color: #2a2b3e; border-left-color: #2a2b3e; border-right-color: #2a2b3e; transform: rotate(0deg); }
+  .gauge-fill {
+    border-top-color: var(--amber); border-left-color: var(--amber); border-right-color: var(--amber);
+    transform: rotate(0deg);
+    clip-path: polygon(0 0, 65% 0, 65% 50%, 0 50%);
+  }
+  .gauge-value {
+    font-size: 2.8rem; font-weight: 800; color: var(--amber);
+    margin-top: .5rem;
+  }
+  .gauge-max { color: var(--text-muted); font-size: 1rem; }
+  .gauge-bar {
+    width: 100%; max-width: 400px; height: 16px;
+    background: #2a2b3e; border-radius: 8px;
+    overflow: hidden; margin: 1rem auto 0;
+  }
+  .gauge-bar-fill {
+    height: 100%; width: 65%;
+    background: linear-gradient(90deg, var(--red), var(--amber), var(--amber));
+    border-radius: 8px;
+    transition: width 1s ease;
+  }
+  .gauge-labels {
+    display: flex; justify-content: space-between;
+    max-width: 400px; margin: .25rem auto 0;
+    font-size: .75rem; color: var(--text-muted);
+  }
+  .gauge-desc {
+    color: var(--text-muted); font-size: .9rem; margin-top: 1rem;
+    max-width: 600px; margin-left: auto; margin-right: auto;
+  }
+
+  /* SECTION */
+  .section { margin: 2.5rem 0; }
+  .section h2 {
+    font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+
+  /* FINDINGS */
+  .finding-group { margin-bottom: 2rem; }
+  .finding-header {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 1rem;
+  }
+  .badge {
+    display: inline-block; padding: .25rem .75rem;
+    border-radius: 20px; font-size: .8rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .03em;
+  }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(220,38,38,0.3); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .finding-count { color: var(--text-muted); font-size: .9rem; }
+
+  .finding-list { display: flex; flex-direction: column; gap: .75rem; }
+  .finding-item {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1rem 1.25rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+    border-left: 3px solid transparent;
+  }
+  .finding-item.critical { border-left-color: var(--red); }
+  .finding-item.important { border-left-color: var(--amber); }
+  .finding-item.improvement { border-left-color: var(--blue); }
+  .finding-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 700; flex-shrink: 0;
+  }
+  .critical .finding-num { background: var(--red-bg); color: var(--red); }
+  .important .finding-num { background: var(--amber-bg); color: var(--amber); }
+  .improvement .finding-num { background: var(--blue-bg); color: var(--blue); }
+  .finding-text { font-size: .95rem; }
+  .finding-text strong { color: #fff; }
+  .finding-text p { color: var(--text-muted); font-size: .85rem; margin-top: .25rem; }
+
+  /* NAV CARDS */
+  .report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1rem; margin: 2rem 0; }
+  .report-card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1.5rem;
+    transition: all .2s; display: flex; flex-direction: column;
+  }
+  .report-card:hover {
+    border-color: var(--red); transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(220,38,38,0.15);
+    text-decoration: none;
+  }
+  .report-card .rc-icon { font-size: 1.5rem; margin-bottom: .75rem; }
+  .report-card h3 { font-size: 1.05rem; color: #fff; margin-bottom: .5rem; }
+  .report-card p { color: var(--text-muted); font-size: .85rem; flex-grow: 1; }
+  .report-card .rc-arrow { color: var(--red); font-size: .85rem; margin-top: .75rem; font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 2rem 1.5rem;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted); font-size: .8rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 1.25rem 1rem; }
+    .hero { padding: 2rem 1rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat-number { font-size: 1.6rem; }
+    .report-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">FANZINE POS</span>
+    <a href="index.html" class="nav-link active">Resumen</a>
+    <a href="estado-y-datos.html" class="nav-link">Estado y Datos</a>
+    <a href="interfaz-usuario.html" class="nav-link">Interfaz</a>
+    <a href="api-y-backend.html" class="nav-link">API y Backend</a>
+    <a href="sincronizacion.html" class="nav-link">Sincronizacion</a>
+    <a href="plan-reconstruccion.html" class="nav-link">Plan</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Auditoria Completa del Sistema <span>POS</span></h1>
+  <p class="subtitle">Restaurante Cine &amp; Tex-Mex &mdash; Sistema de Punto de Venta FANZINE</p>
+  <span class="date">28 de febrero, 2026</span>
+</div>
+
+<div class="container">
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-number">18</div>
+      <div class="stat-label">Componentes de interfaz</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">4</div>
+      <div class="stat-label">Endpoints de API</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Stores de estado</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Tipos de mensaje en tiempo real</div>
+    </div>
+  </div>
+
+  <!-- GAUGE -->
+  <div class="gauge-section">
+    <h2>Estado General del Sistema</h2>
+    <div class="gauge-value">6.5 <span class="gauge-max">/ 10</span></div>
+    <div class="gauge-bar">
+      <div class="gauge-bar-fill"></div>
+    </div>
+    <div class="gauge-labels">
+      <span>Critico</span>
+      <span>Aceptable</span>
+      <span>Excelente</span>
+    </div>
+    <p class="gauge-desc">
+      El sistema funciona para el uso diario, pero tiene riesgos importantes que pueden causar
+      errores en momentos de alta demanda. Se recomienda abordar los problemas criticos antes
+      de la temporada alta.
+    </p>
+  </div>
+
+  <!-- CRITICAL -->
+  <div class="section">
+    <h2>Hallazgos de la Auditoria</h2>
+
+    <div class="finding-group">
+      <div class="finding-header">
+        <span class="badge badge-red">Critico</span>
+        <span class="finding-count">5 problemas que necesitan atencion inmediata</span>
+      </div>
+      <div class="finding-list">
+        <div class="finding-item critical">
+          <span class="finding-num">1</span>
+          <div class="finding-text">
+            <strong>Archivo duplicado crea confusion</strong>
+            <p>Existe un archivo (pos-live-store.ts) que es una copia vieja y no se usa, pero confunde a quien trabaje en el codigo. Es como tener dos menus diferentes en la cocina.</p>
+          </div>
+        </div>
+        <div class="finding-item critical">
+          <span class="finding-num">2</span>
+          <div class="finding-text">
+            <strong>Toppings pueden asignarse al producto incorrecto</strong>
+            <p>Cuando el cajero agrega productos rapido, los toppings que elige el cliente pueden terminar en el producto equivocado. Ejemplo: el queso extra de la hamburguesa termina en las papas.</p>
+          </div>
+        </div>
+        <div class="finding-item critical">
+          <span class="finding-num">3</span>
+          <div class="finding-text">
+            <strong>No hay confirmacion antes de limpiar pedido</strong>
+            <p>Si el cajero toca el boton de limpiar, se borra todo el pedido sin preguntar. En un pedido grande esto puede ser un problema serio.</p>
+          </div>
+        </div>
+        <div class="finding-item critical">
+          <span class="finding-num">4</span>
+          <div class="finding-text">
+            <strong>Tablas de base de datos no estan en migraciones</strong>
+            <p>Las tablas que guarda el sistema fueron creadas a mano. Si hay que reinstalar o mover el sistema, estas tablas no se recrearian automaticamente.</p>
+          </div>
+        </div>
+        <div class="finding-item critical">
+          <span class="finding-num">5</span>
+          <div class="finding-text">
+            <strong>Sin cola de impresion &mdash; tickets se pierden si falla</strong>
+            <p>Si la impresora falla al momento de imprimir un ticket (comanda), no hay forma de reintentarlo. El ticket se pierde y la cocina no recibe el pedido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPORTANT -->
+    <div class="finding-group">
+      <div class="finding-header">
+        <span class="badge badge-amber">Importante</span>
+        <span class="finding-count">8 problemas que deben resolverse pronto</span>
+      </div>
+      <div class="finding-list">
+        <div class="finding-item important">
+          <span class="finding-num">1</span>
+          <div class="finding-text">
+            <strong>Codigo duplicado entre caja y delivery</strong>
+            <p>El 70% del codigo de la pantalla de caja y la de delivery es identico. Esto significa que cada cambio hay que hacerlo en dos lugares, y es facil olvidar uno.</p>
+          </div>
+        </div>
+        <div class="finding-item important">
+          <span class="finding-num">2</span>
+          <div class="finding-text">
+            <strong>Clasificacion de categorias fragil</strong>
+            <p>Las categorias se organizan comparando el nombre de texto exacto. Si alguien cambia un acento o una mayuscula en Fudo, la categoria deja de aparecer donde debe.</p>
+          </div>
+        </div>
+        <div class="finding-item important">
+          <span class="finding-num">3</span>
+          <div class="finding-text">
+            <strong>Cache de metodos de pago nunca se refresca</strong>
+            <p>La lista de metodos de pago (efectivo, tarjeta, etc.) se guarda una vez y nunca se actualiza. Si se agrega un nuevo metodo en Fudo, no aparecera en el POS.</p>
+          </div>
+        </div>
+        <div class="finding-item important">
+          <span class="finding-num">4</span>
+          <div class="finding-text">
+            <strong>Sin recuperacion de conexion en tiempo real</strong>
+            <p>Si se cae el internet por un momento, las pantallas del cajero y del cliente dejan de comunicarse y no se reconectan solas. Hay que recargar la pagina.</p>
+          </div>
+        </div>
+        <div class="finding-item important">
+          <span class="finding-num">5</span>
+          <div class="finding-text">
+            <strong>Sin validacion antes de enviar a Fudo</strong>
+            <p>El sistema no revisa que el pedido tenga toda la informacion necesaria antes de enviarlo a Fudo. Un pedido incompleto puede causar un error en la facturacion.</p>
+          </div>
+        </div>
+        <div class="finding-item important">
+          <span class="finding-num">6</span>
+          <div class="finding-text">
+            <strong>Pantalla del cliente se desincroniza</strong>
+            <p>Si la pantalla del cliente pierde conexion y la recupera, puede mostrar un pedido viejo o incompleto hasta que se recargue manualmente.</p>
+          </div>
+        </div>
+        <div class="finding-item important">
+          <span class="finding-num">7</span>
+          <div class="finding-text">
+            <strong>Layout no funciona en movil o tablet</strong>
+            <p>Las pantallas del POS fueron disenadas solo para monitores grandes. En una tablet o celular, los botones se sobreponen y no se puede usar bien.</p>
+          </div>
+        </div>
+        <div class="finding-item important">
+          <span class="finding-num">8</span>
+          <div class="finding-text">
+            <strong>Sin pruebas automatizadas</strong>
+            <p>No hay pruebas automaticas que verifiquen que el sistema funcione despues de un cambio. Cada actualizacion puede romper algo sin que nadie lo note.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPROVEMENTS -->
+    <div class="finding-group">
+      <div class="finding-header">
+        <span class="badge badge-blue">Mejora</span>
+        <span class="finding-count">6 mejoras recomendadas para el futuro</span>
+      </div>
+      <div class="finding-list">
+        <div class="finding-item improvement">
+          <span class="finding-num">1</span>
+          <div class="finding-text">
+            <strong>Extraer logica compartida de toppings</strong>
+            <p>Crear un solo componente de toppings reutilizable, en vez de tener el mismo codigo copiado en tres pantallas diferentes.</p>
+          </div>
+        </div>
+        <div class="finding-item improvement">
+          <span class="finding-num">2</span>
+          <div class="finding-text">
+            <strong>Agregar maquina de estados para el pedido</strong>
+            <p>Definir claramente los pasos de un pedido (creando, listo, pagado, impreso) para que el sistema no permita acciones fuera de orden.</p>
+          </div>
+        </div>
+        <div class="finding-item improvement">
+          <span class="finding-num">3</span>
+          <div class="finding-text">
+            <strong>Optimizar mensajes en tiempo real</strong>
+            <p>Enviar solo los cambios en vez del pedido completo cada vez. Esto hace la comunicacion mas rapida y gasta menos datos.</p>
+          </div>
+        </div>
+        <div class="finding-item improvement">
+          <span class="finding-num">4</span>
+          <div class="finding-text">
+            <strong>Agregar proteccion contra toques rapidos</strong>
+            <p>Cuando el cajero toca un boton muy rapido varias veces, el sistema deberia ignorar los toques extra para evitar duplicados.</p>
+          </div>
+        </div>
+        <div class="finding-item improvement">
+          <span class="finding-num">5</span>
+          <div class="finding-text">
+            <strong>Mejorar accesibilidad (WCAG 2.1 AA)</strong>
+            <p>Asegurar que personas con discapacidades visuales o motoras puedan usar el sistema. Mejor contraste, etiquetas en botones, navegacion por teclado.</p>
+          </div>
+        </div>
+        <div class="finding-item improvement">
+          <span class="finding-num">6</span>
+          <div class="finding-text">
+            <strong>Agregar metricas de uso</strong>
+            <p>Registrar cuantas ventas se hacen, en que horarios, que productos se venden mas. Datos utiles para decisiones del negocio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORT NAVIGATION -->
+  <div class="section">
+    <h2>Reportes Detallados</h2>
+    <div class="report-grid">
+      <a href="estado-y-datos.html" class="report-card">
+        <div class="rc-icon">&#9881;</div>
+        <h3>Estado y Flujo de Datos</h3>
+        <p>Como el sistema recuerda los pedidos, como fluye la informacion desde el menu hasta la factura, y donde se puede perder.</p>
+        <span class="rc-arrow">Ver reporte &rarr;</span>
+      </a>
+      <a href="interfaz-usuario.html" class="report-card">
+        <div class="rc-icon">&#9634;</div>
+        <h3>Interfaz de Usuario</h3>
+        <p>Las pantallas que usan el cajero y el cliente: que funciona bien, que necesita mejorar, y como se organiza.</p>
+        <span class="rc-arrow">Ver reporte &rarr;</span>
+      </a>
+      <a href="api-y-backend.html" class="report-card">
+        <div class="rc-icon">&#9729;</div>
+        <h3>API y Backend</h3>
+        <p>La "cocina" del sistema: como se procesan los pedidos, se comunica con Fudo, y se guarda la informacion.</p>
+        <span class="rc-arrow">Ver reporte &rarr;</span>
+      </a>
+      <a href="sincronizacion.html" class="report-card">
+        <div class="rc-icon">&#8644;</div>
+        <h3>Sincronizacion en Tiempo Real</h3>
+        <p>Como se comunican las pantallas del cajero y del cliente, y que pasa cuando se pierde la conexion.</p>
+        <span class="rc-arrow">Ver reporte &rarr;</span>
+      </a>
+      <a href="plan-reconstruccion.html" class="report-card">
+        <div class="rc-icon">&#9745;</div>
+        <h3>Plan de Reconstruccion</h3>
+        <p>El plan paso a paso para resolver todos los problemas encontrados, con tiempos estimados y prioridades.</p>
+        <span class="rc-arrow">Ver reporte &rarr;</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Generado por Claude Code &mdash; 28 de febrero, 2026
+</footer>
+
+</body>
+</html>

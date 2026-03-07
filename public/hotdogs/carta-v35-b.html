@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta v35-b - FANZINE Pixel Diner</title>
+  <!--
+    FONT SETS (toggle via switch bottom-left):
+      Original: Space Grotesk + Bangers
+      Pixel:    Pixelify Sans (headings) + Nunito (body, legible for all ages)
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bangers&family=VT323&family=Pixelify+Sans:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=DotGothic16&family=Handjet:wght@400;500;600;700;800;900&family=Jersey+25&family=Bungee&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    /*
+     * ============================================================
+     * CARTA DIGITAL — FANZINE v35 · PIXEL DINER
+     * ============================================================
+     *
+     * AESTHETIC: Classic American diner — CLEAN — in pixel-art
+     *   - Pure white formica + cherry red + chrome silver
+     *   - Very clean, minimal, crisp
+     *   - Pixel borders (3px) in deep red or dark gray, not black
+     *   - Chrome/silver highlights (light gray gradients, metallic insets)
+     *   - Red-white checkerboard border (diner floor tile)
+     *   - Keycaps like jukebox buttons: chrome bezel, red or white fill
+     *   - Clean shadows, no grunge, no texture
+     *   - Neon-glow accent on category titles (subtle red glow)
+     *
+     * FONT TOGGLE (bottom-left switch):
+     *   "Original" → Space Grotesk + Bangers
+     *   "Pixel"    → Pixelify Sans (headings/tags) + Nunito (body, high legibility)
+     *
+     * Layout: viewport-fill, 100vw×100vh (inherited from v34).
+     * ============================================================
+     */
+
+    @page { size: 100vw 100vh; margin: 0; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* Clean diner palette */
+      --red: #DC2626;
+      --red-deep: #B91C1C;
+      --red-cherry: #EF4444;
+      --white: #FFFFFF;
+      --white-off: #FAFAFA;
+      --silver: #E5E7EB;
+      --silver-dark: #9CA3AF;
+      --chrome: #D1D5DB;
+      --chrome-dark: #6B7280;
+      --black: #1F1F1F;
+      --yellow: #FACC15;
+      --yellow-warm: #FDE68A;
+      --green: #16A34A;
+
+      /* Pixel diner tokens */
+      --px-border: 3px solid var(--black);
+      --px-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+      --px-shadow-red: 3px 3px 0 rgba(185,28,28,0.2);
+      --px-radius: 4px;
+
+      /* Fonts */
+      --font-main: 'Space Grotesk', sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-tag: 'Pixelify Sans', sans-serif;
+      --font-small: 'Space Grotesk', sans-serif;
+
+      --pattern-pad: 0.5cm;
+    }
+
+    html[data-fonts="pixelify"] { --font-tag: 'Pixelify Sans', sans-serif; }
+    html[data-fonts="press-start"] { --font-tag: 'Press Start 2P', cursive; }
+    html[data-fonts="silkscreen"] { --font-tag: 'Silkscreen', sans-serif; }
+    html[data-fonts="dotgothic"] { --font-tag: 'DotGothic16', sans-serif; }
+    html[data-fonts="handjet"] { --font-tag: 'Handjet', sans-serif; }
+    html[data-fonts="jersey"] { --font-tag: 'Jersey 25', sans-serif; }
+    html[data-fonts="bungee"] { --font-tag: 'Bungee', sans-serif; }
+    html[data-fonts="russo"] { --font-tag: 'Russo One', sans-serif; }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .no-print { display: none !important; }
+    }
+
+    body {
+      background: var(--black);
+      color: var(--black);
+      font-family: var(--font-main);
+      line-height: 1.3;
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ===== PATTERN WRAP — diner floor tile ===== */
+    .pattern-wrap {
+      background: repeating-conic-gradient(var(--white) 0% 25%, var(--red) 0% 50%) 0 0 / 26px 26px;
+      padding: var(--pattern-pad);
+      width: 100vw; height: 100vh;
+      display: flex;
+    }
+
+    /* ===== CARD — clean formica surface ===== */
+    .card {
+      background: var(--white);
+      border: 4px solid var(--red-deep);
+      border-radius: 6px;
+      overflow: hidden;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      box-shadow: 4px 4px 0 rgba(185,28,28,0.2);
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      padding: 0.4cm 0.5cm 0;
+      text-align: center;
+      background: var(--white);
+    }
+
+    .brand-arc { display: block; max-width: 340px; margin: 0 auto; }
+    .brand-arc text {
+      font-family: var(--font-heading); font-weight: 700; font-size: 72px;
+      text-transform: uppercase; letter-spacing: 4px;
+      fill: var(--red); stroke: var(--red-deep); stroke-width: 5;
+      paint-order: stroke fill;
+      filter: drop-shadow(2px 2px 0 rgba(185,28,28,0.3));
+    }
+
+    .presenta-arc { display: block; max-width: 260px; margin: -1.6rem auto -0.2rem; }
+    .presenta-arc text {
+      font-family: var(--font-heading); font-weight: 700; font-size: 26px;
+      text-transform: uppercase; letter-spacing: 8px; fill: var(--black);
+    }
+
+    /* ===== LEGEND BAR — chrome menu strip ===== */
+    .legend-bar {
+      display: flex; justify-content: center; align-items: center;
+      gap: 0.5rem;
+      padding: 0.1cm 0.2cm;
+      margin: 0.06cm 0.15cm;
+      background: linear-gradient(180deg, var(--silver) 0%, var(--chrome) 50%, var(--silver) 100%);
+      border: 3px solid var(--chrome-dark);
+      border-radius: var(--px-radius);
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 2px 2px 0 rgba(0,0,0,0.1);
+    }
+
+    .legend-hero { display: flex; align-items: center; gap: 0.18rem; padding: 0 0.3rem; }
+    .legend-hero-text {
+      font-size: 0.62rem; font-weight: 600; color: var(--black);
+      font-family: var(--font-small);
+      letter-spacing: 0.03em; text-transform: uppercase;
+    }
+    html:not([data-fonts="original"]) .legend-hero-text { font-size: 0.66rem; }
+    .legend-secondary {
+      display: flex; align-items: center; gap: 3px; opacity: 0.8;
+      font-size: 0.65rem; font-family: var(--font-small); color: var(--black);
+    }
+    html:not([data-fonts="original"]) .legend-secondary { font-size: 0.68rem; }
+
+    .legend-punch-group { display: inline-flex; align-items: center; position: relative; }
+    .legend-topping-label {
+      background: var(--red-deep); color: var(--white);
+      font-size: 0.62rem; font-weight: 700; font-family: var(--font-small);
+      padding: 0.1rem 0.75rem 0.1rem 0.24rem;
+      border-radius: 3px 0 0 3px;
+      text-transform: uppercase; letter-spacing: 0.05em; line-height: 1;
+      position: relative; z-index: 1; margin-right: -0.75rem;
+    }
+    html:not([data-fonts="original"]) .legend-topping-label { font-size: 0.66rem; }
+    .legend-topping-label::after {
+      content: ''; position: absolute; right: -0.18rem; top: 50%;
+      transform: translateY(-50%); width: 0; height: 0;
+      border-top: 0.32rem solid transparent; border-bottom: 0.32rem solid transparent;
+      border-left: 0.22rem solid var(--red-deep);
+    }
+    .legend-punch {
+      display: inline-block; position: relative; color: var(--white);
+      text-transform: uppercase; font-size: 0.65rem; font-weight: 700;
+      font-family: var(--font-small);
+      letter-spacing: 0.04em; line-height: 1; z-index: 3;
+      transform: rotate(-4deg); padding: 0.3rem 0.48rem;
+    }
+    html:not([data-fonts="original"]) .legend-punch { font-size: 0.68rem; }
+    .legend-punch::before {
+      content: ''; position: absolute; inset: 0; background: var(--red);
+      clip-path: polygon(
+        50% 0%, 61% 12%, 76% 3%, 74% 20%, 97% 24%, 85% 38%,
+        100% 50%, 85% 62%, 97% 76%, 74% 80%, 76% 97%, 61% 88%,
+        50% 100%, 39% 88%, 24% 97%, 26% 80%, 3% 76%, 15% 62%,
+        0% 50%, 15% 38%, 3% 24%, 26% 20%, 24% 3%, 39% 12%
+      );
+      z-index: -1; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.3));
+    }
+
+    /* ===== FLOW ===== */
+    .flow {
+      flex: 1; padding: 0.06cm 0;
+      display: flex; flex-direction: column;
+      justify-content: space-evenly;
+    }
+    .flow > .tag, .flow > .tag-explainer, .flow > .section-grid,
+    .flow > .punch-shared, .flow > hr, .flow > div[style*="margin"] {
+      margin-left: 0.2cm; margin-right: 0.2cm;
+    }
+
+    /* ===== TAG — neon diner sign ===== */
+    .tag {
+      display: block; text-align: center;
+      font-family: var(--font-tag);
+      font-size: 1.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--red);
+      padding: 0; margin-bottom: 0;
+      text-shadow:
+        0 0 8px rgba(220,38,38,0.3),
+        0 0 2px rgba(220,38,38,0.2);
+    }
+
+    .tag-explainer {
+      display: block; text-align: center;
+      font-size: 0.68rem; font-weight: 600; color: var(--chrome-dark);
+      font-family: var(--font-small);
+      background: none; border: none;
+      padding: 0; margin: -0.1rem 0 0;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    html:not([data-fonts="original"]) .tag-explainer { font-size: 0.72rem; }
+
+    /* ===== BADGES ===== */
+    .badge-best {
+      position: absolute;
+      top: -45px; left: -14px; z-index: 5;
+      width: 42px; height: 84px;
+      transform: rotate(-10deg);
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.2));
+    }
+    .foam-finger { width: 100%; height: 100%; }
+    .badge-spicy {
+      display: inline-block; width: 0.9em; height: 0.9em;
+      margin-left: 0.08rem; vertical-align: middle;
+    }
+    .badge-spicy svg { width: 100%; height: 100%; }
+
+    /* ===== LATERAL ===== */
+    .lateral { display: grid; grid-template-columns: 26% 1fr; gap: 0; margin: 0; }
+    .lateral.img-r { grid-template-columns: 1fr 26%; }
+
+    .lateral .img-left, .lateral .img-right {
+      overflow: visible; display: flex; align-items: center;
+      justify-content: center; max-height: 3.8cm; z-index: 1;
+    }
+    .lateral .img-left img, .lateral .img-right img {
+      width: 140%; height: auto; object-fit: contain; display: block;
+      filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.12));
+    }
+
+    .center-zone {
+      display: flex; flex-direction: column;
+      padding: 0.06cm 3%; justify-content: center;
+    }
+    .lateral:not(.img-r) .center-zone { padding-left: 5%; }
+
+    /* ===== UNI-BLOCK — clean diner menu card ===== */
+    .uni-block {
+      position: relative;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+      box-shadow: none;
+      background: transparent;
+    }
+    /* Triangle pointer from card toward image */
+    .lateral:not(.img-r) .uni-block::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: -28px;
+      transform: translateY(-50%);
+      border: 14px solid transparent;
+      border-right: 14px solid var(--red-deep);
+    }
+    .lateral:not(.img-r) .uni-block::after {
+      content: '';
+      position: absolute;
+      top: calc(50% - 7px); left: -18px;
+      border: 7px solid transparent;
+      border-right: 7px solid rgba(255,255,255,0.45);
+    }
+    .lateral.img-r .uni-block::before {
+      content: '';
+      position: absolute;
+      top: 50%; right: -28px;
+      transform: translateY(-50%);
+      border: 14px solid transparent;
+      border-left: 14px solid var(--red-deep);
+    }
+    .lateral.img-r .uni-block::after {
+      content: '';
+      position: absolute;
+      top: calc(50% - 7px); right: -18px;
+      border: 7px solid transparent;
+      border-left: 7px solid rgba(255,255,255,0.45);
+    }
+    .uni-block-header {
+      background: transparent;
+      color: var(--black);
+      padding: 0.06rem 0.25rem;
+      display: flex; align-items: center; gap: 0.2rem; flex-wrap: wrap;
+      border-bottom: none;
+      box-shadow: none;
+    }
+    .uni-block-name {
+      font-size: 1.62rem; font-weight: 800;
+      font-family: var(--font-heading);
+      text-transform: uppercase; letter-spacing: 0.03em; flex: 1;
+      text-shadow: none;
+      color: var(--red-deep);
+    }
+    html:not([data-fonts="original"]) .uni-block-name { font-size: 1.62rem; }
+    html:not([data-fonts="original"]) .uni-block-name .arma-sub { font-size: 0.65em; }
+
+
+    .uni-block-topping {
+      font-size: 1.08rem; font-weight: 800; color: var(--red);
+      font-family: var(--font-small);
+    }
+    html:not([data-fonts="original"]) .uni-block-topping { font-size: 1.1rem; }
+
+    /* 1-UP style adicional price */
+    .adicional-1up {
+      display: inline-block;
+      font-family: 'Pixelify Sans', monospace;
+      font-size: 0.82rem; font-weight: 700;
+      color: var(--black);
+      text-shadow: none;
+      margin-left: 0.3rem;
+      vertical-align: middle;
+      letter-spacing: 0.02em;
+    }
+
+    .uni-block-ingredients {
+      font-size: 1rem; font-weight: 600; color: #555;
+      font-family: var(--font-small);
+      padding: 0.06rem 0.3rem;
+      background: transparent;
+    }
+    html:not([data-fonts="original"]) .uni-block-ingredients { font-size: 1.02rem; line-height: 1.35; }
+
+    .uni-block-pills {
+      display: flex; flex-wrap: wrap; gap: 3px;
+      padding: 0.06rem 0.25rem;
+      background: transparent;
+    }
+    .pill-label {
+      font-size: 1.12rem; font-weight: 800; color: var(--red-deep);
+      font-family: var(--font-small);
+      text-transform: uppercase; letter-spacing: 0.02em;
+    }
+    .uni-block-pills .pill { font-size: 1.02rem; padding: 0.06rem 0.3rem; }
+    .uni-block-pills .pill.rec { font-size: 1.08rem; padding: 0.06rem 0.35rem; }
+    .uni-block-pills .pill.rec::before { font-size: 0.88rem; }
+
+    .uni-block-flavors {
+      display: flex; justify-content: space-around;
+      padding: 0.06rem 0.15rem; gap: 0.08rem;
+      background: transparent;
+    }
+
+    /* ===== FLAVOR SLOTS — pixel menu items, friendly with presence ===== */
+    .uni-flavor {
+      flex: 1; text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 0.2rem;
+      white-space: nowrap;
+      padding: 0.2rem 0.3rem;
+      margin: 0.08rem 0.04rem;
+      border-radius: 3px;
+      background: var(--white-off);
+      border: 2px solid #D1D5DB;
+      border-left: 4px solid var(--red);
+      border-bottom: 4px solid #D1D5DB;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.06);
+      cursor: default;
+      position: relative;
+    }
+
+    .uni-flavor-label {
+      font-size: 1.02rem; font-weight: 700;
+      font-family: var(--font-small);
+      text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.15;
+      color: var(--black);
+    }
+    html:not([data-fonts="original"]) .uni-flavor-label { font-size: 1.05rem; }
+    .uni-flavor-price {
+      font-size: 1.02rem; font-weight: 800; color: var(--red);
+      font-family: var(--font-small);
+    }
+    html:not([data-fonts="original"]) .uni-flavor-price { font-size: 1.05rem; }
+
+    /* COMBO slot — red fill, dark red bottom edge */
+    .uni-flavor.combo-key {
+      background: var(--red);
+      border: 2px solid var(--red-deep);
+      border-left: 4px solid var(--yellow);
+      border-bottom: 5px solid #7F1D1D;
+      box-shadow: 2px 2px 0 rgba(127,29,29,0.12);
+      position: relative;
+    }
+    .uni-flavor.combo-key .uni-flavor-label {
+      color: var(--white);
+      text-shadow: 0 1px 2px rgba(127,29,29,0.4);
+    }
+    .uni-flavor.combo-key .uni-flavor-price {
+      color: var(--white);
+      text-shadow: 0 1px 2px rgba(127,29,29,0.4);
+    }
+
+    /* ===== COMBO TAG ===== */
+    .combo-tag {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 0.7rem; font-weight: 800; font-family: var(--font-small);
+      color: var(--white); background: var(--red);
+      padding: 0.08rem 0.35rem; border-radius: 3px;
+      white-space: nowrap;
+      border: 2px solid var(--red-deep);
+      box-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== PILLS ===== */
+    .pills { display: flex; flex-wrap: wrap; gap: 2px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 0.78rem; font-weight: 700; color: var(--black);
+      font-family: var(--font-small);
+      background: var(--white);
+      border: 2px dashed var(--silver-dark);
+      border-radius: 3px; padding: 0.04rem 0.25rem;
+    }
+    html:not([data-fonts="original"]) .pill { font-size: 0.95rem; }
+    .pill.rec {
+      background: var(--yellow);
+      border: 2px solid var(--red-deep);
+      box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+    }
+    html:not([data-fonts="original"]) .pill.rec { font-size: 1rem; }
+    .pill.rec::before { content: '\2605'; color: var(--red-deep); font-size: 0.68rem; }
+
+    /* ===== PUNCH (shared) ===== */
+    .punch-shared {
+      background: var(--white-off);
+      border: 3px solid var(--red-deep);
+      border-radius: var(--px-radius);
+      padding: 0.04cm 0.1cm;
+      box-shadow: var(--px-shadow-red);
+    }
+    .punch-row {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 0.1rem;
+      margin-bottom: 0.02rem;
+    }
+    .punch-row-main { display: flex; align-items: center; gap: 0.15rem; }
+
+    .punch-group { display: inline-flex; align-items: center; position: relative; vertical-align: middle; }
+    .punch-topping-label {
+      background: var(--red-deep); color: var(--white);
+      font-size: 0.72rem; font-weight: 700; font-family: var(--font-small);
+      padding: 0.06rem 0.65rem 0.06rem 0.2rem;
+      border-radius: 3px 0 0 3px;
+      text-transform: uppercase; letter-spacing: 0.05em; line-height: 1;
+      position: relative; z-index: 1; margin-right: -0.72rem;
+    }
+    .punch-topping-label::after {
+      content: ''; position: absolute; right: -0.18rem; top: 50%;
+      transform: translateY(-50%); width: 0; height: 0;
+      border-top: 0.3rem solid transparent; border-bottom: 0.3rem solid transparent;
+      border-left: 0.22rem solid var(--red-deep);
+    }
+    .punch-hl {
+      display: inline-block; position: relative; color: var(--white);
+      text-transform: uppercase; font-size: 0.76rem; font-weight: 700;
+      font-family: var(--font-small);
+      letter-spacing: 0.04em; line-height: 1; z-index: 3;
+      transform: rotate(-4deg); padding: 0.22rem 0.38rem; vertical-align: middle;
+    }
+    .punch-hl::before {
+      content: ''; position: absolute; inset: 0; background: var(--red);
+      clip-path: polygon(
+        50% 0%, 61% 12%, 76% 3%, 74% 20%, 97% 24%, 85% 38%,
+        100% 50%, 85% 62%, 97% 76%, 74% 80%, 76% 97%, 61% 88%,
+        50% 100%, 39% 88%, 24% 97%, 26% 80%, 3% 76%, 15% 62%,
+        0% 50%, 15% 38%, 3% 24%, 26% 20%, 24% 3%, 39% 12%
+      );
+      z-index: -1; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.3));
+    }
+    .punch-ct {
+      font-weight: 800; font-size: 0.78rem; text-transform: uppercase;
+      font-family: var(--font-small);
+      letter-spacing: 0.02em; color: var(--black);
+    }
+    .punch-extra {
+      font-size: 0.68rem; font-weight: 700; color: var(--red); white-space: nowrap;
+      font-family: var(--font-small);
+    }
+
+    /* ===== GRID SECTION — 3-column layout for Tex-Mex / Snacks ===== */
+    .section-grid { display: grid; gap: 0.1cm; }
+    .section-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    /* ===== SEP ===== */
+    .sep { border: none; border-top: 3px dashed var(--silver); margin: 0.02cm 0; }
+
+    /* ===== FOOTER — red diner counter edge ===== */
+    .footer {
+      padding: 0.1cm 0.4cm; display: flex; justify-content: center;
+      align-items: center; border-top: 4px solid var(--red-deep);
+      background: var(--red);
+      color: var(--white);
+      border-radius: 0 0 4px 4px;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.15);
+    }
+    .footer-brand {
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em;
+      font-family: var(--font-heading);
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+    }
+    html:not([data-fonts="original"]) .footer-brand { font-size: 0.92rem; }
+
+    /* ===== FONT TOGGLE ===== */
+    .font-toggle {
+      position: fixed; bottom: 4.5rem; left: 1.2rem; z-index: 9999;
+      display: flex; align-items: center; gap: 6px;
+      background: var(--red-deep); border: 3px solid #7F1D1D;
+      border-radius: 4px; padding: 5px 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px; color: var(--white);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.2); cursor: pointer; user-select: none;
+    }
+    .font-toggle select {
+      background: #7F1D1D; color: var(--yellow); border: 2px solid #5C1010;
+      border-radius: 3px; padding: 3px 6px; font-size: 11px;
+      font-family: 'Nunito', sans-serif; font-weight: 700;
+      cursor: pointer; outline: none;
+    }
+    .font-toggle select:focus { border-color: var(--yellow); }
+    .font-toggle-label {
+      color: var(--yellow); font-weight: 700;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media screen and (max-width: 600px) {
+      body { width: auto; height: auto; overflow: auto; padding: 0.5rem; }
+      .pattern-wrap { width: auto; height: auto; }
+      .card { height: auto; }
+      .flow { justify-content: flex-start; }
+      .lateral { grid-template-columns: 25% 1fr; }
+      .lateral.img-r { grid-template-columns: 1fr 25%; }
+      .section-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pattern-wrap">
+  <div class="card">
+
+    <div class="header">
+      <svg class="brand-arc" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc" d="M 30,110 Q 250,10 470,110" fill="none"/></defs>
+        <text><textPath href="#arc" startOffset="50%" text-anchor="middle">FANZINE</textPath></text>
+      </svg>
+      <svg class="presenta-arc" viewBox="0 0 340 40" xmlns="http://www.w3.org/2000/svg">
+        <defs><path id="arc2" d="M 20,38 Q 170,2 320,38" fill="none"/></defs>
+        <text><textPath href="#arc2" startOffset="50%" text-anchor="middle">PRESENTA</textPath></text>
+      </svg>
+    </div>
+
+    <div class="flow">
+
+      <span class="tag" style="color:#DC2626;text-shadow:0 0 8px rgba(220,38,38,0.3),0 0 2px rgba(220,38,38,0.2);">Perros Calientes</span>
+      <span class="tag-explainer">Todos en pan brioche con salchicha americana</span>
+
+      <!-- ZINEMA -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="zinema-gen.png" alt="Zinema" style="border:none;transform: translate(15px, -2px) scale(1.45);">
+        </div>
+        <div class="center-zone">
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Zinema <span class="arma-sub" style="font-size:0.6em;font-weight:600;text-transform:none;letter-spacing:0;">Arma tu perro</span></span>
+            </div>
+            <div class="uni-block-ingredients">Papas crocantes · Queso cheddar · SourCream · Salsa le&ntilde;a <span class="uni-block-topping">+ 3 toppings</span> <span class="adicional-1up">+Adicional $1.500</span></div>
+            <div class="uni-block-pills">
+              <span class="pill-label">Escoge:</span>
+              <span class="pill rec">Pi&ntilde;a</span>
+              <span class="pill rec">Jalape&ntilde;os</span>
+              <span class="pill rec">Pico de Gallo</span>
+              <span class="pill">Pepinillos</span>
+              <span class="pill">Ma&iacute;z</span>
+              <span class="pill">Cebolla Encurtida</span>
+              <span class="pill">Queso Coste&ntilde;o</span>
+            </div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">3 Toppings</div><div class="uni-flavor-price">$14.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Con Tocineta</div><div class="uni-flavor-price">$16.000</div></div>
+              <div class="uni-flavor combo-key"><div class="uni-flavor-label">COMBO</div><div class="uni-flavor-price">$25.000</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BBQ BACON -->
+      <div class="lateral img-r">
+        <div class="center-zone">
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">BBQ Bacon</span>
+            </div>
+            <div class="uni-block-ingredients">Tocineta · Queso crema · BBQ Gold · Cebolla crispy <span class="uni-block-topping">+ 1 topping</span> <span class="adicional-1up">+Adicional $1.500</span></div>
+            <div class="uni-block-pills">
+              <span class="pill-label">Escoge:</span>
+              <span class="pill rec">Pepinillos</span>
+              <span class="pill">Jalape&ntilde;os</span>
+              <span class="pill">Pi&ntilde;a</span>
+            </div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Sencillo</div><div class="uni-flavor-price">$18.000</div></div>
+              <div class="uni-flavor combo-key"><div class="uni-flavor-label">COMBO</div><div class="uni-flavor-price">$25.000</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="bbq-bacon-gen.png" alt="BBQ Bacon" style="border:none;transform: translate(0px, 0px) scale(1.35);">
+        </div>
+      </div>
+
+      <!-- TROPICAL FUEGO -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="tropical-fuego-gen.png" alt="Tropical Fuego" style="border:none;transform: translate(0px, 0px) scale(1.60);">
+        </div>
+        <div class="center-zone">
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Tropical Fuego <span class="badge-spicy"><svg viewBox="0 0 64 64" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M32 2c-1 0-2 .5-2.5 1.5L28 7c-1 2-2 5-2 8v2c0 1-.5 2-1.5 2.5S22 20 21.5 19c-.5-1.5-1-3-1-5 0-.5-.3-1-.7-1.2-.4-.2-.9-.1-1.2.2C14 17.5 11 24 11 31c0 11.6 9.4 21 21 21s21-9.4 21-21c0-10-5-18-9.5-23-.4-.4-1-.5-1.4-.2-.4.3-.6.7-.5 1.2.5 2 .5 4-.5 6-.5 1-1.5 1.5-2.5 1.5s-2-.5-2.5-1.5c-1-2-1.5-4-1.5-6V6c0-1.5-.5-3-1.5-3.5-.3-.3-.7-.5-1.1-.5zM32 46c-4.4 0-8-3.6-8-8 0-3 1.5-5.5 3-7.5.5-.7 1.5-.7 2 0 .5.7 1 1 1.5 1 .7 0 1.2-.5 1.5-1 .3-.7.5-1.5.5-2.5 0-.5.3-1 .8-1.2.5-.2 1 0 1.3.4C37 29.5 40 33.5 40 38c0 4.4-3.6 8-8 8z"/></svg></span></span>
+            </div>
+            <div class="uni-block-ingredients">Tocineta · Salsa pi&ntilde;a · SourCream · Pi&ntilde;a fresca <span class="uni-block-topping">+ 1 topping</span> <span class="adicional-1up">+Adicional $1.500</span></div>
+            <div class="uni-block-pills">
+              <span class="pill-label">Escoge:</span>
+              <span class="pill rec">Takis Fuego</span>
+              <span class="pill">Jalape&ntilde;os</span>
+              <span class="pill">Cebolla Encurtida</span>
+              <span class="pill">Queso Coste&ntilde;o</span>
+            </div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Sencillo</div><div class="uni-flavor-price">$18.000</div></div>
+              <div class="uni-flavor combo-key"><div class="uni-flavor-label">COMBO</div><div class="uni-flavor-price">$25.000</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BIRRIA FUSION -->
+      <div class="lateral img-r">
+        <div class="center-zone">
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Birria Fusi&oacute;n</span>
+            </div>
+            <div class="uni-block-ingredients">Res birria · Cheddar fundido · Papas &aacute;ngel · Cilantro fresco <span class="uni-block-topping">+ 1 topping</span> <span class="adicional-1up">+Adicional $1.500</span></div>
+            <div class="uni-block-pills">
+              <span class="pill-label">Escoge:</span>
+              <span class="pill rec">Cebolla Encurtida</span>
+              <span class="pill">Pi&ntilde;a</span>
+              <span class="pill">Jalape&ntilde;os</span>
+              <span class="pill">Queso Coste&ntilde;o</span>
+            </div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Sencillo</div><div class="uni-flavor-price">$18.000</div></div>
+              <div class="uni-flavor combo-key"><div class="uni-flavor-label">COMBO</div><div class="uni-flavor-price">$25.000</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="birria-fusion-gen.png" alt="Birria Fusion" style="border:none;transform: translate(-14px, 10px) scale(1.45);">
+        </div>
+      </div>
+
+      <span class="tag" style="color:#D97706;text-shadow:0 0 8px rgba(217,119,6,0.3),0 0 2px rgba(217,119,6,0.2);">Nachos &middot; Tacos &middot; Papas</span>
+
+      <!-- NACHOS -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="nachos-gen.png" alt="Nachos" style="border:none;transform: translate(22px, -20px) scale(1.25);">
+        </div>
+        <div class="center-zone">
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Nachos</span>
+            </div>
+            <div class="uni-block-ingredients">Guacamole · SourCream · Pico de Gallo <span class="uni-block-topping">+ 3 toppings</span> <span class="adicional-1up">+Adicional $1.500</span></div>
+            <div class="uni-block-pills">
+              <span class="pill-label">Escoge:</span>
+              <span class="pill rec">Pi&ntilde;a</span>
+              <span class="pill rec">Jalape&ntilde;os</span>
+              <span class="pill rec">Pepinillos</span>
+              <span class="pill">Coste&ntilde;o</span>
+              <span class="pill">Ma&iacute;z</span>
+              <span class="pill">Cebolla Encurtida</span>
+            </div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$20.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$22.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$20.000</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TACOS -->
+      <div class="lateral img-r">
+        <div class="center-zone">
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Tacos</span>
+            </div>
+            <div class="uni-block-ingredients">3 unidades <span class="uni-block-topping">+ 3 toppings</span> <span class="adicional-1up">+Adicional $1.500</span></div>
+            <div class="uni-block-pills">
+              <span class="pill-label">Escoge:</span>
+              <span class="pill rec">Pi&ntilde;a</span>
+              <span class="pill rec">Jalape&ntilde;os</span>
+              <span class="pill rec">Pepinillos</span>
+              <span class="pill">Coste&ntilde;o</span>
+              <span class="pill">Ma&iacute;z</span>
+              <span class="pill">Cebolla Encurtida</span>
+            </div>
+            <div class="uni-block-flavors">
+              <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$20.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$22.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$20.000</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="img-right">
+          <img src="tacos-gen.png" alt="Tacos" style="border:none;transform: translate(0px, 0px) scale(1.20);">
+        </div>
+      </div>
+
+      <!-- PAPAS CARGADAS -->
+      <div class="lateral">
+        <div class="img-left">
+          <img src="papas-cargadas.png" alt="Papas Cargadas" style="border:none;transform: translate(17px, 13px) scale(1.65);">
+        </div>
+        <div class="center-zone">
+          <div class="uni-block">
+            <div class="uni-block-header">
+              <span class="uni-block-name">Papas Cargadas</span>
+            </div>
+            <div class="uni-block-ingredients">Guacamole · SourCream · Pico de Gallo <span class="uni-block-topping">+ 3 toppings</span> <span class="adicional-1up">+Adicional $1.500</span></div>
+            <div class="uni-block-pills">
+              <span class="pill-label">Escoge:</span>
+              <span class="pill rec">Pi&ntilde;a</span>
+              <span class="pill rec">Jalape&ntilde;os</span>
+              <span class="pill rec">Pepinillos</span>
+              <span class="pill">Coste&ntilde;o</span>
+              <span class="pill">Ma&iacute;z</span>
+              <span class="pill">Cebolla Encurtida</span>
+            </div>
+            <div class="uni-block-flavors" style="display:grid;grid-template-columns:1fr 1fr;">
+              <div class="uni-flavor"><div class="uni-flavor-label">Cerdo Pibil</div><div class="uni-flavor-price">$23.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$23.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Salchipapa</div><div class="uni-flavor-price">$24.000</div></div>
+              <div class="uni-flavor"><div class="uni-flavor-label">Birria de Res</div><div class="uni-flavor-price">$25.000</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAPAS FRANCESAS -->
+      <div style="margin: 0 0.2cm;">
+        <div class="uni-block">
+          <div class="uni-block-header">
+            <span class="uni-block-name">Papas Francesas</span>
+          </div>
+          <div class="uni-block-flavors">
+            <div class="uni-flavor"><div class="uni-flavor-label">Personal</div><div class="uni-flavor-price">$7.500</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">Agrandadas</div><div class="uni-flavor-price">$10.000</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">Pareja</div><div class="uni-flavor-price">$14.000</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ TEX-MEX ============ -->
+      <span class="tag" style="color:#059669;text-shadow:0 0 8px rgba(5,150,105,0.3),0 0 2px rgba(5,150,105,0.2);">Tex-Mex</span>
+      <div class="section-grid cols-3">
+        <div class="uni-block">
+          <div class="uni-block-header">
+            <span class="uni-block-name">Alitas BBQ Gold</span>
+          </div>
+          <div class="uni-block-ingredients">Alitas crujientes ba&ntilde;adas en salsa BBQ Gold. Con nachos y dip.</div>
+          <div class="uni-block-flavors">
+            <div class="uni-flavor"><div class="uni-flavor-label">8 pz</div><div class="uni-flavor-price">$18.000</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">12 pz</div><div class="uni-flavor-price">$25.000</div></div>
+          </div>
+        </div>
+        <div class="uni-block">
+          <div class="uni-block-header">
+            <span class="uni-block-name">Mac &amp; Cheese y Pollo</span>
+          </div>
+          <div class="uni-block-ingredients">Macarrones cremosos con cheddar, tocineta y bocados de pollo apanado.</div>
+          <div class="uni-block-flavors">
+            <div class="uni-flavor"><div class="uni-flavor-price">$25.000</div></div>
+          </div>
+        </div>
+        <div class="uni-block">
+          <div class="uni-block-header">
+            <span class="uni-block-name">Pollo PopCorn</span>
+          </div>
+          <div class="uni-block-ingredients">Bocados de pechuga apanados tipo popcorn, crujientes y jugosos.</div>
+          <div class="uni-block-flavors">
+            <div class="uni-flavor"><div class="uni-flavor-label">8 pz</div><div class="uni-flavor-price">$18.000</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">12 pz</div><div class="uni-flavor-price">$25.000</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SNACKS ============ -->
+      <span class="tag" style="color:#7C3AED;text-shadow:0 0 8px rgba(124,58,237,0.3),0 0 2px rgba(124,58,237,0.2);">Snacks</span>
+      <div class="section-grid cols-3">
+        <div class="uni-block">
+          <div class="uni-block-header">
+            <span class="uni-block-name">Corndogs</span>
+          </div>
+          <div class="uni-block-flavors" style="flex-direction:column;gap:0;">
+            <div class="uni-flavor"><div class="uni-flavor-label">Americano</div><div class="uni-flavor-price">$14.000</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">Mixto</div><div class="uni-flavor-price">$15.000</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">De Queso</div><div class="uni-flavor-price">$16.000</div></div>
+          </div>
+        </div>
+        <div class="uni-block">
+          <div class="uni-block-header">
+            <span class="uni-block-name">Chicanitas</span>
+          </div>
+          <div class="uni-block-flavors" style="flex-direction:column;gap:0;">
+            <div class="uni-flavor"><div class="uni-flavor-label">Birria</div><div class="uni-flavor-price">$7.000</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">Pibil</div><div class="uni-flavor-price">$6.000</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">Pollo Chipotle</div><div class="uni-flavor-price">$6.000</div></div>
+          </div>
+        </div>
+        <div class="uni-block">
+          <div class="uni-block-header">
+            <span class="uni-block-name">Bebidas</span>
+          </div>
+          <div class="uni-block-flavors" style="flex-direction:column;gap:0;">
+            <div class="uni-flavor"><div class="uni-flavor-label">Gaseosa Peq.</div><div class="uni-flavor-price">$3.500</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">Gaseosa Lata</div><div class="uni-flavor-price">$4.500</div></div>
+            <div class="uni-flavor"><div class="uni-flavor-label">Cooldrink</div><div class="uni-flavor-price">$4.500</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <span class="footer-brand">@fanzine.presenta</span>
+    </div>
+
+  </div>
+  </div>
+
+  <!-- FONT TOGGLE -->
+  <div class="font-toggle no-print" id="fontToggle">
+    <span class="font-toggle-label">FONT</span>
+    <select id="fontSelect" onchange="selectFont(this.value)">
+      <option value="original">Original</option>
+      <option value="pixelify">Pixelify Sans</option>
+      <option value="press-start">Press Start 2P</option>
+      <option value="silkscreen">Silkscreen</option>
+      <option value="dotgothic">DotGothic16</option>
+      <option value="handjet">Handjet</option>
+      <option value="jersey">Jersey 25</option>
+      <option value="bungee">Bungee</option>
+      <option value="russo">Russo One</option>
+    </select>
+  </div>
+
+  <!-- IMAGE EDITOR -->
+  <div id="imgEditorBar" class="no-print" style="
+    position:fixed; top:0; left:0; right:0; z-index:10000;
+    background:rgba(31,31,31,0.95); color:#fff; font-family:monospace;
+    font-size:12px; padding:6px 12px; display:flex; align-items:center;
+    gap:12px; display:none;
+    border-bottom: 3px solid #FACC15;
+  ">
+    <span style="font-weight:bold;color:#FACC15;">IMG EDITOR</span>
+    <span id="imgEditorInfo" style="flex:1;color:#9CA3AF;">Click an image to select. Drag to move, scroll to scale.</span>
+    <button onclick="imgEditor.flipSelected()" style="background:#6B7280;color:#fff;border:2px solid #1F1F1F;border-bottom:4px solid #1F1F1F;padding:3px 10px;border-radius:3px;cursor:pointer;font-size:11px;">&#x21c4; Flip</button>
+    <button onclick="imgEditor.resetSelected()" style="background:#DC2626;color:#fff;border:2px solid #1F1F1F;border-bottom:4px solid #1F1F1F;padding:3px 10px;border-radius:3px;cursor:pointer;font-size:11px;">Reset</button>
+    <button onclick="imgEditor.resetAll()" style="background:#B91C1C;color:#fff;border:2px solid #1F1F1F;border-bottom:4px solid #1F1F1F;padding:3px 10px;border-radius:3px;cursor:pointer;font-size:11px;">Reset All</button>
+    <button onclick="imgEditor.showExport()" style="background:#16A34A;color:#fff;border:2px solid #1F1F1F;border-bottom:4px solid #1F1F1F;padding:3px 10px;border-radius:3px;cursor:pointer;font-size:11px;">Export</button>
+    <button onclick="imgEditor.toggle()" style="background:#6B7280;color:#fff;border:2px solid #1F1F1F;border-bottom:4px solid #1F1F1F;padding:3px 10px;border-radius:3px;cursor:pointer;font-size:11px;">Close</button>
+  </div>
+  <div id="imgExportPanel" class="no-print" style="
+    display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    z-index:10001; background:#1F1F1F; border:3px solid #FACC15; border-radius:4px;
+    padding:16px; width:90%; max-width:600px; max-height:80vh;
+    font-family:monospace; color:#fff;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.3);
+  ">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <span style="font-weight:bold;color:#FACC15;font-size:12px;">Image Transforms — copy &amp; paste this to Claude</span>
+      <button onclick="imgEditor.hideExport()" style="background:#6B7280;color:#fff;border:2px solid #1F1F1F;padding:2px 8px;border-radius:3px;cursor:pointer;">&#x2716;</button>
+    </div>
+    <textarea id="imgExportText" readonly style="
+      width:100%; height:300px; background:#111; color:#4ade80; border:2px solid #333;
+      border-radius:3px; padding:10px; font-family:monospace; font-size:12px;
+      resize:vertical; white-space:pre;
+    "></textarea>
+    <button onclick="imgEditor.copyExport()" style="margin-top:8px;background:#16A34A;color:#fff;border:2px solid #1F1F1F;border-bottom:4px solid #1F1F1F;padding:6px 16px;border-radius:3px;cursor:pointer;font-size:12px;font-weight:bold;">Copy to clipboard</button>
+    <span id="imgCopyConfirm" style="margin-left:10px;color:#4ade80;font-size:12px;display:none;">Copied!</span>
+  </div>
+  <button id="imgEditorToggle" class="no-print" onclick="imgEditor.toggle()" style="
+    position:fixed; bottom:1.2rem; left:1.2rem; z-index:9999;
+    background:#1F1F1F; color:#fff; border:3px solid #6B7280; border-bottom:5px solid #4B5563;
+    border-radius:4px;
+    width:48px; height:48px; font-size:18px; cursor:pointer;
+    box-shadow:2px 2px 0 rgba(0,0,0,.3); display:flex;
+    align-items:center; justify-content:center;
+  " title="Edit image positions">&#9998;</button>
+
+  <!-- FULLSCREEN -->
+  <button id="fullscreenBtn" class="no-print" style="
+    position:fixed; bottom:1.2rem; right:1.2rem; z-index:9999;
+    background:#1F1F1F; color:#fff; border:3px solid #6B7280; border-bottom:5px solid #4B5563;
+    border-radius:4px;
+    width:48px; height:48px; font-size:22px; cursor:pointer;
+    box-shadow:2px 2px 0 rgba(0,0,0,.3); display:flex;
+    align-items:center; justify-content:center;
+  " title="Pantalla completa 1:1">&#x26F6;</button>
+
+  <script>
+    /* ===== FONT TOGGLE ===== */
+    const FONT_STORAGE_KEY = 'carta-v35b-font-mode';
+    function selectFont(mode) {
+      document.documentElement.setAttribute('data-fonts', mode);
+      localStorage.setItem(FONT_STORAGE_KEY, mode);
+    }
+    const VALID_FONTS = ['original','pixelify','press-start','silkscreen','dotgothic','handjet','jersey','bungee','russo'];
+    (function() {
+      let saved = localStorage.getItem(FONT_STORAGE_KEY) || 'original';
+      if (!VALID_FONTS.includes(saved)) { saved = 'pixelify'; localStorage.setItem(FONT_STORAGE_KEY, saved); }
+      document.documentElement.setAttribute('data-fonts', saved);
+      const sel = document.getElementById('fontSelect');
+      if (sel) sel.value = saved;
+    })();
+
+    /* ===== IMAGE EDITOR ===== */
+    const imgEditor = (() => {
+      const STORAGE_KEY = 'carta-v35b-img-transforms';
+      let editing = false, selected = null, dragging = false;
+      let startX, startY, origX, origY;
+
+      const getImgs = () => [...document.querySelectorAll('.card img')];
+      const getId = img => img.alt || img.src.split('/').pop();
+      const load = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; } };
+      const save = data => localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      const defaults = () => ({x:0, y:0, s:1, f:false});
+
+      function applyOne(img) {
+        const d = (load())[getId(img)] || defaults();
+        img.style.transform = `translate(${d.x||0}px, ${d.y||0}px) scale(${d.s||1}) scaleX(${d.f ? -1 : 1})`;
+      }
+      function applyAll() { getImgs().forEach(applyOne); }
+      function select(img) {
+        if (selected) selected.style.outline = '';
+        selected = img; img.style.outline = '3px solid #FACC15'; updateInfo();
+      }
+      function updateInfo() {
+        if (!selected) return;
+        const d = (load())[getId(selected)] || defaults();
+        document.getElementById('imgEditorInfo').textContent =
+          `[${getId(selected)}] x:${Math.round(d.x)} y:${Math.round(d.y)} scale:${(d.s||1).toFixed(2)}${d.f ? ' FLIPPED' : ''}`;
+      }
+
+      document.addEventListener('mousedown', e => {
+        if (!editing || e.button !== 0) return;
+        const img = e.target.closest('img');
+        if (!img || !getImgs().includes(img)) return;
+        e.preventDefault(); select(img);
+        dragging = true; startX = e.clientX; startY = e.clientY;
+        const d = (load())[getId(img)] || defaults();
+        origX = d.x||0; origY = d.y||0;
+      });
+      document.addEventListener('mousemove', e => {
+        if (!dragging || !selected) return; e.preventDefault();
+        const data = load(), id = getId(selected);
+        if (!data[id]) data[id] = defaults();
+        data[id].x = origX + (e.clientX - startX);
+        data[id].y = origY + (e.clientY - startY);
+        save(data); applyOne(selected); updateInfo();
+      });
+      document.addEventListener('mouseup', () => { dragging = false; });
+      document.addEventListener('wheel', e => {
+        if (!editing || !selected) return; e.preventDefault();
+        const data = load(), id = getId(selected);
+        if (!data[id]) data[id] = defaults();
+        data[id].s = Math.max(0.3, Math.min(3, (data[id].s||1) + (e.deltaY > 0 ? -0.05 : 0.05)));
+        save(data); applyOne(selected); updateInfo();
+      }, {passive:false});
+
+      function flipSelected() {
+        if (!selected) return;
+        const data = load(), id = getId(selected);
+        if (!data[id]) data[id] = defaults();
+        data[id].f = !data[id].f;
+        save(data); applyOne(selected); updateInfo();
+      }
+      function toggle() {
+        editing = !editing;
+        document.getElementById('imgEditorBar').style.display = editing ? 'flex' : 'none';
+        if (!editing && selected) { selected.style.outline = ''; selected = null; }
+        getImgs().forEach(img => {
+          img.style.cursor = editing ? 'grab' : '';
+          img.style.position = editing ? 'relative' : '';
+          img.style.zIndex = editing ? '999' : '';
+        });
+      }
+      function resetSelected() {
+        if (!selected) return;
+        const data = load(); delete data[getId(selected)]; save(data);
+        selected.style.transform = ''; updateInfo();
+      }
+      function resetAll() {
+        localStorage.removeItem(STORAGE_KEY);
+        getImgs().forEach(img => { img.style.transform = ''; });
+        if (selected) updateInfo();
+      }
+      function showExport() {
+        const data = load(), imgs = getImgs();
+        let text = 'IMAGE TRANSFORMS for carta-v35.html\n====================================\n\n';
+        imgs.forEach(img => {
+          const id = getId(img), d = data[id];
+          if (!d) return;
+          const tx = Math.round(d.x), ty = Math.round(d.y), sc = (d.s||1).toFixed(2);
+          const flipStr = d.f ? ' scaleX(-1)' : '';
+          text += `Image: "${id}" (src="${img.getAttribute('src')}")\n  Position: x=${tx}px, y=${ty}px, scale=${sc}${d.f ? ', flip: true' : ''}\n  Side: ${img.closest('.img-left') ? 'LEFT' : 'RIGHT'}\n  Apply: style="transform: translate(${tx}px, ${ty}px) scale(${sc})${flipStr};"\n\n`;
+        });
+        if (!Object.keys(data).length) text += '(No images have been moved yet)\n';
+        document.getElementById('imgExportText').value = text;
+        document.getElementById('imgExportPanel').style.display = 'block';
+      }
+      function hideExport() { document.getElementById('imgExportPanel').style.display = 'none'; }
+      function copyExport() {
+        document.getElementById('imgExportText').select();
+        document.execCommand('copy');
+        const c = document.getElementById('imgCopyConfirm');
+        c.style.display = 'inline'; setTimeout(() => c.style.display = 'none', 2000);
+      }
+
+      applyAll();
+      return { toggle, flipSelected, resetSelected, resetAll, showExport, hideExport, copyExport };
+    })();
+
+    // Live reload
+    (function(){ let l=''; setInterval(async()=>{ try{ const r=await fetch(location.href,{cache:'no-store'}); const t=await r.text(); if(l&&t!==l)location.reload(); l=t; }catch(e){} },1000); })();
+
+    // Fullscreen
+    (function(){
+      const b=document.getElementById('fullscreenBtn');
+      b.addEventListener('click',async()=>{
+        if(!document.fullscreenElement){try{await document.documentElement.requestFullscreen();}catch(e){}b.innerHTML='&#x2716;';b.title='Salir';}
+        else{try{await document.exitFullscreen();}catch(e){}b.innerHTML='&#x26F6;';b.title='Pantalla completa 1:1';}
+      });
+      document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement){b.innerHTML='&#x26F6;';b.title='Pantalla completa 1:1';}});
+    })();
+  </script>
+</body>
+</html>

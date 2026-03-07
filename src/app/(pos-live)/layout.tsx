@@ -1,9 +1,17 @@
+import type { Viewport } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Providers } from "@/components/layout/providers";
 import { AuthProvider } from "@/components/layout/auth-provider";
 import { Playfair_Display, DM_Sans, DM_Mono, JetBrains_Mono } from "next/font/google";
 import type { UserProfile } from "@/types/auth";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -57,7 +65,7 @@ export default async function PosLiveLayout({
     <Providers>
       <AuthProvider profile={profile as UserProfile}>
         <div
-          className={`h-screen w-screen overflow-hidden ${playfair.variable} ${dmSans.variable} ${dmMono.variable} ${jetbrainsMono.variable}`}
+          className={`h-screen w-screen overflow-hidden touch-manipulation ${playfair.variable} ${dmSans.variable} ${dmMono.variable} ${jetbrainsMono.variable}`}
         >
           {children}
         </div>

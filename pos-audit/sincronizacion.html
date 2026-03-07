@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sincronizacion en Tiempo Real - Auditoria POS FANZINE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --card: #1a1b2e;
+    --card-border: #2a2b3e;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --red: #DC2626;
+    --red-bg: rgba(220,38,38,0.12);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245,158,11,0.12);
+    --blue: #3B82F6;
+    --blue-bg: rgba(59,130,246,0.12);
+    --green: #22C55E;
+    --green-bg: rgba(34,197,94,0.12);
+    --purple: #A855F7;
+    --purple-bg: rgba(168,85,247,0.12);
+    --radius: 12px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  nav {
+    background: #13141f; border-bottom: 1px solid var(--card-border);
+    padding: 0 1.5rem; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1rem;
+    overflow-x: auto; white-space: nowrap; padding: .75rem 0;
+  }
+  .nav-brand { font-weight: 700; font-size: 1rem; color: var(--red); margin-right: 1rem; flex-shrink: 0; }
+  .nav-link {
+    color: var(--text-muted); font-size: .85rem;
+    padding: .35rem .75rem; border-radius: 6px; transition: all .2s;
+  }
+  .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,.06); text-decoration: none; }
+  .nav-link.active { border-bottom: 2px solid var(--red); }
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page-header {
+    margin-bottom: 2.5rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .page-header h1 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: .5rem; }
+  .page-header h1 span { color: var(--red); }
+  .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  .card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: #fff; }
+  .card h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 .5rem; color: #fff; }
+  .card p { color: var(--text-muted); margin-bottom: .75rem; }
+
+  .analogy {
+    background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0;
+    font-size: .9rem; color: var(--blue);
+  }
+  .analogy strong { color: #60a5fa; }
+
+  .badge {
+    display: inline-block; padding: .2rem .6rem; border-radius: 20px;
+    font-size: .75rem; font-weight: 600; text-transform: uppercase;
+  }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(220,38,38,0.3); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+
+  /* COMM METHODS */
+  .comm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .comm-box {
+    border-radius: 10px; padding: 1.25rem; border: 2px solid var(--card-border);
+    background: #232440;
+  }
+  .comm-box h4 { font-size: 1rem; margin-bottom: .25rem; }
+  .comm-box .comm-analogy {
+    font-size: .85rem; font-style: italic; margin-bottom: .75rem;
+  }
+  .comm-box.broadcast { border-color: rgba(34,197,94,0.4); }
+  .comm-box.broadcast h4 { color: var(--green); }
+  .comm-box.broadcast .comm-analogy { color: var(--green); }
+  .comm-box.realtime { border-color: rgba(168,85,247,0.4); }
+  .comm-box.realtime h4 { color: var(--purple); }
+  .comm-box.realtime .comm-analogy { color: var(--purple); }
+  .comm-box p { font-size: .88rem; color: var(--text-muted); margin-bottom: .5rem; }
+  .comm-box ul { font-size: .85rem; color: var(--text-muted); padding-left: 1.25rem; }
+  .comm-box li { margin-bottom: .3rem; }
+
+  /* MESSAGE TYPES */
+  .msg-flow { margin: 1rem 0; }
+  .msg-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: .75rem 1rem; margin: .5rem 0;
+    border-radius: 8px; border: 1px solid var(--card-border);
+    background: #232440;
+  }
+  .msg-dir {
+    width: 100px; flex-shrink: 0; text-align: center;
+    font-size: .75rem; font-weight: 600; padding: .25rem;
+    border-radius: 4px;
+  }
+  .msg-dir.to-client { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .msg-dir.to-caja { background: rgba(34,197,94,0.15); color: var(--green); }
+  .msg-dir.both { background: rgba(168,85,247,0.15); color: var(--purple); }
+  .msg-content h5 { font-size: .9rem; color: #fff; margin-bottom: .2rem; }
+  .msg-content p { font-size: .83rem; color: var(--text-muted); margin: 0; }
+
+  /* DISCONNECT */
+  .disconnect-scenario {
+    background: var(--red-bg); border: 1px solid rgba(220,38,38,0.2);
+    border-radius: 10px; padding: 1.25rem; margin: 1rem 0;
+  }
+  .disconnect-scenario h4 { color: var(--red); font-size: .95rem; margin-bottom: .5rem; }
+  .disconnect-scenario p { font-size: .88rem; color: var(--text-muted); margin-bottom: .5rem; }
+  .disconnect-scenario ol { font-size: .85rem; color: var(--text-muted); padding-left: 1.5rem; }
+  .disconnect-scenario li { margin-bottom: .3rem; }
+
+  /* TIMELINE */
+  .timeline { margin: 1.5rem 0; position: relative; }
+  .timeline::before {
+    content: ''; position: absolute; left: 24px; top: 0; bottom: 0;
+    width: 2px; background: var(--card-border);
+  }
+  .tl-event {
+    display: flex; gap: 1rem; padding: .6rem 0;
+    position: relative;
+  }
+  .tl-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    margin-top: .35rem; flex-shrink: 0;
+    position: relative; z-index: 1;
+    margin-left: 19px;
+  }
+  .tl-dot.caja { background: var(--blue); box-shadow: 0 0 8px rgba(59,130,246,0.5); }
+  .tl-dot.cliente { background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); }
+  .tl-dot.sistema { background: var(--purple); box-shadow: 0 0 8px rgba(168,85,247,0.5); }
+  .tl-dot.fudo { background: var(--amber); box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+  .tl-content { flex-grow: 1; }
+  .tl-content .tl-actor {
+    font-size: .75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .03em; margin-bottom: .1rem;
+  }
+  .tl-content .tl-actor.caja { color: var(--blue); }
+  .tl-content .tl-actor.cliente { color: var(--green); }
+  .tl-content .tl-actor.sistema { color: var(--purple); }
+  .tl-content .tl-actor.fudo { color: var(--amber); }
+  .tl-content .tl-desc { font-size: .88rem; color: var(--text-muted); }
+  .tl-time { font-size: .75rem; color: #555; flex-shrink: 0; width: 50px; text-align: right; margin-top: .3rem; }
+
+  /* SESSION */
+  .session-box {
+    background: var(--amber-bg); border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 10px; padding: 1.25rem; margin: 1rem 0;
+  }
+  .session-box h4 { color: var(--amber); font-size: .95rem; margin-bottom: .5rem; }
+  .session-box p { font-size: .88rem; color: var(--text-muted); margin-bottom: .5rem; }
+
+  /* PERF */
+  .perf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin: 1rem 0; }
+  .perf-item {
+    background: #232440; border-radius: 10px; padding: 1rem; text-align: center;
+    border: 1px solid var(--card-border);
+  }
+  .perf-value { font-size: 1.5rem; font-weight: 800; color: #fff; }
+  .perf-label { font-size: .8rem; color: var(--text-muted); margin-top: .25rem; }
+  .perf-status { font-size: .75rem; margin-top: .35rem; }
+
+  footer {
+    text-align: center; padding: 2rem 1.5rem;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted); font-size: .8rem; margin-top: 3rem;
+  }
+
+  @media (max-width: 700px) {
+    .container { padding: 1.25rem 1rem; }
+    .comm-grid { grid-template-columns: 1fr; }
+    .perf-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">FANZINE POS</span>
+    <a href="index.html" class="nav-link">Resumen</a>
+    <a href="estado-y-datos.html" class="nav-link">Estado y Datos</a>
+    <a href="interfaz-usuario.html" class="nav-link">Interfaz</a>
+    <a href="api-y-backend.html" class="nav-link">API y Backend</a>
+    <a href="sincronizacion.html" class="nav-link active">Sincronizacion</a>
+    <a href="plan-reconstruccion.html" class="nav-link">Plan</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <h1>Sincronizacion en <span>Tiempo Real</span></h1>
+    <p>Como se comunican la pantalla del cajero y la del cliente, y que pasa cuando se pierde la conexion.</p>
+  </div>
+
+  <!-- WHY SYNC -->
+  <div class="card">
+    <h2>Por que necesitan comunicarse dos pantallas?</h2>
+    <p>
+      El POS de FANZINE usa <strong>dos pantallas</strong> que trabajan juntas: la del cajero y la del cliente.
+      Funcionan como un equipo: el cajero selecciona el producto y el cliente elige los extras (toppings).
+    </p>
+    <div class="analogy">
+      <strong>Analogia:</strong> Imagine dos personas jugando cartas juntas. Una reparte (el cajero elige producto)
+      y la otra juega (el cliente elige toppings). Para que el juego funcione, ambas necesitan ver las mismas
+      cartas al mismo tiempo. Si una de las dos deja de escuchar, el juego se traba.
+    </div>
+    <p>
+      Esta comunicacion en tiempo real es lo que permite que el cliente vea inmediatamente lo que el cajero
+      agrega, y que el cajero vea los toppings que el cliente selecciona.
+    </p>
+  </div>
+
+  <!-- COMMUNICATION METHODS -->
+  <div class="card">
+    <h2>Dos formas de comunicacion</h2>
+    <p>El sistema usa dos metodos para enviar mensajes entre pantallas:</p>
+
+    <div class="comm-grid">
+      <div class="comm-box broadcast">
+        <h4>BroadcastChannel</h4>
+        <div class="comm-analogy">"Como gritar en la misma sala"</div>
+        <p>
+          Funciona cuando ambas pantallas estan abiertas en el <strong>mismo navegador</strong>
+          (dos pestanas o ventanas en la misma computadora).
+        </p>
+        <ul>
+          <li>Instantaneo (menos de 1ms)</li>
+          <li>No necesita internet</li>
+          <li>Solo funciona en el mismo equipo</li>
+          <li>Se pierde si cierran la pestana</li>
+        </ul>
+      </div>
+      <div class="comm-box realtime">
+        <h4>Supabase Realtime</h4>
+        <div class="comm-analogy">"Como walkie-talkies"</div>
+        <p>
+          Funciona cuando las pantallas estan en <strong>dispositivos diferentes</strong>
+          (ej: computadora del cajero y tablet del cliente).
+        </p>
+        <ul>
+          <li>Funciona entre dispositivos</li>
+          <li>Necesita internet</li>
+          <li>Latencia de 50-200ms</li>
+          <li>Puede perder mensajes si se cae la conexion</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      El sistema intenta usar ambos metodos al mismo tiempo para mayor compatibilidad.
+      Pero esto crea un problema: si ambos funcionan, el mensaje puede llegar duplicado.
+    </p>
+  </div>
+
+  <!-- MESSAGE TYPES -->
+  <div class="card">
+    <h2>Los 5 tipos de mensaje</h2>
+    <p>Las pantallas se comunican usando 5 tipos de mensajes. Aqui estan explicados como una conversacion:</p>
+
+    <div class="msg-flow">
+      <div class="msg-item">
+        <div class="msg-dir to-client">Caja &rarr; Cliente</div>
+        <div class="msg-content">
+          <h5>1. "Nuevo producto"</h5>
+          <p>El cajero agrego un producto al pedido. La pantalla del cliente debe mostrar las opciones de toppings para ese producto.</p>
+        </div>
+      </div>
+
+      <div class="msg-item">
+        <div class="msg-dir to-client">Caja &rarr; Cliente</div>
+        <div class="msg-content">
+          <h5>2. "Pedido actualizado"</h5>
+          <p>El pedido cambio (se quito un producto, se cambio cantidad, etc.). La pantalla del cliente se actualiza.</p>
+        </div>
+      </div>
+
+      <div class="msg-item">
+        <div class="msg-dir to-caja">Cliente &rarr; Caja</div>
+        <div class="msg-content">
+          <h5>3. "Toppings seleccionados"</h5>
+          <p>El cliente selecciono sus extras. La pantalla del cajero los agrega al producto correspondiente.</p>
+        </div>
+      </div>
+
+      <div class="msg-item">
+        <div class="msg-dir to-client">Caja &rarr; Cliente</div>
+        <div class="msg-content">
+          <h5>4. "Pedido cobrado"</h5>
+          <p>El cajero completo el cobro. La pantalla del cliente muestra un mensaje de agradecimiento.</p>
+        </div>
+      </div>
+
+      <div class="msg-item">
+        <div class="msg-dir both">Ambos</div>
+        <div class="msg-content">
+          <h5>5. "Pedido limpiado"</h5>
+          <p>Se limpio el pedido. Ambas pantallas vuelven a su estado inicial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCONNECTION -->
+  <div class="card">
+    <h2>Que pasa cuando se pierde la conexion?</h2>
+    <p>
+      Actualmente, el sistema no maneja bien las desconexiones. Estos son los escenarios problematicos:
+    </p>
+
+    <div class="disconnect-scenario">
+      <h4>Escenario 1: El cliente pierde internet por 30 segundos</h4>
+      <p>Mientras esta desconectado:</p>
+      <ol>
+        <li>El cajero agrega 3 productos al pedido</li>
+        <li>Los mensajes se envian pero la pantalla del cliente no los recibe</li>
+        <li>Cuando vuelve la conexion, la pantalla del cliente sigue mostrando el pedido viejo</li>
+        <li>El cajero no sabe que el cliente esta desincronizado</li>
+      </ol>
+      <p><strong style="color: var(--red);">Resultado:</strong> Las pantallas muestran informacion diferente. El cliente puede estar eligiendo toppings para un pedido que ya no existe.</p>
+    </div>
+
+    <div class="disconnect-scenario">
+      <h4>Escenario 2: El cajero recarga la pagina</h4>
+      <p>Cuando el cajero recarga:</p>
+      <ol>
+        <li>El pedido en memoria se pierde completamente</li>
+        <li>La pantalla del cliente sigue mostrando el pedido anterior</li>
+        <li>No hay sincronizacion automatica para que ambas pantallas se pongan de acuerdo</li>
+      </ol>
+      <p><strong style="color: var(--red);">Resultado:</strong> El cliente ve un pedido "fantasma" que ya no existe en la caja.</p>
+    </div>
+
+    <div class="disconnect-scenario">
+      <h4>Escenario 3: Se cae el wifi del restaurante</h4>
+      <p>Sin wifi:</p>
+      <ol>
+        <li>Supabase Realtime deja de funcionar</li>
+        <li>BroadcastChannel sigue funcionando si estan en el mismo equipo</li>
+        <li>Pero si estan en dispositivos separados, no hay comunicacion</li>
+        <li>Cuando vuelve el wifi, no se reconectan automaticamente</li>
+      </ol>
+      <p><strong style="color: var(--red);">Resultado:</strong> Hay que recargar ambas paginas manualmente cuando vuelve la conexion.</p>
+    </div>
+  </div>
+
+  <!-- SESSION CODE -->
+  <div class="card">
+    <h2>Sistema de codigo de sesion</h2>
+
+    <div class="session-box">
+      <h4>Como funciona</h4>
+      <p>
+        Para que las pantallas sepan que pertenecen al mismo "puesto", usan un codigo de sesion.
+        Actualmente se usa un canal fijo llamado <code style="color: var(--amber);">pos:caja:main</code>.
+      </p>
+      <p>
+        Esto significa que solo puede haber <strong>un puesto de caja activo</strong> al mismo tiempo.
+        Si alguien abre una segunda caja, ambas compartiran el mismo canal y se interferiran.
+      </p>
+    </div>
+
+    <h3>Riesgos del sistema actual</h3>
+    <ul style="color: var(--text-muted); padding-left: 1.5rem; margin-bottom: 1rem;">
+      <li><strong style="color: #fff;">Un solo canal:</strong> No soporta multiples puestos de caja simultaneos</li>
+      <li><strong style="color: #fff;">Sin autenticacion:</strong> Cualquier pestana que se conecte al canal puede enviar mensajes</li>
+      <li><strong style="color: #fff;">Sin heartbeat:</strong> No hay manera de saber si la otra pantalla sigue activa</li>
+      <li><strong style="color: #fff;">Sin numeracion:</strong> Si un mensaje se pierde, no hay forma de detectarlo</li>
+    </ul>
+  </div>
+
+  <!-- PERFORMANCE -->
+  <div class="card">
+    <h2>Rendimiento de la comunicacion</h2>
+
+    <div class="perf-grid">
+      <div class="perf-item">
+        <div class="perf-value">&lt; 1ms</div>
+        <div class="perf-label">Latencia BroadcastChannel</div>
+        <div class="perf-status badge-green" style="color: var(--green);">Excelente</div>
+      </div>
+      <div class="perf-item">
+        <div class="perf-value">50-200ms</div>
+        <div class="perf-label">Latencia Supabase Realtime</div>
+        <div class="perf-status badge-green" style="color: var(--green);">Aceptable</div>
+      </div>
+      <div class="perf-item">
+        <div class="perf-value">~3 KB</div>
+        <div class="perf-label">Tamano promedio de mensaje</div>
+        <div class="perf-status badge-amber" style="color: var(--amber);">Mejorable</div>
+      </div>
+      <div class="perf-item">
+        <div class="perf-value">0%</div>
+        <div class="perf-label">Tasa de reintentos</div>
+        <div class="perf-status badge-red" style="color: var(--red);">No reintenta</div>
+      </div>
+    </div>
+
+    <p>
+      El tamano de mensaje (~3 KB) se puede optimizar. Actualmente se envia el pedido completo en cada
+      mensaje. Lo ideal seria enviar solo lo que cambio (por ejemplo, "se agrego producto X" en vez
+      de enviar todos los productos cada vez).
+    </p>
+  </div>
+
+  <!-- ORDER TIMELINE -->
+  <div class="card">
+    <h2>Linea de tiempo: un pedido completo</h2>
+    <p>Asi se ve la comunicacion durante un pedido tipico, desde el inicio hasta el ticket impreso:</p>
+
+    <div class="timeline">
+      <div class="tl-event">
+        <div class="tl-dot caja"></div>
+        <div class="tl-content">
+          <div class="tl-actor caja">Cajero</div>
+          <div class="tl-desc">Abre la pantalla de caja. Se conecta al canal de comunicacion.</div>
+        </div>
+        <div class="tl-time">0:00</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot cliente"></div>
+        <div class="tl-content">
+          <div class="tl-actor cliente">Cliente</div>
+          <div class="tl-desc">La pantalla del cliente muestra la pantalla de espera con la marca FANZINE.</div>
+        </div>
+        <div class="tl-time">0:00</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot caja"></div>
+        <div class="tl-content">
+          <div class="tl-actor caja">Cajero</div>
+          <div class="tl-desc">Selecciona "Hamburguesas" y toca "Hamburguesa Clasica". Envia mensaje al cliente.</div>
+        </div>
+        <div class="tl-time">0:05</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot sistema"></div>
+        <div class="tl-content">
+          <div class="tl-actor sistema">Sistema</div>
+          <div class="tl-desc">Mensaje "nuevo producto" viaja por BroadcastChannel y Supabase Realtime.</div>
+        </div>
+        <div class="tl-time">0:05</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot cliente"></div>
+        <div class="tl-content">
+          <div class="tl-actor cliente">Cliente</div>
+          <div class="tl-desc">Ve las opciones de toppings. Selecciona "Queso extra" y "Sin cebolla".</div>
+        </div>
+        <div class="tl-time">0:12</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot sistema"></div>
+        <div class="tl-content">
+          <div class="tl-actor sistema">Sistema</div>
+          <div class="tl-desc">Mensaje "toppings seleccionados" viaja de vuelta al cajero.</div>
+        </div>
+        <div class="tl-time">0:12</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot caja"></div>
+        <div class="tl-content">
+          <div class="tl-actor caja">Cajero</div>
+          <div class="tl-desc">Ve los toppings agregados. Agrega "Papas Fritas" al pedido. Toca "Cobrar".</div>
+        </div>
+        <div class="tl-time">0:18</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot fudo"></div>
+        <div class="tl-content">
+          <div class="tl-actor fudo">Fudo</div>
+          <div class="tl-desc">Recibe la venta: crea comanda, agrega items, registra pago, cierra venta.</div>
+        </div>
+        <div class="tl-time">0:20</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot sistema"></div>
+        <div class="tl-content">
+          <div class="tl-actor sistema">Sistema</div>
+          <div class="tl-desc">Envia mensaje "pedido cobrado". Pantalla del cliente muestra "Gracias!".</div>
+        </div>
+        <div class="tl-time">0:22</div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-dot caja"></div>
+        <div class="tl-content">
+          <div class="tl-actor caja">Cajero</div>
+          <div class="tl-desc">Se imprime el ticket de comanda para la cocina. Pedido limpiado. Listo para el siguiente.</div>
+        </div>
+        <div class="tl-time">0:23</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 1rem;">
+      <strong style="color: #fff;">Tiempo total:</strong> ~23 segundos para un pedido simple.
+      La mayor parte del tiempo lo pasa el cliente eligiendo toppings.
+      La comunicacion con Fudo toma 2-3 segundos.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  Generado por Claude Code &mdash; 28 de febrero, 2026
+</footer>
+
+</body>
+</html>

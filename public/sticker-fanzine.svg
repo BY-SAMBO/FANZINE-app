@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Arco para el texto -->
+    <path id="arco" d="M 50,280 A 170,170 0 0,1 350,280" fill="none"/>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Bangers&amp;display=swap');
+
+      .letra-fanzine {
+        font-family: 'Bangers', 'Bungee Shade', cursive, sans-serif;
+        font-size: 62px;
+        letter-spacing: 12px;
+        fill: black;
+        paint-order: stroke fill;
+        stroke: white;
+        stroke-width: 4px;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+
+  <!-- Fondo sticker: forma orgánica tipo blob -->
+  <path d="
+    M 200,18
+    C 260,10 310,35 340,75
+    C 372,118 385,165 378,210
+    C 372,258 358,295 328,330
+    C 298,362 255,385 200,388
+    C 145,385 102,362 72,330
+    C 42,295 28,258 22,210
+    C 15,165 28,118 60,75
+    C 90,35 140,10 200,18
+    Z
+  " fill="white" stroke="black" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- Borde interior sticker (línea punteada animación) -->
+  <path d="
+    M 200,34
+    C 252,27 298,48 324,82
+    C 352,118 364,160 358,208
+    C 353,248 340,282 316,312
+    C 288,344 250,366 200,368
+    C 150,366 112,344 84,312
+    C 60,282 47,248 42,208
+    C 36,160 48,118 76,82
+    C 102,48 148,27 200,34
+    Z
+  " fill="none" stroke="black" stroke-width="2" stroke-dasharray="6,4" opacity="0.3"/>
+
+  <!-- Estrellitas decorativas -->
+  <!-- Estrella izq -->
+  <g transform="translate(75,140) rotate(-15)">
+    <polygon points="0,-12 3,-4 12,-4 5,2 7,11 0,6 -7,11 -5,2 -12,-4 -3,-4" fill="black"/>
+  </g>
+  <!-- Estrella der -->
+  <g transform="translate(325,140) rotate(15)">
+    <polygon points="0,-12 3,-4 12,-4 5,2 7,11 0,6 -7,11 -5,2 -12,-4 -3,-4" fill="black"/>
+  </g>
+  <!-- Estrella arriba -->
+  <g transform="translate(200,60)">
+    <polygon points="0,-10 2.5,-3.5 10,-3.5 4,1.5 6,9 0,5 -6,9 -4,1.5 -10,-3.5 -2.5,-3.5" fill="black"/>
+  </g>
+  <!-- Mini estrella -->
+  <g transform="translate(135,80) scale(0.6)">
+    <polygon points="0,-10 2.5,-3.5 10,-3.5 4,1.5 6,9 0,5 -6,9 -4,1.5 -10,-3.5 -2.5,-3.5" fill="black"/>
+  </g>
+  <g transform="translate(270,75) scale(0.5)">
+    <polygon points="0,-10 2.5,-3.5 10,-3.5 4,1.5 6,9 0,5 -6,9 -4,1.5 -10,-3.5 -2.5,-3.5" fill="black"/>
+  </g>
+
+  <!-- Rayos de acción detrás del texto -->
+  <g opacity="0.12">
+    <line x1="200" y1="200" x2="200" y2="45" stroke="black" stroke-width="2"/>
+    <line x1="200" y1="200" x2="100" y2="60" stroke="black" stroke-width="1.5"/>
+    <line x1="200" y1="200" x2="300" y2="60" stroke="black" stroke-width="1.5"/>
+    <line x1="200" y1="200" x2="55" y2="130" stroke="black" stroke-width="1"/>
+    <line x1="200" y1="200" x2="345" y2="130" stroke="black" stroke-width="1"/>
+    <line x1="200" y1="200" x2="40" y2="210" stroke="black" stroke-width="1"/>
+    <line x1="200" y1="200" x2="360" y2="210" stroke="black" stroke-width="1"/>
+  </g>
+
+  <!-- FANZINE en arco -->
+  <!-- Sombra offset -->
+  <text class="letra-fanzine" fill="black" stroke="none" opacity="0.15">
+    <textPath href="#arco" startOffset="50%" text-anchor="middle" dx="2" dy="2">FANZINE</textPath>
+  </text>
+  <!-- Texto principal -->
+  <text class="letra-fanzine">
+    <textPath href="#arco" startOffset="50%" text-anchor="middle">FANZINE</textPath>
+  </text>
+
+  <!-- Línea decorativa inferior ondulada -->
+  <path d="M 110,310 Q 130,295 155,305 Q 180,315 200,305 Q 220,295 245,305 Q 270,315 290,305"
+        fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Puntos decorativos abajo -->
+  <circle cx="165" cy="340" r="3" fill="black" opacity="0.4"/>
+  <circle cx="200" cy="345" r="3" fill="black" opacity="0.4"/>
+  <circle cx="235" cy="340" r="3" fill="black" opacity="0.4"/>
+</svg>

@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Analisis Comidas - Febrero 2026 - FANZINE</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; padding: 24px; line-height: 1.6; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: #ffffff; }
+  h2 { font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: #ffffff; border-bottom: 1px solid #333; padding-bottom: 8px; }
+  h3 { font-size: 16px; font-weight: 600; margin: 24px 0 12px; color: #d0d0d0; }
+  .subtitle { color: #888; font-size: 14px; margin-bottom: 24px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .kpi { background: #1a1a1a; border-radius: 12px; padding: 20px; border: 1px solid #2a2a2a; }
+  .kpi .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi .value { font-size: 28px; font-weight: 700; color: #ffffff; margin-top: 4px; }
+  .kpi .sub { font-size: 12px; color: #4ade80; margin-top: 2px; }
+  .kpi .sub.orange { color: #fb923c; }
+  .kpi .sub.blue { color: #60a5fa; }
+  .kpi .sub.purple { color: #c084fc; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #333; color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1f1f1f; font-size: 14px; }
+  tr:hover td { background: #1a1a1a; }
+  .right { text-align: right; }
+  .mono { font-family: 'SF Mono', 'Fira Code', monospace; }
+  .card { background: #1a1a1a; border-radius: 12px; padding: 20px; border: 1px solid #2a2a2a; margin-bottom: 24px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge-green { background: #166534; color: #4ade80; }
+  .badge-orange { background: #7c2d12; color: #fb923c; }
+  .badge-blue { background: #1e3a5f; color: #60a5fa; }
+  .badge-purple { background: #3b0764; color: #c084fc; }
+  .badge-red { background: #7f1d1d; color: #fca5a5; }
+  .bar-container { height: 18px; background: #222; border-radius: 3px; overflow: hidden; }
+  .heatmap-cell { text-align: center; padding: 4px; font-size: 11px; border-radius: 3px; }
+  .section { margin-bottom: 40px; }
+  .insight { background: #111; border-left: 3px solid #4ade80; padding: 14px 18px; margin: 16px 0; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.7; color: #ccc; }
+  .insight.warning { border-left-color: #fb923c; }
+  .insight.info { border-left-color: #60a5fa; }
+  .insight.purple { border-left-color: #c084fc; }
+  .insight strong { color: #fff; }
+  .executive-summary { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid #2a2a4a; border-radius: 16px; padding: 28px; margin-bottom: 32px; }
+  .executive-summary p { margin-bottom: 12px; font-size: 15px; line-height: 1.8; color: #d0d0d0; }
+  .executive-summary p:last-child { margin-bottom: 0; }
+  .opp-card { background: #0d1f0d; border: 1px solid #166534; border-radius: 12px; padding: 18px; margin-bottom: 12px; }
+  .opp-card h4 { color: #4ade80; font-size: 14px; margin-bottom: 6px; }
+  .opp-card p { font-size: 13px; color: #bbb; margin: 0; }
+  .alert-card { background: #1f0d0d; border: 1px solid #7f1d1d; border-radius: 12px; padding: 18px; margin-bottom: 12px; }
+  .alert-card h4 { color: #fca5a5; font-size: 14px; margin-bottom: 6px; }
+  .alert-card p { font-size: 13px; color: #bbb; margin: 0; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    body { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>FANZINE -- Analisis de Comidas</h1>
+<p class="subtitle">Febrero 2026 &bull; 8 categorias de comida (excl. Helados y Crispetas) &bull; 721 transacciones totales &bull; Revenue total negocio: $9.305.506</p>
+
+<!-- ============================================== -->
+<!-- RESUMEN EJECUTIVO -->
+<!-- ============================================== -->
+<div class="executive-summary">
+  <h2 style="margin-top:0;border:none;padding:0;margin-bottom:16px;">Resumen Ejecutivo</h2>
+  <p>
+    Las 8 categorias de comida analizadas (Perros, Chicanitas, Nachos, Tacos, Bebidas, Milkshakes, TEX MEX y Postres)
+    generaron <strong>$6.385.000</strong> en febrero 2026, representando el <strong>68.6%</strong>
+    del revenue total del negocio. Esto confirma que la oferta gastronomica es el pilar principal de FANZINE,
+    con 220 transacciones conteniendo al menos un item de comida (30.5% del total).
+  </p>
+  <p>
+    <strong>Perros</strong> lidera en revenue con $3.232.500 (50.6% de comidas),
+    mientras que <strong>Perros</strong> lidera en volumen con 201 unidades vendidas.
+    El ticket promedio de transacciones con comida es <strong>$29.023</strong>,
+    y en promedio cada transaccion incluye items de <strong>1.6 categorias</strong> distintas,
+    lo que sugiere un buen nivel de cross-selling entre categorias.
+  </p>
+  <p>
+    Los <strong>3 productos estrella</strong> (Perro con Toppings, Perro SalchiBirria, Tacos De Birria) concentran
+    el <strong>51.3%%</strong> del revenue de comidas,
+    lo que indica una dependencia alta de pocos productos -- hay riesgo si alguno pierde traccion.
+    El patr&oacute;n horario muestra que la operacion se concentra entre las horas 13:00 y 16:00 (hora COT ajustada),
+    con <strong>Sabado</strong> como el dia mas fuerte de la semana.
+  </p>
+  <p>
+    Las bebidas penetran solo el <strong>14.1%%</strong> de todas las transacciones,
+    lo cual es bajo para un restaurante -- hay una oportunidad clara de upselling.
+    Los postres funcionan mayoritariamente como <strong>add-on</strong>
+    (100.0% se compran acompanados de otras comidas),
+    y las salsas TEX MEX solo aparecen en el 0.0%% de transacciones,
+    sugiriendo que el equipo de caja no las esta ofreciendo activamente.
+  </p>
+</div>
+
+<!-- ============================================== -->
+<!-- KPIs -->
+<!-- ============================================== -->
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="label">Revenue Comidas</div>
+    <div class="value">$6.385.000</div>
+    <div class="sub">68.6% del total</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Unidades Vendidas</div>
+    <div class="value">498</div>
+    <div class="sub blue">31 productos unicos</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Transacciones c/ comida</div>
+    <div class="value">220</div>
+    <div class="sub purple">30.5% de todas</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Ticket Promedio Comida</div>
+    <div class="value">$29.023</div>
+    <div class="sub orange">por tx con comida</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Categorias por Tx</div>
+    <div class="value">1.6</div>
+    <div class="sub">promedio de categorias</div>
+  </div>
+  <div class="kpi">
+    <div class="label">Revenue Total Negocio</div>
+    <div class="value">$9.305.506</div>
+    <div class="sub blue">referencia</div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- RANKING CATEGORIAS POR REVENUE -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Ranking de Categorias por Revenue</h2>
+<table>
+  <tr><th>#</th><th>Categoria</th><th class="right">Revenue</th><th class="right">% Comidas</th><th class="right">% Negocio</th><th style="width:30%">Visual</th></tr>
+  <tr>
+    <td>1</td>
+    <td><strong>Perros</strong></td>
+    <td class="right mono">$3.232.500</td>
+    <td class="right mono">50.6%</td>
+    <td class="right mono">34.7%</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>2</td>
+    <td><strong>Tacos</strong></td>
+    <td class="right mono">$810.000</td>
+    <td class="right mono">12.7%</td>
+    <td class="right mono">8.7%</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:25.05800464037123%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>3</td>
+    <td><strong>Nachos</strong></td>
+    <td class="right mono">$678.000</td>
+    <td class="right mono">10.6%</td>
+    <td class="right mono">7.3%</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:20.97447795823666%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>4</td>
+    <td><strong>TEX MEX</strong></td>
+    <td class="right mono">$672.000</td>
+    <td class="right mono">10.5%</td>
+    <td class="right mono">7.2%</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:20.788863109048723%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>5</td>
+    <td><strong>Bebidas</strong></td>
+    <td class="right mono">$609.000</td>
+    <td class="right mono">9.5%</td>
+    <td class="right mono">6.5%</td>
+    <td><div class="bar-container"><div style="background:#f472b6;height:18px;width:18.839907192575406%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>6</td>
+    <td><strong>Chicanitas</strong></td>
+    <td class="right mono">$380.000</td>
+    <td class="right mono">6.0%</td>
+    <td class="right mono">4.1%</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:11.755607115235886%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>7</td>
+    <td><strong>POSTRES</strong></td>
+    <td class="right mono">$3.500</td>
+    <td class="right mono">0.1%</td>
+    <td class="right mono">0.0%</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:0.5%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>8</td>
+    <td><strong>Milkshakes</strong></td>
+    <td class="right mono">$0</td>
+    <td class="right mono">0.0%</td>
+    <td class="right mono">0.0%</td>
+    <td><div class="bar-container"><div style="background:#a78bfa;height:18px;width:0.5%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+<div class="insight">
+  <strong>Interpretacion:</strong> Perros es el motor de revenue con 50.6%,
+  pero Tacos le sigue de cerca.
+  Las 3 categorias principales (Perros, Tacos, Nachos) concentran el 73.9% del revenue de comidas.
+  Milkshakes es la categoria mas debil con apenas 0.0%,
+  lo que podria indicar falta de visibilidad en el menu o poca demanda natural.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- RANKING CATEGORIAS POR UNIDADES -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Ranking de Categorias por Unidades Vendidas</h2>
+<table>
+  <tr><th>#</th><th>Categoria</th><th class="right">Unidades</th><th class="right">% Total</th><th style="width:35%">Visual</th></tr>
+  <tr>
+    <td>1</td>
+    <td><strong>Perros</strong></td>
+    <td class="right mono">201</td>
+    <td class="right mono">40.4%</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>2</td>
+    <td><strong>Bebidas</strong></td>
+    <td class="right mono">133</td>
+    <td class="right mono">26.7%</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:66.16915422885572%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>3</td>
+    <td><strong>Chicanitas</strong></td>
+    <td class="right mono">50</td>
+    <td class="right mono">10.0%</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:24.875621890547265%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>4</td>
+    <td><strong>Tacos</strong></td>
+    <td class="right mono">39</td>
+    <td class="right mono">7.8%</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:19.402985074626866%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>5</td>
+    <td><strong>Nachos</strong></td>
+    <td class="right mono">38</td>
+    <td class="right mono">7.6%</td>
+    <td><div class="bar-container"><div style="background:#f472b6;height:18px;width:18.90547263681592%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>6</td>
+    <td><strong>TEX MEX</strong></td>
+    <td class="right mono">36</td>
+    <td class="right mono">7.2%</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:17.91044776119403%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>7</td>
+    <td><strong>POSTRES</strong></td>
+    <td class="right mono">1</td>
+    <td class="right mono">0.2%</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:0.5%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>8</td>
+    <td><strong>Milkshakes</strong></td>
+    <td class="right mono">0</td>
+    <td class="right mono">0.0%</td>
+    <td><div class="bar-container"><div style="background:#a78bfa;height:18px;width:0.5%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+<div class="insight info">
+  <strong>Patron interesante:</strong> Perros lidera tanto en volumen como en revenue, confirmandola como la categoria ancla del negocio.
+  Las Bebidas, con precio unitario bajo ($3,500-$6,000), naturalmente ocupan un lugar alto en volumen pero su contribucion al revenue depende de la penetracion.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- REVENUE POR UNIDAD -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Revenue por Unidad por Categoria</h2>
+<table>
+  <tr><th>Categoria</th><th class="right">Revenue / Unidad</th><th style="width:35%">Visual</th></tr>
+  <tr>
+    <td><strong>Tacos</strong></td>
+    <td class="right mono">$20.769</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td><strong>TEX MEX</strong></td>
+    <td class="right mono">$18.667</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:89.87914680533487%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td><strong>Nachos</strong></td>
+    <td class="right mono">$17.842</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:85.90688044681978%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td><strong>Perros</strong></td>
+    <td class="right mono">$16.082</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:77.4327122153209%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td><strong>Chicanitas</strong></td>
+    <td class="right mono">$7.600</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:36.592999181472386%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td><strong>Bebidas</strong></td>
+    <td class="right mono">$4.579</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:22.04728200683711%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td><strong>POSTRES</strong></td>
+    <td class="right mono">$3.500</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:16.852039096730703%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td><strong>Milkshakes</strong></td>
+    <td class="right mono">$0</td>
+    <td><div class="bar-container"><div style="background:#fb923c;height:18px;width:0.5%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+<div class="insight warning">
+  <strong>Valor por unidad:</strong> Tacos tiene el mayor valor por unidad ($20.769),
+  lo que la convierte en la categoria mas rentable por item vendido.
+  Milkshakes tiene el menor valor ($0),
+  pero puede funcionar como categoria de entrada o add-on que aumenta el ticket total.
+  Para maximizar revenue, el enfoque del upselling deberia dirigirse hacia Tacos y TEX MEX.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- TOP 20 PRODUCTOS POR REVENUE -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Top 20 Productos por Revenue</h2>
+<table>
+  <tr><th>#</th><th>Producto</th><th>Categoria</th><th class="right">Revenue</th><th class="right">Uds</th><th style="width:25%">Visual</th></tr>
+  <tr>
+    <td>1</td>
+    <td>Perro con Toppings</td>
+    <td><span class="badge badge-blue">Perro</span></td>
+    <td class="right mono">$1.820.000</td>
+    <td class="right mono">130</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>2</td>
+    <td>Perro SalchiBirria</td>
+    <td><span class="badge badge-blue">Perro</span></td>
+    <td class="right mono">$823.500</td>
+    <td class="right mono">32</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:45.247252747252745%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>3</td>
+    <td>Tacos De Birria</td>
+    <td><span class="badge badge-blue">Tacos</span></td>
+    <td class="right mono">$630.000</td>
+    <td class="right mono">29</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:34.61538461538461%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>4</td>
+    <td>Nachos Birria</td>
+    <td><span class="badge badge-blue">Nachos</span></td>
+    <td class="right mono">$522.000</td>
+    <td class="right mono">29</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:28.68131868131868%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>5</td>
+    <td>Alitas 8pz</td>
+    <td><span class="badge badge-blue">TEX MEX</span></td>
+    <td class="right mono">$340.000</td>
+    <td class="right mono">20</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:18.681318681318682%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>6</td>
+    <td>Corndog Americano</td>
+    <td><span class="badge badge-blue">Perro</span></td>
+    <td class="right mono">$288.000</td>
+    <td class="right mono">20</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:15.824175824175823%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>7</td>
+    <td>Coca-Cola Lata 270 ml</td>
+    <td><span class="badge badge-blue">Bebidas</span></td>
+    <td class="right mono">$240.000</td>
+    <td class="right mono">48</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:13.186813186813188%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>8</td>
+    <td>Chicanita de Birria (1 ud)</td>
+    <td><span class="badge badge-blue">Chicanitas</span></td>
+    <td class="right mono">$220.000</td>
+    <td class="right mono">28</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:12.087912087912088%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>9</td>
+    <td>Macarrones con pollo</td>
+    <td><span class="badge badge-blue">TEX MEX</span></td>
+    <td class="right mono">$220.000</td>
+    <td class="right mono">10</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:12.087912087912088%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>10</td>
+    <td>Corndog de queso</td>
+    <td><span class="badge badge-blue">Perro</span></td>
+    <td class="right mono">$140.000</td>
+    <td class="right mono">10</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:7.6923076923076925%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>11</td>
+    <td>Tacos de Pollo Chipotle</td>
+    <td><span class="badge badge-blue">Tacos</span></td>
+    <td class="right mono">$126.000</td>
+    <td class="right mono">7</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:6.923076923076923%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>12</td>
+    <td>Pollo PopCorn</td>
+    <td><span class="badge badge-blue">TEX MEX</span></td>
+    <td class="right mono">$112.000</td>
+    <td class="right mono">6</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:6.153846153846154%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>13</td>
+    <td>Chicanita Pibil (1 ud)</td>
+    <td><span class="badge badge-blue">Chicanitas</span></td>
+    <td class="right mono">$105.000</td>
+    <td class="right mono">13</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:5.769230769230769%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>14</td>
+    <td>Nachos Pollo Chipotle</td>
+    <td><span class="badge badge-blue">Nachos</span></td>
+    <td class="right mono">$90.000</td>
+    <td class="right mono">5</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:4.945054945054945%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>15</td>
+    <td>Coca-Cola ZERO 207 ml</td>
+    <td><span class="badge badge-blue">Bebidas</span></td>
+    <td class="right mono">$88.000</td>
+    <td class="right mono">18</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:4.835164835164836%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>16</td>
+    <td>Perro SalchiPibil</td>
+    <td><span class="badge badge-blue">Perro</span></td>
+    <td class="right mono">$86.000</td>
+    <td class="right mono">4</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:4.725274725274725%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>17</td>
+    <td>Perro SalchiPollo Chipotle</td>
+    <td><span class="badge badge-blue">Perro</span></td>
+    <td class="right mono">$57.000</td>
+    <td class="right mono">4</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:3.131868131868132%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>18</td>
+    <td>Chicanita Pollo Chipotle (1 ud)</td>
+    <td><span class="badge badge-blue">Chicanitas</span></td>
+    <td class="right mono">$55.000</td>
+    <td class="right mono">9</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:3.021978021978022%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>19</td>
+    <td>Tacos Cochinita Pibil</td>
+    <td><span class="badge badge-blue">Tacos</span></td>
+    <td class="right mono">$54.000</td>
+    <td class="right mono">3</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:2.9670329670329667%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>20</td>
+    <td>CoolDrink Mangostino</td>
+    <td><span class="badge badge-blue">Bebidas</span></td>
+    <td class="right mono">$52.000</td>
+    <td class="right mono">11</td>
+    <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:2.857142857142857%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+<div class="insight">
+  <strong>Productos estrella:</strong> <strong>Perro con Toppings</strong> es el producto #1 con $1.820.000,
+  representando el 28.5% de todo el revenue de comidas.
+  Los top 5 productos son: 1) Perro con Toppings ($1.820.000), 2) Perro SalchiBirria ($823.500), 3) Tacos De Birria ($630.000), 4) Nachos Birria ($522.000), 5) Alitas 8pz ($340.000).
+  Notar la concentracion de categorias en el top 10 --
+  Perro (4 prods), TEX MEX (2 prods), Tacos (1 prods), Nachos (1 prods), Bebidas (1 prods), Chicanitas (1 prods) -- esto indica donde esta la verdadera fuerza del menu.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- TOP 20 PRODUCTOS POR UNIDADES -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Top 20 Productos por Unidades</h2>
+<table>
+  <tr><th>#</th><th>Producto</th><th>Categoria</th><th class="right">Uds</th><th class="right">Revenue</th><th style="width:25%">Visual</th></tr>
+  <tr>
+    <td>1</td>
+    <td>Perro con Toppings</td>
+    <td><span class="badge badge-green">Perro</span></td>
+    <td class="right mono">130</td>
+    <td class="right mono">$1.820.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>2</td>
+    <td>Coca-Cola Lata 270 ml</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">48</td>
+    <td class="right mono">$240.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:36.92307692307693%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>3</td>
+    <td>Perro SalchiBirria</td>
+    <td><span class="badge badge-green">Perro</span></td>
+    <td class="right mono">32</td>
+    <td class="right mono">$823.500</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:24.615384615384617%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>4</td>
+    <td>Tacos De Birria</td>
+    <td><span class="badge badge-green">Tacos</span></td>
+    <td class="right mono">29</td>
+    <td class="right mono">$630.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:22.30769230769231%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>5</td>
+    <td>Nachos Birria</td>
+    <td><span class="badge badge-green">Nachos</span></td>
+    <td class="right mono">29</td>
+    <td class="right mono">$522.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:22.30769230769231%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>6</td>
+    <td>Chicanita de Birria (1 ud)</td>
+    <td><span class="badge badge-green">Chicanitas</span></td>
+    <td class="right mono">28</td>
+    <td class="right mono">$220.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:21.53846153846154%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>7</td>
+    <td>Alitas 8pz</td>
+    <td><span class="badge badge-green">TEX MEX</span></td>
+    <td class="right mono">20</td>
+    <td class="right mono">$340.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:15.384615384615385%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>8</td>
+    <td>Corndog Americano</td>
+    <td><span class="badge badge-green">Perro</span></td>
+    <td class="right mono">20</td>
+    <td class="right mono">$288.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:15.384615384615385%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>9</td>
+    <td>Coca-Cola ZERO 207 ml</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">18</td>
+    <td class="right mono">$88.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:13.846153846153847%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>10</td>
+    <td>Chicanita Pibil (1 ud)</td>
+    <td><span class="badge badge-green">Chicanitas</span></td>
+    <td class="right mono">13</td>
+    <td class="right mono">$105.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:10%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>11</td>
+    <td>CoolDrink Kiwi</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">12</td>
+    <td class="right mono">$48.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:9.230769230769232%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>12</td>
+    <td>CoolDrink Mangostino</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">11</td>
+    <td class="right mono">$52.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:8.461538461538462%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>13</td>
+    <td>Macarrones con pollo</td>
+    <td><span class="badge badge-green">TEX MEX</span></td>
+    <td class="right mono">10</td>
+    <td class="right mono">$220.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:7.6923076923076925%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>14</td>
+    <td>Corndog de queso</td>
+    <td><span class="badge badge-green">Perro</span></td>
+    <td class="right mono">10</td>
+    <td class="right mono">$140.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:7.6923076923076925%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>15</td>
+    <td>Chicanita Pollo Chipotle (1 ud)</td>
+    <td><span class="badge badge-green">Chicanitas</span></td>
+    <td class="right mono">9</td>
+    <td class="right mono">$55.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:6.923076923076923%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>16</td>
+    <td>CoolDrink Manzana Verde</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">9</td>
+    <td class="right mono">$44.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:6.923076923076923%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>17</td>
+    <td>Coca Cola Org 250 ml</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">8</td>
+    <td class="right mono">$28.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:6.153846153846154%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>18</td>
+    <td>Quatro 250ml</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">8</td>
+    <td class="right mono">$35.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:6.153846153846154%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>19</td>
+    <td>CoolDrink Maracuya</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">8</td>
+    <td class="right mono">$32.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:6.153846153846154%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>20</td>
+    <td>CoolDrink Granada</td>
+    <td><span class="badge badge-green">Bebidas</span></td>
+    <td class="right mono">7</td>
+    <td class="right mono">$28.000</td>
+    <td><div class="bar-container"><div style="background:#60a5fa;height:18px;width:5.384615384615385%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+<div class="insight info">
+  <strong>Volumen vs Valor:</strong> Perro con Toppings lidera en unidades (130 uds).
+  Este producto tambien lidera en revenue, confirmandolo como el ancla absoluta del menu.
+  Los productos de bajo precio pero alto volumen (como bebidas y chicanitas) son clave para la experiencia pero no para el revenue directo.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- DISTRIBUCION POR HORA -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Distribucion por Hora (Todas las Comidas)</h2>
+<div class="card">
+<table>
+  <tr><th>Hora</th><th class="right">Uds</th><th style="width:55%">Visual</th></tr>
+  <tr>
+    <td class="mono">07:00</td>
+    <td class="right mono">3</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:2.083333333333333%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">08:00</td>
+    <td class="right mono">36</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:25%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">09:00</td>
+    <td class="right mono">36</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:25%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">10:00</td>
+    <td class="right mono">31</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:21.52777777777778%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">11:00</td>
+    <td class="right mono">23</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:15.972222222222221%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">12:00</td>
+    <td class="right mono">58</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:40.27777777777778%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">13:00</td>
+    <td class="right mono">68</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:47.22222222222222%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">14:00</td>
+    <td class="right mono">144</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">15:00</td>
+    <td class="right mono">64</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:44.44444444444444%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">16:00</td>
+    <td class="right mono">22</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:15.277777777777779%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">17:00</td>
+    <td class="right mono">11</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:7.638888888888889%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">18:00</td>
+    <td class="right mono">2</td>
+    <td><div class="bar-container"><div style="background:#c084fc;height:18px;width:1.3888888888888888%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight purple">
+  <strong>Patron horario:</strong> La hora pico es las <strong>14:00</strong> (UTC, que corresponde a las 9:00 hora Colombia).
+  La distribucion entre tarde (11-15h UTC = apertura-tarde COT: 357 uds) y noche (16-21h UTC = tarde-noche COT: 35 uds)
+  muestra que la tarde y la noche estan equilibradas, lo que indica buena operacion en ambos turnos.
+  Esto es coherente con un cine-restaurante donde la funcion de noche impulsa las ventas de comida.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- HEATMAP HORA x CATEGORIA -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Distribucion por Hora por Categoria (Top 5)</h2>
+<div class="card" style="overflow-x:auto;">
+<table>
+  <tr><th>Hora</th><th class="right">Perros</th><th class="right">Tacos</th><th class="right">Nachos</th><th class="right">TEX MEX</th><th class="right">Bebidas</th></tr>
+  <tr>
+      <td class="mono">07:00</td>
+      <td class="right heatmap-cell" style="background:#151f15">1</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td>
+    </tr><tr>
+      <td class="mono">08:00</td>
+      <td class="right heatmap-cell" style="background:#1a2e1a">20</td><td class="right heatmap-cell" style="background:#151f15">1</td><td class="right heatmap-cell" style="background:#151f15">1</td><td class="right heatmap-cell" style="background:#1a2e1a">2</td><td class="right heatmap-cell" style="background:#1a2e1a">8</td>
+    </tr><tr>
+      <td class="mono">09:00</td>
+      <td class="right heatmap-cell" style="background:#151f15">11</td><td class="right heatmap-cell" style="background:#151f15">2</td><td class="right heatmap-cell" style="background:#151f15">2</td><td class="right heatmap-cell" style="background:#1a2e1a">2</td><td class="right heatmap-cell" style="background:#1a2e1a">12</td>
+    </tr><tr>
+      <td class="mono">10:00</td>
+      <td class="right heatmap-cell" style="background:#151f15">8</td><td class="right heatmap-cell" style="background:#151f15">1</td><td class="right heatmap-cell" style="background:#1a2e1a">4</td><td class="right heatmap-cell" style="background:#14532d">6</td><td class="right heatmap-cell" style="background:#1a2e1a">12</td>
+    </tr><tr>
+      <td class="mono">11:00</td>
+      <td class="right heatmap-cell" style="background:#151f15">8</td><td class="right heatmap-cell" style="background:#151f15">1</td><td class="right heatmap-cell" style="background:#151f15">3</td><td class="right heatmap-cell" style="background:#151f15">1</td><td class="right heatmap-cell" style="background:#151f15">4</td>
+    </tr><tr>
+      <td class="mono">12:00</td>
+      <td class="right heatmap-cell" style="background:#1a2e1a">16</td><td class="right heatmap-cell" style="background:#1a2e1a">4</td><td class="right heatmap-cell" style="background:#151f15">3</td><td class="right heatmap-cell" style="background:#14532d">6</td><td class="right heatmap-cell" style="background:#14532d">21</td>
+    </tr><tr>
+      <td class="mono">13:00</td>
+      <td class="right heatmap-cell" style="background:#1a2e1a">29</td><td class="right heatmap-cell" style="background:#14532d">9</td><td class="right heatmap-cell" style="background:#1a2e1a">5</td><td class="right heatmap-cell" style="background:#1a2e1a">4</td><td class="right heatmap-cell" style="background:#1a2e1a">12</td>
+    </tr><tr>
+      <td class="mono">14:00</td>
+      <td class="right heatmap-cell" style="background:#166534">61</td><td class="right heatmap-cell" style="background:#166534">15</td><td class="right heatmap-cell" style="background:#166534">15</td><td class="right heatmap-cell" style="background:#166534">8</td><td class="right heatmap-cell" style="background:#166534">33</td>
+    </tr><tr>
+      <td class="mono">15:00</td>
+      <td class="right heatmap-cell" style="background:#1a2e1a">27</td><td class="right heatmap-cell" style="background:#1a2e1a">4</td><td class="right heatmap-cell" style="background:#1a2e1a">5</td><td class="right heatmap-cell" style="background:#166534">7</td><td class="right heatmap-cell" style="background:#14532d">20</td>
+    </tr><tr>
+      <td class="mono">16:00</td>
+      <td class="right heatmap-cell" style="background:#1a2e1a">13</td><td class="right heatmap-cell" style="background:#151f15">2</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:#1a2e1a">7</td>
+    </tr><tr>
+      <td class="mono">17:00</td>
+      <td class="right heatmap-cell" style="background:#151f15">6</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:#151f15">3</td>
+    </tr><tr>
+      <td class="mono">18:00</td>
+      <td class="right heatmap-cell" style="background:#151f15">1</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:#151f15">1</td>
+    </tr>
+</table>
+</div>
+<div class="insight info">
+  <strong>Diferencias entre categorias:</strong> No todas las categorias se comportan igual durante el dia.
+  Las comidas fuertes (Nachos, Tacos, Perros) tienden a concentrarse en horarios de comida/cena,
+  mientras que Bebidas y Chicanitas se distribuyen mas uniformemente como items de acompanamiento.
+  
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- DIA DE SEMANA -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Distribucion por Dia de Semana</h2>
+<div class="card">
+<table>
+  <tr><th>Dia</th><th class="right">Uds</th><th style="width:55%">Visual</th></tr>
+  <tr>
+    <td>Domingo</td>
+    <td class="right mono">54</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:46.55172413793103%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Lunes</td>
+    <td class="right mono">51</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:43.96551724137931%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Martes</td>
+    <td class="right mono">63</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:54.310344827586206%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Miercoles</td>
+    <td class="right mono">63</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:54.310344827586206%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Jueves</td>
+    <td class="right mono">49</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:42.241379310344826%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Viernes</td>
+    <td class="right mono">102</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:87.93103448275862%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Sabado</td>
+    <td class="right mono">116</td>
+    <td><div class="bar-container"><div style="background:#facc15;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Sabado</strong> es el dia mas fuerte con 116 unidades.
+  Fin de semana (Vie+Sab+Dom) acumula <strong>272 unidades</strong> (54.6%),
+  versus Lun-Jue con 226 unidades (45.4%).
+  La distribucion entre semana y fin de semana es relativamente equilibrada, lo cual es positivo para la operacion.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- HEATMAP DIA x CATEGORIA -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Unidades por Dia de Semana por Categoria</h2>
+<div class="card" style="overflow-x:auto;">
+<table>
+  <tr><th>Dia</th><th class="right">Perros</th><th class="right">Tacos</th><th class="right">Nachos</th><th class="right">TEX MEX</th><th class="right">Bebidas</th><th class="right">Chicanitas</th><th class="right">POSTRES</th><th class="right">Milkshakes</th></tr>
+  <tr>
+    <td>Domingo</td>
+    <td class="right heatmap-cell" style="background:#161e35">28</td><td class="right heatmap-cell" style="background:#13151f">2</td><td class="right heatmap-cell" style="background:#1e3a5f">7</td><td class="right heatmap-cell" style="background:#161e35">3</td><td class="right heatmap-cell" style="background:#161e35">11</td><td class="right heatmap-cell" style="background:#161e35">3</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td>
+  </tr><tr>
+    <td>Lunes</td>
+    <td class="right heatmap-cell" style="background:#161e35">18</td><td class="right heatmap-cell" style="background:#13151f">2</td><td class="right heatmap-cell" style="background:#1e3a5f">7</td><td class="right heatmap-cell" style="background:#161e35">3</td><td class="right heatmap-cell" style="background:#161e35">13</td><td class="right heatmap-cell" style="background:#172554">8</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td>
+  </tr><tr>
+    <td>Martes</td>
+    <td class="right heatmap-cell" style="background:#161e35">24</td><td class="right heatmap-cell" style="background:#13151f">2</td><td class="right heatmap-cell" style="background:#161e35">3</td><td class="right heatmap-cell" style="background:#172554">6</td><td class="right heatmap-cell" style="background:#161e35">14</td><td class="right heatmap-cell" style="background:#1e3a5f">13</td><td class="right heatmap-cell" style="background:#1e3a5f">1</td><td class="right heatmap-cell" style="background:transparent">-</td>
+  </tr><tr>
+    <td>Miercoles</td>
+    <td class="right heatmap-cell" style="background:#161e35">19</td><td class="right heatmap-cell" style="background:#172554">9</td><td class="right heatmap-cell" style="background:#172554">4</td><td class="right heatmap-cell" style="background:#172554">6</td><td class="right heatmap-cell" style="background:#172554">22</td><td class="right heatmap-cell" style="background:#161e35">3</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td>
+  </tr><tr>
+    <td>Jueves</td>
+    <td class="right heatmap-cell" style="background:#161e35">13</td><td class="right heatmap-cell" style="background:#161e35">4</td><td class="right heatmap-cell" style="background:#172554">4</td><td class="right heatmap-cell" style="background:#1e3a5f">8</td><td class="right heatmap-cell" style="background:#161e35">14</td><td class="right heatmap-cell" style="background:#161e35">6</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td>
+  </tr><tr>
+    <td>Viernes</td>
+    <td class="right heatmap-cell" style="background:#172554">42</td><td class="right heatmap-cell" style="background:#172554">8</td><td class="right heatmap-cell" style="background:#1e3a5f">7</td><td class="right heatmap-cell" style="background:#172554">5</td><td class="right heatmap-cell" style="background:#1e3a5f">27</td><td class="right heatmap-cell" style="background:#1e3a5f">13</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td>
+  </tr><tr>
+    <td>Sabado</td>
+    <td class="right heatmap-cell" style="background:#1e3a5f">57</td><td class="right heatmap-cell" style="background:#1e3a5f">12</td><td class="right heatmap-cell" style="background:#1e3a5f">6</td><td class="right heatmap-cell" style="background:#172554">5</td><td class="right heatmap-cell" style="background:#1e3a5f">32</td><td class="right heatmap-cell" style="background:#161e35">4</td><td class="right heatmap-cell" style="background:transparent">-</td><td class="right heatmap-cell" style="background:transparent">-</td>
+  </tr>
+</table>
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- TENDENCIA DIARIA -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Tendencia Diaria - Revenue Comidas</h2>
+<div class="card">
+<table>
+  <tr><th>Fecha</th><th class="right">Revenue</th><th style="width:50%">Visual</th></tr>
+  <tr>
+    <td class="mono">2026-02-01</td>
+    <td class="right mono">$378.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:73.97260273972603%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-02</td>
+    <td class="right mono">$146.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:28.57142857142857%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-03</td>
+    <td class="right mono">$161.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:31.506849315068493%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-04</td>
+    <td class="right mono">$208.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:40.704500978473575%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-05</td>
+    <td class="right mono">$166.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:32.4853228962818%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-06</td>
+    <td class="right mono">$193.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:37.76908023483366%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-07</td>
+    <td class="right mono">$511.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-08</td>
+    <td class="right mono">$263.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:51.46771037181996%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-09</td>
+    <td class="right mono">$216.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:42.27005870841487%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-10</td>
+    <td class="right mono">$190.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:37.18199608610567%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-11</td>
+    <td class="right mono">$92.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:18.003913894324853%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-12</td>
+    <td class="right mono">$107.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:20.939334637964773%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-13</td>
+    <td class="right mono">$181.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:35.42074363992172%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-14</td>
+    <td class="right mono">$478.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:93.54207436399217%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-15</td>
+    <td class="right mono">$92.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:18.003913894324853%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-16</td>
+    <td class="right mono">$263.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:51.46771037181996%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-17</td>
+    <td class="right mono">$184.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:36.007827788649706%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-18</td>
+    <td class="right mono">$249.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:48.7279843444227%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-19</td>
+    <td class="right mono">$152.500</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:29.84344422700587%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-20</td>
+    <td class="right mono">$211.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:41.291585127201564%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-21</td>
+    <td class="right mono">$359.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:70.25440313111547%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-22</td>
+    <td class="right mono">$154.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:30.136986301369863%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-23</td>
+    <td class="right mono">$44.500</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:8.708414872798434%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-24</td>
+    <td class="right mono">$265.500</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:51.956947162426616%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-25</td>
+    <td class="right mono">$319.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:62.426614481409004%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-26</td>
+    <td class="right mono">$135.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:26.418786692759294%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-27</td>
+    <td class="right mono">$467.000</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:91.3894324853229%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td class="mono">2026-02-28</td>
+    <td class="right mono">$199.500</td>
+    <td><div class="bar-container"><div style="background:#34d399;height:18px;width:39.04109589041096%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Mejor dia:</strong> 2026-02-07 con $511.000.
+  <strong>Peor dia:</strong> 2026-02-23 con $44.500.
+  El promedio diario es <strong>$228.036</strong>.
+  La variacion entre el mejor y peor dia es de 1048%,
+  una variacion extrema que indica dias muy irregulares -- posiblemente por eventos o clima.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- TENDENCIA SEMANAL -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Tendencia Semanal - Revenue Comidas</h2>
+<div class="card">
+<table>
+  <tr><th>Semana</th><th class="right">Revenue</th><th style="width:50%">Visual</th></tr>
+  <tr>
+    <td>Semana 6</td>
+    <td class="right mono">$1.252.000</td>
+    <td><div class="bar-container"><div style="background:#a78bfa;height:18px;width:71.78899082568807%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Semana 7</td>
+    <td class="right mono">$1.560.000</td>
+    <td><div class="bar-container"><div style="background:#a78bfa;height:18px;width:89.44954128440367%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Semana 8</td>
+    <td class="right mono">$1.629.500</td>
+    <td><div class="bar-container"><div style="background:#a78bfa;height:18px;width:93.43463302752293%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Semana 9</td>
+    <td class="right mono">$1.744.000</td>
+    <td><div class="bar-container"><div style="background:#a78bfa;height:18px;width:100%;border-radius:3px;"></div></div></td>
+  </tr><tr>
+    <td>Semana 10</td>
+    <td class="right mono">$199.500</td>
+    <td><div class="bar-container"><div style="background:#a78bfa;height:18px;width:11.439220183486238%;border-radius:3px;"></div></div></td>
+  </tr>
+</table>
+</div>
+<div class="insight info">
+  <strong>Evolucion semanal:</strong> Sem 7: +24.6% &rarr; Sem 8: +4.5% &rarr; Sem 9: +7.0% &rarr; Sem 10: -88.6%.
+  La tendencia muestra una <strong>caida del 84.1%</strong> de la primera a la ultima semana. Vale investigar si esto es estacional o si hay algun problema operativo.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- CROSS-SELL MATRIX -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Cross-Sell: Matriz de Co-ocurrencia</h2>
+<p class="subtitle">% de transacciones de la categoria fila que tambien contienen la categoria columna</p>
+<div class="card" style="overflow-x:auto;">
+<table>
+  <tr><th></th><th class="right" style="font-size:11px;">Perros</th><th class="right" style="font-size:11px;">Chicanitas</th><th class="right" style="font-size:11px;">Milkshakes</th><th class="right" style="font-size:11px;">Nachos</th><th class="right" style="font-size:11px;">Tacos</th><th class="right" style="font-size:11px;">Bebidas</th><th class="right" style="font-size:11px;">TEX MEX</th><th class="right" style="font-size:11px;">POSTRES</th></tr>
+  <tr>
+      <td><strong>Perros</strong></td>
+      <td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">5.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">9.2%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">12.6%</td><td class="right heatmap-cell" style="background:#166534;font-size:12px;">42.0%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">8.4%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td>
+    </tr><tr>
+      <td><strong>Chicanitas</strong></td>
+      <td class="right heatmap-cell" style="background:#14532d;font-size:12px;">23.1%</td><td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">7.7%</td><td class="right heatmap-cell" style="background:#14532d;font-size:12px;">15.4%</td><td class="right heatmap-cell" style="background:#166534;font-size:12px;">42.3%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">11.5%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td>
+    </tr><tr>
+      <td><strong>Milkshakes</strong></td>
+      <td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td>
+    </tr><tr>
+      <td><strong>Nachos</strong></td>
+      <td class="right heatmap-cell" style="background:#166534;font-size:12px;">33.3%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">6.1%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">12.1%</td><td class="right heatmap-cell" style="background:#166534;font-size:12px;">48.5%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">9.1%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td>
+    </tr><tr>
+      <td><strong>Tacos</strong></td>
+      <td class="right heatmap-cell" style="background:#166534;font-size:12px;">45.5%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">12.1%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">12.1%</td><td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td><td class="right heatmap-cell" style="background:#166534;font-size:12px;">51.5%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">6.1%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td>
+    </tr><tr>
+      <td><strong>Bebidas</strong></td>
+      <td class="right heatmap-cell" style="background:#166534;font-size:12px;">49.0%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">10.8%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#14532d;font-size:12px;">15.7%</td><td class="right heatmap-cell" style="background:#14532d;font-size:12px;">16.7%</td><td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">14.7%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">1.0%</td>
+    </tr><tr>
+      <td><strong>TEX MEX</strong></td>
+      <td class="right heatmap-cell" style="background:#14532d;font-size:12px;">29.4%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">8.8%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">8.8%</td><td class="right heatmap-cell" style="background:#1a2e1a;font-size:12px;">5.9%</td><td class="right heatmap-cell" style="background:#166534;font-size:12px;">44.1%</td><td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">2.9%</td>
+    </tr><tr>
+      <td><strong>POSTRES</strong></td>
+      <td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:transparent;font-size:12px;">0.0%</td><td class="right heatmap-cell" style="background:#166534;font-size:12px;">100.0%</td><td class="right heatmap-cell" style="background:#166534;font-size:12px;">100.0%</td><td class="right heatmap-cell" style="background:#2a2a2a;font-size:12px;">-</td>
+    </tr>
+</table>
+</div>
+<div class="insight">
+  <strong>Mejores parejas de cross-sell:</strong><br>
+  &bull; <strong>Bebidas + POSTRES:</strong> 1.0%% de transacciones de Bebidas incluyen POSTRES, y 100.0%% viceversa<br>&bull; <strong>TEX MEX + POSTRES:</strong> 2.9%% de transacciones de TEX MEX incluyen POSTRES, y 100.0%% viceversa<br>&bull; <strong>Tacos + Bebidas:</strong> 51.5%% de transacciones de Tacos incluyen Bebidas, y 16.7%% viceversa<br>&bull; <strong>Perros + Bebidas:</strong> 42.0%% de transacciones de Perros incluyen Bebidas, y 49.0%% viceversa<br>&bull; <strong>Nachos + Bebidas:</strong> 48.5%% de transacciones de Nachos incluyen Bebidas, y 15.7%% viceversa
+  <br><br>
+  <strong>Implicacion:</strong> Las categorias con alta co-ocurrencia son candidatas naturales para combos.
+  La pareja Bebidas+POSTRES ya se compra junta frecuentemente -- un combo formal podria capturar mas valor.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- BATTLE: PERROS vs TACOS vs NACHOS -->
+<!-- ============================================== -->
+<div class="section">
+<h2>BATTLE: Perros vs Tacos vs Nachos</h2>
+<div class="grid-3">
+  <div class="card" style="border-color:#4ade8044;">
+      <h3 style="color:#4ade80;margin:0 0 12px;">Perros <span class="badge badge-green">Revenue #1</span> </h3>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Revenue</span><br><span class="mono" style="font-size:22px;font-weight:700;">$3.232.500</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Unidades</span><br><span class="mono" style="font-size:18px;">201</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Transacciones</span><br><span class="mono" style="font-size:18px;">119</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Ticket Promedio</span><br><span class="mono" style="font-size:18px;">$27.164</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Revenue / Unidad</span><br><span class="mono" style="font-size:18px;">$16.082</span></div>
+      <div><span style="color:#888;font-size:12px;">Hora Pico</span><br><span class="mono" style="font-size:18px;">14:00</span></div>
+    </div><div class="card" style="border-color:#60a5fa44;">
+      <h3 style="color:#60a5fa;margin:0 0 12px;">Tacos  </h3>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Revenue</span><br><span class="mono" style="font-size:22px;font-weight:700;">$810.000</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Unidades</span><br><span class="mono" style="font-size:18px;">39</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Transacciones</span><br><span class="mono" style="font-size:18px;">33</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Ticket Promedio</span><br><span class="mono" style="font-size:18px;">$24.545</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Revenue / Unidad</span><br><span class="mono" style="font-size:18px;">$20.769</span></div>
+      <div><span style="color:#888;font-size:12px;">Hora Pico</span><br><span class="mono" style="font-size:18px;">14:00</span></div>
+    </div><div class="card" style="border-color:#fb923c44;">
+      <h3 style="color:#fb923c;margin:0 0 12px;">Nachos  </h3>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Revenue</span><br><span class="mono" style="font-size:22px;font-weight:700;">$678.000</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Unidades</span><br><span class="mono" style="font-size:18px;">38</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Transacciones</span><br><span class="mono" style="font-size:18px;">33</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Ticket Promedio</span><br><span class="mono" style="font-size:18px;">$20.545</span></div>
+      <div style="margin-bottom:8px;"><span style="color:#888;font-size:12px;">Revenue / Unidad</span><br><span class="mono" style="font-size:18px;">$17.842</span></div>
+      <div><span style="color:#888;font-size:12px;">Hora Pico</span><br><span class="mono" style="font-size:18px;">14:00</span></div>
+    </div>
+</div>
+<div class="insight">
+  <strong>Veredicto:</strong> <strong>Perros</strong> gana en revenue con $3.232.500.
+  Tambien lidera en volumen, consolidandose como la categoria salada estrella.
+  <br><br>
+  En terminos de <strong>eficiencia por unidad</strong>, Tacos genera mas revenue por cada unidad vendida ($20.769).
+  Las tres categorias comparten hora pico similar, compitiendo directamente por la atencion del cliente --
+  esto refuerza la idea de que son opciones sustitutivas, no complementarias.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- BEBIDAS PENETRACION -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Bebidas: Penetracion y Analisis</h2>
+<div class="grid-2">
+  <div class="card">
+    <div style="font-size:48px;font-weight:700;color:#60a5fa;">14.1%%</div>
+    <div style="color:#888;margin-top:4px;">de TODAS las transacciones incluyen al menos 1 bebida</div>
+    <div style="margin-top:12px;color:#e0e0e0;">
+      <strong>102</strong> transacciones con bebida de <strong>721</strong> totales
+    </div>
+    <div style="margin-top:16px;font-size:13px;color:#aaa;">
+      <div><strong>76</strong> con otras comidas (74.5%)</div>
+      <div><strong>26</strong> solo bebida (25.5%)</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 12px;">Top Bebidas por Unidades</h3>
+    <table>
+      <tr><th>Producto</th><th class="right">Uds</th><th class="right">Revenue</th></tr>
+      <tr>
+        <td>Coca-Cola Lata 270 ml</td>
+        <td class="right mono">48</td>
+        <td class="right mono">$240.000</td>
+      </tr><tr>
+        <td>Coca-Cola ZERO 207 ml</td>
+        <td class="right mono">18</td>
+        <td class="right mono">$88.000</td>
+      </tr><tr>
+        <td>CoolDrink Kiwi</td>
+        <td class="right mono">12</td>
+        <td class="right mono">$48.000</td>
+      </tr><tr>
+        <td>CoolDrink Mangostino</td>
+        <td class="right mono">11</td>
+        <td class="right mono">$52.000</td>
+      </tr><tr>
+        <td>CoolDrink Manzana Verde</td>
+        <td class="right mono">9</td>
+        <td class="right mono">$44.000</td>
+      </tr><tr>
+        <td>Coca Cola Org 250 ml</td>
+        <td class="right mono">8</td>
+        <td class="right mono">$28.000</td>
+      </tr><tr>
+        <td>Quatro 250ml</td>
+        <td class="right mono">8</td>
+        <td class="right mono">$35.000</td>
+      </tr><tr>
+        <td>CoolDrink Maracuya</td>
+        <td class="right mono">8</td>
+        <td class="right mono">$32.000</td>
+      </tr><tr>
+        <td>CoolDrink Granada</td>
+        <td class="right mono">7</td>
+        <td class="right mono">$28.000</td>
+      </tr><tr>
+        <td>Cola Roman</td>
+        <td class="right mono">4</td>
+        <td class="right mono">$14.000</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="insight warning">
+  <strong>Oportunidad critica:</strong> Solo el <strong>14.1%%</strong> de transacciones incluyen bebida.
+  En restaurantes de comida rapida, la penetracion de bebidas suele estar entre 50-70%. FANZINE esta significativamente por debajo. Cada punto porcentual de penetracion adicional a un precio promedio de $4.579 por bebida representaria ~$33.014 adicionales al mes. Llegar al 40% agregaria ~$853.516 mensuales.
+  Nota: 26 transacciones fueron SOLO bebida, lo que sugiere compras rapidas por sed.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- SALSAS TEX MEX -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Salsas TEX MEX ($2,000)</h2>
+<div class="grid-2">
+  <div class="card">
+    <div class="kpi-grid" style="grid-template-columns:1fr 1fr;">
+      <div>
+        <div style="color:#888;font-size:12px;">UNIDADES</div>
+        <div style="font-size:28px;font-weight:700;">0</div>
+      </div>
+      <div>
+        <div style="color:#888;font-size:12px;">REVENUE</div>
+        <div style="font-size:28px;font-weight:700;">$0</div>
+      </div>
+      <div>
+        <div style="color:#888;font-size:12px;">TRANSACCIONES</div>
+        <div style="font-size:28px;font-weight:700;">0</div>
+      </div>
+      <div>
+        <div style="color:#888;font-size:12px;">% PENETRACION</div>
+        <div style="font-size:28px;font-weight:700;">0.0%%</div>
+      </div>
+    </div>
+    <h3>Salsas vendidas</h3>
+    <table>
+      <tr><th>Salsa</th><th class="right">Uds</th></tr>
+      
+    </table>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 12px;">Se acompanan con...</h3>
+    <table>
+      <tr><th>Producto</th><th class="right">Veces</th></tr>
+      
+    </table>
+  </div>
+</div>
+<div class="insight warning">
+  <strong>Salsas subutilizadas:</strong> Solo 0 transacciones incluyen salsa (0.0%%).
+  A $2,000 por unidad, las salsas son un add-on de bajo costo y alto margen que deberia ofrecerse activamente.
+  
+  <strong>Recomendacion:</strong> Capacitar al equipo de caja para ofrecer salsa con CADA pedido de nachos, tacos y perros.
+  Si se lograra una penetracion del 20% (vs actual 0.0%%), se generarian ~$288.400 adicionales al mes en salsas.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- POSTRES: SOLOS vs ADD-ON -->
+<!-- ============================================== -->
+<div class="section">
+<h2>POSTRES: Solos vs Add-on</h2>
+<div class="grid-2">
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:24px;">
+      <div style="text-align:center;">
+        <div style="font-size:48px;font-weight:700;color:#fb923c;">100.0%%</div>
+        <div style="color:#888;">como add-on</div>
+        <div style="font-size:14px;">1 transacciones</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:48px;font-weight:700;color:#c084fc;">0.0%%</div>
+        <div style="color:#888;">solos</div>
+        <div style="font-size:14px;">0 transacciones</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;height:24px;background:#222;border-radius:6px;overflow:hidden;display:flex;">
+      <div style="width:100%;background:#fb923c;"></div>
+      <div style="width:0%;background:#c084fc;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:#888;">
+      <span>Add-on (con otras comidas)</span>
+      <span>Solo (postre unico)</span>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 12px;">Top Postres por Revenue</h3>
+    <table>
+      <tr><th>Producto</th><th class="right">Uds</th><th class="right">Revenue</th></tr>
+      <tr>
+        <td>Opcional Genérico</td>
+        <td class="right mono">1</td>
+        <td class="right mono">$3.500</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="insight info">
+  <strong>Analisis de postres:</strong> Los postres se compran mayoritariamente como add-on (100.0% acompanados).
+  
+  La penetracion de postres es 0.1% de todas las transacciones.
+  Esta es una penetracion baja -- preguntar "desean postre?" despues de la comida podria duplicar las ventas de esta categoria.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- CHICANITAS -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Chicanitas: Analisis de Formato Mini</h2>
+<div class="grid-2">
+  <div class="card">
+    <div class="kpi-grid" style="grid-template-columns:1fr 1fr;">
+      <div>
+        <div style="color:#888;font-size:12px;">UNIDADES TOTALES</div>
+        <div style="font-size:28px;font-weight:700;">50</div>
+      </div>
+      <div>
+        <div style="color:#888;font-size:12px;">REVENUE</div>
+        <div style="font-size:28px;font-weight:700;">$380.000</div>
+      </div>
+      <div>
+        <div style="color:#888;font-size:12px;">TRANSACCIONES</div>
+        <div style="font-size:28px;font-weight:700;">26</div>
+      </div>
+      <div>
+        <div style="color:#888;font-size:12px;">PROMEDIO / TX</div>
+        <div style="font-size:28px;font-weight:700;">1.9</div>
+      </div>
+    </div>
+    <h3>Distribucion de uds por transaccion</h3>
+    <table>
+      <tr><th>Chicanitas por Tx</th><th class="right">Transacciones</th><th class="right">%</th></tr>
+      <tr>
+        <td class="mono">1 ud</td>
+        <td class="right mono">8</td>
+        <td class="right mono">30.8%</td>
+      </tr><tr>
+        <td class="mono">2 uds</td>
+        <td class="right mono">14</td>
+        <td class="right mono">53.8%</td>
+      </tr><tr>
+        <td class="mono">3 uds</td>
+        <td class="right mono">2</td>
+        <td class="right mono">7.7%</td>
+      </tr><tr>
+        <td class="mono">4 uds</td>
+        <td class="right mono">2</td>
+        <td class="right mono">7.7%</td>
+      </tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 12px;">Sabores</h3>
+    <table>
+      <tr><th>Sabor</th><th class="right">Uds</th><th class="right">Revenue</th></tr>
+      <tr>
+        <td>Chicanita de Birria (1 ud)</td>
+        <td class="right mono">28</td>
+        <td class="right mono">$220.000</td>
+      </tr><tr>
+        <td>Chicanita Pibil (1 ud)</td>
+        <td class="right mono">13</td>
+        <td class="right mono">$105.000</td>
+      </tr><tr>
+        <td>Chicanita Pollo Chipotle (1 ud)</td>
+        <td class="right mono">9</td>
+        <td class="right mono">$55.000</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="insight purple">
+  <strong>Formato mini:</strong> Con un promedio de <strong>1.9 chicanitas por transaccion</strong> y un precio de $5,000 c/u,
+  la mayoria compra solo 1 unidad, posiblemente como snack adicional. Considerar paquetes de 3 con descuento para incentivar mayor volumen.
+  La distribucion muestra que 1 ud es lo mas comun (30.8% de transacciones).
+  El volumen total de transacciones con chicanitas es bajo. Esta podria ser una categoria que necesita mejor posicionamiento en el menu o degustaciones para generar demanda.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- TEX MEX DESGLOSE -->
+<!-- ============================================== -->
+<div class="section">
+<h2>TEX MEX: Desglose Completo</h2>
+<div class="card">
+  <table>
+    <tr><th>Producto</th><th class="right">Uds</th><th class="right">Revenue</th><th class="right">% Rev Cat</th><th style="width:25%">Visual</th></tr>
+    <tr>
+        <td>Alitas 8pz</td>
+        <td class="right mono">20</td>
+        <td class="right mono">$340.000</td>
+        <td class="right mono">50.6%</td>
+        <td><div class="bar-container"><div style="background:#f472b6;height:18px;width:100%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Macarrones con pollo</td>
+        <td class="right mono">10</td>
+        <td class="right mono">$220.000</td>
+        <td class="right mono">32.7%</td>
+        <td><div class="bar-container"><div style="background:#f472b6;height:18px;width:64.70588235294117%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Pollo PopCorn</td>
+        <td class="right mono">6</td>
+        <td class="right mono">$112.000</td>
+        <td class="right mono">16.7%</td>
+        <td><div class="bar-container"><div style="background:#f472b6;height:18px;width:32.94117647058823%;border-radius:3px;"></div></div></td>
+      </tr>
+  </table>
+</div>
+<div class="insight">
+  <strong>Composicion TEX MEX:</strong> Esta categoria combina dos tipos de producto muy diferentes:
+  <strong>platos fuertes</strong> (Alitas, Pollo PopCorn, Macarrones) que suman $672.000 (100.0% de la categoria),
+  y <strong>salsas add-on</strong> a $2,000 que suman $0 (0.0%).
+  Alitas 8pz lidera los platos fuertes con 20 uds y $340.000.
+  Considerar separar las salsas como categoria propia para tener metricas mas limpias.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- MILKSHAKES -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Milkshakes: Desglose</h2>
+<div class="card">
+  <table>
+    <tr><th>Producto</th><th class="right">Uds</th><th class="right">Revenue</th><th style="width:30%">Visual</th></tr>
+    
+  </table>
+</div>
+<div class="insight info">
+  <strong>Milkshakes:</strong> Con 0 unidades y $0 en revenue,
+  los milkshakes son una categoria menor pero con potencial.
+  A $12,000 por unidad, tienen uno de los precios mas altos del menu -- cada venta aporta buen margen.
+  
+  La penetracion es baja. Considerar exhibicion visual (fotos grandes) en el menu digital para generar antojo.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- PERROS: DETALLE -->
+<!-- ============================================== -->
+<div class="section">
+<h2>Perros: Analisis Detallado</h2>
+<div class="card">
+  <table>
+    <tr><th>Producto</th><th class="right">Uds</th><th class="right">Revenue</th><th class="right">% Cat</th><th style="width:25%">Visual</th></tr>
+    <tr>
+        <td>Perro con Toppings</td>
+        <td class="right mono">130</td>
+        <td class="right mono">$1.820.000</td>
+        <td class="right mono">56.3%</td>
+        <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:100%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Perro SalchiBirria</td>
+        <td class="right mono">32</td>
+        <td class="right mono">$823.500</td>
+        <td class="right mono">25.5%</td>
+        <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:45.247252747252745%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Corndog Americano</td>
+        <td class="right mono">20</td>
+        <td class="right mono">$288.000</td>
+        <td class="right mono">8.9%</td>
+        <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:15.824175824175823%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Corndog de queso</td>
+        <td class="right mono">10</td>
+        <td class="right mono">$140.000</td>
+        <td class="right mono">4.3%</td>
+        <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:7.6923076923076925%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Perro SalchiPibil</td>
+        <td class="right mono">4</td>
+        <td class="right mono">$86.000</td>
+        <td class="right mono">2.7%</td>
+        <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:4.725274725274725%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Perro SalchiPollo Chipotle</td>
+        <td class="right mono">4</td>
+        <td class="right mono">$57.000</td>
+        <td class="right mono">1.8%</td>
+        <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:3.131868131868132%;border-radius:3px;"></div></div></td>
+      </tr><tr>
+        <td>Perro Solo Birria</td>
+        <td class="right mono">1</td>
+        <td class="right mono">$18.000</td>
+        <td class="right mono">0.6%</td>
+        <td><div class="bar-container"><div style="background:#4ade80;height:18px;width:0.9890109890109889%;border-radius:3px;"></div></div></td>
+      </tr>
+  </table>
+</div>
+<div class="insight">
+  <strong>Sub-segmentos de Perros:</strong>
+  Los perros "con toppings" generan $1.820.000 (130 uds),
+  los corndogs generan $428.000 (30 uds),
+  y las variantes "Salchi" premium generan $966.500 (40 uds).
+  El perro clasico con toppings sigue siendo el mas popular, pero las variantes Salchi premium muestran buena aceptacion.
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- OPORTUNIDADES -->
+<!-- ============================================== -->
+<div class="section">
+<h2 style="color:#4ade80;">Oportunidades de Crecimiento</h2>
+
+<div class="opp-card">
+  <h4>1. Upselling de Bebidas (Impacto estimado: +$853.516 / mes)</h4>
+  <p>La penetracion de bebidas (14.1%%) esta muy por debajo del benchmark de 50-60% para restaurantes.
+  Implementar sugerencia activa en caja: "Le agrego una Coca-Cola o una Bretana?" en cada transaccion.
+  Meta: subir al 40% de penetracion en marzo.</p>
+</div>
+
+<div class="opp-card">
+  <h4>2. Salsas como Add-on Sistematico (Impacto estimado: +$216.300 / mes)</h4>
+  <p>Las salsas a $2,000 tienen penetracion de solo 0.0%%.
+  Son producto de alto margen y bajo costo. Ofrecer con cada nachos, tacos y perro.
+  Considerar un "flight de salsas" (4 salsas por $6,000) como producto premium.</p>
+</div>
+
+<div class="opp-card">
+  <h4>3. Combos Cross-Category</h4>
+  <p>Basado en la matriz de co-ocurrencia, crear combos formales para las parejas con mayor afinidad natural.
+  La pareja Bebidas+POSTRES ya tiene alta co-ocurrencia y seria el primer combo a formalizar.
+  Ejemplo: "Combo FANZINE" = Nachos/Tacos + Bebida + Salsa por un precio combo.</p>
+</div>
+
+<div class="opp-card">
+  <h4>4. Postres como Cierre de Venta</h4>
+  <p>Solo 0.1% de transacciones incluyen postre.
+  Implementar sugerencia post-comida: "Para cerrar, tenemos Cheesecake de Pistachos o Torta Tres Leches."
+  Las 0 transacciones solo-postre muestran que hay demanda independiente -- promover en redes sociales.</p>
+</div>
+
+<div class="opp-card">
+  <h4>5. Promociones Entre Semana</h4>
+  <p>El fin de semana concentra el 54.6% del volumen. Crear "Martes de Tacos" o "Miercoles de Nachos" con descuento del 15% para equilibrar la demanda.</p>
+</div>
+
+<div class="opp-card">
+  <h4>6. Chicanitas: Paquetes de 3</h4>
+  <p>Con un promedio de 1.9 uds/tx y precio individual de $5,000, ofrecer "3 chicanitas por $12,000" (ahorro de $3,000)
+  podria incrementar el volumen por transaccion y hacer de las chicanitas un snack grupal mas atractivo.</p>
+</div>
+</div>
+
+<!-- ============================================== -->
+<!-- ALERTAS -->
+<!-- ============================================== -->
+<div class="section">
+<h2 style="color:#fca5a5;">Alertas y Problemas Detectados</h2>
+
+<div class="alert-card">
+  <h4>Baja Penetracion de Bebidas</h4>
+  <p>Con 14.1%% de penetracion, se estan dejando ~$1.034.000 en la mesa cada mes.
+  En un restaurante de comida salada (nachos, tacos, perros), la bebida deberia ser casi automatica. Revisar si hay un problema de oferta, visibilidad o sugerencia en caja.</p>
+</div>
+
+<div class="alert-card">
+  <h4>Concentracion de Revenue en Pocos Productos</h4>
+  <p>Los top 3 productos concentran el 51.3%% del revenue de comidas.
+  Si alguno de estos productos pierde traccion (agotamiento, cambio de proveedor, etc.), el impacto en revenue seria significativo. Diversificar la oferta y promover productos secundarios.</p>
+</div>
+
+
+<div class="alert-card">
+  <h4>Variabilidad Diaria Extrema</h4>
+  <p>El mejor dia ($511.000) es 11.5x el peor dia ($44.500).
+  Esta variacion extrema dificulta la planificacion de inventario y personal. Investigar si los dias bajos coinciden con cierre temprano, falta de producto, o simplemente dias sin cine.</p>
+</div>
+
+
+<div class="alert-card">
+  <h4>Salsas Casi Invisibles</h4>
+  <p>Solo 0 transacciones con salsa de 721 totales. Es probable que no se esten ofreciendo en caja.
+  A $2,000 c/u con alto margen, esto es revenue que se pierde por falta de proceso, no por falta de demanda.</p>
+</div>
+
+</div>
+
+<!-- ============================================== -->
+<!-- CONCLUSIONES -->
+<!-- ============================================== -->
+<div class="section">
+<div class="executive-summary" style="background:linear-gradient(135deg, #1a2e1a, #0d1f0d);border-color:#166534;">
+  <h2 style="margin-top:0;border:none;padding:0;margin-bottom:16px;color:#4ade80;">Conclusiones</h2>
+  <p>
+    <strong>1. La comida es el core del negocio.</strong> Con 68.6% del revenue total,
+    las 8 categorias de comida son el motor de FANZINE. Perros y Tacos lideran,
+    pero hay una base diversificada de 31 productos que da resiliencia al menu.
+  </p>
+  <p>
+    <strong>2. Hay revenue escondido en los add-ons.</strong> Bebidas (14.1%% penetracion),
+    salsas (0.0%%) y postres (0.1%)
+    tienen penetraciones bajas. Estas son las categorias de mayor margen y menor costo operativo.
+    Un programa sistematico de upselling en caja podria agregar entre $288.400 y $648.900 mensuales.
+  </p>
+  <p>
+    <strong>3. El fin de semana manda.</strong> Sabado es el dia estrella con 116 unidades.
+    Las promociones entre semana son necesarias para equilibrar la carga operativa y maximizar el uso del local.
+  </p>
+  <p>
+    <strong>4. Perros vs Tacos vs Nachos: tres pilares.</strong> Estas tres categorias compiten en el mismo horario
+    y se comportan como sustitutos. Perros gana en revenue, pero las tres son esenciales.
+    El foco deberia estar en diferenciarlas mejor en el menu y usar la matrix de cross-sell para emparejarlas con complementos.
+  </p>
+  <p>
+    <strong>5. Accion inmediata mas impactante:</strong> Implementar sugerencia de bebida en CADA transaccion.
+    Es la palanca mas simple y de mayor impacto estimado.
+  </p>
+</div>
+</div>
+
+<div style="margin-top:48px;padding-top:24px;border-top:1px solid #333;color:#666;font-size:12px;">
+  Generado: 3/3/2026, 1:00:45 p. m. &bull; FANZINE Analytics &bull; Datos: Febrero 2026
+</div>
+
+</body>
+</html>

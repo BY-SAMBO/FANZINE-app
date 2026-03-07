@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API y Backend - Auditoria POS FANZINE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --card: #1a1b2e;
+    --card-border: #2a2b3e;
+    --text: #e4e4e7;
+    --text-muted: #9ca3af;
+    --red: #DC2626;
+    --red-bg: rgba(220,38,38,0.12);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245,158,11,0.12);
+    --blue: #3B82F6;
+    --blue-bg: rgba(59,130,246,0.12);
+    --green: #22C55E;
+    --green-bg: rgba(34,197,94,0.12);
+    --radius: 12px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  nav {
+    background: #13141f; border-bottom: 1px solid var(--card-border);
+    padding: 0 1.5rem; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1rem;
+    overflow-x: auto; white-space: nowrap; padding: .75rem 0;
+  }
+  .nav-brand { font-weight: 700; font-size: 1rem; color: var(--red); margin-right: 1rem; flex-shrink: 0; }
+  .nav-link {
+    color: var(--text-muted); font-size: .85rem;
+    padding: .35rem .75rem; border-radius: 6px; transition: all .2s;
+  }
+  .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,.06); text-decoration: none; }
+  .nav-link.active { border-bottom: 2px solid var(--red); }
+  .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page-header {
+    margin-bottom: 2.5rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .page-header h1 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 800; margin-bottom: .5rem; }
+  .page-header h1 span { color: var(--red); }
+  .page-header p { color: var(--text-muted); font-size: 1rem; max-width: 700px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: var(--radius); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
+  }
+  .card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: #fff; }
+  .card h3 { font-size: 1.05rem; font-weight: 600; margin: 1.25rem 0 .5rem; color: #fff; }
+  .card p { color: var(--text-muted); margin-bottom: .75rem; }
+  .card ul, .card ol { color: var(--text-muted); padding-left: 1.5rem; margin-bottom: .75rem; }
+  .card li { margin-bottom: .4rem; }
+
+  .badge {
+    display: inline-block; padding: .2rem .6rem; border-radius: 20px;
+    font-size: .75rem; font-weight: 600; text-transform: uppercase;
+  }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(220,38,38,0.3); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+
+  .analogy {
+    background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0;
+    font-size: .9rem; color: var(--blue);
+  }
+  .analogy strong { color: #60a5fa; }
+
+  /* ENDPOINT CARDS */
+  .endpoint {
+    background: #232440; border: 1px solid var(--card-border);
+    border-radius: 10px; padding: 1.25rem; margin: 1rem 0;
+    border-left: 3px solid var(--green);
+  }
+  .endpoint .ep-header {
+    display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+    margin-bottom: .75rem;
+  }
+  .ep-method {
+    background: var(--green-bg); color: var(--green);
+    padding: .15rem .5rem; border-radius: 4px;
+    font-size: .75rem; font-weight: 700; font-family: monospace;
+  }
+  .ep-path { font-family: monospace; font-size: .9rem; color: #fff; }
+  .ep-name { color: var(--text-muted); font-size: .85rem; }
+  .endpoint p { font-size: .88rem; color: var(--text-muted); margin-bottom: .5rem; }
+
+  /* FLOW STEPS */
+  .flow-steps { margin: 1rem 0; }
+  .flow-step {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: .75rem 0; position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: ''; position: absolute; left: 15px; top: 2.5rem;
+    width: 2px; height: calc(100% - 1.5rem); background: var(--card-border);
+  }
+  .fs-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(34,197,94,0.15); color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .85rem; font-weight: 700; flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .fs-content h4 { font-size: .9rem; color: #fff; margin-bottom: .2rem; }
+  .fs-content p { font-size: .85rem; color: var(--text-muted); margin: 0; }
+
+  /* ERROR TABLE */
+  .error-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .88rem; }
+  .error-table th {
+    text-align: left; padding: .75rem; color: var(--text-muted);
+    border-bottom: 1px solid var(--card-border); font-weight: 600; font-size: .8rem;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .error-table td {
+    padding: .75rem; color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,.04);
+  }
+  .error-table td:first-child { color: #fff; font-weight: 500; }
+
+  /* SECURITY */
+  .security-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1rem; margin: .75rem 0;
+    background: var(--red-bg); border: 1px solid rgba(220,38,38,0.2);
+    border-radius: 8px;
+  }
+  .security-item .sec-icon {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(220,38,38,0.2); color: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; flex-shrink: 0;
+  }
+  .security-item h4 { font-size: .9rem; color: var(--red); margin-bottom: .25rem; }
+  .security-item p { font-size: .85rem; color: var(--text-muted); margin: 0; }
+
+  .db-table {
+    width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .85rem;
+  }
+  .db-table th {
+    text-align: left; padding: .6rem .75rem; color: var(--text-muted);
+    border-bottom: 1px solid var(--card-border); font-weight: 600; font-size: .78rem;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .db-table td {
+    padding: .6rem .75rem; color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,.04);
+  }
+  .db-table td:first-child { color: #fff; font-family: monospace; font-size: .82rem; }
+  .status-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: .4rem;
+  }
+  .status-dot.ok { background: var(--green); }
+  .status-dot.missing { background: var(--red); }
+
+  footer {
+    text-align: center; padding: 2rem 1.5rem;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted); font-size: .8rem; margin-top: 3rem;
+  }
+
+  @media (max-width: 700px) {
+    .container { padding: 1.25rem 1rem; }
+    .error-table, .db-table { font-size: .78rem; }
+    .error-table th, .error-table td,
+    .db-table th, .db-table td { padding: .5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">FANZINE POS</span>
+    <a href="index.html" class="nav-link">Resumen</a>
+    <a href="estado-y-datos.html" class="nav-link">Estado y Datos</a>
+    <a href="interfaz-usuario.html" class="nav-link">Interfaz</a>
+    <a href="api-y-backend.html" class="nav-link active">API y Backend</a>
+    <a href="sincronizacion.html" class="nav-link">Sincronizacion</a>
+    <a href="plan-reconstruccion.html" class="nav-link">Plan</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="page-header">
+    <h1>API y <span>Backend</span></h1>
+    <p>La "cocina" del sistema: como se procesan los pedidos, como se comunica con Fudo, y que pasa cuando algo sale mal.</p>
+  </div>
+
+  <!-- QUE ES LA API -->
+  <div class="card">
+    <h2>Que hace el backend?</h2>
+    <p>
+      Si el POS es la registradora que usa el cajero, el backend es la <strong>cocina del sistema</strong>.
+      Recibe los pedidos desde la pantalla, los procesa, los envia a Fudo (el cerebro de facturacion del restaurante),
+      y devuelve la confirmacion.
+    </p>
+    <div class="analogy">
+      <strong>Analogia:</strong> Cuando el cajero completa un pedido y toca "Cobrar", es como si pasara la comanda
+      a la cocina. La cocina (backend) prepara todo, lo registra en la caja fiscal (Fudo), y devuelve el
+      ticket confirmado. Si algo falla en la cocina, el cajero deberia recibir un aviso claro.
+    </div>
+    <p>
+      El sistema tiene <strong>4 puertas de entrada</strong> (endpoints) por donde llegan las solicitudes.
+      Cada una maneja un tipo de operacion diferente.
+    </p>
+  </div>
+
+  <!-- ENDPOINTS -->
+  <div class="card">
+    <h2>Los 4 endpoints (puertas de entrada)</h2>
+
+    <div class="endpoint">
+      <div class="ep-header">
+        <span class="ep-method">POST</span>
+        <span class="ep-path">/api/pos/sale</span>
+        <span class="ep-name">&mdash; Crear venta</span>
+      </div>
+      <p>
+        El endpoint principal. Recibe el pedido completo (productos, toppings, metodo de pago) y crea
+        la venta en Fudo. Es el que se usa cada vez que el cajero cobra un pedido presencial.
+      </p>
+      <p><strong style="color: #fff;">Frecuencia de uso:</strong> Cada venta presencial (el mas usado)</p>
+    </div>
+
+    <div class="endpoint">
+      <div class="ep-header">
+        <span class="ep-method">POST</span>
+        <span class="ep-path">/api/pos/sale/close</span>
+        <span class="ep-name">&mdash; Cerrar comanda</span>
+      </div>
+      <p>
+        Cierra una venta que se creo pero aun no se pago. Util cuando el cliente pide primero y paga
+        despues. Registra el pago y cierra la comanda en Fudo.
+      </p>
+      <p><strong style="color: #fff;">Frecuencia de uso:</strong> Ocasional (solo para pagos diferidos)</p>
+    </div>
+
+    <div class="endpoint">
+      <div class="ep-header">
+        <span class="ep-method">POST</span>
+        <span class="ep-path">/api/pos/modifiers/sync</span>
+        <span class="ep-name">&mdash; Sincronizar toppings</span>
+      </div>
+      <p>
+        Actualiza la lista de toppings disponibles. Los toppings se guardan en un cache local para
+        que no haya que consultar a Fudo cada vez. Este endpoint refresca ese cache.
+      </p>
+      <p><strong style="color: #fff;">Frecuencia de uso:</strong> Manual (cuando cambian los toppings en Fudo)</p>
+    </div>
+
+    <div class="endpoint">
+      <div class="ep-header">
+        <span class="ep-method">POST</span>
+        <span class="ep-path">/api/pos/remote/order</span>
+        <span class="ep-name">&mdash; Pedido delivery</span>
+      </div>
+      <p>
+        Similar al de crear venta, pero para pedidos de delivery a bares. Incluye informacion adicional
+        del destino de entrega.
+      </p>
+      <p><strong style="color: #fff;">Frecuencia de uso:</strong> Cada pedido de delivery</p>
+    </div>
+  </div>
+
+  <!-- FUDO INTEGRATION -->
+  <div class="card">
+    <h2>Como funciona la conexion con Fudo</h2>
+    <p>
+      Fudo es el sistema de facturacion del restaurante. Es donde se registran todas las ventas oficiales,
+      se controla inventario y se generan reportes. Nuestro POS necesita hablar con Fudo para cada venta.
+    </p>
+
+    <div class="analogy">
+      <strong>Analogia:</strong> Fudo es como el cerebro administrativo del restaurante. Nuestro POS es la mano
+      que toma los pedidos, pero necesita decirle al cerebro lo que vendio para que todo cuadre.
+    </div>
+
+    <h3>Pasos para crear una venta en Fudo</h3>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="fs-num">1</div>
+        <div class="fs-content">
+          <h4>Autenticacion</h4>
+          <p>El sistema se identifica ante Fudo con sus credenciales. Fudo devuelve un "pase" temporal (token) que expira.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num">2</div>
+        <div class="fs-content">
+          <h4>Crear la venta</h4>
+          <p>Se crea un registro de venta vacio en Fudo, como abrir una nueva comanda en blanco.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num">3</div>
+        <div class="fs-content">
+          <h4>Agregar productos</h4>
+          <p>Se agregan los productos uno por uno a la comanda. Cada producto tiene su ID de Fudo, cantidad y precio.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num">4</div>
+        <div class="fs-content">
+          <h4>Agregar toppings</h4>
+          <p>Para cada producto que tiene extras, se agregan los toppings como "subitems" del producto principal.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num">5</div>
+        <div class="fs-content">
+          <h4>Registrar pago</h4>
+          <p>Se registra como se pago (efectivo, tarjeta, etc.) y el monto total.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num">6</div>
+        <div class="fs-content">
+          <h4>Cerrar la venta</h4>
+          <p>Se cierra la comanda en Fudo. A partir de aqui la venta es oficial y aparece en los reportes.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <span class="badge badge-amber">Importante</span> &nbsp;
+      Si alguno de estos pasos falla (por ejemplo, el paso 4), la venta queda abierta en Fudo
+      pero incompleta. No hay un mecanismo automatico para reintentar o limpiar ventas incompletas.
+    </p>
+  </div>
+
+  <!-- ERROR HANDLING -->
+  <div class="card">
+    <h2>Que pasa cuando algo falla?</h2>
+    <p>
+      Cuando ocurre un error, el sistema deberia responder de forma clara. Esta tabla muestra las
+      situaciones de error y como se manejan actualmente:
+    </p>
+
+    <div style="overflow-x: auto;">
+      <table class="error-table">
+        <thead>
+          <tr>
+            <th>Situacion</th>
+            <th>Que pasa hoy</th>
+            <th>Que deberia pasar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fudo no responde</td>
+            <td>Error generico en pantalla</td>
+            <td>Reintentar automaticamente 2 veces, luego mostrar opcion de reintento manual</td>
+          </tr>
+          <tr>
+            <td>Token expirado</td>
+            <td>Se renueva automaticamente</td>
+            <td style="color: var(--green);">Funciona correctamente</td>
+          </tr>
+          <tr>
+            <td>Producto sin ID de Fudo</td>
+            <td>Error 500 sin detalle</td>
+            <td>Identificar el producto problematico y mostrarlo al cajero</td>
+          </tr>
+          <tr>
+            <td>Venta parcialmente creada</td>
+            <td>Se pierde (queda abierta en Fudo)</td>
+            <td>Intentar cerrar/cancelar la venta parcial</td>
+          </tr>
+          <tr>
+            <td>Impresora desconectada</td>
+            <td>Ticket se pierde silenciosamente</td>
+            <td>Guardar en cola y reintentar cuando la impresora este disponible</td>
+          </tr>
+          <tr>
+            <td>Internet se cae</td>
+            <td>Error generico</td>
+            <td>Guardar pedido localmente y enviar cuando vuelva la conexion</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="card">
+    <h2>Seguridad</h2>
+    <p>Estos son los hallazgos de seguridad. Aunque el POS opera en una red interna, es importante corregirlos:</p>
+
+    <div class="security-item">
+      <div class="sec-icon">!</div>
+      <div>
+        <h4>Credenciales guardadas sin encriptar</h4>
+        <p>
+          Las credenciales de Fudo (usuario y contrasena del sistema) estan en un archivo de configuracion
+          sin cifrar. Si alguien accede al servidor, puede leerlas directamente. Es como guardar
+          la llave de la caja fuerte debajo del tapete.
+        </p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">!</div>
+      <div>
+        <h4>Tablas sin politicas de acceso (RLS)</h4>
+        <p>
+          Las tablas de la base de datos no tienen restricciones de acceso. Cualquier persona con la
+          clave publica del proyecto podria leer o modificar datos. Es como dejar los libros contables
+          abiertos sobre la mesa.
+        </p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">!</div>
+      <div>
+        <h4>Cache que nunca se refresca automaticamente</h4>
+        <p>
+          La informacion de toppings y metodos de pago se guarda localmente y nunca se actualiza
+          automaticamente. Si se agregan opciones nuevas en Fudo, no aparecen hasta que alguien
+          manualmente ejecute la sincronizacion.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATABASE -->
+  <div class="card">
+    <h2>Tablas de base de datos</h2>
+    <p>
+      El sistema usa tablas en la base de datos para guardar informacion. Algunas de estas tablas
+      fueron creadas manualmente y no estan documentadas en "migraciones" (instrucciones automaticas
+      para recrear la base de datos).
+    </p>
+
+    <div style="overflow-x: auto;">
+      <table class="db-table">
+        <thead>
+          <tr>
+            <th>Tabla</th>
+            <th>Que guarda</th>
+            <th>En migraciones?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>products</td>
+            <td>Catalogo de productos del restaurante</td>
+            <td><span class="status-dot ok"></span> Si</td>
+          </tr>
+          <tr>
+            <td>categories</td>
+            <td>Categorias de los productos</td>
+            <td><span class="status-dot ok"></span> Si</td>
+          </tr>
+          <tr>
+            <td>pos_modifier_cache</td>
+            <td>Cache de toppings sincronizados de Fudo</td>
+            <td><span class="status-dot missing"></span> No</td>
+          </tr>
+          <tr>
+            <td>pos_sales_log</td>
+            <td>Historial de ventas realizadas</td>
+            <td><span class="status-dot missing"></span> No</td>
+          </tr>
+          <tr>
+            <td>delivery_config</td>
+            <td>Configuracion de delivery por producto</td>
+            <td><span class="status-dot ok"></span> Si</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <span class="badge badge-red">Critico</span> &nbsp;
+      Las tablas <code style="color: var(--red);">pos_modifier_cache</code> y <code style="color: var(--red);">pos_sales_log</code>
+      no tienen migraciones. Si se necesita reinstalar el sistema o crear un ambiente de pruebas,
+      estas tablas habra que crearlas manualmente, con riesgo de errores.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  Generado por Claude Code &mdash; 28 de febrero, 2026
+</footer>
+
+</body>
+</html>

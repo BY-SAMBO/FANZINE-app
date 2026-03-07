@@ -37,7 +37,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
-export default async function PosLayout({
+export default async function PosV2Layout({
   children,
 }: {
   children: React.ReactNode;

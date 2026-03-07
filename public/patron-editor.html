@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patrón Empaque - Editor</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a1a;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ---- PANEL ---- */
+  #panel {
+    width: 260px;
+    min-width: 260px;
+    background: #111;
+    border-right: 1px solid #333;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .panel-header {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #555;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 12px;
+  }
+
+  /* Secciones */
+  .section {
+    border: 1px solid #222;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: #1a1a1a;
+    cursor: default;
+    user-select: none;
+  }
+  .section-head .title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #888;
+  }
+  .section-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Controles */
+  .ctrl {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ctrl-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #555;
+  }
+  .ctrl-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ctrl-row input[type="range"] {
+    flex: 1;
+    accent-color: #fff;
+    height: 4px;
+  }
+  .ctrl-val {
+    font-size: 11px;
+    color: #aaa;
+    min-width: 40px;
+    text-align: right;
+  }
+
+  /* Toggle switch */
+  .toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .toggle input { display: none; }
+  .toggle .sw {
+    width: 32px; height: 16px;
+    background: #333;
+    border-radius: 8px;
+    position: relative;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .toggle input:checked + .sw { background: #fff; }
+  .toggle .sw::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 12px; height: 12px;
+    background: #111;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle input:checked + .sw::after { transform: translateX(16px); }
+  .toggle span { font-size: 11px; color: #999; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    border: 1px solid #333;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .tabs button {
+    flex: 1;
+    padding: 6px 2px;
+    background: #1a1a1a;
+    color: #555;
+    border: none;
+    font-family: inherit;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tabs button.active { background: #fff; color: #111; }
+  .tabs button.active[data-color="red"] { background: #cc0000; color: #fff; }
+  .tabs button:not(:last-child) { border-right: 1px solid #333; }
+
+  /* Botones */
+  .btn {
+    padding: 7px 10px;
+    font-family: inherit;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: none;
+    transition: all 0.15s;
+  }
+  .btn-export { background: #fff; color: #111; }
+  .btn-export:hover { background: #ddd; }
+  .btn-secondary { background: #222; color: #777; border: 1px solid #333; }
+  .btn-secondary:hover { background: #333; color: #fff; }
+
+  .btn-row { display: flex; gap: 6px; }
+  .btn-row .btn { flex: 1; }
+
+  .footer {
+    margin-top: auto;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .footer .info {
+    font-size: 10px;
+    color: #444;
+    text-align: center;
+  }
+
+  /* ---- VIEWPORT ---- */
+  #viewport {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 24px;
+    background: repeating-conic-gradient(#222 0% 25%, #1a1a1a 0% 50%) 0 0 / 20px 20px;
+  }
+  .svg-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .svg-panel .tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #444;
+    background: #111;
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+  .svg-panel svg {
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div id="panel">
+  <div class="panel-header">Empaque</div>
+
+  <!-- ======== GLOBAL ======== -->
+  <div class="section">
+    <div class="section-head"><span class="title">General</span></div>
+    <div class="section-body">
+      <div class="ctrl">
+        <span class="ctrl-label">Vista</span>
+        <div class="tabs" id="tabs-view">
+          <button class="active" data-view="both">Ambos</button>
+          <button data-view="cuadros">Cuadros</button>
+          <button data-view="lineas">Tiles</button>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Color tinta</span>
+        <div class="tabs" id="tabs-color">
+          <button class="active" data-color="black">Negro</button>
+          <button data-color="red">Rojo</button>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Zoom</span>
+        <div class="ctrl-row">
+          <input type="range" id="sl-zoom" min="10" max="200" value="200">
+          <span class="ctrl-val" id="val-zoom">200%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== CUADROS ======== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="title">Cuadros</span>
+      <label class="toggle">
+        <input type="checkbox" id="tog-cuadros-3d">
+        <div class="sw"></div>
+        <span>3D</span>
+      </label>
+    </div>
+    <div class="section-body">
+      <div class="ctrl">
+        <span class="ctrl-label">Opacidad</span>
+        <div class="ctrl-row">
+          <input type="range" id="sl-cuadros-op" min="0" max="100" value="71">
+          <span class="ctrl-val" id="val-cuadros-op">71%</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Tamaño (mm)</span>
+        <div class="ctrl-row">
+          <input type="range" id="sl-cuadros-tam" min="2" max="20" value="20" step="1">
+          <span class="ctrl-val" id="val-cuadros-tam">20mm</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== TILES ======== -->
+  <div class="section">
+    <div class="section-head">
+      <span class="title">Tiles</span>
+      <label class="toggle">
+        <input type="checkbox" id="tog-tiles-3d" checked>
+        <div class="sw"></div>
+        <span>3D</span>
+      </label>
+    </div>
+    <div class="section-body">
+      <div class="ctrl">
+        <span class="ctrl-label">Tamaño (mm)</span>
+        <div class="ctrl-row">
+          <input type="range" id="sl-lineas-tam" min="5" max="30" value="20" step="1">
+          <span class="ctrl-val" id="val-lineas-tam">20mm</span>
+        </div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-label">Grosor junta (mm)</span>
+        <div class="ctrl-row">
+          <input type="range" id="sl-lineas-grosor" min="1" max="10" value="8" step="1">
+          <span class="ctrl-val" id="val-lineas-grosor">0.8mm</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== FOOTER ======== -->
+  <div class="footer">
+    <div class="btn-row">
+      <button class="btn btn-export" id="btn-export-cuadros">Cuadros SVG</button>
+      <button class="btn btn-export" id="btn-export-lineas">Tiles SVG</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="btn-save-json">Guardar</button>
+      <button class="btn btn-secondary" id="btn-load-json">Cargar</button>
+    </div>
+    <input type="file" id="file-json" accept=".json" style="display:none">
+    <span id="save-status" class="info"></span>
+    <span class="info">600 x 800 mm</span>
+  </div>
+</div>
+
+<div id="viewport"></div>
+
+<script>
+function $(id) { return document.getElementById(id); }
+const W = 600, H = 800;
+
+let currentView = 'both';
+let inkColor = 'black';
+
+// ========================================
+// SVG CUADROS
+// ========================================
+function svgCuadros(forExport) {
+  const tam = parseInt($('sl-cuadros-tam').value);
+  const op = parseInt($('sl-cuadros-op').value) / 100;
+  const is3d = $('tog-cuadros-3d').checked;
+  const sizeAttr = forExport ? `width="600mm" height="800mm"` : '';
+  const c = forExport ? 'black' : inkColor;
+
+  if (!is3d) {
+    const pat = tam * 2;
+    return `<svg xmlns="http://www.w3.org/2000/svg" ${sizeAttr} viewBox="0 0 ${W} ${H}">
+    <defs>
+      <pattern id="pc" x="0" y="0" width="${pat}" height="${pat}" patternUnits="userSpaceOnUse">
+        <rect width="${tam}" height="${tam}" fill="${c}"/>
+        <rect x="${tam}" y="${tam}" width="${tam}" height="${tam}" fill="${c}"/>
+      </pattern>
+    </defs>
+    <rect width="${W}" height="${H}" fill="white"/>
+    <rect width="${W}" height="${H}" fill="url(#pc)" opacity="${op}"/>
+  </svg>`;
+  }
+
+  // 3D: cada cuadro oscuro es una baldosa hundida, cada blanco es elevada
+  const pat = tam * 2;
+  const gap = tam * 0.06;
+  const inner = tam - gap;
+  const r = inner * 0.04;
+  const bev = inner * 0.10;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" ${sizeAttr} viewBox="0 0 ${W} ${H}">
+  <defs>
+    <pattern id="pc" x="0" y="0" width="${pat}" height="${pat}" patternUnits="userSpaceOnUse">
+      <!-- Base -->
+      <rect width="${pat}" height="${pat}" fill="${c}" opacity="${op * 0.5}"/>
+
+      <!-- Cuadro oscuro arriba-izq (hundido) -->
+      <rect x="${gap/2}" y="${gap/2}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="${c}" opacity="${op}"/>
+      <!-- Sombra interior arriba -->
+      <polygon points="${gap/2},${gap/2} ${gap/2+inner},${gap/2} ${gap/2+inner-bev},${gap/2+bev} ${gap/2+bev},${gap/2+bev}" fill="white" opacity="0.08"/>
+      <!-- Sombra interior izq -->
+      <polygon points="${gap/2},${gap/2} ${gap/2+bev},${gap/2+bev} ${gap/2+bev},${gap/2+inner-bev} ${gap/2},${gap/2+inner}" fill="white" opacity="0.05"/>
+      <!-- Highlight interior abajo -->
+      <polygon points="${gap/2},${gap/2+inner} ${gap/2+bev},${gap/2+inner-bev} ${gap/2+inner-bev},${gap/2+inner-bev} ${gap/2+inner},${gap/2+inner}" fill="${c}" opacity="0.3"/>
+      <!-- Highlight interior der -->
+      <polygon points="${gap/2+inner},${gap/2} ${gap/2+inner-bev},${gap/2+bev} ${gap/2+inner-bev},${gap/2+inner-bev} ${gap/2+inner},${gap/2+inner}" fill="${c}" opacity="0.2"/>
+
+      <!-- Cuadro oscuro abajo-der (hundido) -->
+      <rect x="${tam+gap/2}" y="${tam+gap/2}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="${c}" opacity="${op}"/>
+      <polygon points="${tam+gap/2},${tam+gap/2} ${tam+gap/2+inner},${tam+gap/2} ${tam+gap/2+inner-bev},${tam+gap/2+bev} ${tam+gap/2+bev},${tam+gap/2+bev}" fill="white" opacity="0.08"/>
+      <polygon points="${tam+gap/2},${tam+gap/2} ${tam+gap/2+bev},${tam+gap/2+bev} ${tam+gap/2+bev},${tam+gap/2+inner-bev} ${tam+gap/2},${tam+gap/2+inner}" fill="white" opacity="0.05"/>
+      <polygon points="${tam+gap/2},${tam+gap/2+inner} ${tam+gap/2+bev},${tam+gap/2+inner-bev} ${tam+gap/2+inner-bev},${tam+gap/2+inner-bev} ${tam+gap/2+inner},${tam+gap/2+inner}" fill="${c}" opacity="0.3"/>
+      <polygon points="${tam+gap/2+inner},${tam+gap/2} ${tam+gap/2+inner-bev},${tam+gap/2+bev} ${tam+gap/2+inner-bev},${tam+gap/2+inner-bev} ${tam+gap/2+inner},${tam+gap/2+inner}" fill="${c}" opacity="0.2"/>
+
+      <!-- Cuadro claro arriba-der (elevado) -->
+      <rect x="${tam+gap/2}" y="${gap/2}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="white"/>
+      <rect x="${tam+gap/2}" y="${gap/2}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="${c}" opacity="${op * 0.08}"/>
+      <!-- Bevel luz arriba -->
+      <polygon points="${tam+gap/2},${gap/2} ${tam+gap/2+inner},${gap/2} ${tam+gap/2+inner-bev},${gap/2+bev} ${tam+gap/2+bev},${gap/2+bev}" fill="${c}" opacity="0.03"/>
+      <!-- Bevel sombra abajo -->
+      <polygon points="${tam+gap/2},${gap/2+inner} ${tam+gap/2+bev},${gap/2+inner-bev} ${tam+gap/2+inner-bev},${gap/2+inner-bev} ${tam+gap/2+inner},${gap/2+inner}" fill="${c}" opacity="0.12"/>
+      <!-- Bevel sombra der -->
+      <polygon points="${tam+gap/2+inner},${gap/2} ${tam+gap/2+inner-bev},${gap/2+bev} ${tam+gap/2+inner-bev},${gap/2+inner-bev} ${tam+gap/2+inner},${gap/2+inner}" fill="${c}" opacity="0.08"/>
+      <!-- Specular -->
+      <line x1="${tam+gap/2+r}" y1="${gap/2+0.3}" x2="${tam+gap/2+inner-r}" y2="${gap/2+0.3}" stroke="white" stroke-width="0.25" opacity="0.5"/>
+
+      <!-- Cuadro claro abajo-izq (elevado) -->
+      <rect x="${gap/2}" y="${tam+gap/2}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="white"/>
+      <rect x="${gap/2}" y="${tam+gap/2}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="${c}" opacity="${op * 0.08}"/>
+      <polygon points="${gap/2},${tam+gap/2} ${gap/2+inner},${tam+gap/2} ${gap/2+inner-bev},${tam+gap/2+bev} ${gap/2+bev},${tam+gap/2+bev}" fill="${c}" opacity="0.03"/>
+      <polygon points="${gap/2},${tam+gap/2+inner} ${gap/2+bev},${tam+gap/2+inner-bev} ${gap/2+inner-bev},${tam+gap/2+inner-bev} ${gap/2+inner},${tam+gap/2+inner}" fill="${c}" opacity="0.12"/>
+      <polygon points="${gap/2+inner},${tam+gap/2} ${gap/2+inner-bev},${tam+gap/2+bev} ${gap/2+inner-bev},${tam+gap/2+inner-bev} ${gap/2+inner},${tam+gap/2+inner}" fill="${c}" opacity="0.08"/>
+      <line x1="${gap/2+r}" y1="${tam+gap/2+0.3}" x2="${gap/2+inner-r}" y2="${tam+gap/2+0.3}" stroke="white" stroke-width="0.25" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="${W}" height="${H}" fill="white"/>
+  <rect width="${W}" height="${H}" fill="url(#pc)"/>
+</svg>`;
+}
+
+// ========================================
+// SVG TILES
+// ========================================
+function svgLineas(forExport) {
+  const tam = parseInt($('sl-lineas-tam').value);
+  const grosor = parseInt($('sl-lineas-grosor').value) / 10;
+  const is3d = $('tog-tiles-3d').checked;
+  const sizeAttr = forExport ? `width="600mm" height="800mm"` : '';
+  const c = forExport ? 'black' : inkColor;
+
+  if (!is3d) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" ${sizeAttr} viewBox="0 0 ${W} ${H}">
+    <defs>
+      <pattern id="pl" x="0" y="0" width="${tam}" height="${tam}" patternUnits="userSpaceOnUse">
+        <rect width="${tam}" height="${tam}" fill="white" stroke="${c}" stroke-width="${grosor}"/>
+      </pattern>
+    </defs>
+    <rect width="${W}" height="${H}" fill="white"/>
+    <rect width="${W}" height="${H}" fill="url(#pl)"/>
+  </svg>`;
+  }
+
+  const gap = grosor * 2.5;
+  const inner = tam - gap;
+  const o = gap / 2;
+  const r = inner * 0.06;
+  const bev = inner * 0.12;
+  const face = inner - bev * 2;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" ${sizeAttr} viewBox="0 0 ${W} ${H}">
+  <defs>
+    <pattern id="pl" x="0" y="0" width="${tam}" height="${tam}" patternUnits="userSpaceOnUse">
+      <rect width="${tam}" height="${tam}" fill="${c}" opacity="0.35"/>
+      <rect x="${o + 0.15}" y="${o + 0.15}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="${c}" opacity="0.18"/>
+      <rect x="${o}" y="${o}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="white"/>
+      <polygon points="${o},${o} ${o+inner},${o} ${o+inner-bev},${o+bev} ${o+bev},${o+bev}" fill="${c}" opacity="0.04"/>
+      <polygon points="${o},${o} ${o+bev},${o+bev} ${o+bev},${o+inner-bev} ${o},${o+inner}" fill="${c}" opacity="0.03"/>
+      <polygon points="${o},${o+inner} ${o+bev},${o+inner-bev} ${o+inner-bev},${o+inner-bev} ${o+inner},${o+inner}" fill="${c}" opacity="0.14"/>
+      <polygon points="${o+inner},${o} ${o+inner-bev},${o+bev} ${o+inner-bev},${o+inner-bev} ${o+inner},${o+inner}" fill="${c}" opacity="0.10"/>
+      <line x1="${o+r}" y1="${o+0.3}" x2="${o+inner-r}" y2="${o+0.3}" stroke="white" stroke-width="0.3" opacity="0.6"/>
+      <rect x="${o+bev}" y="${o+bev}" width="${face}" height="${face}" fill="white" opacity="0.3"/>
+      <rect x="${o}" y="${o}" width="${inner}" height="${inner}" rx="${r}" ry="${r}" fill="none" stroke="${c}" stroke-width="${grosor * 0.3}" opacity="0.25"/>
+    </pattern>
+  </defs>
+  <rect width="${W}" height="${H}" fill="${c}" opacity="0.35"/>
+  <rect width="${W}" height="${H}" fill="url(#pl)"/>
+</svg>`;
+}
+
+// ========================================
+// RENDER
+// ========================================
+function render() {
+  const zoom = parseInt($('sl-zoom').value) / 100;
+  const vp = $('viewport');
+  const vpH = vp.clientHeight - 60;
+  const h = vpH * zoom;
+  const w = h * (W / H);
+
+  let html = '';
+  const sz = currentView === 'both' ? 0.5 : 1;
+
+  if (currentView === 'both' || currentView === 'cuadros') {
+    html += `<div class="svg-panel">
+      <span class="tag">Cuadros</span>
+      ${svgCuadros(false).replace('<svg ', `<svg width="${w*sz}" height="${h*sz}" `)}
+    </div>`;
+  }
+  if (currentView === 'both' || currentView === 'lineas') {
+    html += `<div class="svg-panel">
+      <span class="tag">Tiles</span>
+      ${svgLineas(false).replace('<svg ', `<svg width="${w*sz}" height="${h*sz}" `)}
+    </div>`;
+  }
+  vp.innerHTML = html;
+}
+
+function updateLabels() {
+  $('val-cuadros-op').textContent = $('sl-cuadros-op').value + '%';
+  $('val-cuadros-tam').textContent = $('sl-cuadros-tam').value + 'mm';
+  $('val-lineas-tam').textContent = $('sl-lineas-tam').value + 'mm';
+  $('val-lineas-grosor').textContent = (parseInt($('sl-lineas-grosor').value) / 10).toFixed(1) + 'mm';
+  $('val-zoom').textContent = $('sl-zoom').value + '%';
+}
+
+function update() {
+  updateLabels();
+  render();
+}
+
+// ---- Eventos sliders + toggles ----
+['sl-cuadros-op','sl-cuadros-tam','sl-lineas-tam','sl-lineas-grosor','sl-zoom'].forEach(id =>
+  $(id).addEventListener('input', update)
+);
+['tog-cuadros-3d','tog-tiles-3d'].forEach(id =>
+  $(id).addEventListener('change', update)
+);
+
+// ---- Tabs vista ----
+document.querySelectorAll('#tabs-view button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#tabs-view button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    update();
+  });
+});
+
+// ---- Tabs color ----
+document.querySelectorAll('#tabs-color button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#tabs-color button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    inkColor = btn.dataset.color === 'red' ? '#cc0000' : 'black';
+    update();
+  });
+});
+
+// ---- Export ----
+function downloadSVG(svg, name) {
+  const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+}
+$('btn-export-cuadros').addEventListener('click', () => downloadSVG(svgCuadros(true), 'patron-cuadros.svg'));
+$('btn-export-lineas').addEventListener('click', () => downloadSVG(svgLineas(true), 'patron-tiles.svg'));
+
+// ========================================
+// PERSISTENCIA
+// ========================================
+const KEY = 'patron-empaque-config';
+
+function getState() {
+  return {
+    cuadrosOp: parseInt($('sl-cuadros-op').value),
+    cuadrosTam: parseInt($('sl-cuadros-tam').value),
+    cuadros3d: $('tog-cuadros-3d').checked,
+    lineasTam: parseInt($('sl-lineas-tam').value),
+    lineasGrosor: parseInt($('sl-lineas-grosor').value),
+    tiles3d: $('tog-tiles-3d').checked,
+    zoom: parseInt($('sl-zoom').value),
+    view: currentView,
+    color: inkColor
+  };
+}
+
+function applyState(s) {
+  if (!s) return;
+  if (s.cuadrosOp != null) $('sl-cuadros-op').value = s.cuadrosOp;
+  if (s.cuadrosTam != null) $('sl-cuadros-tam').value = s.cuadrosTam;
+  if (s.cuadros3d != null) $('tog-cuadros-3d').checked = s.cuadros3d;
+  if (s.lineasTam != null) $('sl-lineas-tam').value = s.lineasTam;
+  if (s.lineasGrosor != null) $('sl-lineas-grosor').value = s.lineasGrosor;
+  if (s.tiles3d != null) $('tog-tiles-3d').checked = s.tiles3d;
+  if (s.zoom != null) $('sl-zoom').value = s.zoom;
+  if (s.view) {
+    currentView = s.view;
+    document.querySelectorAll('#tabs-view button').forEach(b =>
+      b.classList.toggle('active', b.dataset.view === s.view)
+    );
+  }
+  if (s.color) {
+    inkColor = s.color;
+    document.querySelectorAll('#tabs-color button').forEach(b =>
+      b.classList.toggle('active', b.dataset.color === (s.color === '#cc0000' ? 'red' : 'black'))
+    );
+  }
+}
+
+function autoSave() {
+  try { localStorage.setItem(KEY, JSON.stringify(getState())); } catch(e) {}
+}
+function autoLoad() {
+  try {
+    const s = localStorage.getItem(KEY);
+    if (s) applyState(JSON.parse(s));
+  } catch(e) {}
+}
+
+$('btn-save-json').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(getState(), null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'patron-config.json';
+  a.click();
+  $('save-status').textContent = 'guardado';
+  setTimeout(() => $('save-status').textContent = '', 2000);
+});
+
+$('btn-load-json').addEventListener('click', () => $('file-json').click());
+$('file-json').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      applyState(JSON.parse(ev.target.result));
+      update(); autoSave();
+      $('save-status').textContent = 'cargado';
+      setTimeout(() => $('save-status').textContent = '', 2000);
+    } catch(err) { $('save-status').textContent = 'error JSON'; }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+const _upd = update;
+update = function() { _upd(); autoSave(); };
+
+window.addEventListener('resize', render);
+autoLoad();
+update();
+</script>
+</body>
+</html>
