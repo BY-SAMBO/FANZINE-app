@@ -5,7 +5,8 @@ import {
   getPosProducts,
   getProductModifiers,
 } from "@/lib/services/pos-service";
-import type { OrderItem, SaleType, SaleMode, PaymentMethod, RemoteOrderLog } from "@/types/pos-v2";
+import { withOfflineCache } from "@/lib/utils/offline-cache";
+import type { OrderItem, SaleType, SaleMode, PaymentMethod, SalePayment, RemoteOrderLog } from "@/types/pos-v2";
 
 export function usePosProducts() {
   return useQuery({
@@ -24,11 +25,12 @@ export function useProductModifiers(productFudoId: string | null) {
   });
 }
 
-interface SubmitOrderPayload {
+export interface SubmitOrderPayload {
   items: OrderItem[];
   sale_type: SaleType;
   sale_mode?: SaleMode;
   payment_method: PaymentMethod;
+  payments?: SalePayment[]; // split payments (sum must equal total)
   total: number;
 }
 
@@ -68,17 +70,19 @@ export function useSyncModifiers() {
 export function useOrderHistory() {
   return useQuery({
     queryKey: ["pos-order-history"],
-    queryFn: async () => {
-      const { createClient } = await import("@/lib/supabase/client");
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("pos_sales_log")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
-      if (error) throw error;
-      return data;
-    },
+    queryFn: () =>
+      // Cached so the history survives a connection drop
+      withOfflineCache("pos-order-history", async () => {
+        const { createClient } = await import("@/lib/supabase/client");
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from("pos_sales_log")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(50);
+        if (error) throw error;
+        return data;
+      }),
     staleTime: 30_000,
   });
 }
@@ -89,6 +93,7 @@ export function useCloseSale() {
     mutationFn: async (payload: {
       fudo_sale_id: string;
       payment_method: string;
+      payments?: SalePayment[]; // split payments (sum must equal total)
       total: number;
     }) => {
       const res = await fetch("/api/pos/sale/close", {

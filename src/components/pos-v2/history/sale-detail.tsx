@@ -2,19 +2,17 @@
 
 import { useState } from "react";
 import { X, Printer } from "lucide-react";
+import { toast } from "sonner";
 import { useCloseSale } from "@/lib/hooks/use-pos-v2";
 import { usePrinterStore } from "@/lib/stores/printer-store";
+import { useOfflineQueue } from "@/lib/pos-v2/offline-queue";
 import { generateComanda } from "@/lib/print/comanda-esc";
-import type { PaymentMethod, SaleLogEntry, SaleLogItem } from "@/types/pos-v2";
+import type { PaymentMethod, SalePayment, SaleLogEntry, SaleLogItem } from "@/types/pos-v2";
 import { cn } from "@/lib/utils";
-
-const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
-  { value: "cash", label: "Efectivo" },
-  { value: "card", label: "Tarjeta" },
-  { value: "nequi", label: "Nequi" },
-  { value: "daviplata", label: "Daviplata" },
-  { value: "llaves", label: "Llaves" },
-];
+import {
+  SplitPayment,
+  paymentsAreValid,
+} from "../payment/split-payment";
 
 interface SaleDetailDialogProps {
   order: SaleLogEntry;
@@ -22,15 +20,23 @@ interface SaleDetailDialogProps {
 }
 
 export function SaleDetailDialog({ order, onClose }: SaleDetailDialogProps) {
-  const [method, setMethod] = useState<PaymentMethod>(
-    (order.payment_method as PaymentMethod) || "cash"
-  );
-  const closeSale = useCloseSale();
-  const printer = usePrinterStore();
-
   const isOpen = order.sale_status === "open";
   const total = Number(order.total);
   const items = (order.items || []) as SaleLogItem[];
+
+  const initialMethod = (
+    ["cash", "card", "nequi", "daviplata", "llaves"].includes(order.payment_method)
+      ? order.payment_method
+      : "cash"
+  ) as PaymentMethod;
+  const [payments, setPayments] = useState<SalePayment[]>([
+    { method: initialMethod, amount: total },
+  ]);
+  const closeSale = useCloseSale();
+  const printer = usePrinterStore();
+  const enqueue = useOfflineQueue((s) => s.enqueue);
+
+  const splitValid = paymentsAreValid(payments, total);
 
   const createdAt = new Date(order.created_at);
   const time = createdAt.toLocaleTimeString("es-CO", {
@@ -44,15 +50,43 @@ export function SaleDetailDialog({ order, onClose }: SaleDetailDialogProps) {
     timeZone: "America/Bogota",
   });
 
-  const handleClose = () => {
-    closeSale.mutate(
-      {
-        fudo_sale_id: order.fudo_sale_id,
-        payment_method: method,
+  const handleClose = async () => {
+    const payload = {
+      fudo_sale_id: order.fudo_sale_id,
+      payment_method: payments[0].method,
+      payments,
+      total,
+    };
+
+    // Sin internet: encolar el cierre y sincronizarlo al volver la conexión
+    const queueOffline = () => {
+      enqueue({
+        kind: "close",
+        payload: payload as unknown as Record<string, unknown>,
+        label: `Cierre cuenta #${order.fudo_sale_id} $${total.toLocaleString()}`,
         total,
-      },
-      { onSuccess: () => onClose() }
-    );
+      });
+      onClose();
+      toast.warning(
+        "Sin internet — el cierre quedó guardado y se sincroniza al volver la conexión.",
+        { duration: 5000 }
+      );
+    };
+
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      queueOffline();
+      return;
+    }
+
+    try {
+      await closeSale.mutateAsync(payload);
+      onClose();
+    } catch (err) {
+      if (err instanceof TypeError || !navigator.onLine) {
+        queueOffline();
+      }
+      // Other errors stay visible via closeSale.isError below
+    }
   };
 
   const handlePrint = () => {
@@ -174,28 +208,15 @@ export function SaleDetailDialog({ order, onClose }: SaleDetailDialogProps) {
           </span>
         </div>
 
-        {/* Payment method for open orders */}
+        {/* Payment method(s) for open orders */}
         {isOpen && (
-          <div className="px-5 py-3 space-y-2 border-t border-gray-100">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-              Método de pago
-            </p>
-            <div className="flex gap-2">
-              {PAYMENT_METHODS.map((pm) => (
-                <button
-                  key={pm.value}
-                  onClick={() => setMethod(pm.value)}
-                  className={cn(
-                    "flex-1 py-2.5 text-xs font-bold uppercase tracking-wider border-2 transition-all rounded-lg",
-                    method === pm.value
-                      ? "bg-green-600 text-white border-green-600"
-                      : "text-gray-500 border-gray-200 hover:border-gray-400"
-                  )}
-                >
-                  {pm.label}
-                </button>
-              ))}
-            </div>
+          <div className="px-5 py-3 border-t border-gray-100">
+            <SplitPayment
+              total={total}
+              payments={payments}
+              onChange={setPayments}
+              accent="green"
+            />
           </div>
         )}
 
@@ -226,7 +247,8 @@ export function SaleDetailDialog({ order, onClose }: SaleDetailDialogProps) {
               </button>
               <button
                 onClick={handleClose}
-                disabled={closeSale.isPending}
+                disabled={closeSale.isPending || !splitValid}
+                title={!splitValid ? "Los pagos deben sumar el total" : undefined}
                 className="flex-[2] py-3 bg-green-600 border-2 border-green-600 text-white text-sm font-bold uppercase tracking-wider hover:bg-green-700 hover:border-green-700 disabled:opacity-50 transition-all rounded-lg"
               >
                 {closeSale.isPending ? "Cerrando..." : "Cerrar y Cobrar"}

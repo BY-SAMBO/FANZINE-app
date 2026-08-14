@@ -11,14 +11,44 @@ import {
   getAllFudoPaymentMethods,
 } from "@/lib/fudo/pos-client";
 import { handleApiError, AppError } from "@/lib/utils/errors";
-import type { OrderItem, SaleType, SaleMode, PaymentMethod } from "@/types/pos";
+import type { OrderItem, SaleType, SaleMode, PaymentMethod, SalePayment } from "@/types/pos";
 
 interface SaleRequest {
   items: OrderItem[];
   sale_type: SaleType;
   sale_mode?: SaleMode;
   payment_method: PaymentMethod;
+  payments?: SalePayment[]; // split payments; falls back to payment_method + total
   total: number;
+}
+
+// Normalize to a payments list and validate amounts against the total
+function resolvePayments(body: {
+  payments?: SalePayment[];
+  payment_method: PaymentMethod;
+  total: number;
+}): SalePayment[] {
+  const payments =
+    body.payments && body.payments.length > 0
+      ? body.payments
+      : [{ method: body.payment_method, amount: body.total }];
+
+  if (payments.some((p) => !p.method || !(p.amount > 0))) {
+    throw new AppError(
+      "Cada pago debe tener metodo y monto mayor a 0",
+      "INVALID_PAYMENTS",
+      400
+    );
+  }
+  const sum = payments.reduce((s, p) => s + p.amount, 0);
+  if (Math.round(sum) !== Math.round(body.total)) {
+    throw new AppError(
+      `La suma de los pagos ($${sum}) no coincide con el total ($${body.total})`,
+      "PAYMENTS_TOTAL_MISMATCH",
+      400
+    );
+  }
+  return payments;
 }
 
 // Map our payment method names to Fudo payment method IDs (cached per cold start)
@@ -95,6 +125,8 @@ export async function POST(request: Request) {
       );
     }
 
+    const payments = resolvePayments(body);
+
     // 1. Create sale in Fudo
     step = "create_sale";
     console.log("[POS Sale] Step 1: Creating sale", { sale_type: body.sale_type });
@@ -112,8 +144,8 @@ export async function POST(request: Request) {
 
     const fudoItemIds: string[] = [];
 
-    const [paymentMethodId] = await Promise.all([
-      getPaymentMethodId(body.payment_method),
+    const [paymentMethodIds] = await Promise.all([
+      Promise.all(payments.map((p) => getPaymentMethodId(p.method))),
       // Process all items in parallel
       Promise.all(body.items.map(async (item) => {
         console.log("[POS Sale] Step 2: Adding item", {
@@ -170,14 +202,17 @@ export async function POST(request: Request) {
     const saleMode = body.sale_mode ?? "instant";
 
     if (saleMode === "instant") {
-      // 3. Add payment
+      // 3. Add payments (one per split method, sequential for Fudo)
       step = "add_payment";
-      console.log("[POS Sale] Step 3: Adding payment", {
-        sale_id: sale.id,
-        payment_method_id: paymentMethodId,
-        amount: body.total,
-      });
-      await addFudoPayment(sale.id, paymentMethodId, body.total);
+      for (let i = 0; i < payments.length; i++) {
+        console.log("[POS Sale] Step 3: Adding payment", {
+          sale_id: sale.id,
+          payment_method_id: paymentMethodIds[i],
+          method: payments[i].method,
+          amount: payments[i].amount,
+        });
+        await addFudoPayment(sale.id, paymentMethodIds[i], payments[i].amount);
+      }
 
       // 4. Close sale
       step = "close_sale";
@@ -206,7 +241,10 @@ export async function POST(request: Request) {
         sale_type: body.sale_type,
         items: body.items,
         total: body.total,
-        payment_method: body.payment_method,
+        payment_method:
+          saleMode === "instant"
+            ? [...new Set(payments.map((p) => p.method))].join("+")
+            : body.payment_method,
         cashier_id: user.id,
         cashier_name: profile.nombre,
         sale_status: saleMode === "comanda" ? "open" : "closed",

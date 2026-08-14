@@ -6,6 +6,12 @@ export type SaleMode = "instant" | "comanda";
 
 export type PaymentMethod = "cash" | "card" | "nequi" | "daviplata" | "llaves";
 
+// One portion of a (possibly split) payment for a sale
+export interface SalePayment {
+  method: PaymentMethod;
+  amount: number;
+}
+
 export type OrderStatus = "building" | "paying" | "submitted" | "error";
 
 export interface OrderModifier {

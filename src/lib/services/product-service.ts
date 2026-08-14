@@ -2,6 +2,7 @@ import type { Product, ProductFormData, ProductFilters } from "@/types/product";
 import { createClient } from "@/lib/supabase/client";
 import { deepMerge } from "@/lib/utils/deep-merge";
 import { PROTECTED_FIELDS } from "@/lib/config/constants";
+import { withOfflineCache } from "@/lib/utils/offline-cache";
 
 function getClient() {
   return createClient();
@@ -115,15 +116,18 @@ export async function deleteProduct(id: string) {
 }
 
 export async function getCategories() {
-  const supabase = getClient();
-  const { data, error } = await supabase
-    .from("categories")
-    .select("*")
-    .eq("activa", true)
-    .order("orden");
+  // Cached in localStorage so the POS sidebar keeps working without internet
+  return withOfflineCache("categories", async () => {
+    const supabase = getClient();
+    const { data, error } = await supabase
+      .from("categories")
+      .select("*")
+      .eq("activa", true)
+      .order("orden");
 
-  if (error) throw error;
-  return data;
+    if (error) throw error;
+    return data;
+  });
 }
 
 export async function getProductStats() {

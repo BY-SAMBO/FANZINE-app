@@ -1,14 +1,20 @@
 import { createClient } from "@/lib/supabase/client";
-import type { PosProduct, ModifierGroup, ModifierOption } from "@/types/pos";
+import { withOfflineCache, writeCache } from "@/lib/utils/offline-cache";
+import type { PosProduct, ModifierGroup } from "@/types/pos";
 
 function getClient() {
   return createClient();
 }
 
 /**
- * Get all active products with fudo_id for POS display
+ * Get all active products with fudo_id for POS display.
+ * Cached in localStorage so the POS keeps working without internet.
  */
 export async function getPosProducts(): Promise<PosProduct[]> {
+  return withOfflineCache("pos-products", fetchPosProducts);
+}
+
+async function fetchPosProducts(): Promise<PosProduct[]> {
   const supabase = getClient();
   const { data, error } = await supabase
     .from("products")
@@ -43,26 +49,23 @@ export async function getPosProducts(): Promise<PosProduct[]> {
   }));
 }
 
-/**
- * Get modifier groups for a product from cache
- */
-export async function getProductModifiers(
-  productFudoId: string
-): Promise<ModifierGroup[]> {
-  const supabase = getClient();
-  const { data, error } = await supabase
-    .from("pos_modifier_cache")
-    .select("*")
-    .eq("product_fudo_id", productFudoId)
-    .order("modifier_group_name")
-    .order("modifier_name");
+// Row shape from pos_modifier_cache used to build ModifierGroup[]
+interface ModifierCacheRow {
+  product_fudo_id: string;
+  modifier_group_fudo_id: string;
+  modifier_group_name: string | null;
+  group_max_quantity: number | null;
+  group_min_quantity: number | null;
+  modifier_fudo_id: string;
+  modifier_name: string;
+  modifier_price: number | string | null;
+  topping_product_fudo_id: string | null;
+  max_quantity: number | null;
+}
 
-  if (error) throw error;
-  if (!data || data.length === 0) return [];
-
-  // Group by modifier_group_fudo_id
+function buildModifierGroups(rows: ModifierCacheRow[]): ModifierGroup[] {
   const groupMap = new Map<string, ModifierGroup>();
-  for (const row of data) {
+  for (const row of rows) {
     if (!groupMap.has(row.modifier_group_fudo_id)) {
       groupMap.set(row.modifier_group_fudo_id, {
         fudo_id: row.modifier_group_fudo_id,
@@ -82,8 +85,59 @@ export async function getProductModifiers(
       max_quantity: row.max_quantity || 1,
     });
   }
-
   return Array.from(groupMap.values());
+}
+
+/**
+ * Get modifier groups for a product from cache.
+ * Cached in localStorage so toppings keep working without internet.
+ */
+export async function getProductModifiers(
+  productFudoId: string
+): Promise<ModifierGroup[]> {
+  return withOfflineCache(`pos-modifiers:${productFudoId}`, async () => {
+    const supabase = getClient();
+    const { data, error } = await supabase
+      .from("pos_modifier_cache")
+      .select("*")
+      .eq("product_fudo_id", productFudoId)
+      .order("modifier_group_name")
+      .order("modifier_name");
+
+    if (error) throw error;
+    if (!data || data.length === 0) return [];
+    return buildModifierGroups(data);
+  });
+}
+
+/**
+ * Warm the offline cache with the modifiers of EVERY product, so toppings
+ * work offline even for products never opened in this session.
+ * Fire-and-forget from the POS on load.
+ */
+export async function prefetchAllModifiers(): Promise<void> {
+  try {
+    const supabase = getClient();
+    const { data, error } = await supabase
+      .from("pos_modifier_cache")
+      .select("*")
+      .order("modifier_group_name")
+      .order("modifier_name");
+
+    if (error || !data) return;
+
+    const byProduct = new Map<string, ModifierCacheRow[]>();
+    for (const row of data as ModifierCacheRow[]) {
+      const list = byProduct.get(row.product_fudo_id) ?? [];
+      list.push(row);
+      byProduct.set(row.product_fudo_id, list);
+    }
+    for (const [productFudoId, rows] of byProduct) {
+      writeCache(`pos-modifiers:${productFudoId}`, buildModifierGroups(rows));
+    }
+  } catch {
+    // Best-effort warmup — offline fallback just won't cover unopened products
+  }
 }
 
 /**

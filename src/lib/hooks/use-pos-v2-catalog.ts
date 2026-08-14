@@ -8,6 +8,11 @@ import type { PosProduct } from "@/types/pos-v2";
 
 export const FAVORITES_ID = "__favorites__";
 
+// Synthetic category: unifies tacos + nachos + chicanitas + tex-mex in one
+// sidebar entry that exists even if the DB has no "tex-mex" category row.
+export const TEXMEX_ID = "__texmex__";
+const TEXMEX_SLUGS = ["tex-mex", "tacos", "nachos", "chicanitas"];
+
 export function usePosCatalog() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(FAVORITES_ID);
   const [searchQuery, setSearchQuery] = useState("");
@@ -59,47 +64,55 @@ export function usePosCatalog() {
     return categories?.find((c) => c.nombre.toLowerCase() === "helados")?.id ?? null;
   }, [categories]);
 
-  // Tex-Mex unified: tex-mex + tacos + nachos + chicanitas
-  const texmexCategoryId = useMemo(() => {
-    return categories?.find((c) => c.nombre.toLowerCase() === "tex-mex")?.id ?? null;
-  }, [categories]);
-
-  const texmexSubCategoryIds = useMemo(() => {
+  // Tex-Mex unified: DB categories that fold into the synthetic TEXMEX_ID
+  // (matched by slug or nombre so a renamed/missing "tex-mex" row can't
+  // make tacos/nachos disappear from the sidebar)
+  const texmexDbIds = useMemo(() => {
     if (!categories) return new Set<string>();
-    const slugs = ["tacos", "nachos", "chicanitas"];
     return new Set(
-      categories.filter((c) => slugs.includes(c.slug)).map((c) => c.id)
+      categories
+        .filter(
+          (c) =>
+            TEXMEX_SLUGS.includes(c.slug?.toLowerCase?.() ?? "") ||
+            TEXMEX_SLUGS.includes(c.nombre?.toLowerCase?.() ?? "")
+        )
+        .map((c) => c.id)
     );
   }, [categories]);
 
-  // All tex-mex related category IDs (main + subs)
-  const allTexmexIds = useMemo(() => {
-    const ids = new Set(texmexSubCategoryIds);
-    if (texmexCategoryId) ids.add(texmexCategoryId);
-    return ids;
-  }, [texmexCategoryId, texmexSubCategoryIds]);
-
-  // Product counts by category — merge tex-mex sub-categories
+  // Product counts by category — merge tex-mex categories into TEXMEX_ID
   const productCounts = useMemo(() => {
     if (!products) return {};
     const counts: Record<string, number> = {};
     for (const p of products) {
       const catId = p.categoria_id || "uncategorized";
-      // Merge tacos/nachos/chicanitas counts into tex-mex
-      if (texmexCategoryId && texmexSubCategoryIds.has(catId)) {
-        counts[texmexCategoryId] = (counts[texmexCategoryId] || 0) + 1;
+      if (texmexDbIds.has(catId)) {
+        counts[TEXMEX_ID] = (counts[TEXMEX_ID] || 0) + 1;
       } else {
         counts[catId] = (counts[catId] || 0) + 1;
       }
     }
     return counts;
-  }, [products, texmexCategoryId, texmexSubCategoryIds]);
+  }, [products, texmexDbIds]);
 
-  // Categories for sidebar — hide tex-mex sub-categories
+  // Categories for sidebar — collapse all tex-mex categories into one
+  // synthetic entry at the position of the first one
   const sidebarCategories = useMemo(() => {
     if (!categories) return [];
-    return categories.filter((c) => !texmexSubCategoryIds.has(c.id));
-  }, [categories, texmexSubCategoryIds]);
+    const result: typeof categories = [];
+    let inserted = false;
+    for (const c of categories) {
+      if (texmexDbIds.has(c.id)) {
+        if (!inserted) {
+          result.push({ ...c, id: TEXMEX_ID, nombre: "Tex-Mex" });
+          inserted = true;
+        }
+      } else {
+        result.push(c);
+      }
+    }
+    return result;
+  }, [categories, texmexDbIds]);
 
   const favoritesCount = useMemo(() => {
     return products?.filter((p) => p.favorito).length ?? 0;
@@ -111,9 +124,9 @@ export function usePosCatalog() {
     let result = products;
     if (selectedCategory === FAVORITES_ID) {
       result = result.filter((p) => p.favorito);
-    } else if (selectedCategory && selectedCategory === texmexCategoryId) {
-      // Tex-Mex unified: include tacos, nachos, chicanitas
-      result = result.filter((p) => allTexmexIds.has(p.categoria_id));
+    } else if (selectedCategory === TEXMEX_ID) {
+      // Tex-Mex unified: include tacos, nachos, chicanitas, tex-mex
+      result = result.filter((p) => texmexDbIds.has(p.categoria_id));
     } else if (selectedCategory) {
       result = result.filter((p) => p.categoria_id === selectedCategory);
     }
@@ -122,7 +135,7 @@ export function usePosCatalog() {
       result = result.filter((p) => p.nombre.toLowerCase().includes(q));
     }
     return result;
-  }, [products, selectedCategory, searchQuery, texmexCategoryId, allTexmexIds]);
+  }, [products, selectedCategory, searchQuery, texmexDbIds]);
 
   const isCrispetasView =
     selectedCategory === crispetasCategoryId &&
@@ -139,10 +152,7 @@ export function usePosCatalog() {
     heladosCategoryId !== null &&
     selectedCategory !== FAVORITES_ID;
 
-  const isTexMexView =
-    selectedCategory === texmexCategoryId &&
-    texmexCategoryId !== null &&
-    selectedCategory !== FAVORITES_ID;
+  const isTexMexView = selectedCategory === TEXMEX_ID;
 
   const handleProductSelect = useCallback(
     (product: PosProduct) => {

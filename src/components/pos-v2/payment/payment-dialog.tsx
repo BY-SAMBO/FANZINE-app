@@ -1,12 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { usePosV2Store } from "@/lib/pos-v2/store";
-import { useSubmitOrder } from "@/lib/hooks/use-pos-v2";
+import { useSubmitOrder, type SubmitOrderPayload } from "@/lib/hooks/use-pos-v2";
 import { usePrinterStore } from "@/lib/stores/printer-store";
+import { useOfflineQueue } from "@/lib/pos-v2/offline-queue";
 import { generateComanda } from "@/lib/print/comanda-esc";
-import type { PaymentMethod, SaleMode } from "@/types/pos-v2";
+import type { SalePayment, SaleMode } from "@/types/pos-v2";
 import { cn } from "@/lib/utils";
+import {
+  SplitPayment,
+  paymentsAreValid,
+} from "./split-payment";
 
 interface PaymentDialogProps {
   open: boolean;
@@ -14,23 +20,28 @@ interface PaymentDialogProps {
   onSaleSuccess?: (fudoSaleId: string) => void;
 }
 
-const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
-  { value: "cash", label: "Efectivo" },
-  { value: "card", label: "Tarjeta" },
-  { value: "nequi", label: "Nequi" },
-  { value: "daviplata", label: "Daviplata" },
-  { value: "llaves", label: "Llaves" },
-];
-
 export function PaymentDialog({ open, onClose, onSaleSuccess }: PaymentDialogProps) {
-  const [method, setMethod] = useState<PaymentMethod>("cash");
+  const [payments, setPayments] = useState<SalePayment[]>([
+    { method: "cash", amount: 0 },
+  ]);
   const order = usePosV2Store((s) => s.order);
   const clearOrder = usePosV2Store((s) => s.clearOrder);
   const setStatus = usePosV2Store((s) => s.setStatus);
   const submitOrder = useSubmitOrder();
   const printer = usePrinterStore();
+  const enqueue = useOfflineQueue((s) => s.enqueue);
+
+  const total = order.total ?? 0;
 
   if (!open) return null;
+
+  // In single mode the one method always covers the live total
+  const resolvedPayments: SalePayment[] =
+    payments.length === 1
+      ? [{ method: payments[0].method, amount: total }]
+      : payments;
+
+  const splitValid = paymentsAreValid(resolvedPayments, total);
 
   const handleSubmit = async (saleMode: SaleMode) => {
     const freshOrder = usePosV2Store.getState().order;
@@ -52,36 +63,69 @@ export function PaymentDialog({ open, onClose, onSaleSuccess }: PaymentDialogPro
       total: freshOrder.total,
     };
 
-    try {
-      setStatus("paying");
-      const result = await submitOrder.mutateAsync({
-        items: freshOrder.items,
-        sale_type: freshOrder.sale_type,
-        sale_mode: saleMode,
-        payment_method: saleMode === "comanda" ? "cash" : method,
+    const payload: SubmitOrderPayload = {
+      items: freshOrder.items,
+      sale_type: freshOrder.sale_type,
+      sale_mode: saleMode,
+      payment_method: saleMode === "comanda" ? "cash" : resolvedPayments[0].method,
+      payments: saleMode === "comanda" ? undefined : resolvedPayments,
+      total: freshOrder.total,
+    };
+
+    const printComanda = (saleId: string, cashierName: string) => {
+      if (saleMode !== "comanda" || !printer.connected) return;
+      const ticket = generateComanda({
+        sale_id: saleId,
+        sale_type: orderSnapshot.sale_type,
+        items: orderSnapshot.items,
+        total: orderSnapshot.total,
+        cashier_name: cashierName,
+      });
+      printer.printRaw(ticket).catch((err) =>
+        console.error("[WebUSB Print] Failed:", err)
+      );
+    };
+
+    // Sin internet: guardar en cola local y seguir vendiendo
+    const queueOffline = () => {
+      enqueue({
+        kind: "sale",
+        payload: payload as unknown as Record<string, unknown>,
+        label: `${saleMode === "comanda" ? "Comanda" : "Venta"} $${freshOrder.total.toLocaleString()}`,
         total: freshOrder.total,
       });
+      clearOrder();
+      setPayments([{ method: "cash", amount: 0 }]);
+      onClose();
+      toast.warning("Sin internet — venta guardada. Se sincroniza al volver la conexión.", {
+        duration: 5000,
+      });
+      // The thermal printer is USB — it still works offline
+      printComanda("OFFLINE", "");
+    };
+
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      queueOffline();
+      return;
+    }
+
+    try {
+      setStatus("paying");
+      const result = await submitOrder.mutateAsync(payload);
 
       clearOrder();
+      setPayments([{ method: "cash", amount: 0 }]);
       onClose();
       if (result?.fudo_sale_id) {
         onSaleSuccess?.(result.fudo_sale_id);
+        printComanda(result.fudo_sale_id, result.cashier_name || "");
       }
-
-      // Print comanda (fire-and-forget)
-      if (saleMode === "comanda" && printer.connected && result?.fudo_sale_id) {
-        const ticket = generateComanda({
-          sale_id: result.fudo_sale_id,
-          sale_type: orderSnapshot.sale_type,
-          items: orderSnapshot.items,
-          total: orderSnapshot.total,
-          cashier_name: result.cashier_name || "",
-        });
-        printer.printRaw(ticket).catch((err) =>
-          console.error("[WebUSB Print] Failed:", err)
-        );
+    } catch (err) {
+      // Network failure mid-request — queue it instead of losing the sale
+      if (err instanceof TypeError || !navigator.onLine) {
+        queueOffline();
+        return;
       }
-    } catch {
       setStatus("error");
     }
   };
@@ -97,29 +141,13 @@ export function PaymentDialog({ open, onClose, onSaleSuccess }: PaymentDialogPro
         <div className="text-center">
           <p className="text-gray-400 text-sm">Total</p>
           <p className="text-4xl font-extrabold text-gray-900 tabular-nums">
-            ${(order.total ?? 0).toLocaleString()}
+            ${total.toLocaleString()}
           </p>
         </div>
 
-        {/* Payment method */}
+        {/* Payment method(s) */}
         <div className="space-y-2">
-          <p className="text-gray-400 text-xs uppercase tracking-wider">Metodo de pago</p>
-          <div className="flex gap-2">
-            {PAYMENT_METHODS.map((pm) => (
-              <button
-                key={pm.value}
-                onClick={() => setMethod(pm.value)}
-                className={cn(
-                  "flex-1 py-3 text-sm font-bold uppercase tracking-wider border-2 transition-all rounded-lg",
-                  method === pm.value
-                    ? "bg-red-600 text-white border-red-600"
-                    : "text-gray-500 border-gray-200 hover:border-gray-400"
-                )}
-              >
-                {pm.label}
-              </button>
-            ))}
-          </div>
+          <SplitPayment total={total} payments={resolvedPayments} onChange={setPayments} />
           <p className="text-gray-300 text-[10px] text-center">
             Solo para &quot;Sin Comanda&quot; &mdash; las comandas se cobran al cerrar
           </p>
@@ -180,7 +208,8 @@ export function PaymentDialog({ open, onClose, onSaleSuccess }: PaymentDialogPro
           </button>
           <button
             onClick={() => handleSubmit("instant")}
-            disabled={submitOrder.isPending}
+            disabled={submitOrder.isPending || !splitValid}
+            title={!splitValid ? "Los pagos deben sumar el total" : undefined}
             className="flex-1 py-3 bg-red-600 border-2 border-red-600 text-white text-sm font-bold uppercase tracking-wider hover:bg-red-700 hover:border-red-700 disabled:opacity-50 transition-all rounded-lg"
           >
             {submitOrder.isPending ? "..." : "Cobrar"}

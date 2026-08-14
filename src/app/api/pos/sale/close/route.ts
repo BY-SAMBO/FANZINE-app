@@ -8,11 +8,12 @@ import {
 import { fudoFetch } from "@/lib/fudo/client";
 import { FUDO_CONFIG } from "@/lib/fudo/config";
 import { handleApiError, AppError, FudoApiError } from "@/lib/utils/errors";
-import type { PaymentMethod } from "@/types/pos";
+import type { PaymentMethod, SalePayment } from "@/types/pos";
 
 interface CloseRequest {
   fudo_sale_id: string;
   payment_method: PaymentMethod;
+  payments?: SalePayment[]; // split payments; falls back to payment_method + total
   total: number;
 }
 
@@ -84,22 +85,48 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. Resolve payment method
-    step = "resolve_payment";
-    console.log("[POS Close] Resolving payment method", body.payment_method);
-    const paymentMethodId = await getPaymentMethodId(body.payment_method);
+    // Normalize to a payments list (split or single) and validate
+    const payments: SalePayment[] =
+      body.payments && body.payments.length > 0
+        ? body.payments
+        : [{ method: body.payment_method, amount: body.total }];
 
-    // 2. Add payment to Fudo sale
+    if (payments.some((p) => !p.method || !(p.amount > 0))) {
+      return NextResponse.json(
+        { error: "Cada pago debe tener metodo y monto mayor a 0" },
+        { status: 400 }
+      );
+    }
+    const paymentsSum = payments.reduce((s, p) => s + p.amount, 0);
+    if (Math.round(paymentsSum) !== Math.round(body.total)) {
+      return NextResponse.json(
+        {
+          error: `La suma de los pagos ($${paymentsSum}) no coincide con el total ($${body.total})`,
+        },
+        { status: 400 }
+      );
+    }
+
+    // 1. Resolve payment methods
+    step = "resolve_payment";
+    console.log(
+      "[POS Close] Resolving payment methods",
+      payments.map((p) => p.method)
+    );
+    const paymentMethodIds = await Promise.all(
+      payments.map((p) => getPaymentMethodId(p.method))
+    );
+
+    // 2. Add payments to Fudo sale
     step = "add_payment";
-    console.log("[POS Close] Adding payment", {
+    console.log("[POS Close] Adding payments", {
       sale_id: body.fudo_sale_id,
-      payment_method_id: paymentMethodId,
-      amount: body.total,
+      payments,
     });
 
     let alreadyClosed = false;
     try {
-      await addFudoPayment(body.fudo_sale_id, paymentMethodId, body.total);
+      await addFudoPayment(body.fudo_sale_id, paymentMethodIds[0], payments[0].amount);
     } catch (err) {
       // If Fudo returns 422, the sale may have been closed/cancelled directly in Fudo
       if (err instanceof FudoApiError && err.fudoStatus === 422) {
@@ -135,6 +162,15 @@ export async function POST(request: Request) {
     }
 
     if (!alreadyClosed) {
+      // Remaining split payments (first one already added above)
+      for (let i = 1; i < payments.length; i++) {
+        await addFudoPayment(
+          body.fudo_sale_id,
+          paymentMethodIds[i],
+          payments[i].amount
+        );
+      }
+
       // 3. Close sale in Fudo
       step = "close_sale";
       console.log("[POS Close] Closing sale", body.fudo_sale_id);
@@ -148,7 +184,9 @@ export async function POST(request: Request) {
       .from("pos_sales_log")
       .update({
         sale_status: localStatus,
-        payment_method: alreadyClosed ? "none" : body.payment_method,
+        payment_method: alreadyClosed
+          ? "none"
+          : [...new Set(payments.map((p) => p.method))].join("+"),
         closed_at: new Date().toISOString(),
       })
       .eq("fudo_sale_id", body.fudo_sale_id);

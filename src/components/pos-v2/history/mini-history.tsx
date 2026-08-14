@@ -14,6 +14,14 @@ const METHOD_SHORT: Record<string, string> = {
   llaves: "Llav",
 };
 
+// Split payments are stored as "cash+nequi" — shorten each part
+function formatMethod(method: string): string {
+  return method
+    .split("+")
+    .map((m) => METHOD_SHORT[m] || m)
+    .join("+");
+}
+
 interface MiniHistoryProps {
   highlightId?: string | null;
   onOpenFull?: () => void;
@@ -93,7 +101,7 @@ export function MiniHistory({ highlightId, onOpenFull }: MiniHistoryProps) {
                   </span>
                   {!isOpen && order.sale_status !== "cancelled" && (
                     <span className="text-gray-400 font-semibold uppercase text-[10px] truncate">
-                      {METHOD_SHORT[order.payment_method] || order.payment_method}
+                      {formatMethod(order.payment_method)}
                     </span>
                   )}
                 </div>

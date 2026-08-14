@@ -1,131 +1,120 @@
-/**
- * Offline sale queue — IndexedDB persistence for failed sales.
- * When POST /api/pos/sale fails due to network, the payload is queued
- * and auto-retried when connectivity returns.
- */
+"use client";
 
-const DB_NAME = "pos-v2-offline";
-const DB_VERSION = 1;
-const STORE_NAME = "pending-sales";
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-interface PendingSale {
-  id: string;
-  payload: unknown;
-  createdAt: number;
-  retries: number;
+// Persistent queue of POS operations captured while offline. Each op is
+// replayed against its API route when the connection comes back.
+
+export type QueuedOpKind = "sale" | "close";
+
+export interface QueuedOp {
+  local_id: string;
+  kind: QueuedOpKind;
+  payload: Record<string, unknown>;
+  label: string; // short description for the sync banner
+  total: number;
+  created_at: string;
+  status: "pending" | "error";
+  error?: string;
 }
 
-function openDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: "id" });
-      }
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
+const ENDPOINTS: Record<QueuedOpKind, string> = {
+  sale: "/api/pos/sale",
+  close: "/api/pos/sale/close",
+};
+
+interface OfflineQueueState {
+  ops: QueuedOp[];
+  isFlushing: boolean;
+  enqueue: (op: Pick<QueuedOp, "kind" | "payload" | "label" | "total">) => void;
+  remove: (localId: string) => void;
+  retry: (localId: string) => void;
+  flush: () => Promise<void>;
 }
 
-export async function enqueueSale(payload: unknown): Promise<string> {
-  const db = await openDB();
-  const id = crypto.randomUUID();
-  const entry: PendingSale = { id, payload, createdAt: Date.now(), retries: 0 };
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    tx.objectStore(STORE_NAME).put(entry);
-    tx.oncomplete = () => resolve(id);
-    tx.onerror = () => reject(tx.error);
-  });
-}
+export const useOfflineQueue = create<OfflineQueueState>()(
+  persist(
+    (set, get) => ({
+      ops: [],
+      isFlushing: false,
 
-export async function dequeueSale(id: string): Promise<void> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    tx.objectStore(STORE_NAME).delete(id);
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
-  });
-}
+      enqueue: (op) => {
+        set((s) => ({
+          ops: [
+            ...s.ops,
+            {
+              ...op,
+              local_id: crypto.randomUUID(),
+              created_at: new Date().toISOString(),
+              status: "pending" as const,
+            },
+          ],
+        }));
+      },
 
-export async function getPendingSales(): Promise<PendingSale[]> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readonly");
-    const req = tx.objectStore(STORE_NAME).getAll();
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
+      remove: (localId) => {
+        set((s) => ({ ops: s.ops.filter((o) => o.local_id !== localId) }));
+      },
 
-export async function getPendingCount(): Promise<number> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readonly");
-    const req = tx.objectStore(STORE_NAME).count();
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
+      retry: (localId) => {
+        set((s) => ({
+          ops: s.ops.map((o) =>
+            o.local_id === localId
+              ? { ...o, status: "pending" as const, error: undefined }
+              : o
+          ),
+        }));
+      },
 
-export async function incrementRetry(id: string): Promise<void> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    const getReq = store.get(id);
-    getReq.onsuccess = () => {
-      const entry = getReq.result as PendingSale | undefined;
-      if (entry) {
-        entry.retries += 1;
-        store.put(entry);
-      }
-    };
-    tx.oncomplete = () => resolve();
-    tx.onerror = () => reject(tx.error);
-  });
-}
+      flush: async () => {
+        const { isFlushing } = get();
+        if (isFlushing) return;
+        if (typeof navigator !== "undefined" && !navigator.onLine) return;
+        if (get().ops.every((o) => o.status !== "pending")) return;
 
-/**
- * Flush all pending sales. Calls `submitFn` for each entry.
- * Removes successfully submitted entries, keeps failed ones.
- * Returns count of successfully flushed sales.
- */
-export async function flushPendingSales(
-  submitFn: (payload: unknown) => Promise<void>
-): Promise<number> {
-  const pending = await getPendingSales();
-  let flushed = 0;
-
-  for (const entry of pending) {
-    try {
-      await submitFn(entry.payload);
-      await dequeueSale(entry.id);
-      flushed++;
-    } catch {
-      await incrementRetry(entry.id);
+        set({ isFlushing: true });
+        try {
+          // Replay in order; stop on network failure (still offline)
+          for (const op of [...get().ops]) {
+            if (op.status !== "pending") continue;
+            try {
+              const res = await fetch(ENDPOINTS[op.kind], {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(op.payload),
+              });
+              if (res.ok) {
+                get().remove(op.local_id);
+              } else {
+                // Server rejected it — keep with error so the cashier decides
+                const err = await res.json().catch(() => ({}));
+                set((s) => ({
+                  ops: s.ops.map((o) =>
+                    o.local_id === op.local_id
+                      ? {
+                          ...o,
+                          status: "error" as const,
+                          error: err.error || `Error ${res.status}`,
+                        }
+                      : o
+                  ),
+                }));
+              }
+            } catch {
+              // Network error — abort, we'll retry on the next flush
+              break;
+            }
+          }
+        } finally {
+          set({ isFlushing: false });
+        }
+      },
+    }),
+    {
+      name: "fanzine-pos-offline-queue",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (s) => ({ ops: s.ops }),
     }
-  }
-
-  return flushed;
-}
-
-/**
- * Sets up an online listener that auto-flushes the queue.
- * Returns a cleanup function to remove the listener.
- */
-export function setupAutoFlush(
-  submitFn: (payload: unknown) => Promise<void>,
-  onFlush?: (count: number) => void
-): () => void {
-  const handler = async () => {
-    const count = await flushPendingSales(submitFn);
-    if (count > 0) onFlush?.(count);
-  };
-
-  window.addEventListener("online", handler);
-  return () => window.removeEventListener("online", handler);
-}
+  )
+);

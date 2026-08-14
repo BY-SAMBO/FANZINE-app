@@ -15,6 +15,8 @@ import { ModifierPanel } from "@/components/pos-v2/modifiers/modifier-panel";
 import { PaymentDialog } from "@/components/pos-v2/payment/payment-dialog";
 import { HistoryPanel } from "@/components/pos-v2/history/history-panel";
 import { PrinterBanner } from "@/components/pos-v2/shared/printer-status";
+import { OfflineBanner } from "@/components/pos-v2/shared/offline-banner";
+import { prefetchAllModifiers } from "@/lib/services/pos-service";
 
 export default function CajaV2Page() {
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -31,6 +33,11 @@ export default function CajaV2Page() {
   useEffect(() => {
     autoReconnect();
   }, [autoReconnect]);
+
+  // Warm the offline cache with every product's modifiers (fire-and-forget)
+  useEffect(() => {
+    prefetchAllModifiers();
+  }, []);
 
   const handleSaleSuccess = useCallback((fudoSaleId: string) => {
     refetchHistory();
@@ -73,8 +80,9 @@ export default function CajaV2Page() {
           />
         </div>
 
-        {/* Printer banner */}
-        <div className="mx-3 lg:mx-4 mb-1">
+        {/* Offline + printer banners */}
+        <div className="mx-3 lg:mx-4 mb-1 space-y-1">
+          <OfflineBanner />
           <PrinterBanner />
         </div>
 
